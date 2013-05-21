@@ -127,6 +127,12 @@ public class ContextConfig
     
 
     /**
+     * Anti-locking docBase
+     */
+    private String antiLockingDocBase = null;
+
+
+    /**
      * The string resources for this package.
      */
     protected static final StringManager sm =
@@ -264,16 +270,9 @@ public class ContextConfig
         } else if (event.getType().equals(StandardContext.AFTER_START_EVENT)) {
             // Restore docBase for management tools
             if (originalDocBase != null) {
-                String docBase = context.getDocBase();
                 context.setDocBase(originalDocBase);
-                originalDocBase = docBase;
             }
         } else if (event.getType().equals(Lifecycle.STOP_EVENT)) {
-            if (originalDocBase != null) {
-                String docBase = context.getDocBase();
-                context.setDocBase(originalDocBase);
-                originalDocBase = docBase;
-            }
             stop();
         } else if (event.getType().equals(Lifecycle.INIT_EVENT)) {
             init();
@@ -931,8 +930,7 @@ public class ContextConfig
     }
     
     
-    protected void antiLocking()
-        throws IOException {
+    protected void antiLocking() throws IOException {
 
         if ((context instanceof StandardContext) 
             && ((StandardContext) context).getAntiResourceLocking()) {
@@ -942,11 +940,8 @@ public class ContextConfig
             String docBase = context.getDocBase();
             if (docBase == null)
                 return;
-            if (originalDocBase == null) {
-                originalDocBase = docBase;
-            } else {
-                docBase = originalDocBase;
-            }
+            originalDocBase = docBase;
+
             File docBaseFile = new File(docBase);
             if (!docBaseFile.isAbsolute()) {
                 File file = new File(appBase);
@@ -983,14 +978,13 @@ public class ContextConfig
                 log.debug("Anti locking context[" + context.getPath() 
                         + "] setting docBase to " + file);
             
+            antiLockingDocBase = file.getAbsolutePath();
             // Cleanup just in case an old deployment is lying around
             ExpandWar.delete(file);
             if (ExpandWar.copy(docBaseFile, file)) {
-                context.setDocBase(file.getAbsolutePath());
+                context.setDocBase(antiLockingDocBase);
             }
-            
         }
-        
     }
     
 
@@ -1264,8 +1258,8 @@ public class ContextConfig
         Host host = (Host) context.getParent();
         String appBase = host.getAppBase();
         String docBase = context.getDocBase();
-        if ((docBase != null) && (originalDocBase != null)) {
-            File docBaseFile = new File(docBase);
+        if (antiLockingDocBase != null) {
+            File docBaseFile = new File(antiLockingDocBase);
             if (!docBaseFile.isAbsolute()) {
                 docBaseFile = new File(appBase, docBase);
             }
