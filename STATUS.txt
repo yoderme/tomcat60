@@ -31,6 +31,13 @@ PATCHES ACCEPTED TO BACKPORT:
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
+* Clean-up recording of location where WAR is copied when using anti-locking
+  features of a Context
+  http://svn.apache.org/r1485114
+  +1: markt
+  -1:
+
+
 PATCHES/ISSUES THAT ARE STALLED
 
 * Backport JSP unloading patch (BZ48358).
