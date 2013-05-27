@@ -37,6 +37,30 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55019
+  patch in the issue.
+  +1: jfclere
+  -1:
+ 
+-
+ PATCHES/ISSUES THAT ARE STALLED
+ 
+ * Backport JSP unloading patch (BZ48358).
+Index: java/org/apache/coyote/http11/InternalOutputBuffer.java
+===================================================================
+--- java/org/apache/coyote/http11/InternalOutputBuffer.java	(revision 1486646)
++++ java/org/apache/coyote/http11/InternalOutputBuffer.java	(working copy)
+@@ -79,6 +79,9 @@
+         committed = false;
+         finished = false;
+ 
++        // Cause loading of Constants
++        int foo = Constants.HTTP_11_BYTES[0];
++
+     }
+ 
+ 
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
