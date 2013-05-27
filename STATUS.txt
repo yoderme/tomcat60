@@ -38,28 +38,15 @@ PATCHES PROPOSED TO BACKPORT:
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55019
+  Fix an exception that occurs when accessing certain JSP page when running
+  with SecurityManager
   patch in the issue.
+  https://issues.apache.org/bugzilla/attachment.cgi?id=30328
   +1: jfclere
+  -0: kkolinko: Why this code is in a constructor? One needs to execute it
+  once, so a static{} initializer block is the place to do it, or better
+  add it to this class: org.apache.catalina.security.SecurityClassLoad
   -1:
- 
--
- PATCHES/ISSUES THAT ARE STALLED
- 
- * Backport JSP unloading patch (BZ48358).
-Index: java/org/apache/coyote/http11/InternalOutputBuffer.java
-===================================================================
---- java/org/apache/coyote/http11/InternalOutputBuffer.java	(revision 1486646)
-+++ java/org/apache/coyote/http11/InternalOutputBuffer.java	(working copy)
-@@ -79,6 +79,9 @@
-         committed = false;
-         finished = false;
- 
-+        // Cause loading of Constants
-+        int foo = Constants.HTTP_11_BYTES[0];
-+
-     }
- 
- 
 
 
 PATCHES/ISSUES THAT ARE STALLED
