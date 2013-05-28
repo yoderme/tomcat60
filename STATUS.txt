@@ -48,6 +48,14 @@ PATCHES PROPOSED TO BACKPORT:
   add it to this class: org.apache.catalina.security.SecurityClassLoad
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=54947
+  http://svn.apache.org/r1486877
+  NIO connector incorrectly rejects a request if the CRLF terminating the
+  request line is split across multiple packets.
+  Patch for the fix by Konstantin Preiﬂer.
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
