@@ -40,12 +40,9 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55019
   Fix an exception that occurs when accessing certain JSP page when running
   with SecurityManager
-  patch in the issue.
-  https://issues.apache.org/bugzilla/attachment.cgi?id=30328
+  patch in the issue (in SecurityClassLoad).
+  https://issues.apache.org/bugzilla/attachment.cgi?id=30336
   +1: jfclere
-  -0: kkolinko: Why this code is in a constructor? One needs to execute it
-  once, so a static{} initializer block is the place to do it, or better
-  add it to this class: org.apache.catalina.security.SecurityClassLoad
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=54947
