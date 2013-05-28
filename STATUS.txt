@@ -42,15 +42,15 @@ PATCHES PROPOSED TO BACKPORT:
   with SecurityManager
   patch in the issue (in SecurityClassLoad).
   https://issues.apache.org/bugzilla/attachment.cgi?id=30336
-  +1: jfclere, remm
+  +1: jfclere, remm, kkolinko
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=54947
   http://svn.apache.org/r1486877
   NIO connector incorrectly rejects a request if the CRLF terminating the
   request line is split across multiple packets.
-  Patch for the fix by Konstantin Prei�er.
-  +1: markt
+  Patch for the fix by Konstantin Prei&#223;er (Preisser).
+  +1: markt, kkolinko
   -1:
 
 
