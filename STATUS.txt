@@ -31,11 +31,26 @@ PATCHES ACCEPTED TO BACKPORT:
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Clean-up recording of location where WAR is copied when using anti-locking
-  features of a Context
-  http://svn.apache.org/r1485114
-  +1: markt
+
+
+* Make deletion of the copied WARs used for anti-resource locking more
+  robust if the context fails to start (there were some circumstances where
+  the original WAR could get deleted).
+  http://svn.apache.org/r1484923
+  http://svn.apache.org/r1484924 (documentation)
+  Already committed in Tomcat 6.
+  Formally proposing for a review, see Re:r1484923 thread on dev@.
+  Two followup patches are below.
+  +1: markt, kkolinko
   -1:
+
+  Followups to r1484923:
+  http://svn.apache.org/r1485114
+  http://svn.apache.org/r1488151
+  (markt/kkolinko)
+  +1:
+  -1:
+  kkolinko: r1485114 does not merge cleanly. A patch file is needed.
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55019
   Fix an exception that occurs when accessing certain JSP page when running
