@@ -71,6 +71,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55052
   Make JULI's LogManager to additionally look for logging properties
   without prefixes if the property cannot be found with a prefix.
+  https://issues.apache.org/bugzilla/attachment.cgi?id=30387
   +1: kkolinko
   -1:
 
