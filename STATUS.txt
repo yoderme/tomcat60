@@ -68,6 +68,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55052
+  Make JULI's LogManager to additionally look for logging properties
+  without prefixes if the property cannot be found with a prefix.
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
