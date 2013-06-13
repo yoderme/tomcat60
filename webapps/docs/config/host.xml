@@ -84,7 +84,7 @@
         to be deployed on this virtual host.  You may specify an
         absolute pathname, or a pathname that is relative to the
         <code>$CATALINA_BASE</code> directory.  See
-        <a href="#Automatic Application Deployment">Automatic Application
+        <a href="#Automatic_Application_Deployment">Automatic Application
         Deployment</a> for more information on automatic recognition and
         deployment of web applications. If not specified, the default of
         <code>webapps</code> will be used.</p>
@@ -99,7 +99,7 @@
         descriptors found. Updated web applications or context XML descriptors
         will trigger a reload of the web application. The flag's value defaults
         to true.  See
-        <a href="#Automatic Application Deployment">Automatic Application
+        <a href="#Automatic_Application_Deployment">Automatic Application
         Deployment</a> for more information.</p>
       </attribute>
 
@@ -137,7 +137,7 @@
         directory named <code>foo</code> but not <code>foo.war</code>,
         <code>foobar</code>, or <code>myfooapp</code>. To match anything with
         &quot;foo&quot;, you could use <code>.*foo.*</code>.</p>
-        <p>See <a href="#Automatic Application Deployment">Automatic Application
+        <p>See <a href="#Automatic_Application_Deployment">Automatic Application
         Deployment</a> for more information.</p>
       </attribute>
 
@@ -145,7 +145,7 @@
         <p>This flag value indicates if web applications from this host should
         be automatically deployed when Tomcat starts. The flag's value defaults
         to true.  See
-        <a href="#Automatic Application Deployment">Automatic Application
+        <a href="#Automatic_Application_Deployment">Automatic Application
         Deployment</a> for more information.</p>
       </attribute>
 
@@ -204,7 +204,7 @@
         structure, <code>false</code> to run such web applications directly
         from a WAR file. WAR files located outside of the Host's
         <strong>appBase</strong> will not be expanded. See
-        <a href="#Automatic Application Deployment">Automatic Application
+        <a href="#Automatic_Application_Deployment">Automatic Application
         Deployment</a> for more information.</p>
       </attribute>
 
