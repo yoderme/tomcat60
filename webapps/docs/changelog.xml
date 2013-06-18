@@ -60,6 +60,10 @@
         <code>o.a.c.tribes.group.interceptors.TcpFailureDetector</code>.
         (kfujino)
       </add>
+      <add>
+        Complete the document for <code>MessageDispatch15Interceptor</code>.
+        (kfujino)
+      </add>
     </changelog>
   </subsection>
 </section>
