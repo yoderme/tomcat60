@@ -72,7 +72,7 @@ PATCHES PROPOSED TO BACKPORT:
   Make JULI's LogManager to additionally look for logging properties
   without prefixes if the property cannot be found with a prefix.
   https://issues.apache.org/bugzilla/attachment.cgi?id=30387
-  +1: kkolinko
+  +1: kkolinko, schultz
   -1:
 
 * Update Maven Central location used to download dependencies at build time
@@ -80,7 +80,7 @@ PATCHES PROPOSED TO BACKPORT:
   (This was suggested by Olivier Lamy in Re:r1307146,
     http://markmail.org/message/6q2yfkqvic7bcpib )
   http://svn.apache.org/r1491485
-  +1: kkolinko
+  +1: kkolinko, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55198
@@ -92,7 +92,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55228
   Allow applications to set an HTTP date header
   http://svn.apache.org/r1502258
-  +1: markt
+  +1: markt, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55268
@@ -105,7 +105,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55266
   https://issues.apache.org/bugzilla/attachment.cgi?id=30608&action=diff
   Parse session ID before redirect as session ID may need to be encoded
-  +1: markt
+  +1: markt, schultz
   -1:
 
 
