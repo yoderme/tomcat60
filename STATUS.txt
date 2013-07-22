@@ -99,6 +99,8 @@ PATCHES PROPOSED TO BACKPORT:
   Back-port of r1503852 from Tomcat 7.0.x.
   Add optional --service-start-wait-time command-line option to bin/daemon.sh
   to change service start wait time from default of 10 seconds.
+  http://svn.apache.org/r1503852
+  http://svn.apache.org/r1505844
   +1: schultz
   -1:
 
