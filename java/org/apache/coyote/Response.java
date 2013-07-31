@@ -25,7 +25,7 @@ import org.apache.tomcat.util.http.MimeHeaders;
 
 /**
  * Response object.
- * 
+ *
  * @author James Duncan Davidson [duncan@eng.sun.com]
  * @author Jason Hunter [jch@eng.sun.com]
  * @author James Todd [gonzo@eng.sun.com]
@@ -177,7 +177,7 @@ public final class Response {
 
     public void action(ActionCode actionCode, Object param) {
         if (hook != null) {
-            if( param==null ) 
+            if( param==null )
                 hook.action(actionCode, this);
             else
                 hook.action(actionCode, param);
@@ -192,10 +192,10 @@ public final class Response {
         return status;
     }
 
-    
-    /** 
-     * Set the response status 
-     */ 
+
+    /**
+     * Set the response status
+     */
     public void setStatus( int status ) {
         this.status = status;
     }
@@ -230,7 +230,7 @@ public final class Response {
     // -----------------Error State --------------------
 
 
-    /** 
+    /**
      * Set the error Exception that occurred during
      * request processing.
      */
@@ -239,7 +239,7 @@ public final class Response {
     }
 
 
-    /** 
+    /**
      * Get the Exception that occurred during request
      * processing.
      */
@@ -253,7 +253,7 @@ public final class Response {
     }
 
 
-    /** 
+    /**
      * Set request URI that caused an error during
      * request processing.
      */
@@ -270,11 +270,11 @@ public final class Response {
 
 
     // -------------------- Methods --------------------
-    
-    
-    public void reset() 
+
+
+    public void reset()
         throws IllegalStateException {
-        
+
         // Reset the headers only if this is the main request,
         // not for included
         contentType = null;
@@ -287,16 +287,16 @@ public final class Response {
         status = 200;
         message = null;
         headers.clear();
-        
+
         // Force the PrintWriter to flush its data to the output
         // stream before resetting the output stream
         //
         // Reset the stream
         if (commited) {
-            //String msg = sm.getString("servletOutputStreamImpl.reset.ise"); 
+            //String msg = sm.getString("servletOutputStreamImpl.reset.ise");
             throw new IllegalStateException();
         }
-        
+
         action(ActionCode.ACTION_RESET, this);
     }
 
@@ -340,9 +340,9 @@ public final class Response {
         headers.addValue(name).setString( value );
     }
 
-    
-    /** 
-     * Set internal fields for special header names. 
+
+    /**
+     * Set internal fields for special header names.
      * Called from set/addHeader.
      * Return true if the header is special, no need to set the header.
      */
@@ -359,7 +359,7 @@ public final class Response {
                 setContentLength( cL );
                 return true;
             } catch( NumberFormatException ex ) {
-                // Do nothing - the spec doesn't have any "throws" 
+                // Do nothing - the spec doesn't have any "throws"
                 // and the user might know what he's doing
                 return false;
             }
@@ -447,7 +447,7 @@ public final class Response {
     /**
      * Sets the content type.
      *
-     * This method must preserve any response charset that may already have 
+     * This method must preserve any response charset that may already have
      * been set via a call to response.setContentType(), response.setLocale(),
      * or response.setCharacterEncoding().
      *
@@ -520,7 +520,7 @@ public final class Response {
 
         String ret = contentType;
 
-        if (ret != null 
+        if (ret != null
             && characterEncoding != null
             && charsetSet) {
             ret = ret + ";charset=" + characterEncoding;
@@ -528,7 +528,7 @@ public final class Response {
 
         return ret;
     }
-    
+
     public void setContentLength(int contentLength) {
         this.contentLength = contentLength;
     }
@@ -539,19 +539,19 @@ public final class Response {
 
     public int getContentLength() {
         long length = getContentLengthLong();
-        
+
         if (length < Integer.MAX_VALUE) {
             return (int) length;
         }
         return -1;
     }
-    
+
     public long getContentLengthLong() {
         return contentLength;
     }
 
 
-    /** 
+    /**
      * Write a chunk of bytes.
      */
     public void doWrite(ByteChunk chunk/*byte buffer[], int pos, int count*/)
@@ -562,9 +562,9 @@ public final class Response {
     }
 
     // --------------------
-    
+
     public void recycle() {
-        
+
         contentType = null;
         contentLanguage = null;
         locale = DEFAULT_LOCALE;
