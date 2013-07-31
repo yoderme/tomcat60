@@ -49,7 +49,7 @@ PATCHES PROPOSED TO BACKPORT:
   Patch:
   http://people.apache.org/~kkolinko/patches/2013-06-04_tc6_antiLockingDocBase.patch
   (Backport of r1485114 + r1488151, markt/kkolinko)
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55019
@@ -72,7 +72,7 @@ PATCHES PROPOSED TO BACKPORT:
   Make JULI's LogManager to additionally look for logging properties
   without prefixes if the property cannot be found with a prefix.
   https://issues.apache.org/bugzilla/attachment.cgi?id=30387
-  +1: kkolinko, schultz
+  +1: kkolinko, schultz, markt
   -1:
 
 * Update Maven Central location used to download dependencies at build time
@@ -80,7 +80,7 @@ PATCHES PROPOSED TO BACKPORT:
   (This was suggested by Olivier Lamy in Re:r1307146,
     http://markmail.org/message/6q2yfkqvic7bcpib )
   http://svn.apache.org/r1491485
-  +1: kkolinko, schultz
+  +1: kkolinko, schultz, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55198
