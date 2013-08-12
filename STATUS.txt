@@ -41,7 +41,7 @@ PATCHES PROPOSED TO BACKPORT:
   Already committed in Tomcat 6.
   Formally proposing for a review, see Re:r1484923 thread on dev@.
   A followup patch is below.
-  +1: markt, kkolinko
+  +1: markt, kkolinko, schultz
   -1:
 
   Followups to r1484923:
@@ -49,7 +49,7 @@ PATCHES PROPOSED TO BACKPORT:
   Patch:
   http://people.apache.org/~kkolinko/patches/2013-06-04_tc6_antiLockingDocBase.patch
   (Backport of r1485114 + r1488151, markt/kkolinko)
-  +1: kkolinko, markt
+  +1: kkolinko, markt, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55019
@@ -57,7 +57,7 @@ PATCHES PROPOSED TO BACKPORT:
   with SecurityManager
   patch in the issue (in SecurityClassLoad).
   https://issues.apache.org/bugzilla/attachment.cgi?id=30336
-  +1: jfclere, remm, kkolinko
+  +1: jfclere, remm, kkolinko, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=54947
@@ -86,7 +86,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55198
   Correctly escape XML output from tagx files.
   http://svn.apache.org/r1500065 (excluding tests)
-  +1: markt
+  +1: markt, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55228
@@ -121,14 +121,14 @@ PATCHES PROPOSED TO BACKPORT:
   svn cp https://svn.apache.org/repos/asf/tomcat/trunk/java/org/apache/tomcat/util/collections/ConcurrentCache.java \
          https://svn.apache.org/repos/asf/tomcat/tc6.0.x/trunk/java/org/apache/tomcat/util/collections/ConcurrentCache.java
   http://people.apache.org/~markt/patches/2013-07-31-bug52811-tc6.patch
-  +1: markt
+  +1: markt, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55404
   Log warnings about using security roles that are not defined in web.xml as
   warnings
   http://svn.apache.org/r1513151
-  +1: markt
+  +1: markt, schultz
   -1:
 
 
