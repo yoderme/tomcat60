@@ -135,7 +135,7 @@ PATCHES PROPOSED TO BACKPORT:
   request that specifies an Accept-Language of English ahead of French, Spanish
   or Japanese.
   http://svn.apache.org/r1514376
-  +1: schultz
+  +1: schultz, markt
   -1:
 
 
