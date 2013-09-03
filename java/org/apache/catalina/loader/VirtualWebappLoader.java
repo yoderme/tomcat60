@@ -39,11 +39,6 @@ import org.apache.catalina.LifecycleException;
  * &lt;/Context>
  * </pre>
  *
- *
- * <strong>This is not meant to be used for production.
- * Its meant to ease development with IDE's without the
- * need for fully republishing jars in WEB-INF/lib</strong>
- *
  * <p>The <code>*.jar</code> suffix can be used to include all JAR files in a
  * certain directory. If a file or a directory does not exist, it will be
  * skipped. 
