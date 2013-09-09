@@ -121,6 +121,7 @@ public final class SecurityClassLoad {
         String basePackage = "org.apache.coyote.http11.";
         loader.loadClass(basePackage + "InternalOutputBuffer$1");
         loader.loadClass(basePackage + "InternalOutputBuffer$2");
+        loader.loadClass(basePackage + "Constants");
     }
     
     

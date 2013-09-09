@@ -32,14 +32,6 @@ PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55019
-  Fix an exception that occurs when accessing certain JSP page when running
-  with SecurityManager
-  patch in the issue (in SecurityClassLoad).
-  https://issues.apache.org/bugzilla/attachment.cgi?id=30336
-  +1: jfclere, remm, kkolinko, schultz
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=54947
   http://svn.apache.org/r1486877
   NIO connector incorrectly rejects a request if the CRLF terminating the

@@ -49,7 +49,11 @@
       <fix>
         Ensure that when Tomcat&apos;s anti-resource locking features are used
         that the temporary copy of the web application and not the original is
-        removed when the web application stops. (markt) 
+        removed when the web application stops. (markt/kkolinko) 
+      </fix>
+      <fix>
+        <bug>55019</bug>: Fix a potential exception when accessing JSPs while
+        running under a SecurityManager. (jfclere)
       </fix>
     </changelog>
   </subsection>
