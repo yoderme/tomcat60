@@ -138,6 +138,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: schultz, markt
   -1:
 
+* Fix errors in Commons Annotations 1.0 and add some @since markers
+  http://svn.apache.org/r1521040
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
