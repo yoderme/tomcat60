@@ -75,6 +75,14 @@
       </add>
     </changelog>
   </subsection>
+  <subsection name="Other">
+    <changelog>
+      <update>
+        Update Maven Central location used to download dependencies at build
+        time to be <code>repo.maven.apache.org</code>. (kkolinko)
+      </update>
+    </changelog>
+  </subsection>
 </section>
 <section name="Tomcat 6.0.37 (jfclere)">
   <subsection name="Catalina">

@@ -40,14 +40,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
-* Update Maven Central location used to download dependencies at build time
-  to be <code>repo.maven.apache.org</code>.
-  (This was suggested by Olivier Lamy in Re:r1307146,
-    http://markmail.org/message/6q2yfkqvic7bcpib )
-  http://svn.apache.org/r1491485
-  +1: kkolinko, schultz, markt
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55198
   Correctly escape XML output from tagx files.
   http://svn.apache.org/r1500065 (excluding tests)
