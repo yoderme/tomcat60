@@ -32,26 +32,6 @@ PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
 
-
-* Make deletion of the copied WARs used for anti-resource locking more
-  robust if the context fails to start (there were some circumstances where
-  the original WAR could get deleted).
-  http://svn.apache.org/r1484923
-  http://svn.apache.org/r1484924 (documentation)
-  Already committed in Tomcat 6.
-  Formally proposing for a review, see Re:r1484923 thread on dev@.
-  A followup patch is below.
-  +1: markt, kkolinko, schultz
-  -1:
-
-  Followups to r1484923:
-  Make antiLockingDocBase an absolute path and simplify code.
-  Patch:
-  http://people.apache.org/~kkolinko/patches/2013-06-04_tc6_antiLockingDocBase.patch
-  (Backport of r1485114 + r1488151, markt/kkolinko)
-  +1: kkolinko, markt, schultz
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55019
   Fix an exception that occurs when accessing certain JSP page when running
   with SecurityManager
