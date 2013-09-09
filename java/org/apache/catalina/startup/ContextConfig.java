@@ -127,9 +127,10 @@ public class ContextConfig
     
 
     /**
-     * Anti-locking docBase
+     * Anti-locking docBase. It is a path to a copy of the web application
+     * in the java.io.tmpdir directory. This path is always an absolute one.
      */
-    private String antiLockingDocBase = null;
+    private File antiLockingDocBase = null;
 
 
     /**
@@ -965,24 +966,26 @@ public class ContextConfig
                 }
             }
 
-            File file = null;
             if (originalDocBase.toLowerCase().endsWith(".war")) {
-                file = new File(System.getProperty("java.io.tmpdir"),
+                antiLockingDocBase = new File(
+                        System.getProperty("java.io.tmpdir"),
                         deploymentCount++ + "-" + docBase + ".war");
             } else {
-                file = new File(System.getProperty("java.io.tmpdir"), 
+                antiLockingDocBase = new File(
+                        System.getProperty("java.io.tmpdir"), 
                         deploymentCount++ + "-" + docBase);
             }
-            
+            antiLockingDocBase = antiLockingDocBase.getAbsoluteFile();
+
             if (log.isDebugEnabled())
                 log.debug("Anti locking context[" + context.getPath() 
-                        + "] setting docBase to " + file);
-            
-            antiLockingDocBase = file.getAbsolutePath();
+                        + "] setting docBase to " +
+                        antiLockingDocBase.getPath());
+
             // Cleanup just in case an old deployment is lying around
-            ExpandWar.delete(file);
-            if (ExpandWar.copy(docBaseFile, file)) {
-                context.setDocBase(antiLockingDocBase);
+            ExpandWar.delete(antiLockingDocBase);
+            if (ExpandWar.copy(docBaseFile, antiLockingDocBase)) {
+                context.setDocBase(antiLockingDocBase.getPath());
             }
         }
     }
@@ -1255,18 +1258,11 @@ public class ContextConfig
         }
 
         // Remove (partially) folders and files created by antiLocking
-        Host host = (Host) context.getParent();
-        String appBase = host.getAppBase();
-        String docBase = context.getDocBase();
         if (antiLockingDocBase != null) {
-            File docBaseFile = new File(antiLockingDocBase);
-            if (!docBaseFile.isAbsolute()) {
-                docBaseFile = new File(appBase, docBase);
-            }
             // No need to log failure - it is expected in this case
-            ExpandWar.delete(docBaseFile, false);
+            ExpandWar.delete(antiLockingDocBase, false);
         }
-        
+
         ok = true;
 
     }
