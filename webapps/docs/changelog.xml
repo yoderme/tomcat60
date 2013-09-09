@@ -55,6 +55,11 @@
         <bug>55019</bug>: Fix a potential exception when accessing JSPs while
         running under a SecurityManager. (jfclere)
       </fix>
+      <fix>
+        <bug>55052</bug>: Make JULI&apos;s LogManager to additionally look for
+        logging properties without prefixes if the property cannot be found with
+        a prefix. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">

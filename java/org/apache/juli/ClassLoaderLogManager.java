@@ -243,12 +243,31 @@ public class ClassLoaderLogManager extends LogManager {
      * @param name The property name
      */    
     public String getProperty(String name) {
-        ClassLoader classLoader = Thread.currentThread()
-            .getContextClassLoader();
         String prefix = this.prefix.get();
+        String result = null;
+
+        // If a prefix is defined look for a prefixed property first
         if (prefix != null) {
-            name = prefix + name;
+            result = findProperty(prefix + name);
         }
+
+        // If there is no prefix or no property match with the prefix try just
+        // the name
+        if (result == null) {
+            result = findProperty(name);
+        }
+
+        // Simple property replacement (mostly for folder names)
+        if (result != null) {
+            result = replace(result);
+        }
+        return result;
+    }
+
+
+    private String findProperty(String name) {
+        ClassLoader classLoader = Thread.currentThread()
+                .getContextClassLoader();
         ClassLoaderLogInfo info = getClassLoaderInfo(classLoader);
         String result = info.props.getProperty(name);
         // If the property was not found, and the current classloader had no 
@@ -270,14 +289,9 @@ public class ClassLoaderLogManager extends LogManager {
                 result = super.getProperty(name);
             }
         }
-        // Simple property replacement (mostly for folder names)
-        if (result != null) {
-            result = replace(result);
-        }
         return result;
     }
-    
-    
+
     public void readConfiguration()
         throws IOException, SecurityException {
         
