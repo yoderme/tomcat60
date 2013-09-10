@@ -60,6 +60,11 @@
         logging properties without prefixes if the property cannot be found with
         a prefix. (kkolinko)
       </fix>
+      <fix>
+        <bug>54691</bug>: Add "sslEnableProtocols" alias to HTTP connector
+        configuration attribute "protocols" and document the configuration
+        attribute. (schultz)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
