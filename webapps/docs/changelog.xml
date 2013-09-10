@@ -60,23 +60,29 @@
         logging properties without prefixes if the property cannot be found with
         a prefix. (kkolinko)
       </fix>
+    </changelog>
+  </subsection>
+  <subsection name="Coyote">
+    <changelog>
       <fix>
-        <bug>54691</bug>: Add "sslEnableProtocols" alias to HTTP connector
-        configuration attribute "protocols" and document the configuration
-        attribute. (schultz)
+        <bug>54691</bug>: Add configuration attribute "sslEnabledProtocols"
+        to HTTP connector and document it. (Internally this attribute has
+        been already implemented but not documented, under names "protocols"
+        and "sslProtocols". Those names of this attribute are now deprecated).
+        (schultz)
       </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
     <changelog>
       <add>
-        Add document for
+        Add documentation for
         <code>o.a.c.tribes.group.interceptors.TcpFailureDetector</code>.
         (kfujino)
       </add>
       <add>
-        Complete the document for <code>MessageDispatch15Interceptor</code>.
-        (kfujino)
+        Complete the documentation for
+        <code>MessageDispatch15Interceptor</code>. (kfujino)
       </add>
     </changelog>
   </subsection>
@@ -89,7 +95,7 @@
     </changelog>
   </subsection>
 </section>
-<section name="Tomcat 6.0.37 (jfclere)" rtext="release 2013-05-03">
+<section name="Tomcat 6.0.37 (jfclere)" rtext="released 2013-05-03">
   <subsection name="Catalina">
     <changelog>
       <fix>
