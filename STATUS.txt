@@ -37,7 +37,7 @@ PATCHES PROPOSED TO BACKPORT:
   NIO connector incorrectly rejects a request if the CRLF terminating the
   request line is split across multiple packets.
   Patch for the fix by Konstantin Prei&#223;er (Preisser).
-  +1: markt, kkolinko
+  +1: markt, kkolinko, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55198
@@ -97,7 +97,7 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Fix errors in Commons Annotations 1.0 and add some @since markers
   http://svn.apache.org/r1521040
-  +1: markt
+  +1: markt, schultz
   -1:
 
 
