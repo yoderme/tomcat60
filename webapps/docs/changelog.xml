@@ -76,6 +76,10 @@
         request if the CRLF terminating the request line was split across
         multiple packets. Patch by Konstantin Preißer. (markt)
       </fix>
+      <fix>
+        <bug>55228</bug>: Allow web applications to set a HTTP Date header.
+        (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">

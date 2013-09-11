@@ -1602,9 +1602,13 @@ public class Http11Processor implements ActionHook {
             }
         }
 
-        // Add date header
-        headers.setValue("Date").setString(FastHttpDateFormat.getCurrentDate());
-
+        // Add date header unless application has already set one (e.g. in a
+        // Caching Filter)
+        if (headers.getValue("Date") == null) {
+            headers.setValue("Date").setString(
+                    FastHttpDateFormat.getCurrentDate());
+        }
+        
         // FIXME: Add transfer encoding header
 
         if ((entityBody) && (!contentDelimitation)) {

@@ -38,12 +38,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, schultz
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55228
-  Allow applications to set an HTTP date header
-  http://svn.apache.org/r1502258
-  +1: markt, schultz, kkolinko
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55268
   Back-port of r1503852 from Tomcat 7.0.x.
   Add optional --service-start-wait-time command-line option to bin/daemon.sh
