@@ -49,7 +49,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55228
   Allow applications to set an HTTP date header
   http://svn.apache.org/r1502258
-  +1: markt, schultz
+  +1: markt, schultz, kkolinko
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55268
@@ -85,7 +85,7 @@ PATCHES PROPOSED TO BACKPORT:
   Log warnings about using security roles that are not defined in web.xml as
   warnings
   http://svn.apache.org/r1513151
-  +1: markt, schultz
+  +1: markt, schultz, kkolinko
   -1:
 
 * Fix issue with Manager app and other apps that use i18n in the UI when a
@@ -93,11 +93,16 @@ PATCHES PROPOSED TO BACKPORT:
   or Japanese.
   http://svn.apache.org/r1514376
   +1: schultz, markt
+  +0: kkolinko: 1) Code in Tomcat 6 differs. A patch is needed. 2) +r1521693
   -1:
 
 * Fix errors in Commons Annotations 1.0 and add some @since markers
   http://svn.apache.org/r1521040
   +1: markt, schultz
+  +1: kkolinko: +1 to all changes, except this one:
+     I think @Target change for @DenyAll is wrong.
+     Looking at Geronimo, @DenyAll has "@Target({ElementType.METHOD})" in CA 1.0 there.
+     It is "@Target({ElementType.TYPE, ElementType.METHOD})" starting with CA 1.1.
   -1:
 
 
