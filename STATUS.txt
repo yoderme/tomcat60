@@ -95,6 +95,11 @@ PATCHES PROPOSED TO BACKPORT:
      EE 5 Javadoc are wrong.
   -1:
 
+* Better adherence to RFC2616 for content-length headers.
+  http://people.apache.org/~markt/patches/2013-09-11-tc6-content-length.patch
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
