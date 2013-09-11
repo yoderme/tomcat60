@@ -103,6 +103,10 @@ PATCHES PROPOSED TO BACKPORT:
      I think @Target change for @DenyAll is wrong.
      Looking at Geronimo, @DenyAll has "@Target({ElementType.METHOD})" in CA 1.0 there.
      It is "@Target({ElementType.TYPE, ElementType.METHOD})" starting with CA 1.1.
+     markt:
+     The CA 1.0 spec section 2.11 is explicit that DenyAll is permitted on
+     classes. Geronimo and whatever source was used generate the official Java
+     EE 5 Javadoc are wrong.
   -1:
 
 
