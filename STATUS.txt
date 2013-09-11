@@ -32,14 +32,6 @@ PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=54947
-  http://svn.apache.org/r1486877
-  NIO connector incorrectly rejects a request if the CRLF terminating the
-  request line is split across multiple packets.
-  Patch for the fix by Konstantin Prei&#223;er (Preisser).
-  +1: markt, kkolinko, schultz
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55198
   Correctly escape XML output from tagx files.
   http://svn.apache.org/r1500065 (excluding tests)

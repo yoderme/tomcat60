@@ -567,11 +567,11 @@ public class InternalNioInputBuffer implements InputBuffer {
             }
             parsingRequestLineStart = pos;
             parsingRequestLinePhase = 6;
+
+            // Mark the current buffer position
+            end = 0;
         }
         if (parsingRequestLinePhase == 6) { 
-            // Mark the current buffer position
-            
-            end = 0;
             //
             // Reading the protocol
             // Protocol is always US-ASCII
