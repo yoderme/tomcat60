@@ -110,7 +110,7 @@ PATCHES PROPOSED TO BACKPORT:
   Notice files are corrected according to
   http://www.apache.org/legal/src-headers.html#notice
   http://svn.apache.org/r1533312
-  +1: violetagg
+  +1: violetagg, kkolinko
   -1:
 
 
