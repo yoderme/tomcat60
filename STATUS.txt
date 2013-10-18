@@ -106,6 +106,13 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55663
+  Notice files are corrected according to
+  http://www.apache.org/legal/src-headers.html#notice
+  http://svn.apache.org/r1533312
+  +1: violetagg
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
