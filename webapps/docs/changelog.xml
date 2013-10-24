@@ -93,6 +93,11 @@
         Complete the documentation for
         <code>MessageDispatch15Interceptor</code>. (kfujino)
       </add>
+      <add>
+        Add to cluster document a description of
+        <code>notifyLifecycleListenerOnFailure</code> and
+        <code>heartbeatBackgroundEnabled</code>. (kfujino)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Other">
