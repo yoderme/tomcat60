@@ -34,8 +34,10 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55198
   Correctly escape XML output from tagx files.
-  http://svn.apache.org/r1500065 (excluding tests)
-  +1: markt, schultz
+  http://svn.apache.org/r1500065 (excluding tests) - original fix
+  http://svn.apache.org/r1539176 (excluding tests) - required for following fix
+  http://svn.apache.org/r1539177 (excluding tests) - fixes regression in original
+  +1: markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55268
