@@ -37,7 +37,7 @@ PATCHES PROPOSED TO BACKPORT:
   http://svn.apache.org/r1500065 (excluding tests) - original fix
   http://svn.apache.org/r1539176 (excluding tests) - required for following fix
   http://svn.apache.org/r1539177 (excluding tests) - fixes regression in original
-  +1: markt
+  +1: markt, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55268
