@@ -106,6 +106,12 @@
         Update Maven Central location used to download dependencies at build
         time to be <code>repo.maven.apache.org</code>. (kkolinko)
       </update>
+      <fix>
+        <bug>55663</bug>: Minor correction to the wording of the NOTICE files to
+        align them with the
+        <a href="http://www.apache.org/legal/src-headers.html#notice">requirements
+        for NOTICE files</a>. (violetagg)
+      </fix>
     </changelog>
   </subsection>
 </section>
