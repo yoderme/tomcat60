@@ -60,6 +60,10 @@
         logging properties without prefixes if the property cannot be found with
         a prefix. (kkolinko)
       </fix>
+      <fix>
+        <bug>55404</bug>: Log warnings about using security roles in web.xml as
+        warnings. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">

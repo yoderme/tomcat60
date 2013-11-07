@@ -1299,7 +1299,7 @@ public class ContextConfig
             for (int j = 0; j < roles.length; j++) {
                 if (!"*".equals(roles[j]) &&
                     !context.findSecurityRole(roles[j])) {
-                    log.info(sm.getString("contextConfig.role.auth", roles[j]));
+                    log.warn(sm.getString("contextConfig.role.auth", roles[j]));
                     context.addSecurityRole(roles[j]);
                 }
             }
@@ -1311,14 +1311,14 @@ public class ContextConfig
             Wrapper wrapper = (Wrapper) wrappers[i];
             String runAs = wrapper.getRunAs();
             if ((runAs != null) && !context.findSecurityRole(runAs)) {
-                log.info(sm.getString("contextConfig.role.runas", runAs));
+                log.warn(sm.getString("contextConfig.role.runas", runAs));
                 context.addSecurityRole(runAs);
             }
             String names[] = wrapper.findSecurityReferences();
             for (int j = 0; j < names.length; j++) {
                 String link = wrapper.findSecurityReference(names[j]);
                 if ((link != null) && !context.findSecurityRole(link)) {
-                    log.info(sm.getString("contextConfig.role.link", link));
+                    log.warn(sm.getString("contextConfig.role.link", link));
                     context.addSecurityRole(link);
                 }
             }

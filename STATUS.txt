@@ -69,13 +69,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, schultz
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55404
-  Log warnings about using security roles that are not defined in web.xml as
-  warnings
-  http://svn.apache.org/r1513151
-  +1: markt, schultz, kkolinko
-  -1:
-
 * Fix issue with Manager app and other apps that use i18n in the UI when a
   request that specifies an Accept-Language of English ahead of French, Spanish
   or Japanese.
