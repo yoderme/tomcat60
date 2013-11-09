@@ -102,6 +102,11 @@
         <code>notifyLifecycleListenerOnFailure</code> and
         <code>heartbeatBackgroundEnabled</code>. (kfujino)
       </add>
+      <fix>
+        <bug>55746</bug>: Add documentation on the <code>allRolesMode</code> to
+        the <code>CombinedRealm</code> and <code>LockOutRealm</code>. Patch by
+        Cédric Couralet. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
