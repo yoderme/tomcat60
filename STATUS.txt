@@ -114,6 +114,13 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, schultz
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55749
+  Improve the error message when SSLEngine is disabled in AprLifecycleListener
+  and SSL is configured for an APR/native connector.
+  http://svn.apache.org/r1540539
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
