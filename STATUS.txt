@@ -46,13 +46,13 @@ PATCHES PROPOSED TO BACKPORT:
   to change service start wait time from default of 10 seconds.
   http://svn.apache.org/r1503852
   http://svn.apache.org/r1505844
-  +1: schultz
+  +1: schultz, kkolinko
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55266
   https://issues.apache.org/bugzilla/attachment.cgi?id=30608&action=diff
   Parse session ID before redirect as session ID may need to be encoded
-  +1: markt, schultz
+  +1: markt, schultz, kkolinko
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=52811
@@ -66,7 +66,7 @@ PATCHES PROPOSED TO BACKPORT:
   svn cp https://svn.apache.org/repos/asf/tomcat/trunk/java/org/apache/tomcat/util/collections/ConcurrentCache.java \
          https://svn.apache.org/repos/asf/tomcat/tc6.0.x/trunk/java/org/apache/tomcat/util/collections/ConcurrentCache.java
   http://people.apache.org/~markt/patches/2013-07-31-bug52811-tc6.patch
-  +1: markt, schultz
+  +1: markt, schultz, kkolinko
   -1:
 
 * Fix issue with Manager app and other apps that use i18n in the UI when a
@@ -84,10 +84,13 @@ PATCHES PROPOSED TO BACKPORT:
      I think @Target change for @DenyAll is wrong.
      Looking at Geronimo, @DenyAll has "@Target({ElementType.METHOD})" in CA 1.0 there.
      It is "@Target({ElementType.TYPE, ElementType.METHOD})" starting with CA 1.1.
-     markt:
+    markt:
      The CA 1.0 spec section 2.11 is explicit that DenyAll is permitted on
      classes. Geronimo and whatever source was used generate the official Java
      EE 5 Javadoc are wrong.
+    kkolinko:
+     Discussion ("Re: r1521817"): http://tomcat.markmail.org/thread/zt6qng5bivbvrh43
+     OK, let's go with it.
   -1:
 
 * Better adherence to RFC2616 for content-length headers.
