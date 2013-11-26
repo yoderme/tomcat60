@@ -112,7 +112,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Add support for limiting the size of chunk extensions when using chunked
   encoding.
   http://people.apache.org/~markt/patches/2013-09-11-tc6-chunk-extensions.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55691
