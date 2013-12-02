@@ -115,13 +115,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55691
-  ArrayELResolver needs to handle the case where the base object is an array of
-  primitives.
-  http://people.apache.org/~markt/patches/2013-10-28-bug55691-tc6.patch
-  +1: markt, schultz, kkolinko
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55749
   Improve the error message when SSLEngine is disabled in AprLifecycleListener
   and SSL is configured for an APR/native connector.

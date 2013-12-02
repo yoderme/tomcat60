@@ -86,19 +86,18 @@ public class ArrayELResolver extends ELResolver {
 								.getName() }));
 			}
 
-			int idx = coerce(property);
-			checkBounds(base, idx);
-			if (value != null &&
-			        !base.getClass().getComponentType().isAssignableFrom(
-			                value.getClass())) {
-			    throw new ClassCastException(message(context,
-			            "objectNotAssignable",
-			            new Object[] {value.getClass().getName(),
-			            base.getClass().getComponentType().getName()}));
-			}
-			Array.set(base, idx, value);
-		}
-	}
+            int idx = coerce(property);
+            checkBounds(base, idx);
+            if (value != null && !Util.isAssignableFrom(value.getClass(),
+                    base.getClass().getComponentType())) {
+                throw new ClassCastException(message(context,
+                        "objectNotAssignable",
+                        new Object[] {value.getClass().getName(),
+                        base.getClass().getComponentType().getName()}));
+            }
+            Array.set(base, idx, value);
+        }
+    }
 
 	public boolean isReadOnly(ELContext context, Object base, Object property)
 			throws NullPointerException, PropertyNotFoundException, ELException {

@@ -86,6 +86,14 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Jasper">
+    <changelog>
+      <fix>
+        <bug>55691</bug>: Fix <code>javax.el.ArrayELResolver</code> to correctly
+        handle the case where the base object is an array of primitives. (markt)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Web applications">
     <changelog>
       <add>
