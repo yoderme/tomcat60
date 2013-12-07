@@ -69,6 +69,11 @@
   <subsection name="Coyote">
     <changelog>
       <fix>
+        <bug>52811</bug>: Fix parsing of Content-Type header in
+        <code>HttpServletResponse.setContentType()</code>. Introduces a new HTTP
+        header parser that follows RFC2616. (markt)
+      </fix>
+      <fix>
         <bug>54691</bug>: Add configuration attribute "sslEnabledProtocols"
         to HTTP connector and document it. (Internally this attribute has
         been already implemented but not documented, under names "protocols"

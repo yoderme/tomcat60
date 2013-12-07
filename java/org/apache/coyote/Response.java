@@ -18,10 +18,13 @@
 package org.apache.coyote;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Locale;
 
 import org.apache.tomcat.util.buf.ByteChunk;
 import org.apache.tomcat.util.http.MimeHeaders;
+import org.apache.tomcat.util.http.parser.HttpParser;
+import org.apache.tomcat.util.http.parser.MediaType;
 
 /**
  * Response object.
@@ -455,64 +458,31 @@ public final class Response {
      */
     public void setContentType(String type) {
 
-        int semicolonIndex = -1;
-
         if (type == null) {
             this.contentType = null;
             return;
         }
 
-        /*
-         * Remove the charset param (if any) from the Content-Type, and use it
-         * to set the response encoding.
-         * The most recent response encoding setting will be appended to the
-         * response's Content-Type (as its charset param) by getContentType();
-         */
-        boolean hasCharset = false;
-        int len = type.length();
-        int index = type.indexOf(';');
-        while (index != -1) {
-            semicolonIndex = index;
-            index++;
-            while (index < len && Character.isSpace(type.charAt(index))) {
-                index++;
-            }
-            if (index+8 < len
-                    && type.charAt(index) == 'c'
-                    && type.charAt(index+1) == 'h'
-                    && type.charAt(index+2) == 'a'
-                    && type.charAt(index+3) == 'r'
-                    && type.charAt(index+4) == 's'
-                    && type.charAt(index+5) == 'e'
-                    && type.charAt(index+6) == 't'
-                    && type.charAt(index+7) == '=') {
-                hasCharset = true;
-                break;
-            }
-            index = type.indexOf(';', index);
+        MediaType m = null;
+        try {
+             m = HttpParser.parseMediaType(new StringReader(type));
+        } catch (IOException e) {
+            // Ignore - null test below handles this
         }
-
-        if (!hasCharset) {
+        if (m == null) {
+            // Invalid - Assume no charset and just pass through whatever
+            // the user provided.
             this.contentType = type;
             return;
         }
 
-        this.contentType = type.substring(0, semicolonIndex);
-        String tail = type.substring(index+8);
-        int nextParam = tail.indexOf(';');
-        String charsetValue = null;
-        if (nextParam != -1) {
-            this.contentType += tail.substring(nextParam);
-            charsetValue = tail.substring(0, nextParam);
-        } else {
-            charsetValue = tail;
-        }
+        this.contentType = m.toStringNoCharset();
 
-        // The charset value may be quoted, but must not contain any quotes.
+        String charsetValue = m.getCharset().trim();
+
         if (charsetValue != null && charsetValue.length() > 0) {
-            charsetSet=true;
-            charsetValue = charsetValue.replace('"', ' ');
-            this.characterEncoding = charsetValue.trim();
+            charsetSet = true;
+            this.characterEncoding = charsetValue;
         }
     }
 
