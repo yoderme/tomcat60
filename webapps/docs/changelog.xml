@@ -129,6 +129,10 @@
         <a href="http://www.apache.org/legal/src-headers.html#notice">requirements
         for NOTICE files</a>. (violetagg)
       </fix>
+      <fix>
+        Add <code>@since</code> markers to the common annotations classes and
+        fix a few specification compliance issues. (markt)
+      </fix>
     </changelog>
   </subsection>
 </section>
