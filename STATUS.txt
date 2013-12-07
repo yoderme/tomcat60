@@ -122,6 +122,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55759
+  Update the Eclipse compiler to 4.3.1
+  http://svn.apache.org/viewvc?view=revision&revision=1539953
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
