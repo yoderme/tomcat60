@@ -120,6 +120,10 @@
         the <code>CombinedRealm</code> and <code>LockOutRealm</code>. Patch by
         Cédric Couralet. (markt)
       </fix>
+      <fix>
+        Fix the sample configuration of <code>StaticMembershipInterceptor</code>
+        in order to prevent warning log. uniqueId must be 16 bytes. (kfujino)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
