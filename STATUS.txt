@@ -46,7 +46,7 @@ PATCHES PROPOSED TO BACKPORT:
   to change service start wait time from default of 10 seconds.
   http://svn.apache.org/r1503852
   http://svn.apache.org/r1505844
-  +1: schultz, kkolinko
+  +1: schultz, kkolinko, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55266
@@ -58,9 +58,9 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix issue with Manager app and other apps that use i18n in the UI when a
   request that specifies an Accept-Language of English ahead of French, Spanish
   or Japanese.
-  http://svn.apache.org/r1514376
-  +1: schultz, markt
-  +0: kkolinko: 1) Code in Tomcat 6 differs. A patch is needed. 2) +r1521693
+  Port all the other improvements to the StringManager from trunk as well
+  http://people.apache.org/~markt/patches/2013-12-17-webapp-locale-tc6.patch
+  +1: markt
   -1:
 
 * Better adherence to RFC2616 for content-length headers.
