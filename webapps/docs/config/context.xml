@@ -337,17 +337,33 @@
         be overridden by the <strong>emptySessionPath</strong> attribute on the
         connector used to access this Context.</p>
       </attribute>
+      
+      <attribute name="tldNamespaceAware" required="false">
+        <p>If the value of this flag is <code>true</code>, the TLD files
+        XML validation will be namespace-aware.  If you turn this flag on,
+        you should probably also turn <code>tldValidation</code> on.  The
+        default value for this flag is <code>false</code>, and setting it
+        to true will incur a performance penalty.
+        </p>
+      </attribute>
+
+      <attribute name="tldValidation" required="false">
+        <p>If the value of this flag is <code>true</code>, the TLD files
+        will be XML validated on context startup.  The default value for
+        this flag is <code>false</code>, and setting it to true will incur
+        a performance penalty.</p>
+      </attribute>
+
+      <attribute name="useHttpOnly" required="false">
+       <p>Should the HttpOnly flag be set on session cookies to prevent client
+          side script from accessing the session ID? Defaults to
+          <code>false</code>.</p>
+      </attribute>
 
       <attribute name="wrapperClass" required="false">
         <p>Java class name of the <code>org.apache.catalina.Wrapper</code>
         implementation class that will be used for servlets managed by this
         Context.  If not specified, a standard default value will be used.</p>
-      </attribute>
-      
-      <attribute name="useHttpOnly" required="false">
-       <p>Should the HttpOnly flag be set on session cookies to prevent client
-          side script from accessing the session ID? Defaults to
-          <code>false</code>.</p>
       </attribute>
       
 
@@ -502,22 +518,6 @@
         System.out and System.err by the web application will be redirected to
         the web application logger. If not specified, the default value
         of the flag is <code>false</code>.</p>
-      </attribute>
-
-      <attribute name="tldNamespaceAware" required="false">
-        <p>If the value of this flag is <code>true</code>, the TLD files
-        XML validation will be namespace-aware.  If you turn this flag on,
-        you should probably also turn <code>tldValidation</code> on.  The
-        default value for this flag is <code>false</code>, and setting it
-        to true will incur a performance penalty.
-        </p>
-      </attribute>
-
-      <attribute name="tldValidation" required="false">
-        <p>If the value of this flag is <code>true</code>, the TLD files
-        will be XML validated on context startup.  The default value for
-        this flag is <code>false</code>, and setting it to true will incur
-        a performance penalty.</p>
       </attribute>
 
       <attribute name="unloadDelay" required="false">
