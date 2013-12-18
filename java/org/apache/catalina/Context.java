@@ -1100,63 +1100,72 @@ public interface Context extends Container {
 
 
     /**
-     * Get the server.xml <context> attribute's xmlNamespaceAware.
-     * @return true if namespace awarenes is enabled.
+     * Will the parsing of the web.xml file for this Context be performed by a
+     * namespace aware parser?
      *
+     * @return true if namespace awareness is enabled.
      */
     public boolean getXmlNamespaceAware();
 
 
     /**
-     * Get the server.xml <context> attribute's xmlValidation.
-     * @return true if validation is enabled.
+     * Will the parsing of the web.xml file for this Context be performed by a
+     * validating parser?
      *
+     * @return true if validation is enabled.
      */
     public boolean getXmlValidation();
 
 
     /**
-     * Set the validation feature of the XML parser used when
-     * parsing xml instances.
-     * @param xmlValidation true to enable xml instance validation
+     * Controls whether the parsing of the web.xml file for this Context will be
+     * performed by a validating parser.
+     *
+     * @param xmlValidation true to enable xml validation
      */
     public void setXmlValidation(boolean xmlValidation);
 
 
-   /**
-     * Set the namespace aware feature of the XML parser used when
-     * parsing xml instances.
+    /**
+     * Controls whether the parsing of the web.xml file for this Context will be
+     * performed by a namespace aware parser.
+     *
      * @param xmlNamespaceAware true to enable namespace awareness
      */
     public void setXmlNamespaceAware(boolean xmlNamespaceAware);
      
 
     /**
-     * Set the validation feature of the XML parser used when
-     * parsing tlds files. 
-     * @param tldValidation true to enable xml instance validation
+     * Controls whether the parsing of *.tld files for this Context will be
+     * performed by a validating parser.
+     *
+     * @param tldValidation true to enable xml validation
      */
     public void setTldValidation(boolean tldValidation);
 
 
     /**
-     * Get the validation feature of the XML parser used when
-     * parsing tlds files. 
+     * Will the parsing of *.tld files for this Context be performed by a
+     * validating parser?
+     *
      * @return true if validation is enabled.
      */
     public boolean getTldValidation();
 
 
     /**
-     * Get the server.xml &lt;host&gt; attribute's xmlNamespaceAware.
-     * @return true if namespace awarenes is enabled.
+     * Will the parsing of *.tld files for this Context be performed by a
+     * namespace aware parser?
+     *
+     * @return true if namespace awareness is enabled.
      */
     public boolean getTldNamespaceAware();
 
 
     /**
-     * Set the namespace aware feature of the XML parser used when
-     * parsing xml instances.
+     * Controls whether the parsing of *.tld files for this Context will be
+     * performed by a namespace aware parser.
+     *
      * @param tldNamespaceAware true to enable namespace awareness
      */
     public void setTldNamespaceAware(boolean tldNamespaceAware);
