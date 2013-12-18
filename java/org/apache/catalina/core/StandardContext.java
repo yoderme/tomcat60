@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -191,33 +191,33 @@ public class StandardContext
      */
     private boolean antiJARLocking = false;
 
-    
+
     /**
      * The antiResourceLocking flag for this Context.
      */
     private boolean antiResourceLocking = false;
 
-    
+
     /**
      * The set of application listener class names configured for this
      * application, in the order they were encountered in the web.xml file.
      */
     private String applicationListeners[] = new String[0];
-    
+
     private final Object applicationListenersLock = new Object();
 
 
     /**
      * The set of instantiated application event listener objects</code>.
      */
-    private transient Object applicationEventListenersObjects[] = 
+    private transient Object applicationEventListenersObjects[] =
         new Object[0];
 
 
     /**
      * The set of instantiated application lifecycle listener objects</code>.
      */
-    private transient Object applicationLifecycleListenersObjects[] = 
+    private transient Object applicationLifecycleListenersObjects[] =
         new Object[0];
 
 
@@ -228,18 +228,18 @@ public class StandardContext
         new ApplicationParameter[0];
 
     private final Object applicationParametersLock = new Object();
-    
+
 
     /**
      * The application available flag for this Context.
      */
     private boolean available = false;
-    
+
     /**
-     * The broadcaster that sends j2ee notifications. 
+     * The broadcaster that sends j2ee notifications.
      */
     private NotificationBroadcasterSupport broadcaster = null;
-    
+
     /**
      * The Locale to character set mapper for this application.
      */
@@ -269,7 +269,7 @@ public class StandardContext
      * The security constraints for this web application.
      */
     private SecurityConstraint constraints[] = new SecurityConstraint[0];
-    
+
     private final Object constraintsLock = new Object();
 
 
@@ -297,12 +297,12 @@ public class StandardContext
      */
     private boolean crossContext = false;
 
-    
+
     /**
      * Encoded path.
      */
     private String encodedPath = null;
-    
+
 
     /**
      * The "follow standard delegation model" flag that will be used to
@@ -317,13 +317,13 @@ public class StandardContext
     private String displayName = null;
 
 
-    /** 
+    /**
      * Override the default context xml location.
      */
     private String defaultContextXml;
 
 
-    /** 
+    /**
      * Override the default web xml location.
      */
     private String defaultWebXml;
@@ -342,7 +342,7 @@ public class StandardContext
 
 
     /**
-     * Has URL rewriting been disabled. 
+     * Has URL rewriting been disabled.
      */
     private boolean disableURLRewriting = false;
 
@@ -373,7 +373,7 @@ public class StandardContext
      * they were defined in the deployment descriptor.
      */
     private FilterMap filterMaps[] = new FilterMap[0];
-    
+
     private final Object filterMapsLock = new Object();
 
 
@@ -401,7 +401,7 @@ public class StandardContext
     /**
      * The mapper associated with this context.
      */
-    private org.apache.tomcat.util.http.mapper.Mapper mapper = 
+    private org.apache.tomcat.util.http.mapper.Mapper mapper =
         new org.apache.tomcat.util.http.mapper.Mapper();
 
 
@@ -478,8 +478,8 @@ public class StandardContext
      * The original document root for this web application.
      */
     private String originalDocBase = null;
-    
-    
+
+
     /**
      * The privileged flag for this web application.
      */
@@ -516,7 +516,7 @@ public class StandardContext
      * matching pattern.
      */
     private HashMap servletMappings = new HashMap();
-    
+
     private final Object servletMappingsLock = new Object();
 
 
@@ -529,7 +529,7 @@ public class StandardContext
      * The notification sequence number.
      */
     private long sequenceNumber = 0;
-    
+
     /**
      * The status code error pages for this web application, keyed by
      * HTTP status code (as an Integer).
@@ -669,9 +669,9 @@ public class StandardContext
     private long startTime;
     private long tldScanTime;
 
-    /** 
+    /**
      * Name of the engine. If null, the domain is used.
-     */ 
+     */
     private String engineName = null;
     private String j2EEApplication="none";
     private String j2EEServer="none";
@@ -710,34 +710,34 @@ public class StandardContext
      */
     private boolean saveConfig = true;
 
-    
+
     /**
      * The flag that indicates that session cookies should use HttpOnly
      */
     private boolean useHttpOnly = false;
 
-    
+
     /**
      * The domain to use for session cookies. <code>null</code> indicates that
      * the domain is controlled by the application.
      */
     private String sessionCookieDomain;
 
-    
+
     /**
      * The path to use for session cookies. <code>null</code> indicates that
      * the path is controlled by the application.
      */
     private String sessionCookiePath;
 
-    
+
     /**
      * The name to use for session cookies. <code>null</code> indicates that
      * the name is controlled by the application.
      */
     private String sessionCookieName;
 
-    
+
     /**
      * Should Tomcat attempt to terminate threads that have been started by the
      * web application? Stopping threads is performed via the deprecated (for
@@ -765,7 +765,7 @@ public class StandardContext
      * expire however, on a busy system that might not happen for some time.
      */
     private boolean clearReferencesHttpClientKeepAliveThread = true;
-    
+
     /**
      * Should Tomcat attempt to clear any ThreadLocal objects that are instances
      * of classes loaded by this class loader. Failure to remove any such
@@ -774,7 +774,7 @@ public class StandardContext
      * objects is not performed in a thread-safe manner.
      */
     private boolean clearReferencesThreadLocals = false;
-    
+
     // ----------------------------------------------------- Context Properties
 
 
@@ -787,7 +787,7 @@ public class StandardContext
        this.annotationProcessor = annotationProcessor;
     }
 
-    
+
     public String getEncodedPath() {
         return encodedPath;
     }
@@ -1189,10 +1189,10 @@ public class StandardContext
                                    this.cookies);
 
     }
-    
+
     /**
      * Gets the value of the use HttpOnly cookies for session cookies flag.
-     * 
+     *
      * @return <code>true</code> if the HttpOnly flag should be set on session
      *         cookies
      */
@@ -1203,7 +1203,7 @@ public class StandardContext
 
     /**
      * Sets the use HttpOnly cookies for session cookies flag.
-     * 
+     *
      * @param useHttpOnly   Set to <code>true</code> to use HttpOnly cookies
      *                          for session cookies
      */
@@ -1214,22 +1214,22 @@ public class StandardContext
                 oldUseHttpOnly,
                 this.useHttpOnly);
     }
-    
-    
+
+
     /**
      * Gets the domain to use for session cookies.
-     * 
+     *
      * @return  The value of the default session cookie domain or null if not
      *          specified
      */
     public String getSessionCookieDomain() {
         return sessionCookieDomain;
     }
-    
-    
+
+
     /**
      * Sets the domain to use for session cookies.
-     * 
+     *
      * @param sessionCookieDomain   The domain to use
      */
     public void setSessionCookieDomain(String sessionCookieDomain) {
@@ -1242,18 +1242,18 @@ public class StandardContext
 
     /**
      * Gets the path to use for session cookies.
-     * 
+     *
      * @return  The value of the default session cookie path or null if not
      *          specified
      */
     public String getSessionCookiePath() {
         return sessionCookiePath;
     }
-    
-    
+
+
     /**
      * Sets the path to use for session cookies.
-     * 
+     *
      * @param sessionCookiePath   The path to use
      */
     public void setSessionCookiePath(String sessionCookiePath) {
@@ -1263,22 +1263,22 @@ public class StandardContext
                 oldSessionCookiePath, sessionCookiePath);
     }
 
-    
+
     /**
      * Gets the name to use for session cookies.
-     * 
+     *
      * @return  The value of the default session cookie name or null if not
      *          specified
      */
     public String getSessionCookieName() {
         return sessionCookieName;
     }
-    
-    
+
+
     /**
      * Sets the name to use for session cookies. Overrides any setting that
      * may be specified by the application.
-     * 
+     *
      * @param sessionCookieName   The name to use
      */
     public void setSessionCookieName(String sessionCookieName) {
@@ -1288,7 +1288,7 @@ public class StandardContext
                 oldSessionCookieName, sessionCookieName);
     }
 
-    
+
     /**
      * Return the "allow crossing servlet contexts" flag.
      */
@@ -1318,12 +1318,12 @@ public class StandardContext
         return defaultContextXml;
     }
 
-    /** 
+    /**
      * Set the location of the default context xml that will be used.
      * If not absolute, it'll be made relative to the engine's base dir
      * ( which defaults to catalina.base system property ).
      *
-     * @param defaultContextXml The default web xml 
+     * @param defaultContextXml The default web xml
      */
     public void setDefaultContextXml(String defaultContextXml) {
         this.defaultContextXml = defaultContextXml;
@@ -1333,12 +1333,12 @@ public class StandardContext
         return defaultWebXml;
     }
 
-    /** 
+    /**
      * Set the location of the default web xml that will be used.
      * If not absolute, it'll be made relative to the engine's base dir
      * ( which defaults to catalina.base system property ).
      *
-     * @param defaultWebXml The default web xml 
+     * @param defaultWebXml The default web xml
      */
     public void setDefaultWebXml(String defaultWebXml) {
         this.defaultWebXml = defaultWebXml;
@@ -1478,16 +1478,16 @@ public class StandardContext
         this.docBase = docBase;
 
     }
-    
+
     /**
      * Is URL rewriting disabled?
      * URL rewriting is an optional component of the servlet 2.5 specification.
      * However if set to true this will be non-compliant with the specification
      * as the specification requires that there <b>must</b> be a way to retain
      * sessions if the client doesn't allow session cookies.
-     * 
+     *
      * @return true If URL rewriting is disabled.
-     * 
+     *
      * @see <a href="http://jcp.org/aboutJava/communityprocess/mrel/jsr154/index2.html">Servlet
      *      2.5 Specification. Sections SRV.7.1.3 and SRV.7.1.4</a>
      * @see javax.servlet.http.HttpServletResponse#encodeURL(String) encodeURL
@@ -1497,7 +1497,7 @@ public class StandardContext
     public boolean isDisableURLRewriting() {
         return (this.disableURLRewriting);
     }
-    
+
     /**
      * Sets the disabling of URL Rewriting.
      * @param disable True to disable URL Rewriting. Default <b>false</b>.
@@ -1507,7 +1507,7 @@ public class StandardContext
         this.disableURLRewriting = disable;
         support.firePropertyChange("disableURLRewriting",
                 oldDisableURLRewriting, disableURLRewriting);
-        
+
     }
 
     // experimental
@@ -1575,12 +1575,12 @@ public class StandardContext
     public boolean getIgnoreAnnotations() {
         return this.ignoreAnnotations;
     }
-    
-    
+
+
     /**
-     * Set the boolean on the annotations parsing for this web 
+     * Set the boolean on the annotations parsing for this web
      * application.
-     * 
+     *
      * @param ignoreAnnotations The boolean on the annotations parsing
      */
     public void setIgnoreAnnotations(boolean ignoreAnnotations) {
@@ -1589,8 +1589,8 @@ public class StandardContext
         support.firePropertyChange("ignoreAnnotations", oldIgnoreAnnotations,
                 this.ignoreAnnotations);
     }
-    
-    
+
+
     /**
      * Return the login configuration descriptor for this web application.
      */
@@ -1695,7 +1695,7 @@ public class StandardContext
 
     }
 
-    
+
     /**
      * Set the context path for this Context.
      * <p>
@@ -1782,7 +1782,7 @@ public class StandardContext
 
         this.originalDocBase = docBase;
     }
-    
+
 
     /**
      * Return the parent class loader (if any) for this web application.
@@ -1800,7 +1800,7 @@ public class StandardContext
         return (ClassLoader.getSystemClassLoader());
     }
 
-    
+
     /**
      * Return the privileged flag for this web application.
      */
@@ -1974,7 +1974,7 @@ public class StandardContext
     /**
      * Set the value of the unloadDelay flag, which represents the amount
      * of ms that the container will wait when unloading servlets.
-     * Setting this to a small value may cause more requests to fail 
+     * Setting this to a small value may cause more requests to fail
      * to complete when stopping a web application.
      *
      * @param unloadDelay The new value
@@ -2034,7 +2034,7 @@ public class StandardContext
         this.wrapperClassName = wrapperClassName;
 
         try {
-            wrapperClass = Class.forName(wrapperClassName);         
+            wrapperClass = Class.forName(wrapperClassName);
             if (!StandardWrapper.class.isAssignableFrom(wrapperClass)) {
                 throw new IllegalArgumentException(
                     sm.getString("standardContext.invalidWrapperClass",
@@ -2117,9 +2117,9 @@ public class StandardContext
 
     /** Get the absolute path to the work dir.
      *  To avoid duplication.
-     * 
+     *
      * @return The work path
-     */ 
+     */
     public String getWorkPath() {
         if (getWorkDir() == null) {
             return null;
@@ -2138,7 +2138,7 @@ public class StandardContext
         }
         return workDir.getAbsolutePath();
     }
-    
+
     /**
      * Return the work directory for this Context.
      */
@@ -2371,7 +2371,7 @@ public class StandardContext
         if ((jspFile != null) && !jspFile.startsWith("/")) {
             if (isServlet22()) {
                 if(log.isDebugEnabled())
-                    log.debug(sm.getString("standardContext.wrapper.warning", 
+                    log.debug(sm.getString("standardContext.wrapper.warning",
                                        jspFile));
                 wrapper.setJspFile("/" + jspFile);
             } else {
@@ -2509,8 +2509,8 @@ public class StandardContext
 //      if ((servletNames.length == 0) && (urlPatterns.length == 0))
 //      Servlet API 2.5 (FIX 43338)
 //      SRV 6.2.5 says supporting for '*' as the servlet-name in filter-mapping.
-        if (!filterMap.getMatchAllServletNames() && 
-            !filterMap.getMatchAllUrlPatterns() && 
+        if (!filterMap.getMatchAllServletNames() &&
+            !filterMap.getMatchAllUrlPatterns() &&
             (servletNames.length == 0) && (urlPatterns.length == 0))
             throw new IllegalArgumentException
                 (sm.getString("standardContext.filterMap.either"));
@@ -3083,8 +3083,8 @@ public class StandardContext
     public Context findMappingObject() {
         return (Context) getMappingObject();
     }
-    
-    
+
+
     /**
      * Return the message destination with the specified name, if any;
      * otherwise, return <code>null</code>.
@@ -3371,7 +3371,7 @@ public class StandardContext
 
 
     /**
-     * Return the set of watched resources for this Context. If none are 
+     * Return the set of watched resources for this Context. If none are
      * defined, a zero length array will be returned.
      */
     public String[] findWatchedResources() {
@@ -3379,8 +3379,8 @@ public class StandardContext
             return watchedResources;
         }
     }
-    
-    
+
+
     /**
      * Return the set of welcome files defined for this Context.  If none are
      * defined, a zero-length array is returned.
@@ -3873,11 +3873,11 @@ public class StandardContext
     /**
      * Remove the specified watched resource name from the list associated
      * with this Context.
-     * 
+     *
      * @param name Name of the watched resource to be removed
      */
     public void removeWatchedResource(String name) {
-        
+
         synchronized (watchedResourcesLock) {
 
             // Make sure this watched resource is currently present
@@ -3905,8 +3905,8 @@ public class StandardContext
         fireContainerEvent("removeWatchedResource", name);
 
     }
-    
-    
+
+
     /**
      * Remove the specified welcome file name from the list recognized
      * by this Context.
@@ -4032,7 +4032,7 @@ public class StandardContext
      * StandardContext
      */
     public long getProcessingTime() {
-        
+
         long result = 0;
 
         Container[] children = findChildren();
@@ -4283,7 +4283,7 @@ public class StandardContext
                 }
             }
         }
-        
+
         setApplicationEventListeners(null);
         setApplicationLifecycleListeners(null);
 
@@ -4327,9 +4327,9 @@ public class StandardContext
             }
             // Register the cache in JMX
             if (isCachingAllowed()) {
-                ObjectName resourcesName = 
-                    new ObjectName(this.getDomain() + ":type=Cache,host=" 
-                                   + getHostname() + ",path=" 
+                ObjectName resourcesName =
+                    new ObjectName(this.getDomain() + ":type=Cache,host="
+                                   + getHostname() + ",path="
                                    + (("".equals(getPath()))?"/":getPath()));
                 Registry.getRegistry(null, null).registerComponent
                     (proxyDirContext.getCache(), resourcesName, null);
@@ -4362,10 +4362,10 @@ public class StandardContext
                 }
                 // Unregister the cache in JMX
                 if (isCachingAllowed()) {
-                    ObjectName resourcesName = 
+                    ObjectName resourcesName =
                         new ObjectName(this.getDomain()
-                                       + ":type=Cache,host=" 
-                                       + getHostname() + ",path=" 
+                                       + ":type=Cache,host="
+                                       + getHostname() + ",path="
                                        + (("".equals(getPath()))?"/"
                                           :getPath()));
                     Registry.getRegistry(null, null)
@@ -4444,7 +4444,7 @@ public class StandardContext
                 log.info(sm.getString("containerBase.alreadyStarted", logName()));
             return;
         }
-        if( !initialized ) { 
+        if( !initialized ) {
             try {
                 init();
             } catch( Exception ex ) {
@@ -4457,7 +4457,7 @@ public class StandardContext
         // Set JMX object name for proper pipeline registration
         preRegisterJMX();
 
-        if ((oname != null) && 
+        if ((oname != null) &&
             (Registry.getRegistry(null, null).getMBeanServer().isRegistered(oname))) {
             // As things depend on the JMX registration, the context
             // must be reregistered again once properly initialized
@@ -4492,26 +4492,26 @@ public class StandardContext
             }
         }
 
-        // Look for a realm - that may have been configured earlier. 
+        // Look for a realm - that may have been configured earlier.
         // If the realm is added after context - it'll set itself.
-        // TODO: what is the use case for this ? 
+        // TODO: what is the use case for this ?
         if( realm == null && mserver != null ) {
             ObjectName realmName=null;
             try {
-                realmName=new ObjectName( getEngineName() + ":type=Realm,host=" + 
+                realmName=new ObjectName( getEngineName() + ":type=Realm,host=" +
                         getHostname() + ",path=" + getPath());
                 if( mserver.isRegistered(realmName ) ) {
-                    mserver.invoke(realmName, "init", 
+                    mserver.invoke(realmName, "init",
                             new Object[] {},
                             new String[] {}
-                    );            
+                    );
                 }
             } catch( Throwable t ) {
                 if(log.isDebugEnabled())
                     log.debug("No realm for this host " + realmName);
             }
         }
-        
+
         if (getLoader() == null) {
             WebappLoader webappLoader = new WebappLoader(getParentClassLoader());
             webappLoader.setDelegate(getDelegate());
@@ -4553,12 +4553,12 @@ public class StandardContext
                 addLifecycleListener(namingContextListener);
             }
         }
-        
+
         // Standard container startup
         if (log.isDebugEnabled())
             log.debug("Processing standard container startup");
 
-        
+
         // Binding thread
         ClassLoader oldCCL = bindThread();
 
@@ -4567,7 +4567,7 @@ public class StandardContext
         try {
 
             if (ok) {
-                
+
                 started = true;
 
                 // Start our subordinate components, if any
@@ -4581,13 +4581,13 @@ public class StandardContext
                 unbindThread(oldCCL);
                 oldCCL = bindThread();
 
-                // Initialize logger again. Other components might have used it too early, 
+                // Initialize logger again. Other components might have used it too early,
                 // so it should be reset.
                 logger = null;
                 getLogger();
                 if ((logger != null) && (logger instanceof Lifecycle))
                     ((Lifecycle) logger).start();
-                
+
                 if ((cluster != null) && (cluster instanceof Lifecycle))
                     ((Lifecycle) cluster).start();
                 if ((realm != null) && (realm instanceof Lifecycle))
@@ -4607,10 +4607,10 @@ public class StandardContext
                 if (pipeline instanceof Lifecycle) {
                     ((Lifecycle) pipeline).start();
                 }
-                
+
                 // Notify our interested LifecycleListeners
                 lifecycle.fireLifecycleEvent(START_EVENT, null);
-                
+
                 // Acquire clustered manager
                 Manager contextManager = null;
                 if (manager == null) {
@@ -4624,8 +4624,8 @@ public class StandardContext
                     } else {
                         contextManager = new StandardManager();
                     }
-                } 
-                
+                }
+
                 // Configure default manager if none was specified
                 if (contextManager != null) {
                     setManager(contextManager);
@@ -4637,7 +4637,7 @@ public class StandardContext
                     getCluster().registerManager(manager);
                 }
 
-                
+
                 mainOk = true;
 
             }
@@ -4675,7 +4675,7 @@ public class StandardContext
         if (ok && !getIgnoreAnnotations()) {
             if (annotationProcessor == null) {
                 if (isUseNaming() && namingContextListener != null) {
-                    annotationProcessor = 
+                    annotationProcessor =
                         new DefaultAnnotationProcessor(namingContextListener.getEnvContext());
                 } else {
                     annotationProcessor = new DefaultAnnotationProcessor(null);
@@ -4686,12 +4686,12 @@ public class StandardContext
         }
 
         try {
-            
+
             // Create context attributes that will be required
             if (ok) {
                 postWelcomeFiles();
             }
-            
+
             // Set up the context init params
             mergeParameters();
 
@@ -4699,7 +4699,7 @@ public class StandardContext
                 // Notify our interested LifecycleListeners
                 lifecycle.fireLifecycleEvent(AFTER_START_EVENT, null);
             }
-            
+
             // Configure and call application event listeners
             if (ok) {
                 if (!listenerStart()) {
@@ -4707,13 +4707,13 @@ public class StandardContext
                     ok = false;
                 }
             }
-            
+
             try {
                 // Start manager
                 if ((manager != null) && (manager instanceof Lifecycle)) {
                     ((Lifecycle) getManager()).start();
                 }
-    
+
                 // Start ContainerBackgroundProcessor thread
                 super.threadStart();
             } catch(Exception e) {
@@ -4728,12 +4728,12 @@ public class StandardContext
                     ok = false;
                 }
             }
-            
+
             // Load and initialize all "load on startup" servlets
             if (ok) {
                 loadOnStartup(findChildren());
             }
-            
+
         } finally {
             // Unbinding thread
             unbindThread(oldCCL);
@@ -4758,16 +4758,16 @@ public class StandardContext
         registerJMX();
 
         startTime=System.currentTimeMillis();
-        
-        // Send j2ee.state.running notification 
+
+        // Send j2ee.state.running notification
         if (ok && (this.getObjectName() != null)) {
-            Notification notification = 
-                new Notification("j2ee.state.running", this.getObjectName(), 
+            Notification notification =
+                new Notification("j2ee.state.running", this.getObjectName(),
                                 sequenceNumber++);
             broadcaster.sendNotification(notification);
         }
 
-        // Close all JARs right away to avoid always opening a peak number 
+        // Close all JARs right away to avoid always opening a peak number
         // of files on startup
         if (getLoader() instanceof WebappLoader) {
             ((WebappLoader) getLoader()).closeJARs(true);
@@ -4781,11 +4781,11 @@ public class StandardContext
         //cacheContext();
     }
 
-    
+
     private void cacheContext() {
         try {
             File workDir=new File( getWorkPath() );
-            
+
             File ctxSer=new File( workDir, "_tomcat_context.ser");
             FileOutputStream fos=new FileOutputStream( ctxSer );
             ObjectOutputStream oos=new ObjectOutputStream( fos );
@@ -4798,7 +4798,7 @@ public class StandardContext
         }
     }
 
-    
+
     /**
      * Merge the context initialization parameters specified in the application
      * deployment descriptor with the application parameters described in the
@@ -4807,7 +4807,7 @@ public class StandardContext
      */
     private void mergeParameters() {
         Map<String,String> mergedParams = new HashMap<String,String>();
-        
+
         String names[] = findParameters();
         for (int i = 0; i < names.length; i++) {
             mergedParams.put(names[i], findParameter(names[i]));
@@ -4824,14 +4824,14 @@ public class StandardContext
                 mergedParams.put(params[i].getName(), params[i].getValue());
             }
         }
-        
+
         for (Map.Entry<String,String> entry : mergedParams.entrySet()) {
             context.setInitParameter(entry.getKey(), entry.getValue());
         }
 
     }
 
-    
+
     /**
      * Stop this Context component.
      *
@@ -4848,15 +4848,15 @@ public class StandardContext
 
         // Notify our interested LifecycleListeners
         lifecycle.fireLifecycleEvent(BEFORE_STOP_EVENT, null);
-        
-        // Send j2ee.state.stopping notification 
+
+        // Send j2ee.state.stopping notification
         if (this.getObjectName() != null) {
-            Notification notification = 
-                new Notification("j2ee.state.stopping", this.getObjectName(), 
+            Notification notification =
+                new Notification("j2ee.state.stopping", this.getObjectName(),
                                 sequenceNumber++);
             broadcaster.sendNotification(notification);
         }
-        
+
         // Mark this application as unavailable while we shut down
         setAvailable(false);
 
@@ -4927,24 +4927,24 @@ public class StandardContext
 
         }
 
-        // Send j2ee.state.stopped notification 
+        // Send j2ee.state.stopped notification
         if (this.getObjectName() != null) {
-            Notification notification = 
-                new Notification("j2ee.state.stopped", this.getObjectName(), 
+            Notification notification =
+                new Notification("j2ee.state.stopped", this.getObjectName(),
                                 sequenceNumber++);
             broadcaster.sendNotification(notification);
         }
-        
+
         // Reset application context
         context = null;
 
-        // This object will no longer be visible or used. 
+        // This object will no longer be visible or used.
         try {
             resetContext();
         } catch( Exception ex ) {
             log.error( "Error reseting context " + this + " " + ex, ex );
         }
-        
+
         // Notify our interested LifecycleListeners
         lifecycle.fireLifecycleEvent(AFTER_STOP_EVENT, null);
 
@@ -4954,25 +4954,25 @@ public class StandardContext
     }
 
     /** Destroy needs to clean up the context completely.
-     * 
-     * The problem is that undoing all the config in start() and restoring 
+     *
+     * The problem is that undoing all the config in start() and restoring
      * a 'fresh' state is impossible. After stop()/destroy()/init()/start()
      * we should have the same state as if a fresh start was done - i.e
-     * read modified web.xml, etc. This can only be done by completely 
+     * read modified web.xml, etc. This can only be done by completely
      * removing the context object and remapping a new one, or by cleaning
      * up everything.
-     * 
+     *
      * XXX Should this be done in stop() ?
-     * 
-     */ 
+     *
+     */
     public void destroy() throws Exception {
-        if( oname != null ) { 
-            // Send j2ee.object.deleted notification 
-            Notification notification = 
-                new Notification("j2ee.object.deleted", this.getObjectName(), 
+        if( oname != null ) {
+            // Send j2ee.object.deleted notification
+            Notification notification =
+                new Notification("j2ee.object.deleted", this.getObjectName(),
                                 sequenceNumber++);
             broadcaster.sendNotification(notification);
-        } 
+        }
         super.destroy();
 
         // Notify our interested LifecycleListeners
@@ -4983,7 +4983,7 @@ public class StandardContext
         }
 
     }
-    
+
     private void resetContext() throws Exception, MBeanRegistrationException {
         // Restore the original state ( pre reading web.xml in start )
         // If you extend this - override this method and make sure to clean up
@@ -4999,7 +4999,7 @@ public class StandardContext
         applicationEventListenersObjects = new Object[0];
         applicationLifecycleListenersObjects = new Object[0];
         taglibs = new HashMap<String, String>();
-        
+
         annotationProcessor = null;
 
         if(log.isDebugEnabled())
@@ -5187,7 +5187,7 @@ public class StandardContext
      * Get config base.
      */
     public File getConfigBase() {
-        File configBase = 
+        File configBase =
             new File(System.getProperty("catalina.base"), "conf");
         if (!configBase.exists()) {
             return null;
@@ -5295,14 +5295,14 @@ public class StandardContext
     return namingContextName;
     }
 
-    
+
     /**
      * Naming context listener accessor.
      */
     public NamingContextListener getNamingContextListener() {
         return namingContextListener;
     }
-    
+
 
     /**
      * Naming context listener setter.
@@ -5310,7 +5310,7 @@ public class StandardContext
     public void setNamingContextListener(NamingContextListener namingContextListener) {
         this.namingContextListener = namingContextListener;
     }
-    
+
 
     /**
      * Return the request processing paused flag for this Context.
@@ -5486,10 +5486,10 @@ public class StandardContext
     /**
      * JSR77 deploymentDescriptor attribute
      *
-     * @return string deployment descriptor 
+     * @return string deployment descriptor
      */
     public String getDeploymentDescriptor() {
-    
+
         InputStream stream = null;
         ServletContext servletContext = getServletContext();
         if (servletContext != null) {
@@ -5512,18 +5512,18 @@ public class StandardContext
             return "";
         }
 
-        return sb.toString(); 
-    
+        return sb.toString();
+
     }
-    
-    
+
+
     /**
      * JSR77 servlets attribute
      *
      * @return list of all servlets ( we know about )
      */
     public String[] getServlets() {
-        
+
         String[] result = null;
 
         Container[] children = findChildren();
@@ -5536,14 +5536,14 @@ public class StandardContext
 
         return result;
     }
-    
+
 
     public ObjectName createObjectName(String hostDomain, ObjectName parentName)
             throws MalformedObjectNameException
     {
         String onameStr;
         StandardHost hst=(StandardHost)getParent();
-        
+
         String pathName=getName();
         String hostName=getParent().getName();
         String name= "//" + ((hostName==null)? "DEFAULT" : hostName) +
@@ -5556,18 +5556,18 @@ public class StandardContext
         onameStr="j2eeType=WebModule,name=" + name + suffix;
         if( log.isDebugEnabled())
             log.debug("Registering " + onameStr + " for " + oname);
-        
+
         // default case - no domain explictely set.
         if( getDomain() == null ) domain=hst.getDomain();
 
         ObjectName oname=new ObjectName(getDomain() + ":" + onameStr);
-        return oname;        
-    }    
-    
+        return oname;
+    }
+
     private void preRegisterJMX() {
         try {
             StandardHost host = (StandardHost) getParent();
-            if ((oname == null) 
+            if ((oname == null)
                 || (oname.getKeyProperty("j2eeType") == null)) {
                 oname = createObjectName(host.getDomain(), host.getJmxName());
                 controller = oname;
@@ -5589,12 +5589,12 @@ public class StandardContext
                 controller = oname;
                 Registry.getRegistry(null, null)
                     .registerComponent(this, oname, null);
-                
-                // Send j2ee.object.created notification 
+
+                // Send j2ee.object.created notification
                 if (this.getObjectName() != null) {
                     Notification notification = new Notification(
-                                                        "j2ee.object.created", 
-                                                        this.getObjectName(), 
+                                                        "j2ee.object.created",
+                                                        this.getObjectName(),
                                                         sequenceNumber++);
                     broadcaster.sendNotification(notification);
                 }
@@ -5646,7 +5646,7 @@ public class StandardContext
 
         if( this.getParent() == null ) {
             ObjectName parentName=getParentName();
-            
+
             if( ! mserver.isRegistered(parentName)) {
                 if(log.isDebugEnabled())
                     log.debug("No host, creating one " + parentName);
@@ -5660,7 +5660,7 @@ public class StandardContext
                 // or same thing easier:
                 host.init();
             }
-            
+
             // Add the main configuration listener
             LifecycleListener config = null;
             try {
@@ -5702,18 +5702,18 @@ public class StandardContext
         }
 
         super.init();
-        
+
         // Notify our interested LifecycleListeners
         lifecycle.fireLifecycleEvent(INIT_EVENT, null);
 
-        // Send j2ee.state.starting notification 
+        // Send j2ee.state.starting notification
         if (this.getObjectName() != null) {
-            Notification notification = new Notification("j2ee.state.starting", 
-                                                        this.getObjectName(), 
+            Notification notification = new Notification("j2ee.state.starting",
+                                                        this.getObjectName(),
                                                         sequenceNumber++);
             broadcaster.sendNotification(notification);
         }
-        
+
     }
 
     public ObjectName getParentName() throws MalformedObjectNameException {
@@ -5749,22 +5749,22 @@ public class StandardContext
                 "type=Host,host=" + hostName);
         return parentName;
     }
-    
+
     public void create() throws Exception{
         init();
     }
 
-    /* Remove a JMX notficationListener 
+    /* Remove a JMX notficationListener
      * @see javax.management.NotificationEmitter#removeNotificationListener(javax.management.NotificationListener, javax.management.NotificationFilter, java.lang.Object)
      */
-    public void removeNotificationListener(NotificationListener listener, 
+    public void removeNotificationListener(NotificationListener listener,
             NotificationFilter filter, Object object) throws ListenerNotFoundException {
     	broadcaster.removeNotificationListener(listener,filter,object);
-    	
+
     }
-    
+
     private MBeanNotificationInfo[] notificationInfo;
-    
+
     /* Get JMX Broadcaster Info
      * @TODO use StringManager for international support!
      * @TODO This two events we not send j2ee.state.failed and j2ee.attribute.changed!
@@ -5778,7 +5778,7 @@ public class StandardContext
     				"j2ee.object.created"},
 					Notification.class.getName(),
 					"web application is created"
-    				), 
+    				),
 					new MBeanNotificationInfo(new String[] {
 					"j2ee.state.starting"},
 					Notification.class.getName(),
@@ -5805,34 +5805,34 @@ public class StandardContext
 					"web application is deleted"
 					)
     		};
-    		
+
     	}
-    	
+
     	return notificationInfo;
     }
-    
-    
+
+
     /* Add a JMX-NotificationListener
      * @see javax.management.NotificationBroadcaster#addNotificationListener(javax.management.NotificationListener, javax.management.NotificationFilter, java.lang.Object)
      */
-    public void addNotificationListener(NotificationListener listener, 
+    public void addNotificationListener(NotificationListener listener,
             NotificationFilter filter, Object object) throws IllegalArgumentException {
     	broadcaster.addNotificationListener(listener,filter,object);
-    	
+
     }
-    
-    
+
+
     /**
-     * Remove a JMX-NotificationListener 
+     * Remove a JMX-NotificationListener
      * @see javax.management.NotificationBroadcaster#removeNotificationListener(javax.management.NotificationListener)
      */
-    public void removeNotificationListener(NotificationListener listener) 
+    public void removeNotificationListener(NotificationListener listener)
     throws ListenerNotFoundException {
     	broadcaster.removeNotificationListener(listener);
-    	
+
     }
-    
-    
+
+
     // ------------------------------------------------------------- Attributes
 
 
@@ -5848,7 +5848,7 @@ public class StandardContext
 
     /**
      * Return the naming resources associated with this web application.
-     * FIXME: Fooling introspection ... 
+     * FIXME: Fooling introspection ...
      */
     public javax.naming.directory.DirContext findStaticResources() {
 
@@ -5866,65 +5866,46 @@ public class StandardContext
 
     }
 
-     /**
-     * Set the validation feature of the XML parser used when
-     * parsing xml instances.
-     * @param webXmlValidation true to enable xml instance validation
-     */
-    public void setXmlValidation(boolean webXmlValidation){
-        
-        this.webXmlValidation = webXmlValidation;
 
-    }
-
-    /**
-     * Get the server.xml <context> attribute's xmlValidation.
-     * @return true if validation is enabled.
-     *
-     */
-    public boolean getXmlValidation(){
-        return webXmlValidation;
-    }
-
-
-    /**
-     * Get the server.xml <context> attribute's xmlNamespaceAware.
-     * @return true if namespace awarenes is enabled.
-     */
     public boolean getXmlNamespaceAware(){
         return webXmlNamespaceAware;
     }
 
 
-    /**
-     * Set the namespace aware feature of the XML parser used when
-     * parsing xml instances.
-     * @param webXmlNamespaceAware true to enable namespace awareness
-     */
     public void setXmlNamespaceAware(boolean webXmlNamespaceAware){
         this.webXmlNamespaceAware= webXmlNamespaceAware;
-    }    
-
-
-    /**
-     * Set the validation feature of the XML parser used when
-     * parsing tlds files. 
-     * @param tldValidation true to enable xml instance validation
-     */
-    public void setTldValidation(boolean tldValidation){
-        
-        this.tldValidation = tldValidation;
-
     }
 
-    /**
-     * Get the server.xml <context> attribute's webXmlValidation.
-     * @return true if validation is enabled.
-     *
-     */
+
+    public void setXmlValidation(boolean webXmlValidation){
+        this.webXmlValidation = webXmlValidation;
+    }
+
+
+    public boolean getXmlValidation(){
+        return webXmlValidation;
+    }
+
+
+    public boolean getTldNamespaceAware(){
+        return tldNamespaceAware;
+    }
+
+
+    public void setTldNamespaceAware(boolean tldNamespaceAware){
+        this.tldNamespaceAware= tldNamespaceAware;
+    }
+
+
+    public void setTldValidation(boolean tldValidation){
+        this.tldValidation = tldValidation;
+    }
+
+
     public boolean getTldValidation(){
         return tldValidation;
     }
+
 
     /**
      * Sets the process TLDs attribute.
@@ -5942,97 +5923,79 @@ public class StandardContext
 	return processTlds;
     }
 
-    /**
-     * Get the server.xml &lt;host&gt; attribute's xmlNamespaceAware.
-     * @return true if namespace awarenes is enabled.
-     */
-    public boolean getTldNamespaceAware(){
-        return tldNamespaceAware;
-    }
-
 
     /**
-     * Set the namespace aware feature of the XML parser used when
-     * parsing xml instances.
-     * @param tldNamespaceAware true to enable namespace awareness
-     */
-    public void setTldNamespaceAware(boolean tldNamespaceAware){
-        this.tldNamespaceAware= tldNamespaceAware;
-    }    
-
-
-    /** 
-     * Support for "stateManageable" JSR77 
+     * Support for "stateManageable" JSR77
      */
     public boolean isStateManageable() {
         return true;
     }
-    
+
     public void startRecursive() throws LifecycleException {
         // nothing to start recursive, the servlets will be started by load-on-startup
         start();
     }
-    
+
     public int getState() {
         if( started ) {
             return 1; // RUNNING
         }
         if( initialized ) {
-            return 0; // starting ? 
+            return 0; // starting ?
         }
-        if( ! available ) { 
+        if( ! available ) {
             return 4; //FAILED
         }
         // 2 - STOPPING
         return 3; // STOPPED
     }
-    
+
     public String getStateName() {
         return lifecycle.getState();
     }
 
     /**
      * The J2EE Server ObjectName this module is deployed on.
-     */     
+     */
     private String server = null;
-    
+
     /**
      * The Java virtual machines on which this module is running.
-     */       
+     */
     private String[] javaVMs = null;
-    
+
     public String getServer() {
         return server;
     }
-        
+
     public String setServer(String server) {
         return this.server=server;
     }
-        
+
     public String[] getJavaVMs() {
         return javaVMs;
     }
-        
+
     public String[] setJavaVMs(String[] javaVMs) {
         return this.javaVMs = javaVMs;
     }
-    
+
     /**
      * Gets the time this context was started.
      *
      * @return Time (in milliseconds since January 1, 1970, 00:00:00) when this
-     * context was started 
+     * context was started
      */
     public long getStartTime() {
         return startTime;
     }
-    
+
     public boolean isEventProvider() {
         return false;
     }
-    
+
     public boolean isStatisticsProvider() {
         return false;
     }
-    
+
 }
