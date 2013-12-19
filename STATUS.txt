@@ -107,11 +107,19 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
-* Back-port some XML processing improvements
+* Back-port some XML processing improvements (part 1)
   The patch could have been smaller but I opted to align some of the code with
   Tomcat 7 (which meant re-ordering methods in places) to make it easier to
   compare 6.0.x code with 7.0.x code.
   http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part1-tc6-v1.patch
+  +1: markt
+  -1:
+
+* Back-port some XML processing improvements (part 2)
+  JspC passes configuration with ServletContext init params so a real
+  implementation is required. This is essentially a back-port of
+  http://svn.apache.org/r1552306
+  http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part2-tc6-v1.patch
   +1: markt
   -1:
 
