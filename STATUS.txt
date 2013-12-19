@@ -61,6 +61,7 @@ PATCHES PROPOSED TO BACKPORT:
   Port all the other improvements to the StringManager from trunk as well
   http://people.apache.org/~markt/patches/2013-12-17-webapp-locale-tc6.patch
   +1: markt
+  +1: kkolinko (a typo in changelog: s/associated/associate/)
   -1:
 
 * Better adherence to RFC2616 for content-length headers.
@@ -78,12 +79,13 @@ PATCHES PROPOSED TO BACKPORT:
                header. If multiple values are not permitted then neither are
                multiple headers.
   +1: schultz: Changing my vote to +1.
+  +1: kkolinko
   -1:
 
 * Add support for limiting the size of chunk extensions when using chunked
   encoding.
   http://people.apache.org/~markt/patches/2013-12-17-chunk-extensions-tc6-v2.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55749
@@ -104,7 +106,7 @@ PATCHES PROPOSED TO BACKPORT:
   being added. When actually making the commit, they will be copied from 7.0.x 
   and amended to retain history.
   http://people.apache.org/~markt/patches/2013-12-19-javaee-xml-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 * Back-port some XML processing improvements (part 1)
@@ -120,7 +122,7 @@ PATCHES PROPOSED TO BACKPORT:
   implementation is required. This is essentially a back-port of
   http://svn.apache.org/r1552306
   http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part2-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 * Back-port some XML processing improvements (part 3)
