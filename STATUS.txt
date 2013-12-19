@@ -99,6 +99,14 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Add missing J2EE 5 resources
+  Note I am generating the patches using git so the patch shows whole new files
+  being added. When actually making the commit, they will be copied from 7.0.x 
+  and amended to retain history.
+  http://people.apache.org/~markt/patches/2013-12-19-javaee-xml-tc6-v1.patch
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
