@@ -171,9 +171,9 @@ public interface Host extends Container {
 
 
     /**
-     * Controls whether the parsing of the web.xml file and *.tld files for this
-     * Context will be performed by a validating parser. If <code>false</code>
-     * it may still be enabled per Context using
+     * Controls whether the parsing of the web.xml file and *.tld files for
+     * Contexts of this Host will be performed by a validating parser. If
+     * <code>false</code> it may still be enabled per Context using
      * {@link Context#setXmlValidation(boolean)}.
      *
      * @param xmlValidation true to enable xml validation
