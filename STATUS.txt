@@ -40,15 +40,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, schultz
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55268
-  Back-port of r1503852 from Tomcat 7.0.x.
-  Add optional --service-start-wait-time command-line option to bin/daemon.sh
-  to change service start wait time from default of 10 seconds.
-  http://svn.apache.org/r1503852
-  http://svn.apache.org/r1505844
-  +1: schultz, kkolinko, markt
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55266
   https://issues.apache.org/bugzilla/attachment.cgi?id=30608&action=diff
   Parse session ID before redirect as session ID may need to be encoded

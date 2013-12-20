@@ -64,6 +64,11 @@
         <bug>55404</bug>: Log warnings about using security roles in web.xml as
         warnings. (markt)
       </fix>
+      <fix>
+        <bug>55268</bug>: Added optional --service-start-wait-time
+        command-line option to change service start wait time from default
+        of 10 seconds. (schultz)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
