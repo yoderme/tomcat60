@@ -96,6 +96,11 @@ PATCHES PROPOSED TO BACKPORT:
        // TODO Add a zero-arg constructor
        This patch has such constructor, annotated as @Deprecated.
       The rest of the patch is OK.
+      markt:
+      Servlet 2.5, SRV.14.4.3 requires validation for a J2EE compliant
+      implementation. The Eclipse bug is annoying but easy to workaround and
+      only present when using STRICT_SERVLET_COMPLIANCE.
+      I'll fix the TODO I should have removed from ParserUtils.
   -1:
 
 * Back-port some XML processing improvements (part 2)
