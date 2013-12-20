@@ -80,7 +80,7 @@ PATCHES PROPOSED TO BACKPORT:
   The patch could have been smaller but I opted to align some of the code with
   Tomcat 7 (which meant re-ordering methods in places) to make it easier to
   compare 6.0.x code with 7.0.x code.
-  http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part1-tc6-v1.patch
+  http://people.apache.org/~markt/patches/2013-12-20-xml-prep-part1-tc6-v2.patch
   +1: markt
   +0: kkolinko:
       I do not like that you change the values of validation flags when
@@ -92,15 +92,11 @@ PATCHES PROPOSED TO BACKPORT:
       Tomcat 7 only. It is not our policy to provide workarounds for 3rd
       party bugs, so this is not a veto.
         https://bugs.eclipse.org/bugs/show_bug.cgi?id=351040
-      In ParserUtils:
-       // TODO Add a zero-arg constructor
-       This patch has such constructor, annotated as @Deprecated.
       The rest of the patch is OK.
       markt:
       Servlet 2.5, SRV.14.4.3 requires validation for a J2EE compliant
       implementation. The Eclipse bug is annoying but easy to workaround and
       only present when using STRICT_SERVLET_COMPLIANCE.
-      I'll fix the TODO I should have removed from ParserUtils.
   -1:
 
 * Back-port some XML processing improvements (part 2)
