@@ -5,16 +5,15 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.jasper.xmlparser;
 
 import java.io.IOException;
@@ -48,9 +47,8 @@ import org.xml.sax.SAXParseException;
  * use a separate class loader for the parser to be used.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ * @version $Id:$
  */
-
 public class ParserUtils {
 
     /**
@@ -73,13 +71,13 @@ public class ParserUtils {
      * Parse the specified XML document, and return a <code>TreeNode</code>
      * that corresponds to the root node of the document tree.
      *
-     * @param uri URI of the XML document being parsed
+     * @param location Location (eg URI) of the XML document being parsed
      * @param is Input source containing the deployment descriptor
      *
      * @exception JasperException if an input/output error occurs
      * @exception JasperException if a parsing error occurs
      */
-    public TreeNode parseXMLDocument(String uri, InputSource is)
+    public TreeNode parseXMLDocument(String location, InputSource is)
         throws JasperException {
 
         Document document = null;
@@ -96,20 +94,20 @@ public class ParserUtils {
             document = builder.parse(is);
 	} catch (ParserConfigurationException ex) {
             throw new JasperException
-                (Localizer.getMessage("jsp.error.parse.xml", uri), ex);
+                (Localizer.getMessage("jsp.error.parse.xml", location), ex);
 	} catch (SAXParseException ex) {
             throw new JasperException
                 (Localizer.getMessage("jsp.error.parse.xml.line",
-				      uri,
+                      location,
 				      Integer.toString(ex.getLineNumber()),
 				      Integer.toString(ex.getColumnNumber())),
 		 ex);
 	} catch (SAXException sx) {
             throw new JasperException
-                (Localizer.getMessage("jsp.error.parse.xml", uri), sx);
+                (Localizer.getMessage("jsp.error.parse.xml", location), sx);
         } catch (IOException io) {
             throw new JasperException
-                (Localizer.getMessage("jsp.error.parse.xml", uri), io);
+                (Localizer.getMessage("jsp.error.parse.xml", location), io);
 	}
 
         // Convert the resulting document to a graph of TreeNodes
@@ -176,11 +174,11 @@ public class ParserUtils {
                             treeNode.setBody(body);
                     }
                 } else {
-                    TreeNode treeChild = convert(treeNode, child);
+                    convert(treeNode, child);
                 }
             }
         }
-        
+
         // Return the completed TreeNode graph
         return (treeNode);
     }
