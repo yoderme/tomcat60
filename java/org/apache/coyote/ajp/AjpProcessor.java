@@ -28,6 +28,8 @@ import java.security.NoSuchProviderException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.coyote.ActionCode;
 import org.apache.coyote.ActionHook;
 import org.apache.coyote.Adapter;
@@ -700,6 +702,7 @@ public class AjpProcessor implements ActionHook {
         // Set this every time in case limit has been changed via JMX
         headers.setLimit(endpoint.getMaxHeaderCount());
 
+        boolean contentLengthSet = false;
         int hCount = requestHeaderMessage.getInt();
         for(int i = 0 ; i < hCount ; i++) {
             String hName = null;
@@ -736,8 +739,15 @@ public class AjpProcessor implements ActionHook {
                     (hId == -1 && tmpMB.equalsIgnoreCase("Content-Length"))) {
                 // just read the content-length header, so set it
                 long cl = vMB.getLong();
-                if(cl < Integer.MAX_VALUE)
-                    request.setContentLength( (int)cl );
+                if (contentLengthSet) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    error = true;
+                } else {
+                    contentLengthSet = true;
+                    // Set the content-length header for the request
+                    if(cl < Integer.MAX_VALUE)
+                        request.setContentLength( (int)cl );
+                }
             } else if (hId == Constants.SC_REQ_CONTENT_TYPE ||
                     (hId == -1 && tmpMB.equalsIgnoreCase("Content-Type"))) {
                 // just read the content-type header, so set it
