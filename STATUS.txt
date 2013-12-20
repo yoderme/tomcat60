@@ -40,12 +40,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, schultz
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55266
-  https://issues.apache.org/bugzilla/attachment.cgi?id=30608&action=diff
-  Parse session ID before redirect as session ID may need to be encoded
-  +1: markt, schultz, kkolinko
-  -1:
-
 * Fix issue with Manager app and other apps that use i18n in the UI when a
   request that specifies an Accept-Language of English ahead of French, Spanish
   or Japanese.

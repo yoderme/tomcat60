@@ -61,6 +61,11 @@
         a prefix. (kkolinko)
       </fix>
       <fix>
+        <bug>55266</bug>: Ensure that the session ID is parsed from the request
+        before any redirect as the session ID may need to be encoded as part of
+        the redirect URL. (markt)
+      </fix>
+      <fix>
         <bug>55404</bug>: Log warnings about using security roles in web.xml as
         warnings. (markt)
       </fix>

@@ -543,6 +543,15 @@ public class CoyoteAdapter implements Adapter {
             return false;
         }
 
+        // Parse session Id
+        String sessionID =
+            request.getPathParameter(Globals.SESSION_PARAMETER_NAME);
+        if (sessionID != null) {
+            request.setRequestedSessionId(sessionID);
+            request.setRequestedSessionURL(true);
+        }
+        parseSessionCookiesId(req, request);
+
         // Possible redirect
         MessageBytes redirectPathMB = request.getMappingData().redirectPath;
         if (!redirectPathMB.isNull()) {
@@ -563,15 +572,6 @@ public class CoyoteAdapter implements Adapter {
             request.getContext().logAccess(request, response, 0, true);
             return false;
         }
-
-        // Parse session Id
-        String sessionID =
-            request.getPathParameter(Globals.SESSION_PARAMETER_NAME);
-        if (sessionID != null) {
-            request.setRequestedSessionId(sessionID);
-            request.setRequestedSessionURL(true);
-        }
-        parseSessionCookiesId(req, request);
 
         return true;
     }
