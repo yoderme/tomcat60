@@ -82,7 +82,7 @@ PATCHES PROPOSED TO BACKPORT:
   compare 6.0.x code with 7.0.x code.
   http://people.apache.org/~markt/patches/2013-12-20-xml-prep-part1-tc6-v2.patch
   +1: markt
-  +0: kkolinko:
+  +1: kkolinko:
       I do not like that you change the values of validation flags when
       STRICT_SERVLET_COMPLIANCE is set. This was a feature required for
       Servlet 3.0, but I do not remember the same requirement for Servlet
@@ -97,6 +97,9 @@ PATCHES PROPOSED TO BACKPORT:
       Servlet 2.5, SRV.14.4.3 requires validation for a J2EE compliant
       implementation. The Eclipse bug is annoying but easy to workaround and
       only present when using STRICT_SERVLET_COMPLIANCE.
+      kkolinko:
+      Thank you for the chapter number. I am changing my vote to +1. It'd
+      be better to mention the chapter number in the changelog.
   -1:
 
 * Back-port some XML processing improvements (part 2)
@@ -114,6 +117,8 @@ PATCHES PROPOSED TO BACKPORT:
   and amended to retain history.
   http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part3-tc6-v1.patch
   +1: markt
+  +1: kkolinko (Looks OK. I have not tested into what jar the new package
+      goes and whether it requires an update to build.xml).
   -1:
 
 * Back-port some XML processing improvements (part 4)
@@ -123,6 +128,14 @@ PATCHES PROPOSED TO BACKPORT:
   and amended to retain history.
   http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part4-tc6-v1.patch
   +1: markt
+  +0: kkolinko:
+      This requires JUnit4. Formally, "eclipse.classpath" file still uses
+      JUnit 3 and if I understand correctly build.xml does not have JUnit
+      on classpath, but uses whatever version is available with Ant, with
+       <available classname="junit.framework.TestCase" property="junit.present" />
+
+      A patch to introduce JUnit 4 may be based on r1408413, but note that
+      it requires Ant >= 1.8.0.
   -1:
 
 
