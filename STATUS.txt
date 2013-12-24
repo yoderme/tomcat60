@@ -66,6 +66,8 @@ PATCHES PROPOSED TO BACKPORT:
   Update the Eclipse compiler to 4.3.1
   http://svn.apache.org/viewvc?view=revision&revision=1539953
   +1: markt
+  +0: kkolinko: A Tomcat6-specific patch is needed. It needs update to jar
+       exclude lists in TldConfig.java, TldLocationsCache.java, see r1476932.
   -1:
 
 * Add missing J2EE 5 resources
