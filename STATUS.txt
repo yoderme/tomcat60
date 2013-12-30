@@ -140,6 +140,11 @@ PATCHES PROPOSED TO BACKPORT:
       it requires Ant >= 1.8.0.
   -1:
 
+* Avoid possible NPE when a content type with no charset is specified
+  http://svn.apache.org/r1552805
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
