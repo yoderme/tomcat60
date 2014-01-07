@@ -136,14 +136,22 @@ PATCHES PROPOSED TO BACKPORT:
       on classpath, but uses whatever version is available with Ant, with
        <available classname="junit.framework.TestCase" property="junit.present" />
 
-      A patch to introduce JUnit 4 may be based on r1408413, but note that
-      it requires Ant >= 1.8.0.
+      A patch to introduce JUnit 4 may be to fix the Eclipse file and
+      fix the availability check to look for a JUnit 4 class.
+      (A more detailed solution may be based on r1408413, but that
+      requires Ant >= 1.8.0).
   -1:
 
 * Avoid possible NPE when a content type with no charset is specified
   (Followup to r1548971)
   http://svn.apache.org/r1552805
   +1: markt, kkolinko, remm
+  -1:
+
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55973
+  Fix processing of XML schemas when validation is enabled in Jasper
+  http://svn.apache.org/r1556377
+  +1: kkolinko
   -1:
 
 
