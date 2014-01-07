@@ -37,7 +37,7 @@ PATCHES PROPOSED TO BACKPORT:
   http://svn.apache.org/r1500065 (excluding tests) - original fix
   http://svn.apache.org/r1539176 (excluding tests) - required for following fix
   http://svn.apache.org/r1539177 (excluding tests) - fixes regression in original
-  +1: markt, schultz
+  +1: markt, schultz, remm
   -1:
 
 * Fix issue with Manager app and other apps that use i18n in the UI when a
@@ -45,21 +45,21 @@ PATCHES PROPOSED TO BACKPORT:
   or Japanese.
   Port all the other improvements to the StringManager from trunk as well
   http://people.apache.org/~markt/patches/2013-12-17-webapp-locale-tc6.patch
-  +1: markt
+  +1: markt, remm
   +1: kkolinko (a typo in changelog: s/associated/associate/)
   -1:
 
 * Add support for limiting the size of chunk extensions when using chunked
   encoding.
   http://people.apache.org/~markt/patches/2013-12-17-chunk-extensions-tc6-v2.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55749
   Improve the error message when SSLEngine is disabled in AprLifecycleListener
   and SSL is configured for an APR/native connector.
   http://people.apache.org/~markt/patches/2013-11-12-bug55749-tc6.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55759
@@ -83,7 +83,7 @@ PATCHES PROPOSED TO BACKPORT:
   Tomcat 7 (which meant re-ordering methods in places) to make it easier to
   compare 6.0.x code with 7.0.x code.
   http://people.apache.org/~markt/patches/2013-12-20-xml-prep-part1-tc6-v2.patch
-  +1: markt
+  +1: markt, remm
   +1: kkolinko:
       I do not like that you change the values of validation flags when
       STRICT_SERVLET_COMPLIANCE is set. This was a feature required for
@@ -109,7 +109,7 @@ PATCHES PROPOSED TO BACKPORT:
   implementation is required. This is essentially a back-port of
   http://svn.apache.org/r1552306
   http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part2-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 * Back-port some XML processing improvements (part 3)
@@ -118,7 +118,7 @@ PATCHES PROPOSED TO BACKPORT:
   being added. When actually making the commit, they will be copied from 7.0.x 
   and amended to retain history.
   http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part3-tc6-v1.patch
-  +1: markt
+  +1: markt, remm
   +1: kkolinko (Looks OK. I have not tested into what jar the new package
       goes and whether it requires an update to build.xml).
   -1:
@@ -129,7 +129,7 @@ PATCHES PROPOSED TO BACKPORT:
   being added. When actually making the commit, they will be copied from 7.0.x 
   and amended to retain history.
   http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part4-tc6-v1.patch
-  +1: markt
+  +1: markt, remm
   +0: kkolinko:
       This requires JUnit4. Formally, "eclipse.classpath" file still uses
       JUnit 3 and if I understand correctly build.xml does not have JUnit
@@ -143,7 +143,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Avoid possible NPE when a content type with no charset is specified
   (Followup to r1548971)
   http://svn.apache.org/r1552805
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 
