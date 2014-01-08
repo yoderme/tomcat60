@@ -114,6 +114,12 @@ public class ChunkedInputFilter implements InputFilter {
 
 
     /**
+     * Size of extensions processed for this request.
+     */
+    private long extensionSize;
+    
+    
+    /**
      * Flag set to true if the next call to doRead() must parse a CRLF pair
      * before doing anything else.
      */
@@ -248,6 +254,10 @@ public class ChunkedInputFilter implements InputFilter {
         endChunk = false;
         needCRLFParse = false;
         trailingHeaders.recycle();
+        if (org.apache.coyote.Constants.MAX_TRAILER_SIZE > 0) {
+            trailingHeaders.setLimit(org.apache.coyote.Constants.MAX_TRAILER_SIZE);
+        }
+        extensionSize = 0;
     }
 
 
@@ -294,7 +304,7 @@ public class ChunkedInputFilter implements InputFilter {
         int result = 0;
         boolean eol = false;
         boolean readDigit = false;
-        boolean trailer = false;
+        boolean extension = false;
 
         while (!eol) {
 
@@ -306,9 +316,13 @@ public class ChunkedInputFilter implements InputFilter {
             if (buf[pos] == Constants.CR || buf[pos] == Constants.LF) {
                 parseCRLF(false);
                 eol = true;
-            } else if (buf[pos] == Constants.SEMI_COLON) {
-                trailer = true;
-            } else if (!trailer) { 
+            } else if (buf[pos] == Constants.SEMI_COLON && !extension) {
+                // First semi-colon marks the start of the extension. Further
+                // semi-colons may appear to separate multiple chunk-extensions.
+                // These need to be processed as part of parsing the extensions.
+                extension = true;
+                extensionSize++;
+            } else if (!extension) { 
                 //don't read data after the trailer
                 int charValue = HexUtils.getDec(buf[pos]);
                 if (charValue != -1) {
@@ -319,6 +333,15 @@ public class ChunkedInputFilter implements InputFilter {
                     //we shouldn't allow invalid, non hex characters
                     //in the chunked header
                     return false;
+                }
+            } else {
+                // Extension 'parsing'
+                // Note that the chunk-extension is neither parsed nor
+                // validated. Currently it is simply ignored.
+                extensionSize++;
+                if (org.apache.coyote.Constants.MAX_EXTENSION_SIZE > -1 &&
+                        extensionSize > org.apache.coyote.Constants.MAX_EXTENSION_SIZE) {
+                    throw new IOException("maxExtensionSize exceeded");
                 }
             }
 
@@ -485,6 +508,15 @@ public class ChunkedInputFilter implements InputFilter {
                 chr = buf[pos];
                 if ((chr == Constants.SP) || (chr == Constants.HT)) {
                     pos++;
+                    // If we swallow whitespace, make sure it counts towards the
+                    // limit placed on trailing header size (if there is one)
+                    if (trailingHeaders.getLimit() != -1) {
+                        int newlimit = trailingHeaders.getLimit() -1;
+                        if (trailingHeaders.getEnd() > newlimit) {
+                            throw new IOException("Exceeded maxTrailerSize");
+                        }
+                        trailingHeaders.setLimit(newlimit);
+                    }
                 } else {
                     space = false;
                 }

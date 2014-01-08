@@ -420,6 +420,13 @@
 
   <properties>
 
+    <property name="org.apache.coyote.MAX_EXTENSION_SIZE">
+      <p>Limits the total length of extension data when using chunked encoding.
+      If the value is <code>-1</code>, no limit will be imposed.</p>
+      <p>If not specified, the default value of <code>8192</code> will be
+      used.</p>
+    </property>
+
     <property name="org.apache.coyote.MAX_TRAILER_SIZE">
       <p>Limits the total length of trailing headers in the last chunk of
       a chunked HTTP request.

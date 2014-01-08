@@ -76,4 +76,13 @@ public final class Constants {
         Integer.parseInt(System.getProperty(
                 "org.apache.coyote.MAX_TRAILER_SIZE",
                 "8192"));
+
+    /**
+     * Limit on the total length of the extension data in
+     * a chunked HTTP request.
+     */
+    public static final int MAX_EXTENSION_SIZE =
+        Integer.parseInt(System.getProperty(
+                "org.apache.coyote.MAX_EXTENSION_SIZE",
+                "8192"));
 }
