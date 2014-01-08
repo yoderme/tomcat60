@@ -62,7 +62,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55973
   Fix processing of XML schemas when validation is enabled in Jasper
   http://svn.apache.org/r1556377
-  +1: kkolinko, jboynes
+  +1: kkolinko, jboynes, markt
   -1:
 
 
