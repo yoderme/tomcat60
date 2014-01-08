@@ -132,6 +132,10 @@
         in the AprLifecycleListener and SSL is configured for an APR/native
         connector. (markt)
       </fix>
+      <fix>
+        Avoid possible NPE if a content type is specified without a character set.
+        (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">
