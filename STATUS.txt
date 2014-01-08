@@ -40,14 +40,6 @@ PATCHES PROPOSED TO BACKPORT:
        exclude lists in TldConfig.java, TldLocationsCache.java, see r1476932.
   -1:
 
-* Back-port some XML processing improvements (part 2)
-  JspC passes configuration with ServletContext init params so a real
-  implementation is required. This is essentially a back-port of
-  http://svn.apache.org/r1552306
-  http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part2-tc6-v1.patch
-  +1: markt, kkolinko, remm, jboynes
-  -1:
-
 * Back-port some XML processing improvements (part 3)
   Add the new descriptor package
   Note I am generating the patches using git so the patch shows whole new files

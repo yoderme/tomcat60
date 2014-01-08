@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -55,6 +56,12 @@ public class JspCServletContext implements ServletContext {
 
 
     /**
+     * Servlet context initialization parameters.
+     */
+    private final ConcurrentHashMap<String,String> myParameters;
+
+
+    /**
      * The log writer we will write log messages to.
      */
     protected PrintWriter myLogWriter;
@@ -78,6 +85,7 @@ public class JspCServletContext implements ServletContext {
     public JspCServletContext(PrintWriter aLogWriter, URL aResourceBaseURL) {
 
         myAttributes = new Hashtable();
+        myParameters = new ConcurrentHashMap<String,String>();
         myLogWriter = aLogWriter;
         myResourceBaseURL = aResourceBaseURL;
 
@@ -137,9 +145,7 @@ public class JspCServletContext implements ServletContext {
      * @param name Name of the requested parameter
      */
     public String getInitParameter(String name) {
-
-        return (null);
-
+        return myParameters.get(name);
     }
 
 
@@ -148,9 +154,7 @@ public class JspCServletContext implements ServletContext {
      * parameters.
      */
     public Enumeration getInitParameterNames() {
-
-        return (new Vector().elements());
-
+        return myParameters.keys();
     }
 
 
@@ -218,8 +222,8 @@ public class JspCServletContext implements ServletContext {
         }
 
     }
-            
-            
+
+
     /**
      * Return a request dispatcher for the specified context-relative path.
      *
@@ -438,6 +442,6 @@ public class JspCServletContext implements ServletContext {
 
 
     public boolean setInitParameter(String name, String value) {
-        return false;
+        return myParameters.putIfAbsent(name, value) == null;
     }
 }
