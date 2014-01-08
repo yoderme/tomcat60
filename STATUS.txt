@@ -40,19 +40,6 @@ PATCHES PROPOSED TO BACKPORT:
        exclude lists in TldConfig.java, TldLocationsCache.java, see r1476932.
   -1:
 
-* Back-port some XML processing improvements (part 3)
-  Add the new descriptor package
-  Note I am generating the patches using git so the patch shows whole new files
-  being added. When actually making the commit, they will be copied from 7.0.x 
-  and amended to retain history.
-  http://people.apache.org/~markt/patches/2013-12-19-xml-prep-part3-tc6-v1.patch
-  +1: markt, remm
-  +1: kkolinko (Looks OK. I have not tested into what jar the new package
-      goes and whether it requires an update to build.xml).
-  +1: jboynes (Looks OK, have not verified if schema references work when the
-      XSDs are still split between servlet/resources and jsp/resources).
-  -1:
-
 * Back-port some XML processing improvements (part 4)
   Add a unit test for the new descriptor
   Note I am generating the patches using git so the patch shows whole new files
