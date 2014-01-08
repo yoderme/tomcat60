@@ -14,3 +14,9 @@ Java compilation software for JSP pages is provided by Eclipse,
 which is open source software.  The original software and 
 related information is available at
 http://www.eclipse.org.
+
+The original XML Schemas for Java EE Deployment Descriptors:
+ - javaee_5.xsd
+ - javaee_web_services_1_2.xsd
+ - javaee_web_services_client_1_2.xsd
+may be obtained from http://java.sun.com/xml/ns/javaee/

@@ -80,6 +80,9 @@
         French, Spanish or Japanese get the English messages they asked for.
         (markt) 
       </fix>
+      <fix>
+        Add missing JavaEE 5 XML schema definitions. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
