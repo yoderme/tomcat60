@@ -24,6 +24,7 @@ import java.net.URL;
 
 import javax.servlet.ServletContext;
 
+import org.apache.jasper.Constants;
 import org.apache.jasper.JasperException;
 import org.apache.jasper.xmlparser.ParserUtils;
 import org.apache.jasper.xmlparser.TreeNode;
@@ -87,7 +88,10 @@ public class JspConfig {
             InputSource ip = new InputSource(is);
             ip.setSystemId(uri.toExternalForm()); 
 
-            ParserUtils pu = new ParserUtils();
+            boolean validate = Boolean.parseBoolean(
+                    ctxt.getInitParameter(Constants.XML_VALIDATION_TLD_INIT_PARAM));
+            
+            ParserUtils pu = new ParserUtils(validate);
             TreeNode webApp = pu.parseXMLDocument(WEB_XML, ip);
 
             if (webApp == null

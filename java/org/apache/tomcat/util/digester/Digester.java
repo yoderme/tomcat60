@@ -488,13 +488,35 @@ public class Digester extends DefaultHandler {
 
     /**
      * Return the SAXParserFactory we will use, creating one if necessary.
+     * @throws ParserConfigurationException 
+     * @throws SAXNotSupportedException 
+     * @throws SAXNotRecognizedException 
      */
-    public SAXParserFactory getFactory() {
+    public SAXParserFactory getFactory() throws SAXNotRecognizedException,
+            SAXNotSupportedException, ParserConfigurationException {
 
         if (factory == null) {
             factory = SAXParserFactory.newInstance();
+
             factory.setNamespaceAware(namespaceAware);
+            // Preserve xmlns attributes
+            if (namespaceAware) {
+                factory.setFeature(
+                        "http://xml.org/sax/features/namespace-prefixes",
+                        true);
+            }
+
             factory.setValidating(validating);
+            if (validating) {
+                // Enable DTD validation
+                factory.setFeature(
+                        "http://xml.org/sax/features/validation",
+                        true);
+                // Enable schema validation
+                factory.setFeature(
+                        "http://apache.org/xml/features/validation/schema",
+                        true);
+            }
         }
         return (factory);
 

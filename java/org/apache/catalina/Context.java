@@ -542,6 +542,82 @@ public interface Context extends Container {
     public void setWrapperClass(String wrapperClass);
 
 
+    /**
+     * Will the parsing of the web.xml file for this Context be performed by a
+     * namespace aware parser?
+     *
+     * @return true if namespace awareness is enabled.
+     */
+    public boolean getXmlNamespaceAware();
+
+
+    /**
+     * Controls whether the parsing of the web.xml file for this Context will be
+     * performed by a namespace aware parser.
+     *
+     * @param xmlNamespaceAware true to enable namespace awareness
+     */
+    public void setXmlNamespaceAware(boolean xmlNamespaceAware);
+     
+
+    /**
+     * Will the parsing of the web.xml file for this Context be performed by a
+     * validating parser?
+     *
+     * @return true if validation is enabled.
+     */
+    public boolean getXmlValidation();
+
+
+    /**
+     * Controls whether the parsing of the web.xml file for this Context will be
+     * performed by a validating parser.
+     *
+     * @param xmlValidation true to enable xml validation
+     */
+    public void setXmlValidation(boolean xmlValidation);
+
+
+    /**
+     * *.tld files are always parsed using a namespace aware parser.
+     *
+     * @return Always <code>true</code>
+     * 
+     * @deprecated This option will be removed in 8.0.x.
+     */
+    @Deprecated
+    public boolean getTldNamespaceAware();
+
+
+    /**
+     * *.tld files are always parsed using a namespace aware parser.
+     *
+     * @param tldNamespaceAware ignored
+     * 
+     * @deprecated This option will be removed in 8.0.x.
+     */
+    @Deprecated
+    public void setTldNamespaceAware(boolean tldNamespaceAware);
+
+
+    /**
+     * Will the parsing of *.tld files for this Context be performed by a
+     * validating parser?
+     *
+     * @return true if validation is enabled.
+     */
+    public boolean getTldValidation();
+
+
+    /**
+     * Controls whether the parsing of *.tld files for this Context will be
+     * performed by a validating parser.
+     *
+     * @param tldValidation true to enable xml validation
+     */
+    public void setTldValidation(boolean tldValidation);
+
+
     // --------------------------------------------------------- Public Methods
 
 
@@ -1097,77 +1173,5 @@ public interface Context extends Container {
      * @param listener Class name of a ContainerListener class to be removed
      */
     public void removeWrapperListener(String listener);
-
-
-    /**
-     * Will the parsing of the web.xml file for this Context be performed by a
-     * namespace aware parser?
-     *
-     * @return true if namespace awareness is enabled.
-     */
-    public boolean getXmlNamespaceAware();
-
-
-    /**
-     * Will the parsing of the web.xml file for this Context be performed by a
-     * validating parser?
-     *
-     * @return true if validation is enabled.
-     */
-    public boolean getXmlValidation();
-
-
-    /**
-     * Controls whether the parsing of the web.xml file for this Context will be
-     * performed by a validating parser.
-     *
-     * @param xmlValidation true to enable xml validation
-     */
-    public void setXmlValidation(boolean xmlValidation);
-
-
-    /**
-     * Controls whether the parsing of the web.xml file for this Context will be
-     * performed by a namespace aware parser.
-     *
-     * @param xmlNamespaceAware true to enable namespace awareness
-     */
-    public void setXmlNamespaceAware(boolean xmlNamespaceAware);
-     
-
-    /**
-     * Controls whether the parsing of *.tld files for this Context will be
-     * performed by a validating parser.
-     *
-     * @param tldValidation true to enable xml validation
-     */
-    public void setTldValidation(boolean tldValidation);
-
-
-    /**
-     * Will the parsing of *.tld files for this Context be performed by a
-     * validating parser?
-     *
-     * @return true if validation is enabled.
-     */
-    public boolean getTldValidation();
-
-
-    /**
-     * Will the parsing of *.tld files for this Context be performed by a
-     * namespace aware parser?
-     *
-     * @return true if namespace awareness is enabled.
-     */
-    public boolean getTldNamespaceAware();
-
-
-    /**
-     * Controls whether the parsing of *.tld files for this Context will be
-     * performed by a namespace aware parser.
-     *
-     * @param tldNamespaceAware true to enable namespace awareness
-     */
-    public void setTldNamespaceAware(boolean tldNamespaceAware);
 }
 

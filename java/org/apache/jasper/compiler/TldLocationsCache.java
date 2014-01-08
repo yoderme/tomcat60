@@ -292,13 +292,17 @@ public class TldLocationsCache {
             InputSource ip = new InputSource(is);
             ip.setSystemId(uri.toExternalForm()); 
 
+            boolean validate = Boolean.parseBoolean(
+                    ctxt.getInitParameter(
+                            Constants.XML_VALIDATION_TLD_INIT_PARAM));
+            
             // Parse the web application deployment descriptor
             TreeNode webtld = null;
             // altDDName is the absolute path of the DD
             if (altDDName != null) {
-                webtld = new ParserUtils().parseXMLDocument(altDDName, ip);
+                webtld = new ParserUtils(validate).parseXMLDocument(altDDName, ip);
             } else {
-                webtld = new ParserUtils().parseXMLDocument(WEB_XML, ip);
+                webtld = new ParserUtils(validate).parseXMLDocument(WEB_XML, ip);
             }
 
             // Allow taglib to be an element of the root or jsp-config (JSP2.0)
@@ -460,8 +464,12 @@ public class TldLocationsCache {
     private String getUriFromTld(String resourcePath, InputStream in) 
         throws JasperException
     {
+        boolean validate = Boolean.parseBoolean(
+                ctxt.getInitParameter(
+                        Constants.XML_VALIDATION_TLD_INIT_PARAM));
+
         // Parse the tag library descriptor at the specified resource path
-        TreeNode tld = new ParserUtils().parseXMLDocument(resourcePath, in);
+        TreeNode tld = new ParserUtils(validate).parseXMLDocument(resourcePath, in);
         TreeNode uri = tld.findChild("uri");
         if (uri != null) {
             String body = uri.getBody();

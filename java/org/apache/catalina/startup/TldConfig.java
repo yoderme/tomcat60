@@ -124,6 +124,43 @@ public final class TldConfig  implements LifecycleListener {
     }
 
 
+    /**
+     * The string resources for this package.
+     */
+    private static final StringManager sm =
+        StringManager.getManager(Constants.Package);
+
+    /**
+     * The <code>Digester</code>s available to process tld files.
+     */
+    private static Digester[] tldDigesters = new Digester[2];
+
+    /**
+     * Create (if necessary) and return a Digester configured to process the
+     * tld.
+     */
+    private static Digester createTldDigester(boolean validation) {
+        
+        Digester digester = null;
+        if (!validation) {
+            if (tldDigesters[0] == null) {
+                tldDigesters[0] = DigesterFactory.newDigester(validation,
+                        true, new TldRuleSet());
+                tldDigesters[0].getParser();
+            }
+            digester = tldDigesters[0];
+        } else {
+            if (tldDigesters[1] == null) {
+                tldDigesters[1] = DigesterFactory.newDigester(validation,
+                        true, new TldRuleSet());
+                tldDigesters[1].getParser();
+            }
+            digester = tldDigesters[1];
+        }
+        return digester;
+    }
+
+
     // ----------------------------------------------------- Instance Variables
 
     /**
@@ -133,29 +170,12 @@ public final class TldConfig  implements LifecycleListener {
 
 
     /**
-     * The string resources for this package.
-     */
-    private static final StringManager sm =
-        StringManager.getManager(Constants.Package);
-
-    /**
      * The <code>Digester</code> we will use to process tag library
      * descriptor files.
      */
-    private static Digester tldDigester = null;
-
-
-    /**
-     * Attribute value used to turn on/off TLD validation
-     */
-     private static boolean tldValidation = false;
-
-
-    /**
-     * Attribute value used to turn on/off TLD  namespace awarenes.
-     */
-    private static boolean tldNamespaceAware = false;
-
+    private Digester tldDigester = null;
+    
+    
     private boolean rescan=true;
 
     private ArrayList<String> listeners = new ArrayList<String>();
@@ -179,40 +199,58 @@ public final class TldConfig  implements LifecycleListener {
     }
 
     /**
-     * Set the validation feature of the XML parser used when
-     * parsing xml instances.
-     * @param tldValidation true to enable xml instance validation
+     * *.tld are parsed using the TLD validation setting of the associated
+     * context.
+     * 
+     * @param tldValidation ignore
+     * 
+     * @deprecated This option will be removed in 7.0.x.
      */
+    @Deprecated
     public void setTldValidation(boolean tldValidation){
-        TldConfig.tldValidation = tldValidation;
+        // NO-OP
     }
 
     /**
-     * Get the server.xml &lt;host&gt; attribute's xmlValidation.
+     * *.tld are parsed using the TLD validation setting of the associated
+     * context.
+     * 
      * @return true if validation is enabled.
      *
+     * @deprecated This option will be removed in 7.0.x.
      */
+    @Deprecated
     public boolean getTldValidation(){
-        return tldValidation;
+        Context context = getContext();
+        if (context == null) {
+            return false;
+        }
+        return context.getTldValidation();
     }
 
     /**
-     * Get the server.xml &lt;host&gt; attribute's xmlNamespaceAware.
-     * @return true if namespace awarenes is enabled.
+     * *.tld files are always parsed using a namespace aware parser.
      *
+     * @return Always <code>true</code>
+     * 
+     * @deprecated This option will be removed in 7.0.x.
      */
+    @Deprecated
     public boolean getTldNamespaceAware(){
-        return tldNamespaceAware;
+        return true;
     }
 
 
     /**
-     * Set the namespace aware feature of the XML parser used when
-     * parsing xml instances.
-     * @param tldNamespaceAware true to enable namespace awareness
+     * *.tld files are always parsed using a namespace aware parser.
+     *
+     * @param tldNamespaceAware ignored
+     * 
+     * @deprecated This option will be removed in 7.0.x.
      */
+    @Deprecated
     public void setTldNamespaceAware(boolean tldNamespaceAware){
-        TldConfig.tldNamespaceAware = tldNamespaceAware;
+        // NO-OP
     }    
 
 
@@ -649,25 +687,16 @@ public final class TldConfig  implements LifecycleListener {
         if (tldDigester == null){
             // (1)  check if the attribute has been defined
             //      on the context element.
-            setTldValidation(context.getTldValidation());
-            setTldNamespaceAware(context.getTldNamespaceAware());
-    
+            boolean tldValidation = context.getTldValidation();
+            
             // (2) if the attribute wasn't defined on the context
             //     try the host.
             if (!tldValidation) {
-              setTldValidation(
-                      ((StandardHost) context.getParent()).getXmlValidation());
+                tldValidation =
+                        ((StandardHost) context.getParent()).getXmlValidation();
             }
     
-            if (!tldNamespaceAware) {
-              setTldNamespaceAware(
-                      ((StandardHost) context.getParent()).getXmlNamespaceAware());
-            }
-
-            tldDigester = DigesterFactory.newDigester(tldValidation, 
-                    tldNamespaceAware, 
-                    new TldRuleSet());
-            tldDigester.getParser();
+            tldDigester = createTldDigester(context.getTldValidation());
         }
     }
 }

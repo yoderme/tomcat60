@@ -298,6 +298,12 @@
       <p>If this is <code>true</code> the default value will be changed for:
       <ul>
       <li><code>org.apache.catalina.connector.Request. ALLOW_EMPTY_QUERY_STRING</code> property</li>
+      <li>The <code>webXmlValidation</code> attribute of any
+          <a href="context.html">Context</a> element.</li>
+      <li>The <code>webXmlNamespaceAware</code> attribute of any
+          <a href="context.html">Context</a> element.</li>
+      <li>The <code>tldValidation</code> attribute of any
+          <a href="context.html">Context</a> element.</li>
       </ul>
       </p>
       <p>If not specified, the default value of <code>false</code> will be used.</p>

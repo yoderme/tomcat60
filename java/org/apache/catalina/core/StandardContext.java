@@ -680,13 +680,13 @@ public class StandardContext
     /**
      * Attribute value used to turn on/off XML validation
      */
-     private boolean webXmlValidation = false;
+     private boolean webXmlValidation = Globals.STRICT_SERVLET_COMPLIANCE;
 
 
     /**
      * Attribute value used to turn on/off XML namespace validation
      */
-     private boolean webXmlNamespaceAware = false;
+     private boolean webXmlNamespaceAware = Globals.STRICT_SERVLET_COMPLIANCE;
 
     /**
      * Attribute value used to turn on/off TLD processing
@@ -696,13 +696,7 @@ public class StandardContext
     /**
      * Attribute value used to turn on/off XML validation
      */
-     private boolean tldValidation = false;
-
-
-    /**
-     * Attribute value used to turn on/off TLD XML namespace validation
-     */
-     private boolean tldNamespaceAware = false;
+     private boolean tldValidation = Globals.STRICT_SERVLET_COMPLIANCE;
 
 
     /**
@@ -5888,13 +5882,13 @@ public class StandardContext
 
 
     public boolean getTldNamespaceAware(){
-        return tldNamespaceAware;
+        return true;
     }
 
 
     public void setTldNamespaceAware(boolean tldNamespaceAware){
-        this.tldNamespaceAware= tldNamespaceAware;
-    }
+        // NO-OP;
+    }    
 
 
     public void setTldValidation(boolean tldValidation){

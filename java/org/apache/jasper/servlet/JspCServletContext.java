@@ -437,5 +437,7 @@ public class JspCServletContext implements ServletContext {
     }
 
 
-
+    public boolean setInitParameter(String name, String value) {
+        return false;
+    }
 }

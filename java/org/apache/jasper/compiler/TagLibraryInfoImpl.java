@@ -45,6 +45,7 @@ import javax.servlet.jsp.tagext.TagVariableInfo;
 import javax.servlet.jsp.tagext.ValidationMessage;
 import javax.servlet.jsp.tagext.VariableInfo;
 
+import org.apache.jasper.Constants;
 import org.apache.jasper.JasperException;
 import org.apache.jasper.JspCompilationContext;
 import org.apache.jasper.xmlparser.ParserUtils;
@@ -217,8 +218,12 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
         Vector tagFileVector = new Vector();
         Hashtable functionTable = new Hashtable();
 
+        boolean validate = Boolean.parseBoolean(
+                ctxt.getServletContext().getInitParameter(
+                        Constants.XML_VALIDATION_TLD_INIT_PARAM));
+        
         // Create an iterator over the child elements of our <taglib> element
-        ParserUtils pu = new ParserUtils();
+        ParserUtils pu = new ParserUtils(validate);
         TreeNode tld = pu.parseXMLDocument(uri, in);
 
         // Check to see if the <taglib> root element contains a 'version'

@@ -123,6 +123,7 @@ public class JspC extends Task implements Options {
     protected static final String SWITCH_ENCODING = "-javaEncoding";
     protected static final String SWITCH_SMAP = "-smap";
     protected static final String SWITCH_DUMP_SMAP = "-dumpsmap";
+    protected static final String SWITCH_VALIDATE_TLD = "-validateTld";
 
     protected static final String SHOW_SUCCESS ="-s";
     protected static final String LIST_ERRORS = "-l";
@@ -143,6 +144,7 @@ public class JspC extends Task implements Options {
     protected URLClassLoader loader = null;
     protected boolean trimSpaces = false;
     protected boolean genStringAsCharArray = false;
+    protected boolean validateTld;
     protected boolean xpoweredBy;
     protected boolean mappedFile = false;
     protected boolean poolingEnabled = true;
@@ -351,6 +353,8 @@ public class JspC extends Task implements Options {
                 smapSuppressed = false;
             } else if (tok.equals(SWITCH_DUMP_SMAP)) {
                 smapDumped = true;
+            } else if (tok.equals(SWITCH_VALIDATE_TLD)) {
+                setValidateTld(true);
             } else {
                 if (tok.startsWith("-")) {
                     throw new JasperException("Unrecognized option: " + tok +
@@ -836,10 +840,14 @@ public class JspC extends Task implements Options {
         }
     }
 
-    public void setValidateXml( boolean b ) {
-        org.apache.jasper.xmlparser.ParserUtils.validating=b;
+    public void setValidateTld( boolean b ) {
+        this.validateTld = b;
     }
 
+    public boolean isValidateTld() {
+        return validateTld;
+    }
+    
     public void setListErrors( boolean b ) {
         listErrors = b;
     }
@@ -1425,6 +1433,10 @@ public class JspC extends Task implements Options {
         } catch (MalformedURLException me) {
             System.out.println("**" + me);
         }
+        if (isValidateTld()) {
+            context.setInitParameter(Constants.XML_VALIDATION_TLD_INIT_PARAM, "true");
+        }
+
         rctxt = new JspRuntimeContext(context, this);
         jspConfig = new JspConfig(context);
         tagPluginManager = new TagPluginManager(context);

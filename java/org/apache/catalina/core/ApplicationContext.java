@@ -24,7 +24,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -251,6 +253,13 @@ public class ApplicationContext
      * @param name Name of the initialization parameter to retrieve
      */
     public String getInitParameter(final String name) {
+        // Special handling for XML settings as the context setting must
+        // always override anything that might have been set by an application.
+        if (Globals.JASPER_XML_VALIDATION_TLD_INIT_PARAM.equals(name) &&
+                context.getTldValidation()) {
+            return "true";
+        }
+
         return parameters.get(name);
     }
 
@@ -269,8 +278,15 @@ public class ApplicationContext
      * Return the names of the context's initialization parameters, or an
      * empty enumeration if the context has no initialization parameters.
      */
-    public Enumeration getInitParameterNames() {
-        return (new Enumerator(parameters.keySet()));
+    public Enumeration<String> getInitParameterNames() {
+        Set<String> names = new HashSet<String>();
+        names.addAll(parameters.keySet());
+        // Special handling for XML settings as these attributes will always be
+        // available if they have been set on the context
+        if (context.getTldValidation()) {
+            names.add(Globals.JASPER_XML_VALIDATION_TLD_INIT_PARAM);
+        }
+        return Collections.enumeration(names);
     }
 
 

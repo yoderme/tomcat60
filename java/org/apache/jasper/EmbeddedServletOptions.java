@@ -404,10 +404,6 @@ public final class EmbeddedServletOptions implements Options {
             setProperty( k, v);
         }
         
-        // quick hack
-        String validating=config.getInitParameter( "validating");
-        if( "false".equals( validating )) ParserUtils.validating=false;
-        
         String keepgen = config.getInitParameter("keepgenerated");
         if (keepgen != null) {
             if (keepgen.equalsIgnoreCase("true")) {

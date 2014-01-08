@@ -263,6 +263,10 @@
                description="Flag to set to cause the system.out and system.err to be redirected to the logger when executing a servlet"
                type="boolean"/>
                
+    <attribute name="tldValidation"
+               description="Should the parsing of *.tld files be performed by a validating parser?"
+               type="boolean"/>
+
     <attribute name="unloadDelay"
                description="Amount of ms that the container will wait for servlets to unload"
                type="long"/>
@@ -289,6 +293,14 @@
     <attribute name="workDir"
                description="The pathname to the work directory for this context"
                type="java.lang.String"/>
+
+    <attribute name="xmlValidation"
+               description="Should the parsing of web.xml be performed by a validating parser?"
+               type="boolean"/>
+
+    <attribute name="xmlNamespaceAware"
+               description="Should the parsing of web.xml be performed by a namespace aware parser?"
+               type="boolean"/>
 
     <operation   name="addValve"
                description="Add a valve to this Context"
@@ -493,11 +505,11 @@
                type="boolean"/>
       
     <attribute name="xmlNamespaceAware"
-               description="Attribute value used to turn on/off XML namespace awareness"
+               description="Controls whether the parsing of the web.xml file for Contexts of this Host will be performed by a namespace aware parser. If false, it may still be enabled per Context using the Context's xmlNamespaceAware attribute."
                type="boolean"/>
       
     <attribute name="xmlValidation"
-               description="Attribute value used to turn on/off XML validation"
+               description="Controls whether the parsing of the web.xml file and *.tld files for Contexts of this Host will be performed by a validating parser. If false, it may still be enabled per Context using the Context's xmlValidation attribute."
                type="boolean"/>
 
     <attribute name="children"

@@ -47,7 +47,7 @@ import org.xml.sax.SAXParseException;
  * use a separate class loader for the parser to be used.
  *
  * @author Craig R. McClanahan
- * @version $Id:$
+ * @version $Id$
  */
 public class ParserUtils {
 
@@ -61,8 +61,27 @@ public class ParserUtils {
      */
     static EntityResolver entityResolver = new MyEntityResolver();
 
-    // Turn off for JSP 2.0 until switch over to using xschema.
+    /**
+     * @deprecated Unused. Will be removed in Tomcat 7.
+     *             Use {@link ParserUtils#ParserUtils(boolean)} instead.
+     */
+    @Deprecated
     public static boolean validating = false;
+
+    private final boolean useValidation;
+
+    /**
+     * @deprecated Unused. Will be removed in Tomcat 7.
+     *             Use {@link ParserUtils#ParserUtils(boolean)} instead.
+     */
+    @Deprecated
+    public ParserUtils() {
+        this(true);
+    }
+
+    public ParserUtils(boolean useValidation) {
+        this.useValidation = useValidation;
+    }
 
 
     // --------------------------------------------------------- Public Methods
@@ -87,7 +106,7 @@ public class ParserUtils {
             DocumentBuilderFactory factory =
                 DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
-            factory.setValidating(validating);
+            factory.setValidating(useValidation);
             DocumentBuilder builder = factory.newDocumentBuilder();
             builder.setEntityResolver(entityResolver);
             builder.setErrorHandler(errorHandler);

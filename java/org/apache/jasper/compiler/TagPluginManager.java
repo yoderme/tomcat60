@@ -74,7 +74,7 @@ public class TagPluginManager {
 	if (is == null)
 	    return;
 
-	TreeNode root = (new ParserUtils()).parseXMLDocument(TAG_PLUGINS_XML,
+	TreeNode root = (new ParserUtils(false)).parseXMLDocument(TAG_PLUGINS_XML,
 							     is);
 	if (root == null) {
 	    return;

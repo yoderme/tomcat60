@@ -83,6 +83,18 @@
       <fix>
         Add missing JavaEE 5 XML schema definitions. (markt)
       </fix>
+      <fix>
+        When Catalina parses TLD files, always use a namespace aware parser to
+        be consistent with how Jasper parses TLD files. The
+        <code>tldNamespaceAware</code> attribute of the Context is now ignored.
+      </fix>
+      <fix>
+        As per section SRV.14.4.3 of the Servlet 2.5 specification, a namespace
+        aware, validating parser will be used when processing <code>*.tld</code>
+        and <code>web.xml</code> files if the system property
+        <code>org.apache.catalina.STRICT_SERVLET_COMPLIANCE</code> is set to
+        <code>true</code>. (markt) 
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">

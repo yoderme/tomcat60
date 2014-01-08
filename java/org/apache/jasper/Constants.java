@@ -205,4 +205,12 @@ public class Constants {
         System.getProperty("org.apache.catalina.SESSION_PARAMETER_NAME",
                 "jsessionid");
 
+    /**
+     * Name of the ServletContext init-param that determines if the XML parsers
+     * used for *.tld files will be validating or not.
+     * <p>
+     * This must be kept in sync with org.apache.catalina.Globals
+     */
+    public static final String XML_VALIDATION_TLD_INIT_PARAM =
+            "org.apache.jasper.XML_VALIDATE_TLD";
 }
