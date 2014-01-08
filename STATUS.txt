@@ -32,15 +32,6 @@ PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
 
-* Fix issue with Manager app and other apps that use i18n in the UI when a
-  request that specifies an Accept-Language of English ahead of French, Spanish
-  or Japanese.
-  Port all the other improvements to the StringManager from trunk as well
-  http://people.apache.org/~markt/patches/2013-12-17-webapp-locale-tc6.patch
-  +1: markt, remm, jboynes
-  +1: kkolinko (a typo in changelog: s/associated/associate/)
-  -1:
-
 * Add support for limiting the size of chunk extensions when using chunked
   encoding.
   http://people.apache.org/~markt/patches/2013-12-17-chunk-extensions-tc6-v2.patch

@@ -74,6 +74,12 @@
         command-line option to change service start wait time from default
         of 10 seconds. (schultz)
       </fix>
+      <fix>
+        Correctly associate the default resource bundle with the English locale
+        so that requests that specify an Accept-Language of English ahead of
+        French, Spanish or Japanese get the English messages they asked for.
+        (markt) 
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
