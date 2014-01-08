@@ -866,28 +866,6 @@ public class PageContextImpl extends PageContext {
         }
     }
 
-    private static String XmlEscape(String s) {
-        if (s == null)
-            return null;
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '<') {
-                sb.append("&lt;");
-            } else if (c == '>') {
-                sb.append("&gt;");
-            } else if (c == '\'') {
-                sb.append("&#039;"); // &apos;
-            } else if (c == '&') {
-                sb.append("&amp;");
-            } else if (c == '"') {
-                sb.append("&#034;"); // &quot;
-            } else {
-                sb.append(c);
-            }
-        }
-        return sb.toString();
-    }
 
     /**
      * Proprietary method to evaluate EL expressions. XXX - This method should
@@ -936,9 +914,6 @@ public class PageContextImpl extends PageContext {
             ctx.setFunctionMapper(new FunctionMapperImpl(functionMap));
             ValueExpression ve = exprFactory.createValueExpression(ctx, expression, expectedType);
             retValue = ve.getValue(ctx);
-        }
-        if (escape && retValue != null) {
-            retValue = XmlEscape(retValue.toString());
         }
 
         return retValue;

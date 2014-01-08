@@ -107,6 +107,10 @@
   <subsection name="Jasper">
     <changelog>
       <fix>
+        <bug>55198</bug>: Ensure attribute values in tagx files that include EL
+        and quoted XML characters are correctly quoted in the output. (markt)
+      </fix>
+      <fix>
         <bug>55691</bug>: Fix <code>javax.el.ArrayELResolver</code> to correctly
         handle the case where the base object is an array of primitives. (markt)
       </fix>

@@ -32,14 +32,6 @@ PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55198
-  Correctly escape XML output from tagx files.
-  http://svn.apache.org/r1500065 (excluding tests) - original fix
-  http://svn.apache.org/r1539176 (excluding tests) - required for following fix
-  http://svn.apache.org/r1539177 (excluding tests) - fixes regression in original
-  +1: markt, schultz, remm, jboynes
-  -1:
-
 * Fix issue with Manager app and other apps that use i18n in the UI when a
   request that specifies an Accept-Language of English ahead of French, Spanish
   or Japanese.
