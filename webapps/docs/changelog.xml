@@ -112,6 +112,11 @@
         Add support for limiting the size of chunk extensions when using chunked
         encoding. (markt)
       </fix>
+      <fix>
+        <bug>55749</bug>: Improve the error message when SSLEngine is disabled
+        in the AprLifecycleListener and SSL is configured for an APR/native
+        connector. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">

@@ -633,6 +633,12 @@ public class AprEndpoint extends AbstractEndpoint {
         if (initialized)
             return;
 
+        if (rootPool != 0) {
+            // A previous init() call failed
+            throw new IllegalStateException(
+                    sm.getString("endpoint.apr.previousInitFailed"));
+        }
+        
         // Create the root APR memory pool
         rootPool = Pool.create(0);
         // Create the pool for the server socket
@@ -776,7 +782,15 @@ public class AprEndpoint extends AbstractEndpoint {
             }
 
             // Create SSL Context
-            sslContext = SSLContext.make(rootPool, value, SSL.SSL_MODE_SERVER);
+            try {
+                sslContext = SSLContext.make(rootPool, value, SSL.SSL_MODE_SERVER);
+            } catch (Exception e) {
+                // If the sslEngine is disabled on the AprLifecycleListener
+                // there will be an Exception here but there is no way to check
+                // the AprLifecycleListener settings from here
+                throw new Exception(
+                        sm.getString("endpoint.apr.failSslContextMake"), e);
+            }
 
             // Set cipher order: client (default) or server
             if (SSLHonorCipherOrder) {
