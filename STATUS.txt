@@ -124,7 +124,7 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55671
   Consistent naming for genStringAsCharArray
-  http://svn.apache.org/r889966
+  https://issues.apache.org/bugzilla/attachment.cgi?id=31187
   +1: markt
   -0: kkolinko: I think "genStrAsCharArray" is the proper and
         documented name for Tomcat 6. If we change the init-param name
@@ -132,6 +132,7 @@ PATCHES PROPOSED TO BACKPORT:
         the code should check both the new and the old param names.
         It also needs r1556725.
         https://issues.apache.org/bugzilla/show_bug.cgi?id=55671#c1
+      markt: patch updated
   -1:
 
 
