@@ -97,6 +97,8 @@ PATCHES PROPOSED TO BACKPORT:
   Switch ParserUtils to use the new ErrorHandler
   Back-port of http://svn.apache.org/r1547947
   http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part8-tc6-v1.patch
+  plus
+  http://svn.apache.org/1556840 to address kkolinko's comment
   +1: markt
   +1: kkolinko (would be better with a fix to BZ 55974, so that the first
        error is reported like the old code does, not a random one)
