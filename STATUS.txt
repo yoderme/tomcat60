@@ -64,8 +64,11 @@ PATCHES PROPOSED TO BACKPORT:
 * Back-port from XML processing improvements (part 5)
   Switch to a per context configuration for the XML digester
   http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part5-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
+   kkolinko: I see no need for the new non-static "createWebXmlDigester(..)"
+     method to be public. It returns 'void', so it is unlikely for it to be
+     called from outside.
 
 * Back-port from XML processing improvements (part 6)
   Upgrade digester to use DefaultHandler2 and use LexicalHandler to detect
@@ -78,14 +81,16 @@ PATCHES PROPOSED TO BACKPORT:
   code with the current Tomcat 7 code to validate the correctness of the
   back-port
   http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part6-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
+   kkolinko: It would be easier to review without all those trailing
+     whitespace changes.
 
 * Back-port from XML processing improvements (part 7)
   Switch o.a.catalina classes to use the new ErrorHandler
   Back-port of http://svn.apache.org/r1547937
   http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part7-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 * Back-port from XML processing improvements (part 8)
@@ -93,13 +98,15 @@ PATCHES PROPOSED TO BACKPORT:
   Back-port of http://svn.apache.org/r1547947
   http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part8-tc6-v1.patch
   +1: markt
+  +1: kkolinko (would be better with a fix to BZ 55974, so that the first
+       error is reported like the old code does, not a random one)
   -1:
 
 * Back-port from XML processing improvements (part 9)
   Switch JspDocumentParser to an DefaultHandler2
   Back-port of http://svn.apache.org/r1547948
   http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part9-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55973
@@ -112,12 +119,19 @@ PATCHES PROPOSED TO BACKPORT:
   Avoid CVE-2013-1571 when generating Javadoc
   http://svn.apache.org/r1495875
   +1: markt
+  +1: kkolinko (The fix goes into dist.xml)
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55671
   Consistent naming for genStringAsCharArray
   http://svn.apache.org/r889966
   +1: markt
+  -0: kkolinko: I think "genStrAsCharArray" is the proper and
+        documented name for Tomcat 6. If we change the init-param name
+        for better compatibility with Tomcat 7 (a good thing, +1),
+        the code should check both the new and the old param names.
+        It also needs r1556725.
+        https://issues.apache.org/bugzilla/show_bug.cgi?id=55671#c1
   -1:
 
 
