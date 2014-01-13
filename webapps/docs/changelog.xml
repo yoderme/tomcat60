@@ -179,6 +179,9 @@
         Fix the sample configuration of <code>StaticMembershipInterceptor</code>
         in order to prevent warning log. uniqueId must be 16 bytes. (kfujino)
       </fix>
+      <fix>
+        <bug>55119</bug>: Avoid CVE-2013-1571 when generating Javadoc. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
