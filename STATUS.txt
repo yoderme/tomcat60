@@ -61,15 +61,6 @@ PATCHES PROPOSED TO BACKPORT:
       requires Ant >= 1.8.0).
   -1:
 
-* Back-port from XML processing improvements (part 5)
-  Switch to a per context configuration for the XML digester
-  http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part5-tc6-v1.patch
-  +1: markt, kkolinko, remm
-  -1:
-   kkolinko: I see no need for the new non-static "createWebXmlDigester(..)"
-     method to be public. It returns 'void', so it is unlikely for it to be
-     called from outside.
-
 * Back-port from XML processing improvements (part 6)
   Upgrade digester to use DefaultHandler2 and use LexicalHandler to detect
   publicId.

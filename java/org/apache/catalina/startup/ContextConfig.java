@@ -63,7 +63,7 @@ import org.xml.sax.SAXParseException;
  *
  * @author Craig R. McClanahan
  * @author Jean-Francois Arcand
- * @version $Id:$
+ * @version $Id$
  */
 public class ContextConfig implements LifecycleListener {
 
@@ -147,23 +147,22 @@ public class ContextConfig implements LifecycleListener {
      * The <code>Digester</code> we will use to process web application
      * deployment descriptor files.
      */
-    protected static Digester webDigester = null;
-
-
-    /**
-     * The <code>Rule</code> used to parse the web.xml
-     */
-    protected static WebRuleSet webRuleSet = new WebRuleSet();
+    protected Digester webDigester = null;
+    protected WebRuleSet webRuleSet = null;
 
     /**
      * Attribute value used to turn on/off XML validation
+     * @deprecated Unused. Will be removed in Tomcat 7.0.x.
      */
-     protected static boolean xmlValidation = false;
+    @Deprecated
+    protected static boolean xmlValidation = false;
 
 
     /**
      * Attribute value used to turn on/off XML namespace awarenes.
+     * @deprecated Unused. Will be removed in Tomcat 7.0.x.
      */
+    @Deprecated
     protected static boolean xmlNamespaceAware = false;
 
 
@@ -508,27 +507,16 @@ public class ContextConfig implements LifecycleListener {
 
 
     /**
-     * Create (if necessary) and return a Digester configured to process the
+     * Create and return a Digester configured to process the
      * web application deployment descriptor (web.xml).
      */
-    protected static Digester createWebDigester() {
-        Digester webDigester =
-            createWebXmlDigester(xmlNamespaceAware, xmlValidation);
-        return webDigester;
-    }
+    protected void createWebXmlDigester(boolean namespaceAware,
+            boolean validation) {
 
-
-    /**
-     * Create (if necessary) and return a Digester configured to process the
-     * web application deployment descriptor (web.xml).
-     */
-    public static Digester createWebXmlDigester(boolean namespaceAware,
-                                                boolean validation) {
-
-        Digester webDigester =  DigesterFactory.newDigester(xmlValidation,
-                                                            xmlNamespaceAware,
-                                                            webRuleSet);
-        return webDigester;
+        webRuleSet = new WebRuleSet();
+        webDigester = DigesterFactory.newDigester(validation,
+                namespaceAware, webRuleSet);
+        webDigester.getParser();
     }
 
 
@@ -991,11 +979,6 @@ public class ContextConfig implements LifecycleListener {
     protected void init() {
         // Called from StandardContext.init()
 
-        if (webDigester == null){
-            webDigester = createWebDigester();
-            webDigester.getParser();
-        }
-
         if (contextDigester == null){
             contextDigester = createContextDigester();
             contextDigester.getParser();
@@ -1015,6 +998,8 @@ public class ContextConfig implements LifecycleListener {
                     "contextConfig.fixDocBase", context.getPath()), e);
         }
 
+        createWebXmlDigester(context.getXmlNamespaceAware(),
+                context.getXmlValidation());
     }
 
 
@@ -1040,27 +1025,6 @@ public class ContextConfig implements LifecycleListener {
 
         if (log.isDebugEnabled())
             log.debug(sm.getString("contextConfig.start"));
-
-        // Set properties based on DefaultContext
-        Container container = context.getParent();
-        if( !context.getOverride() ) {
-            if( container instanceof Host ) {
-                // Reset the value only if the attribute wasn't
-                // set on the context.
-                xmlValidation = context.getXmlValidation();
-                if (!xmlValidation) {
-                    xmlValidation = ((Host)container).getXmlValidation();
-                }
-
-                xmlNamespaceAware = context.getXmlNamespaceAware();
-                if (!xmlNamespaceAware){
-                    xmlNamespaceAware
-                                = ((Host)container).getXmlNamespaceAware();
-                }
-
-                container = container.getParent();
-            }
-        }
 
         // Process the default and application web.xml files
         defaultWebConfig();
