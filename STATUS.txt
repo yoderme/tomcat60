@@ -75,6 +75,15 @@ PATCHES PROPOSED TO BACKPORT:
       markt: patch updated
   -1:
 
+* Add an option to the Context to control the blocking of XML external entities
+  when parsing XML configuration files and enable this blocking by default when
+  a security manager is used. The block is implemented via a custom resolver to
+  enable the logging of any blocked entities.
+  Backport of https://svn.apache.org/r1549529
+  http://people.apache.org/~markt/patches/2014-01-13-xml-block-external-tc6-v1.patch
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED
 
