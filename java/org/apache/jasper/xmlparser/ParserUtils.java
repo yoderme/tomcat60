@@ -23,11 +23,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.jasper.Constants;
 import org.apache.jasper.JasperException;
 import org.apache.jasper.compiler.Localizer;
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+import org.apache.tomcat.util.descriptor.DigesterFactory;
+import org.apache.tomcat.util.descriptor.LocalResolver;
+import org.apache.tomcat.util.descriptor.XmlErrorHandler;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -35,7 +35,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.EntityResolver;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -52,14 +51,11 @@ import org.xml.sax.SAXParseException;
 public class ParserUtils {
 
     /**
-     * An error handler for use when parsing XML documents.
-     */
-    static ErrorHandler errorHandler = new MyErrorHandler();
-
-    /**
      * An entity resolver for use when parsing XML documents.
      */
-    static EntityResolver entityResolver = new MyEntityResolver();
+    static EntityResolver entityResolver;
+
+    private final EntityResolver entityResolverInstance;
 
     /**
      * @deprecated Unused. Will be removed in Tomcat 7.
@@ -81,8 +77,14 @@ public class ParserUtils {
 
     public ParserUtils(boolean useValidation) {
         this.useValidation = useValidation;
+        if (entityResolver == null) {
+            this.entityResolverInstance = new LocalResolver(
+                    DigesterFactory.SERVLET_API_PUBLIC_IDS,
+                    DigesterFactory.SERVLET_API_SYSTEM_IDS, false);
+        } else {
+            this.entityResolverInstance = entityResolver;
+        }
     }
-
 
     // --------------------------------------------------------- Public Methods
 
@@ -108,9 +110,14 @@ public class ParserUtils {
             factory.setNamespaceAware(true);
             factory.setValidating(useValidation);
             DocumentBuilder builder = factory.newDocumentBuilder();
-            builder.setEntityResolver(entityResolver);
-            builder.setErrorHandler(errorHandler);
+            builder.setEntityResolver(entityResolverInstance);
+            XmlErrorHandler handler = new XmlErrorHandler();
+            builder.setErrorHandler(handler);
             document = builder.parse(is);
+            if (!handler.getErrors().isEmpty()) {
+                // throw the first to indicate there was a error during processing
+                throw handler.getErrors().iterator().next();
+            }
 	} catch (ParserConfigurationException ex) {
             throw new JasperException
                 (Localizer.getMessage("jsp.error.parse.xml", location), ex);
@@ -150,6 +157,17 @@ public class ParserUtils {
         return (parseXMLDocument(uri, new InputSource(is)));
     }
 
+    /**
+     * Set the EntityResolver.
+     * This is needed when the dtds and Jasper itself are in different
+     * classloaders (e.g. OSGi environment).
+     *
+     * @param er EntityResolver to use.
+     */
+    public static void setEntityResolver(EntityResolver er) {
+
+        entityResolver = er;
+    }
 
     // ------------------------------------------------------ Protected Methods
 
@@ -200,53 +218,5 @@ public class ParserUtils {
 
         // Return the completed TreeNode graph
         return (treeNode);
-    }
-}
-
-
-// ------------------------------------------------------------ Private Classes
-
-class MyEntityResolver implements EntityResolver {
-
-    public InputSource resolveEntity(String publicId, String systemId)
-            throws SAXException {
-        for (int i = 0; i < Constants.CACHED_DTD_PUBLIC_IDS.length; i++) {
-            String cachedDtdPublicId = Constants.CACHED_DTD_PUBLIC_IDS[i];
-            if (cachedDtdPublicId.equals(publicId)) {
-                String resourcePath = Constants.CACHED_DTD_RESOURCE_PATHS[i];
-                InputStream input = this.getClass().getResourceAsStream(
-                        resourcePath);
-                if (input == null) {
-                    throw new SAXException(Localizer.getMessage(
-                            "jsp.error.internal.filenotfound", resourcePath));
-                }
-                InputSource isrc = new InputSource(input);
-                return isrc;
-            }
-        }
-        Log log = LogFactory.getLog(MyEntityResolver.class);
-        if (log.isDebugEnabled())
-            log.debug("Resolve entity failed" + publicId + " " + systemId);
-        log.error(Localizer.getMessage("jsp.error.parse.xml.invalidPublicId",
-                publicId));
-        return null;
-    }
-}
-
-class MyErrorHandler implements ErrorHandler {
-
-    public void warning(SAXParseException ex) throws SAXException {
-        Log log = LogFactory.getLog(MyErrorHandler.class);
-        if (log.isDebugEnabled())
-            log.debug("ParserUtils: warning ", ex);
-        // We ignore warnings
-    }
-
-    public void error(SAXParseException ex) throws SAXException {
-        throw ex;
-    }
-
-    public void fatalError(SAXParseException ex) throws SAXException {
-        throw ex;
     }
 }
