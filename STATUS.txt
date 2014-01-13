@@ -61,22 +61,6 @@ PATCHES PROPOSED TO BACKPORT:
       requires Ant >= 1.8.0).
   -1:
 
-* Back-port from XML processing improvements (part 6)
-  Upgrade digester to use DefaultHandler2 and use LexicalHandler to detect
-  publicId.
-  Simplify web application version detection in web.xml
-  Extracted from a patch by Jeremy Boynes.
-  Essentially, this is a back-port of http://svn.apache.org/r1547931
-  Note that the patch contains a number of strictly unnecessary cosmetic changes
-  that have been included to make it simpler to compare the resulting Tomcat 6
-  code with the current Tomcat 7 code to validate the correctness of the
-  back-port
-  http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part6-tc6-v1.patch
-  +1: markt, kkolinko, remm
-  -1:
-   kkolinko: It would be easier to review without all those trailing
-     whitespace changes.
-
 * Back-port from XML processing improvements (part 7)
   Switch o.a.catalina classes to use the new ErrorHandler
   Back-port of http://svn.apache.org/r1547937

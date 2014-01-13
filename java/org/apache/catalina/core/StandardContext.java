@@ -101,6 +101,7 @@ import org.apache.naming.resources.DirContextURLStreamHandler;
 import org.apache.naming.resources.FileDirContext;
 import org.apache.naming.resources.ProxyDirContext;
 import org.apache.naming.resources.WARDirContext;
+import org.apache.tomcat.util.descriptor.XmlIdentifiers;
 import org.apache.tomcat.util.modeler.Registry;
 
 /**
@@ -5049,15 +5050,7 @@ public class StandardContext
      * Are we processing a version 2.2 deployment descriptor?
      */
     protected boolean isServlet22() {
-
-        if (this.publicId == null)
-            return (false);
-        if (this.publicId.equals
-            (org.apache.catalina.startup.Constants.WebDtdPublicId_22))
-            return (true);
-        else
-            return (false);
-
+        return XmlIdentifiers.WEB_22_PUBLIC.equals(publicId);
     }
 
 
@@ -5888,7 +5881,7 @@ public class StandardContext
 
     public void setTldNamespaceAware(boolean tldNamespaceAware){
         // NO-OP;
-    }    
+    }
 
 
     public void setTldValidation(boolean tldValidation){
