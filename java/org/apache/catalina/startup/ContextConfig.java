@@ -51,6 +51,7 @@ import org.apache.catalina.deploy.SecurityConstraint;
 import org.apache.catalina.util.StringManager;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
+import org.apache.tomcat.util.descriptor.XmlErrorHandler;
 import org.apache.tomcat.util.digester.Digester;
 import org.apache.tomcat.util.digester.RuleSet;
 import org.xml.sax.ErrorHandler;
@@ -119,7 +120,9 @@ public class ContextConfig implements LifecycleListener {
 
     /**
      * Any parse error which occurred while parsing XML descriptors.
+     * @deprecated Unused. Will be removed in Tomcat 7.0.x.
      */
+    @Deprecated
     protected SAXParseException parseException = null;
 
 
@@ -348,8 +351,11 @@ public class ContextConfig implements LifecycleListener {
                     if (context instanceof StandardContext) {
                         ((StandardContext) context).setReplaceWelcomeFiles(true);
                     }
+
+                    XmlErrorHandler handler = new XmlErrorHandler();
+
                     webDigester.push(context);
-                    webDigester.setErrorHandler(new ContextErrorHandler());
+                    webDigester.setErrorHandler(handler);
 
                     if(log.isDebugEnabled()) {
                         log.debug("Parsing application web.xml file at " + url.toExternalForm());
@@ -357,8 +363,10 @@ public class ContextConfig implements LifecycleListener {
 
                     webDigester.parse(is);
 
-                    if (parseException != null) {
+                    if (handler.getWarnings().size() > 0 ||
+                            handler.getErrors().size() > 0) {
                         ok = false;
+                        handler.logFindings(log, is.getSystemId());
                     }
                 } else {
                     log.info("No web.xml, using defaults " + context );
@@ -374,7 +382,6 @@ public class ContextConfig implements LifecycleListener {
                 ok = false;
             } finally {
                 webDigester.reset();
-                parseException = null;
                 try {
                     if (stream != null) {
                         stream.close();
@@ -664,11 +671,14 @@ public class ContextConfig implements LifecycleListener {
                     ((StandardContext) context).setReplaceWelcomeFiles(true);
                 digester.setClassLoader(this.getClass().getClassLoader());
                 digester.setUseContextClassLoader(false);
+                XmlErrorHandler handler = new XmlErrorHandler();
                 digester.push(context);
-                digester.setErrorHandler(new ContextErrorHandler());
+                digester.setErrorHandler(handler);
                 digester.parse(source);
-                if (parseException != null) {
+                if (handler.getWarnings().size() > 0 ||
+                        handler.getErrors().size() > 0) {
                     ok = false;
+                    handler.logFindings(log, source.getSystemId());
                 }
             } catch (SAXParseException e) {
                 log.error(sm.getString("contextConfig.defaultParse"), e);
@@ -681,7 +691,6 @@ public class ContextConfig implements LifecycleListener {
                 ok = false;
             } finally {
                 digester.reset();
-                parseException = null;
                 try {
                     if (stream != null) {
                         stream.close();
@@ -769,12 +778,15 @@ public class ContextConfig implements LifecycleListener {
                 source.setByteStream(stream);
                 contextDigester.setClassLoader(this.getClass().getClassLoader());
                 contextDigester.setUseContextClassLoader(false);
+                XmlErrorHandler handler = new XmlErrorHandler();
                 contextDigester.push(context.getParent());
                 contextDigester.push(context);
-                contextDigester.setErrorHandler(new ContextErrorHandler());
+                contextDigester.setErrorHandler(handler);
                 contextDigester.parse(source);
-                if (parseException != null) {
+                if (handler.getWarnings().size() > 0 ||
+                        handler.getErrors().size() > 0) {
                     ok = false;
+                    handler.logFindings(log, source.getSystemId());
                 }
                 if (log.isDebugEnabled())
                     log.debug("Successfully processed context [" + context.getName()
@@ -792,7 +804,6 @@ public class ContextConfig implements LifecycleListener {
                 ok = false;
             } finally {
                 contextDigester.reset();
-                parseException = null;
                 try {
                     if (stream != null) {
                         stream.close();
@@ -1322,6 +1333,11 @@ public class ContextConfig implements LifecycleListener {
     }
 
 
+    /**
+     * @deprecated Unused. Use {@link XmlErrorHandler}. Will be removed in
+     *             Tomcat 7.0.x
+     */
+    @Deprecated
     protected class ContextErrorHandler
         implements ErrorHandler {
 
@@ -1338,6 +1354,5 @@ public class ContextConfig implements LifecycleListener {
         }
 
     }
-
 
 }
