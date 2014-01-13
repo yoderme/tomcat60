@@ -61,13 +61,6 @@ PATCHES PROPOSED TO BACKPORT:
       requires Ant >= 1.8.0).
   -1:
 
-* Back-port from XML processing improvements (part 9)
-  Switch JspDocumentParser to an DefaultHandler2
-  Back-port of http://svn.apache.org/r1547948
-  http://people.apache.org/~markt/patches/2014-01-08-xml-prep-part9-tc6-v1.patch
-  +1: markt, kkolinko, remm
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55973
   Fix processing of XML schemas when validation is enabled in Jasper
   http://svn.apache.org/r1556377
