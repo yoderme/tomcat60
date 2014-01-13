@@ -109,6 +109,16 @@ public class ParserUtils {
                 DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
             factory.setValidating(useValidation);
+            if (useValidation) {
+                // Enable DTD validation
+                factory.setFeature(
+                        "http://xml.org/sax/features/validation",
+                        true);
+                // Enable schema validation
+                factory.setFeature(
+                        "http://apache.org/xml/features/validation/schema",
+                        true);
+            }
             DocumentBuilder builder = factory.newDocumentBuilder();
             builder.setEntityResolver(entityResolverInstance);
             XmlErrorHandler handler = new XmlErrorHandler();

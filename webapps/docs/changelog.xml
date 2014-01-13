@@ -148,6 +148,10 @@
         <bug>55691</bug>: Fix <code>javax.el.ArrayELResolver</code> to correctly
         handle the case where the base object is an array of primitives. (markt)
       </fix>
+      <fix>
+        <bug>55973</bug>: Fix processing of XML schemas when validation is
+        enabled in Jasper. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">

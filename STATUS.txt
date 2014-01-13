@@ -61,12 +61,6 @@ PATCHES PROPOSED TO BACKPORT:
       requires Ant >= 1.8.0).
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55973
-  Fix processing of XML schemas when validation is enabled in Jasper
-  http://svn.apache.org/r1556377
-  +1: kkolinko, jboynes, markt
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55119
   Avoid CVE-2013-1571 when generating Javadoc
   http://svn.apache.org/r1495875
