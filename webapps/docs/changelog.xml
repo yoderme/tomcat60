@@ -145,6 +145,14 @@
         and quoted XML characters are correctly quoted in the output. (markt)
       </fix>
       <fix>
+        <bug>55671</bug>: Consistently use the configuration option name
+        <code>genStringAsCharArray</code> rather than a mixture of
+        <code>genStrAsCharArray</code> and <code>genStringAsCharArray</code> but
+        retain support for <code>genStrAsCharArray</code> as in initialisation
+        parameter for the JSP servlet to retain backwards compatibility with
+        existing configurations. (markt)
+      </fix>
+      <fix>
         <bug>55691</bug>: Fix <code>javax.el.ArrayELResolver</code> to correctly
         handle the case where the base object is an array of primitives. (markt)
       </fix>
@@ -152,6 +160,19 @@
         <bug>55973</bug>: Fix processing of XML schemas when validation is
         enabled in Jasper. (kkolinko)
       </fix>
+  Consistent naming for genStringAsCharArray
+  https://issues.apache.org/bugzilla/attachment.cgi?id=31187
+  +1: markt, remm, mturk
+  -0: kkolinko: I think "genStrAsCharArray" is the proper and
+        documented name for Tomcat 6. If we change the init-param name
+        for better compatibility with Tomcat 7 (a good thing, +1),
+        the code should check both the new and the old param names.
+        It also needs r1556725.
+        https://issues.apache.org/bugzilla/show_bug.cgi?id=55671#c1
+      markt: patch updated
+  -1:
+
+      
     </changelog>
   </subsection>
   <subsection name="Web applications">

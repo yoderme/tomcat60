@@ -53,19 +53,6 @@ PATCHES PROPOSED TO BACKPORT:
       requires Ant >= 1.8.0).
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55671
-  Consistent naming for genStringAsCharArray
-  https://issues.apache.org/bugzilla/attachment.cgi?id=31187
-  +1: markt, remm, mturk
-  -0: kkolinko: I think "genStrAsCharArray" is the proper and
-        documented name for Tomcat 6. If we change the init-param name
-        for better compatibility with Tomcat 7 (a good thing, +1),
-        the code should check both the new and the old param names.
-        It also needs r1556725.
-        https://issues.apache.org/bugzilla/show_bug.cgi?id=55671#c1
-      markt: patch updated
-  -1:
-
 * Add an option to the Context to control the blocking of XML external entities
   when parsing XML configuration files and enable this blocking by default when
   a security manager is used. The block is implemented via a custom resolver to

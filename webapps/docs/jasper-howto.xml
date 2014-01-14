@@ -139,8 +139,10 @@ valid bean class? <code>true</code> or <code>false</code>, default
 performed in a separate JVM from Tomcat? <code>true</code> or
 <code>false</code>, default <code>true</code>.</li>
 
-<li><strong>genStrAsCharArray</strong> - Should text strings be generated as char
-arrays, to improve performance in some cases? Default <code>false</code>.</li>
+<li><strong>genStringAsCharArray</strong> - Should text strings be generated as
+char arrays, to improve performance in some cases? Default
+<code>false</code>. The alternative name of <strong>genStrAsCharArray</strong>
+for this initialisation parameter is also supported.</li>
 
 <li><strong>ieClassId</strong> - The class-id value to be sent to Internet
 Explorer when using &lt;jsp:plugin&gt; tags.   Default
