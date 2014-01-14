@@ -200,6 +200,9 @@
         Add <code>@since</code> markers to the common annotations classes and
         fix a few specification compliance issues. (markt)
       </fix>
+      <update>
+        Update to Eclipse JDT Compiler 4.3.1. (markt)
+      </update>
     </changelog>
   </subsection>
 </section>

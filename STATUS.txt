@@ -32,15 +32,6 @@ PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=55759
-  Update the Eclipse compiler to 4.3.1
-  http://people.apache.org/~markt/patches/2014-01-13-ecj-4.3.1-update-tc6-v1.patch
-  +1: markt, remm, mturk
-  +0: kkolinko: A Tomcat6-specific patch is needed. It needs update to jar
-       exclude lists in TldConfig.java, TldLocationsCache.java, see r1476932.
-      markt: Patch updated
-  -1:
-
 * Back-port some XML processing improvements (part 4)
   Add a unit test for the new descriptor
   Note I am generating the patches using git so the patch shows whole new files
