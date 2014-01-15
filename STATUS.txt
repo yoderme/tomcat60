@@ -24,13 +24,17 @@ $Id$
 
 RELEASE SHOWSTOPPERS:
 
+None
+
 
 PATCHES ACCEPTED TO BACKPORT:
   [ start all new proposals below, under PATCHES PROPOSED. ]
 
+None
+
+
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
-
 
 * Back-port some XML processing improvements (part 4)
   Add a unit test for the new descriptor
@@ -69,5 +73,6 @@ PATCHES PROPOSED TO BACKPORT:
   -1:
 
 
-PATCHES/ISSUES THAT ARE STALLED
+PATCHES/ISSUES THAT ARE STALLED:
 
+None
