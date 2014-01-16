@@ -508,12 +508,6 @@ public class CoyoteAdapter implements Adapter {
             return false;
         }
 
-        // Had to do this after the context was set.
-        // Unfortunately parseSessionId is still necessary as it
-        // affects the final URL. Safe as session cookies still
-        // haven't been parsed.
-        if (isURLRewritingDisabled(request))
-            clearRequestedSessionURL(request);
         request.setWrapper((Wrapper) request.getMappingData().wrapper);
 
         // Filter trace method
@@ -546,7 +540,7 @@ public class CoyoteAdapter implements Adapter {
         // Parse session Id
         String sessionID =
             request.getPathParameter(Globals.SESSION_PARAMETER_NAME);
-        if (sessionID != null) {
+        if (sessionID != null && !isURLRewritingDisabled(request)) {
             request.setRequestedSessionId(sessionID);
             request.setRequestedSessionURL(true);
         }

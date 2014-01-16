@@ -95,6 +95,10 @@
         <code>org.apache.catalina.STRICT_SERVLET_COMPLIANCE</code> is set to
         <code>true</code>. (markt) 
       </fix>
+      <fix>
+        Ensure that sessions IDs are not parsed from URLs for Contexts where
+        <code>disableURLRewriting</code> is <code>true</code>. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
