@@ -40,6 +40,7 @@ PATCHES PROPOSED TO BACKPORT:
   class loader.
   Patch by Juan Carlos Estibariz.
   https://svn.apache.org/r1558894
+  https://svn.apache.org/r1558917
   +1: markt, kkolinko
   -1:
 
