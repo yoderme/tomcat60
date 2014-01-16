@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,7 @@ import java.util.Vector;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
+import javax.servlet.ServletContext;
 import javax.servlet.jsp.tagext.FunctionInfo;
 import javax.servlet.jsp.tagext.PageData;
 import javax.servlet.jsp.tagext.TagAttributeInfo;
@@ -55,7 +56,7 @@ import org.apache.juli.logging.LogFactory;
 
 /**
  * Implementation of the TagLibraryInfo class from the JSP spec.
- * 
+ *
  * @author Anil K. Vijendran
  * @author Mandar Raje
  * @author Pierre Delisle
@@ -68,7 +69,7 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
     private Log log = LogFactory.getLog(TagLibraryInfoImpl.class);
 
     private JspCompilationContext ctxt;
-    
+
     private PageInfo pi;
 
     private ErrorDispatcher err;
@@ -206,7 +207,7 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
         Collection coll = pi.getTaglibs();
         return (TagLibraryInfo[]) coll.toArray(new TagLibraryInfo[0]);
     }
-    
+
     /*
      * @param ctxt The JSP compilation context @param uri The TLD's uri @param
      * in The TLD's input stream @param jarFileUrl The JAR file containing the
@@ -218,12 +219,20 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
         Vector tagFileVector = new Vector();
         Hashtable functionTable = new Hashtable();
 
-        boolean validate = Boolean.parseBoolean(
-                ctxt.getServletContext().getInitParameter(
+        ServletContext servletContext = ctxt.getServletContext();
+        boolean validate = Boolean.parseBoolean(servletContext.getInitParameter(
                         Constants.XML_VALIDATION_TLD_INIT_PARAM));
-        
+        String blockExternalString = servletContext.getInitParameter(
+                Constants.XML_BLOCK_EXTERNAL_INIT_PARAM);
+        boolean blockExternal;
+        if (blockExternalString == null) {
+            blockExternal = Constants.IS_SECURITY_ENABLED;
+        } else {
+            blockExternal = Boolean.parseBoolean(blockExternalString);
+        }
+
         // Create an iterator over the child elements of our <taglib> element
-        ParserUtils pu = new ParserUtils(validate);
+        ParserUtils pu = new ParserUtils(validate, blockExternal);
         TreeNode tld = pu.parseXMLDocument(uri, in);
 
         // Check to see if the <taglib> root element contains a 'version'
@@ -307,7 +316,7 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
 
     /*
      * @param uri The uri of the TLD @param ctxt The compilation context
-     * 
+     *
      * @return String array whose first element denotes the path to the TLD. If
      * the path to the TLD points to a jar file, then the second element denotes
      * the name of the TLD entry in the jar file, which is hardcoded to
@@ -444,11 +453,11 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
     /*
      * Parses the tag file directives of the given TagFile and turns them into a
      * TagInfo.
-     * 
+     *
      * @param elem The <tag-file> element in the TLD @param uri The location of
      * the TLD, in case the tag file is specified relative to it @param jarFile
      * The JAR file, in case the tag file is packaged in a JAR
-     * 
+     *
      * @return TagInfo correspoding to tag file directives
      */
     private TagFileInfo createTagFileInfo(TreeNode elem, String uri,
@@ -469,8 +478,8 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
                 // Ignore <example> element: Bugzilla 33538
             } else if ("tag-extension".equals(tname)) {
                 // Ignore <tag-extension> element: Bugzilla 33538
-            } else if ("icon".equals(tname) 
-                    || "display-name".equals(tname) 
+            } else if ("icon".equals(tname)
+                    || "display-name".equals(tname)
                     || "description".equals(tname)) {
                 // Ignore these elements: Bugzilla 38015
             } else {
@@ -589,7 +598,7 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
             // translation time) the type is fixed at java.lang.String.
             type = "java.lang.String";
         }
-        
+
         return new TagAttributeInfo(name, required, type, rtexprvalue,
                 isFragment, null, deferredValue, deferredMethod, expectedType,
                 methodSignature);
@@ -741,7 +750,7 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
 
     /**
      * The instance (if any) for the TagLibraryValidator class.
-     * 
+     *
      * @return The TagLibraryValidator instance, if any.
      */
     public TagLibraryValidator getTagLibraryValidator() {
@@ -752,7 +761,7 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
      * Translation-time validation of the XML document associated with the JSP
      * page. This is a convenience method on the associated TagLibraryValidator
      * class.
-     * 
+     *
      * @param thePage
      *            The JSP page object
      * @return A string indicating whether the page is valid or not.

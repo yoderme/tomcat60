@@ -647,6 +647,13 @@ public class StandardContext
     protected int cacheMaxSize = 10240; // 10 MB
 
 
+
+    /**
+     * Attribute used to turn on/off the use of external entities.
+     */
+    private boolean xmlBlockExternal = Globals.IS_SECURITY_ENABLED;
+
+
     /**
      * Cache object max size in KB.
      */
@@ -5881,6 +5888,16 @@ public class StandardContext
 
     public void setTldNamespaceAware(boolean tldNamespaceAware){
         // NO-OP;
+    }
+
+
+    public void setXmlBlockExternal(boolean xmlBlockExternal) {
+        this.xmlBlockExternal = xmlBlockExternal;
+    }
+
+
+    public boolean getXmlBlockExternal() {
+        return xmlBlockExternal;
     }
 
 

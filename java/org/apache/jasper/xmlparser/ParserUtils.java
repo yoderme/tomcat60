@@ -23,6 +23,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.jasper.Constants;
 import org.apache.jasper.JasperException;
 import org.apache.jasper.compiler.Localizer;
 import org.apache.tomcat.util.descriptor.DigesterFactory;
@@ -59,7 +60,7 @@ public class ParserUtils {
 
     /**
      * @deprecated Unused. Will be removed in Tomcat 7.
-     *             Use {@link ParserUtils#ParserUtils(boolean)} instead.
+     *             Use {@link ParserUtils#ParserUtils(boolean,boolean)} instead.
      */
     @Deprecated
     public static boolean validating = false;
@@ -68,19 +69,19 @@ public class ParserUtils {
 
     /**
      * @deprecated Unused. Will be removed in Tomcat 7.
-     *             Use {@link ParserUtils#ParserUtils(boolean)} instead.
+     *             Use {@link ParserUtils#ParserUtils(boolean,boolean)} instead.
      */
     @Deprecated
     public ParserUtils() {
-        this(true);
+        this(true, Constants.IS_SECURITY_ENABLED);
     }
 
-    public ParserUtils(boolean useValidation) {
+    public ParserUtils(boolean useValidation, boolean blockExternal) {
         this.useValidation = useValidation;
         if (entityResolver == null) {
             this.entityResolverInstance = new LocalResolver(
                     DigesterFactory.SERVLET_API_PUBLIC_IDS,
-                    DigesterFactory.SERVLET_API_SYSTEM_IDS, false);
+                    DigesterFactory.SERVLET_API_SYSTEM_IDS, blockExternal);
         } else {
             this.entityResolverInstance = entityResolver;
         }

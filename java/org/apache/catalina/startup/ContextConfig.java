@@ -51,6 +51,7 @@ import org.apache.catalina.deploy.SecurityConstraint;
 import org.apache.catalina.util.StringManager;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
+import org.apache.tomcat.util.descriptor.DigesterFactory;
 import org.apache.tomcat.util.descriptor.XmlErrorHandler;
 import org.apache.tomcat.util.digester.Digester;
 import org.apache.tomcat.util.digester.RuleSet;
@@ -520,9 +521,11 @@ public class ContextConfig implements LifecycleListener {
     protected void createWebXmlDigester(boolean namespaceAware,
             boolean validation) {
 
+        boolean blockExternal = context.getXmlBlockExternal();
+
         webRuleSet = new WebRuleSet();
         webDigester = DigesterFactory.newDigester(validation,
-                namespaceAware, webRuleSet);
+                namespaceAware, webRuleSet, blockExternal);
         webDigester.getParser();
     }
 

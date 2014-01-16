@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.servlet.ServletContext;
 import javax.servlet.jsp.tagext.FunctionInfo;
 import javax.servlet.jsp.tagext.TagFileInfo;
 import javax.servlet.jsp.tagext.TagInfo;
@@ -37,7 +38,7 @@ import org.apache.jasper.xmlparser.TreeNode;
 
 /**
  * Class responsible for generating an implicit tag library containing tag
- * handlers corresponding to the tag files in "/WEB-INF/tags/" or a 
+ * handlers corresponding to the tag files in "/WEB-INF/tags/" or a
  * subdirectory of it.
  *
  * @author Jan Luehe
@@ -108,7 +109,7 @@ class ImplicitTagLibraryInfo extends TagLibraryInfo {
                      * of the "imaginary" <tag-file> element
                      */
                     String suffix = path.endsWith(TAG_FILE_SUFFIX) ?
-                            TAG_FILE_SUFFIX : TAGX_FILE_SUFFIX; 
+                            TAG_FILE_SUFFIX : TAGX_FILE_SUFFIX;
                     String tagName = path.substring(path.lastIndexOf("/") + 1);
                     tagName = tagName.substring(0,
                             tagName.lastIndexOf(suffix));
@@ -118,17 +119,27 @@ class ImplicitTagLibraryInfo extends TagLibraryInfo {
                     try {
                         in = ctxt.getResourceAsStream(path);
                         if (in != null) {
-                            
+
                             // Add implicit TLD to dependency list
                             if (pi != null) {
                                 pi.addDependant(path);
                             }
-                            
-                            boolean validate = Boolean.parseBoolean(
-                                    ctxt.getServletContext().getInitParameter(
-                                            Constants.XML_VALIDATION_TLD_INIT_PARAM));
 
-                            ParserUtils pu = new ParserUtils(validate);
+                            ServletContext servletContext = ctxt.getServletContext();
+                            boolean validate = Boolean.parseBoolean(
+                                    servletContext.getInitParameter(
+                                            Constants.XML_VALIDATION_TLD_INIT_PARAM));
+                            String blockExternalString =
+                                    servletContext.getInitParameter(
+                                            Constants.XML_BLOCK_EXTERNAL_INIT_PARAM);
+                            boolean blockExternal;
+                            if (blockExternalString == null) {
+                                blockExternal = Constants.IS_SECURITY_ENABLED;
+                            } else {
+                                blockExternal = Boolean.parseBoolean(blockExternalString);
+                            }
+
+                            ParserUtils pu = new ParserUtils(validate, blockExternal);
                             TreeNode tld = pu.parseXMLDocument(uri, in);
 
                             if (tld.findAttribute("version") != null) {
@@ -174,8 +185,8 @@ class ImplicitTagLibraryInfo extends TagLibraryInfo {
                     }
                 }
             }
-        }        
-        
+        }
+
     }
 
     /**

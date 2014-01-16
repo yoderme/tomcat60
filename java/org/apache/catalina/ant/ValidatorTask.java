@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,15 +24,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import org.apache.catalina.Globals;
 import org.apache.catalina.startup.Constants;
-import org.apache.catalina.startup.DigesterFactory;
+import org.apache.tomcat.util.descriptor.DigesterFactory;
 import org.apache.tomcat.util.digester.Digester;
 import org.apache.tools.ant.BuildException;
 import org.xml.sax.InputSource;
 
 
 /**
- * Task for validating a web application deployment descriptor, using XML 
+ * Task for validating a web application deployment descriptor, using XML
  * schema validation.
  *
  * @author Remy Maucherat
@@ -89,10 +90,13 @@ public class ValidatorTask extends BaseRedirectorHelperTask {
         Thread.currentThread().setContextClassLoader
             (ValidatorTask.class.getClassLoader());
 
-        Digester digester = DigesterFactory.newDigester(true, true, null);
+        // Called through trusted manager interface. If running under a
+        // SecurityManager assume that untrusted applications may be deployed.
+        Digester digester = DigesterFactory.newDigester(
+                true, true, null, Globals.IS_SECURITY_ENABLED);
         try {
             file = file.getCanonicalFile();
-            InputStream stream = 
+            InputStream stream =
                 new BufferedInputStream(new FileInputStream(file));
             InputSource is = new InputSource(file.toURL().toExternalForm());
             is.setByteStream(stream);

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,7 +45,7 @@ import org.apache.juli.logging.LogFactory;
 /**
  * A container for all tag libraries that are defined "globally"
  * for the web application.
- * 
+ *
  * Tag Libraries can be defined globally in one of two ways:
  *   1. Via <taglib> elements in web.xml:
  *      the uri and location of the tag-library are specified in
@@ -165,16 +165,16 @@ public class TldLocationsCache {
         noTldJars.add("tools.jar");
         noTldJars.add("sunpkcs11.jar");
     }
-    
+
     public TldLocationsCache(ServletContext ctxt) {
         this(ctxt, true);
     }
 
-    /** Constructor. 
+    /** Constructor.
      *
-     * @param ctxt the servlet context of the web application in which Jasper 
+     * @param ctxt the servlet context of the web application in which Jasper
      * is running
-     * @param redeployMode if true, then the compiler will allow redeploying 
+     * @param redeployMode if true, then the compiler will allow redeploying
      * a tag library from the same jar, at the expense of slowing down the
      * server a bit. Note that this may only work on JDK 1.3.1_01a and later,
      * because of JDK bug 4211817 fixed in this release.
@@ -190,8 +190,8 @@ public class TldLocationsCache {
     /**
      * Sets the list of JARs that are known not to contain any TLDs.
      *
-     * @param jarNames List of comma-separated names of JAR files that are 
-     * known not to contain any TLDs 
+     * @param jarNames List of comma-separated names of JAR files that are
+     * known not to contain any TLDs
      */
     public static void setNoTldJars(String jarNames) {
         if (jarNames != null) {
@@ -210,7 +210,7 @@ public class TldLocationsCache {
      * in the web application. A tag library is 'exposed' either explicitly in
      * web.xml or implicitly via the uri tag in the TLD of a taglib deployed
      * in a jar file (WEB-INF/lib).
-     * 
+     *
      * @param uri The taglib uri
      *
      * @return An array of two Strings: The first element denotes the real
@@ -226,7 +226,7 @@ public class TldLocationsCache {
         return (String[]) mappings.get(uri);
     }
 
-    /** 
+    /**
      * Returns the type of a URI:
      *     ABS_URI
      *     ROOT_REL_URI
@@ -257,7 +257,7 @@ public class TldLocationsCache {
 
     /*
      * Populates taglib map described in web.xml.
-     */    
+     */
     private void processWebDotXml() throws Exception {
 
         InputStream is = null;
@@ -291,19 +291,29 @@ public class TldLocationsCache {
             }
             is = uri.openStream();
             InputSource ip = new InputSource(is);
-            ip.setSystemId(uri.toExternalForm()); 
+            ip.setSystemId(uri.toExternalForm());
 
             boolean validate = Boolean.parseBoolean(
                     ctxt.getInitParameter(
                             Constants.XML_VALIDATION_TLD_INIT_PARAM));
-            
+            String blockExternalString = ctxt.getInitParameter(
+                    Constants.XML_BLOCK_EXTERNAL_INIT_PARAM);
+            boolean blockExternal;
+            if (blockExternalString == null) {
+                blockExternal = Constants.IS_SECURITY_ENABLED;
+            } else {
+                blockExternal = Boolean.parseBoolean(blockExternalString);
+            }
+
             // Parse the web application deployment descriptor
+            ParserUtils pu = new ParserUtils(validate, blockExternal);
+
             TreeNode webtld = null;
             // altDDName is the absolute path of the DD
             if (altDDName != null) {
-                webtld = new ParserUtils(validate).parseXMLDocument(altDDName, ip);
+                webtld = pu.parseXMLDocument(altDDName, ip);
             } else {
-                webtld = new ParserUtils(validate).parseXMLDocument(WEB_XML, ip);
+                webtld = pu.parseXMLDocument(WEB_XML, ip);
             }
 
             // Allow taglib to be an element of the root or jsp-config (JSP2.0)
@@ -462,15 +472,23 @@ public class TldLocationsCache {
      * Returns the value of the uri element of the given TLD, or null if the
      * given TLD does not contain any such element.
      */
-    private String getUriFromTld(String resourcePath, InputStream in) 
+    private String getUriFromTld(String resourcePath, InputStream in)
         throws JasperException
     {
         boolean validate = Boolean.parseBoolean(
                 ctxt.getInitParameter(
                         Constants.XML_VALIDATION_TLD_INIT_PARAM));
+        String blockExternalString = ctxt.getInitParameter(
+                Constants.XML_BLOCK_EXTERNAL_INIT_PARAM);
+        boolean blockExternal;
+        if (blockExternalString == null) {
+            blockExternal = Constants.IS_SECURITY_ENABLED;
+        } else {
+            blockExternal = Boolean.parseBoolean(blockExternalString);
+        }
 
-        // Parse the tag library descriptor at the specified resource path
-        TreeNode tld = new ParserUtils(validate).parseXMLDocument(resourcePath, in);
+        ParserUtils pu = new ParserUtils(validate, blockExternal);
+        TreeNode tld = pu.parseXMLDocument(resourcePath, in);
         TreeNode uri = tld.findChild("uri");
         if (uri != null) {
             String body = uri.getBody();
@@ -484,7 +502,7 @@ public class TldLocationsCache {
     /*
      * Scans all JARs accessible to the webapp's classloader and its
      * parent classloaders for TLDs.
-     * 
+     *
      * The list of JARs always includes the JARs under WEB-INF/lib, as well as
      * all shared JARs in the classloader delegation chain of the webapp's
      * classloader.
@@ -492,7 +510,7 @@ public class TldLocationsCache {
      * Considering JARs in the classloader delegation chain constitutes a
      * Tomcat-specific extension to the TLD search
      * order defined in the JSP spec. It allows tag libraries packaged as JAR
-     * files to be shared by web applications by simply dropping them in a 
+     * files to be shared by web applications by simply dropping them in a
      * location that all web applications have access to (e.g.,
      * <CATALINA_HOME>/common/lib).
      *

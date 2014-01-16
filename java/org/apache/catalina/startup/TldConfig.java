@@ -49,6 +49,7 @@ import org.apache.catalina.LifecycleListener;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardHost;
 import org.apache.catalina.util.StringManager;
+import org.apache.tomcat.util.descriptor.DigesterFactory;
 import org.apache.tomcat.util.descriptor.XmlErrorHandler;
 import org.apache.tomcat.util.digester.Digester;
 import org.xml.sax.InputSource;
@@ -141,20 +142,21 @@ public final class TldConfig  implements LifecycleListener {
      * Create (if necessary) and return a Digester configured to process the
      * tld.
      */
-    private static Digester createTldDigester(boolean validation) {
+    private static Digester createTldDigester(boolean validation,
+            boolean blockExternal) {
 
         Digester digester = null;
         if (!validation) {
             if (tldDigesters[0] == null) {
                 tldDigesters[0] = DigesterFactory.newDigester(validation,
-                        true, new TldRuleSet());
+                        true, new TldRuleSet(), blockExternal);
                 tldDigesters[0].getParser();
             }
             digester = tldDigesters[0];
         } else {
             if (tldDigesters[1] == null) {
                 tldDigesters[1] = DigesterFactory.newDigester(validation,
-                        true, new TldRuleSet());
+                        true, new TldRuleSet(), blockExternal);
                 tldDigesters[1].getParser();
             }
             digester = tldDigesters[1];
@@ -705,7 +707,8 @@ public final class TldConfig  implements LifecycleListener {
                         ((StandardHost) context.getParent()).getXmlValidation();
             }
 
-            tldDigester = createTldDigester(context.getTldValidation());
+            tldDigester = createTldDigester(context.getTldValidation(),
+                    context.getXmlBlockExternal());
         }
     }
 }

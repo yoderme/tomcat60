@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -86,12 +86,20 @@ public class JspConfig {
 
             is = uri.openStream();
             InputSource ip = new InputSource(is);
-            ip.setSystemId(uri.toExternalForm()); 
+            ip.setSystemId(uri.toExternalForm());
 
             boolean validate = Boolean.parseBoolean(
                     ctxt.getInitParameter(Constants.XML_VALIDATION_TLD_INIT_PARAM));
-            
-            ParserUtils pu = new ParserUtils(validate);
+            String blockExternalString =
+                    ctxt.getInitParameter(Constants.XML_BLOCK_EXTERNAL_INIT_PARAM);
+            boolean blockExternal;
+            if (blockExternalString == null) {
+                blockExternal = Constants.IS_SECURITY_ENABLED;
+            } else {
+                blockExternal = Boolean.parseBoolean(blockExternalString);
+            }
+
+            ParserUtils pu = new ParserUtils(validate, blockExternal);
             TreeNode webApp = pu.parseXMLDocument(WEB_XML, ip);
 
             if (webApp == null
@@ -232,7 +240,7 @@ public class JspConfig {
                             defaultIsELIgnored,
                             defaultIsScriptingInvalid,
                             null, null, null,
-                            defaultDeferedSyntaxAllowedAsLiteral, 
+                            defaultDeferedSyntaxAllowedAsLiteral,
                             defaultTrimDirectiveWhitespaces);
                     initialized = true;
                 }
@@ -285,7 +293,7 @@ public class JspConfig {
 
         init();
 
-        // JSP Configuration settings do not apply to tag files	    
+        // JSP Configuration settings do not apply to tag files
         if (jspProperties == null || uri.endsWith(".tag")
                 || uri.endsWith(".tagx")) {
             return defaultJspProperty;
@@ -406,7 +414,7 @@ public class JspConfig {
         }
 
         return new JspProperty(isXml, isELIgnored, isScriptingInvalid,
-                pageEncoding, includePreludes, includeCodas, 
+                pageEncoding, includePreludes, includeCodas,
                 isDeferedSyntaxAllowedAsLiteral, isTrimDirectiveWhitespaces);
     }
 
@@ -496,7 +504,7 @@ public class JspConfig {
         public JspProperty(String isXml, String elIgnored,
                 String scriptingInvalid, String pageEncoding,
                 Vector includePrelude, Vector includeCoda,
-                String deferedSyntaxAllowedAsLiteral, 
+                String deferedSyntaxAllowedAsLiteral,
                 String trimDirectiveWhitespaces) {
 
             this.isXml = isXml;
@@ -532,11 +540,11 @@ public class JspConfig {
         public Vector getIncludeCoda() {
             return includeCoda;
         }
-        
+
         public String isDeferedSyntaxAllowedAsLiteral() {
             return deferedSyntaxAllowedAsLiteral;
         }
-        
+
         public String isTrimDirectiveWhitespaces() {
             return trimDirectiveWhitespaces;
         }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -237,14 +237,14 @@ public class ApplicationContext
         }
     }
 
-    
+
     /**
      * Return the main path associated with this context.
      */
     public String getContextPath() {
         return context.getPath();
     }
-    
+
 
     /**
      * Return the value of the specified initialization parameter, or
@@ -259,7 +259,14 @@ public class ApplicationContext
                 context.getTldValidation()) {
             return "true";
         }
-
+        if (Globals.JASPER_XML_BLOCK_EXTERNAL_INIT_PARAM.equals(name)) {
+            if (context.getXmlBlockExternal()) {
+                return "true";
+            } else if (Globals.IS_SECURITY_ENABLED) {
+                // System admin has explicitly changed the default
+                return "false";
+            }
+        }
         return parameters.get(name);
     }
 
@@ -268,7 +275,7 @@ public class ApplicationContext
         if (parameters.containsKey(name)) {
             return false;
         }
-        
+
         parameters.put(name, value);
         return true;
     }
@@ -285,6 +292,9 @@ public class ApplicationContext
         // available if they have been set on the context
         if (context.getTldValidation()) {
             names.add(Globals.JASPER_XML_VALIDATION_TLD_INIT_PARAM);
+        }
+        if (context.getXmlBlockExternal() || Globals.IS_SECURITY_ENABLED) {
+            names.add(Globals.JASPER_XML_BLOCK_EXTERNAL_INIT_PARAM);
         }
         return Collections.enumeration(names);
     }
@@ -347,7 +357,7 @@ public class ApplicationContext
         Wrapper wrapper = (Wrapper) context.findChild(name);
         if (wrapper == null)
             return (null);
-        
+
         return new ApplicationDispatcher(wrapper, null, null, null, null, name);
 
     }
@@ -403,7 +413,7 @@ public class ApplicationContext
         if (path == null)
             return (null);
 
-        pos = path.length(); 
+        pos = path.length();
 
         // Use the thread local URI and mapping data
         DispatchData dd = dispatchData.get();
@@ -454,10 +464,10 @@ public class ApplicationContext
         String pathInfo = mappingData.pathInfo.toString();
 
         mappingData.recycle();
-        
+
         // Construct a RequestDispatcher to process this request
         return new ApplicationDispatcher
-            (wrapper, uriCC.toString(), wrapperPath, pathInfo, 
+            (wrapper, uriCC.toString(), wrapperPath, pathInfo,
              queryString, null);
 
     }
@@ -483,7 +493,7 @@ public class ApplicationContext
         if (!path.startsWith("/") && Globals.STRICT_SERVLET_COMPLIANCE)
             throw new MalformedURLException(sm.getString("applicationContext.requestDispatcher.iae", path));
 
-        
+
         path = RequestUtil.normalize(path);
         if (path == null)
             return (null);
@@ -685,7 +695,7 @@ public class ApplicationContext
      *  <code>log(String, Throwable)</code> instead
      */
     public void log(Exception exception, String message) {
-        
+
         context.getLogger().error(message, exception);
 
     }
@@ -698,7 +708,7 @@ public class ApplicationContext
      * @param throwable Exception to be reported
      */
     public void log(String message, Throwable throwable) {
-        
+
         context.getLogger().error(message, throwable);
 
     }
@@ -839,7 +849,7 @@ public class ApplicationContext
     protected StandardContext getContext() {
         return this.context;
     }
-    
+
     protected Map getReadonlyAttributes() {
         return this.readOnlyAttributes;
     }
@@ -862,10 +872,10 @@ public class ApplicationContext
             String key = (String) keys.next();
             removeAttribute(key);
         }
-        
+
     }
-    
-    
+
+
     /**
      * Return the facade associated with this ApplicationContext.
      */
