@@ -30,21 +30,18 @@ None
 PATCHES ACCEPTED TO BACKPORT:
   [ start all new proposals below, under PATCHES PROPOSED. ]
 
+
+PATCHES PROPOSED TO BACKPORT:
+  [ New proposals should be added at the end of the list ]
+
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56016
   When loading resources for XML schema validation, take account of the
   possibility that servlet-api.jar and jsp-api.jar may not be loaded by the same
   class loader.
   Patch by Juan Carlos Estibariz.
   https://svn.apache.org/r1558894
-  +1: markt
+  +1: markt, kkolinko
   -1:
-
-
-PATCHES PROPOSED TO BACKPORT:
-  [ New proposals should be added at the end of the list ]
-
-None
-
 
 PATCHES/ISSUES THAT ARE STALLED:
 
