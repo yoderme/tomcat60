@@ -63,13 +63,13 @@ PATCHES PROPOSED TO BACKPORT:
   enable the logging of any blocked entities.
   Backport of https://svn.apache.org/r1549529
   http://people.apache.org/~markt/patches/2014-01-13-xml-block-external-tc6-v1.patch
-  +1: markt, mturk, funkman
+  +1: markt, mturk, funkman, remm
   -1:
 
 * Ensure that sessions IDs are not parsed from URLs for Contexts where
   disableURLRewriting is true.
   http://people.apache.org/~markt/patches/2014-01-14-disableURLRewriting-tc6-v1.patch
-  +1: markt,funkman
+  +1: markt,funkman, remm
   -1:
 
 
