@@ -47,7 +47,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Update JSTL JARs to 1.1.2 (same as Tomcat 7) with an svn cp from Tomcat 7.
   Fixes various validation issues when using the examples web application with
   validation enabled.
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 
