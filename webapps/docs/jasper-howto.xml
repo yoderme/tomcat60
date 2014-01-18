@@ -374,7 +374,7 @@ depending on the application.</li>
 <a href="http://oss.software.ibm.com/developerworks/opensource/jikes/">
 Jikes</a> to compile JSP pages:
 <ul>
-<li>From your <a href="ant.apache.org">Ant</a> installation, copy ant.jar
+<li>From your <a href="http://ant.apache.org">Ant</a> installation, copy ant.jar
 and (if it's available: Ant 1.5 and later) ant-launcher.jar to 
 <code>$CATALINA_HOME/lib</code>.</li>
 <li>Download and install jikes. jikes must support the -encoding option.
