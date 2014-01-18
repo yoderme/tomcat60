@@ -47,7 +47,7 @@
   <subsection name="Web applications">
     <changelog>
       <fix>
-        Fix broken link in Jasper How-To in documentation. (markt)
+        Fix broken link in Jasper How-To documentation. (markt)
       </fix>
     </changelog>
   </subsection>
@@ -96,6 +96,7 @@
         When Catalina parses TLD files, always use a namespace aware parser to
         be consistent with how Jasper parses TLD files. The
         <code>tldNamespaceAware</code> attribute of the Context is now ignored.
+        (markt)
       </fix>
       <fix>
         As per section SRV.14.4.3 of the Servlet 2.5 specification, a namespace
