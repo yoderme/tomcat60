@@ -39,9 +39,9 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56029
   Regression in fix for BZ55198 broke parsing of some ternary expressions
   https://svn.apache.org/r1559555
+  https://svn.apache.org/r1559708 (excluding test case)
   +1: markt
   -1:
-
 
 
 PATCHES/ISSUES THAT ARE STALLED:
