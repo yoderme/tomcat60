@@ -33,7 +33,7 @@ PATCHES PROPOSED TO BACKPORT:
 * BIO tolerates whitespace in the ciphers attribute whereas NIO does not. Make
   NIO tolerate it as well
   http://people.apache.org/~markt/patches/2014-01-18-ciphers-whitespace-nio-tc6-v1.patch
-  +1: markt
+  +1: markt, rjung
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56029
@@ -44,6 +44,7 @@ PATCHES PROPOSED TO BACKPORT:
   https://svn.apache.org/r1560023 (excluding test case)
   +1: markt
   -1:
+  rjung: a combined patch would be useful, merging seems to be non-trivial
 
 
 PATCHES/ISSUES THAT ARE STALLED:
