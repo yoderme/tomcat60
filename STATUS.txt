@@ -38,13 +38,10 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56029
   Regression in fix for BZ55198 broke parsing of some ternary expressions
-  https://svn.apache.org/r1559555
-  https://svn.apache.org/r1559708 (excluding test case)
-  https://svn.apache.org/r1559820 (overwritten by r1560023, may be needed for a clean svn merge)
-  https://svn.apache.org/r1560023 (excluding test case)
+  Align tc6 implementation with that of trunk (diff to trunk is easy to review)
+  http://people.apache.org/~markt/patches/2014-01-21-ELParser-tc6-v1.patch
   +1: markt
   -1:
-  rjung: a combined patch would be useful, merging seems to be non-trivial
 
 
 PATCHES/ISSUES THAT ARE STALLED:
