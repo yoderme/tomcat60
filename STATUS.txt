@@ -40,6 +40,7 @@ PATCHES PROPOSED TO BACKPORT:
   Regression in fix for BZ55198 broke parsing of some ternary expressions
   https://svn.apache.org/r1559555
   https://svn.apache.org/r1559708 (excluding test case)
+  https://svn.apache.org/r1560023 (excluding test case)
   +1: markt
   -1:
 
