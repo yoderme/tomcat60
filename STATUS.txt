@@ -34,13 +34,20 @@ PATCHES PROPOSED TO BACKPORT:
   NIO tolerate it as well
   http://people.apache.org/~markt/patches/2014-01-18-ciphers-whitespace-nio-tc6-v1.patch
   +1: markt, rjung
+  +1: kkolinko: OK, though I have two comments:
+       1. If we align NIO and BIO here, the code in JSSESocketFactory.getEnabledCiphers(..)
+       also skips empty tokens.
+       2. There is similar code in TC7 & trunk in AbstractEndpoint.setCiphers(),
+       but it has not been fixed yet.
+       Actually as far as I see the ciphersarr is never used in TC7 &
+       trunk, as there are no calls to AbstractEndpoint.getCiphersArray().
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56029
   Regression in fix for BZ55198 broke parsing of some ternary expressions
   Align tc6 implementation with that of trunk (diff to trunk is easy to review)
   http://people.apache.org/~markt/patches/2014-01-21-ELParser-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 
