@@ -32,9 +32,16 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Correct Maven dependencies
   http://people.apache.org/~markt/patches/2014-01-23-poms-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
+* Update sample Eclipse IDE project to use JUnit 4 and
+  to prefer a Java 5 JDK instead of the default one
+  when several JDKs are configured.
+  Remove unused JUnit-related properties from Ant build files.
+  https://people.apache.org/~kkolinko/patches/2014-01-24_tc6_junit4_eclipse.patch
+  +1: kkolinko
+  -1:
 
 PATCHES/ISSUES THAT ARE STALLED:
 
