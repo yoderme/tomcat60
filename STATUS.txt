@@ -43,6 +43,14 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, markt
   -1:
 
+* Remove a stale empty test class from tribes tests.
+  It does nothing, has no references.
+  JUnit complains about it with "junit.framework.AssertionFailedError: No tests found"
+
+  svn rm test/org/apache/catalina/tribes/test/interceptors/TestTwoPhaseCommit.java
+  +1: kkolinko
+  -1:
+
 PATCHES/ISSUES THAT ARE STALLED:
 
 None
