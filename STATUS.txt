@@ -30,13 +30,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56029
-  Regression in fix for BZ55198 broke parsing of some ternary expressions
-  Align tc6 implementation with that of trunk (diff to trunk is easy to review)
-  http://people.apache.org/~markt/patches/2014-01-21-ELParser-tc6-v1.patch
-  +1: markt, kkolinko, remm
-  -1:
-
 * Correct Maven dependencies
   http://people.apache.org/~markt/patches/2014-01-23-poms-tc6-v1.patch
   +1: markt

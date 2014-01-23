@@ -74,6 +74,61 @@ public class TestELParser extends TestCase {
     }
 
 
+    public void testTernary01() throws JasperException {
+        doTestParser("${true?true:false}");
+    }
+
+
+    public void testTernary02() throws JasperException {
+        doTestParser("${a==1?true:false}");
+    }
+
+
+    public void testTernary03() throws JasperException {
+        doTestParser("${a eq1?true:false}");
+    }
+
+
+    public void testTernary04() throws JasperException {
+        doTestParser(" ${ a eq 1 ? true : false } ");
+    }
+
+
+    public void testTernary05() throws JasperException {
+        // Note this is invalid EL
+        doTestParser("${aeq1?true:false}");
+    }
+
+
+    public void testTernary06() throws JasperException {
+        doTestParser("${do:it(a eq1?true:false,y)}");
+    }
+
+
+    public void testTernary07() throws JasperException {
+        doTestParser(" ${ do:it( a eq 1 ? true : false, y ) } ");
+    }
+
+
+    public void testTernary08() throws JasperException {
+        doTestParser(" ${ do:it ( a eq 1 ? true : false, y ) } ");
+    }
+
+
+    public void testTernary09() throws JasperException {
+        doTestParser(" ${ do : it ( a eq 1 ? true : false, y ) } ");
+    }
+
+
+    public void testTernary10() throws JasperException {
+        doTestParser(" ${!empty my:link(foo)} ");
+    }
+
+
+    public void testTernaryBug56031() throws JasperException {
+        doTestParser("${my:link(!empty registration ? registration : '/test/registration')}");
+    }
+
     private void doTestParser(String input) throws JasperException {
         Nodes nodes = ELParser.parse(input, false);
 
