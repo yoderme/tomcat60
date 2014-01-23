@@ -34,7 +34,7 @@ PATCHES PROPOSED TO BACKPORT:
   Regression in fix for BZ55198 broke parsing of some ternary expressions
   Align tc6 implementation with that of trunk (diff to trunk is easy to review)
   http://people.apache.org/~markt/patches/2014-01-21-ELParser-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 
