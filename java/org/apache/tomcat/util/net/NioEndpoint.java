@@ -640,7 +640,9 @@ public class NioEndpoint extends AbstractEndpoint {
         else {
             StringTokenizer t = new StringTokenizer(s,",");
             ciphersarr = new String[t.countTokens()];
-            for (int i=0; i<ciphersarr.length; i++ ) ciphersarr[i] = t.nextToken();
+            for (int i=0; i<ciphersarr.length; i++ ) {
+                ciphersarr[i] = t.nextToken().trim();
+            }
         }
     }
 
