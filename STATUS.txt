@@ -40,7 +40,7 @@ PATCHES PROPOSED TO BACKPORT:
   when several JDKs are configured.
   Remove unused JUnit-related properties from Ant build files.
   https://people.apache.org/~kkolinko/patches/2014-01-24_tc6_junit4_eclipse.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 PATCHES/ISSUES THAT ARE STALLED:
