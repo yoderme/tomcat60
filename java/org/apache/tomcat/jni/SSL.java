@@ -326,7 +326,7 @@ public final class SSL {
      * SSL_TMP_KEY_DH_4096
      * </PRE>
      * @param idx temporary key index.
-     * @param file File contatining DH params.
+     * @param file File containing DH params.
      */
     public static native boolean loadDSATempKey(int idx, String file);
 

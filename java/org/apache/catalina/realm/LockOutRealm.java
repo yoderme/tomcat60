@@ -148,7 +148,7 @@ public class LockOutRealm extends CombinedRealm {
      * @param clientDigest Digest which has been submitted by the client
      * @param nOnce Unique (or supposedly unique) token which has been used
      * for this request
-     * @param realm Realm name
+     * @param realmName Realm name
      * @param md5a2 Second MD5 digest used to calculate the digest :
      * MD5(Method + ":" + uri)
      */

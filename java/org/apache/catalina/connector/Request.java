@@ -979,12 +979,12 @@ public class Request
      * not be included although they are accessible via
      * {@link #getAttribute(String)}. The Tomcat internal attributes include:
      * <ul>
-     * <li>{@link Globals.DISPATCHER_TYPE_ATTR}</li>
-     * <li>{@link Globals.DISPATCHER_REQUEST_PATH_ATTR}</li>
-     * <li>{@link Globals.CERTIFICATES_ATTR} (SSL connections only)</li>
-     * <li>{@link Globals.CIPHER_SUITE_ATTR} (SSL connections only)</li>
-     * <li>{@link Globals.KEY_SIZE_ATTR} (SSL connections only)</li>
-     * <li>{@link Globals.SSL_SESSION_ID_ATTR} (SSL connections only)</li>
+     * <li>{@link Globals#DISPATCHER_TYPE_ATTR}</li>
+     * <li>{@link Globals#DISPATCHER_REQUEST_PATH_ATTR}</li>
+     * <li>{@link Globals#CERTIFICATES_ATTR} (SSL connections only)</li>
+     * <li>{@link Globals#CIPHER_SUITE_ATTR} (SSL connections only)</li>
+     * <li>{@link Globals#KEY_SIZE_ATTR} (SSL connections only)</li>
+     * <li>{@link Globals#SSL_SESSION_ID_ATTR} (SSL connections only)</li>
      * <li>{@link Globals#PARAMETER_PARSE_FAILED_ATTR}</li>
      * </ul>
      * The underlying connector may also expose request attributes. These all
@@ -2346,7 +2346,7 @@ public class Request
 
     /**
      * Get the event associated with the request.
-     * @return
+     * @return the event
      */
     public CometEventImpl getEvent() {
         if (event == null) {

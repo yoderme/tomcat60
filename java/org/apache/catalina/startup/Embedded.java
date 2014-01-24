@@ -239,7 +239,7 @@ public class Embedded  extends StandardService implements Lifecycle {
     /**
      * Enables or disables naming support.
      *
-     * @param useNaming The new use naming value
+     * @param redirectStreams The new redirection value
      */
     public void setRedirectStreams(boolean redirectStreams) {
 
