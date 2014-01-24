@@ -82,6 +82,9 @@
         Java 5 JDK when several JDKs are configured. Cleanup the Ant build
         files. (kkolinko)
       </update>
+      <fix>
+        Correct Maven dependencies for individual JAR file. (markt)
+      </fix>
     </changelog>
   </subsection>
 </section>
