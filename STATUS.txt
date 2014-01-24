@@ -45,14 +45,6 @@ PATCHES PROPOSED TO BACKPORT:
   rjung: there are some additional junit references in file test/build.xml.
          I wasn't able to make them work. Maybe more cleanup opportunity?
 
-* Remove a stale empty test class from tribes tests.
-  It does nothing, has no references.
-  JUnit complains about it with "junit.framework.AssertionFailedError: No tests found"
-
-  svn rm test/org/apache/catalina/tribes/test/interceptors/TestTwoPhaseCommit.java
-  +1: kkolinko, markt, rjung
-  -1:
-
 * Remove second copy of RUNNING.txt from the full-docs distribution.
   (Backport of r981845)
   https://people.apache.org/~kkolinko/patches/2014-01-24_tc6_fulldocs_RUNNING.patch

@@ -52,6 +52,13 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Cluster">
+    <changelog>
+      <scode>
+        Remove an empty TestTwoPhaseCommit test from Tribes. (kkolinko)
+      </scode>
+    </changelog>
+  </subsection>
   <subsection name="Web applications">
     <changelog>
       <fix>
