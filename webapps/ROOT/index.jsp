@@ -116,7 +116,6 @@
                 <tr>
 		  <td class="menu">
 		    <a href="manager/status">Status</a><br/>
-                    <!--<a href="admin">Tomcat&nbsp;Administration</a><br/>-->
                     <a href="manager/html">Tomcat&nbsp;Manager</a><br/>
                     &nbsp;
                   </td>
@@ -132,7 +131,7 @@
                   <td class="menu">
                     <a href="RELEASE-NOTES.txt">Release&nbsp;Notes</a><br/>
                     <a href="docs/changelog.html">Change&nbsp;Log</a><br/>
-                    <a href="docs">Tomcat&nbsp;Documentation</a><br/>                        &nbsp;
+                    <a href="docs">Tomcat&nbsp;Documentation</a><br/>
                     &nbsp;
 		    </td>
                 </tr>
