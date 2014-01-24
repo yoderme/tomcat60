@@ -292,7 +292,6 @@ public class DeltaRequest implements Externalizable {
      * serialize DeltaRequest
      * @see DeltaRequest#writeExternal(java.io.ObjectOutput)
      * 
-     * @param deltaRequest
      * @return serialized delta request
      * @throws IOException
      */
