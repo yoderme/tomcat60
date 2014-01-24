@@ -70,6 +70,15 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Other">
+    <changelog>
+      <update>
+        Update sample Eclipse IDE project: use JUnit 4 library and prefer a
+        Java 5 JDK when several JDKs are configured. Cleanup the Ant build
+        files. (kkolinko)
+      </update>
+    </changelog>
+  </subsection>
 </section>
 <section name="Tomcat 6.0.38 (markt)"  rtext="not released">
   <subsection name="Catalina">

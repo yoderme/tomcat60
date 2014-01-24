@@ -62,8 +62,6 @@
   <property name="tomcat.manifests"  value="${tomcat.output}/manifests"/>
   <property name="tomcat.deployer"   value="${tomcat.output}/deployer"/>
   <property name="tomcat.release"    value="${tomcat.output}/release"/>
-  <property name="test.failonerror"  value="true"/>
-  <property name="test.runner"       value="junit.textui.TestRunner"/>
 
   <!-- constant to declare a file binary for md5sum -->
   <property name="md5sum.binary-prefix" value=" *" />

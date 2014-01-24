@@ -35,16 +35,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko, rjung
   -1:
 
-* Update sample Eclipse IDE project to use JUnit 4 and
-  to prefer a Java 5 JDK instead of the default one
-  when several JDKs are configured.
-  Remove unused JUnit-related properties from Ant build files.
-  https://people.apache.org/~kkolinko/patches/2014-01-24_tc6_junit4_eclipse.patch
-  +1: kkolinko, markt, rjung
-  -1:
-  rjung: there are some additional junit references in file test/build.xml.
-         I wasn't able to make them work. Maybe more cleanup opportunity?
-
 * Remove second copy of RUNNING.txt from the full-docs distribution.
   (Backport of r981845)
   https://people.apache.org/~kkolinko/patches/2014-01-24_tc6_fulldocs_RUNNING.patch

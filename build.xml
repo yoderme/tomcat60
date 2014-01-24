@@ -58,8 +58,6 @@
   <property name="tomcat.classes"        value="${tomcat.output}/classes"/>
   <property name="tomcat.dist"           value="${tomcat.output}/dist"/>
   <property name="tomcat.manifests"      value="${tomcat.output}/manifests"/>
-  <property name="test.failonerror"      value="true"/>
-  <property name="test.runner"           value="junit.textui.TestRunner"/>
 
   <!-- Can't be lower - jsp uses templates -->
   <property name="compile.source" value="1.5"/>
@@ -117,8 +115,6 @@
 
   <!-- Just build Tomcat -->
   <target name="build-prepare">
-
-    <available classname="junit.framework.TestCase" property="junit.present" />
 
     <mkdir dir="${tomcat.classes}"/>
 
