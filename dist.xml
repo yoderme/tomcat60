@@ -694,7 +694,6 @@
         <include name="LICENSE" />
         <include name="NOTICE" />
         <include name="README.txt" />
-        <include name="RUNNING.txt" />
       </tarfileset>
       <tarfileset dir="${tomcat.dist}/webapps/docs" prefix="tomcat-${version.major.minor}-doc">
         <include name="**" />

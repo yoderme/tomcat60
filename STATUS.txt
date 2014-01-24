@@ -35,12 +35,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko, rjung
   -1:
 
-* Remove second copy of RUNNING.txt from the full-docs distribution.
-  (Backport of r981845)
-  https://people.apache.org/~kkolinko/patches/2014-01-24_tc6_fulldocs_RUNNING.patch
-  +1: kkolinko, markt, rjung
-  -1:
-
 PATCHES/ISSUES THAT ARE STALLED:
 
 None

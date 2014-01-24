@@ -68,6 +68,11 @@
         Align index.html and index.jsp in ROOT web application. Correct links
         to specifications and to the Tomcat mailing lists. (kkolinko)
       </fix>
+      <fix>
+        Remove second copy of RUNNING.txt from the full-docs distribution. Some
+        unpacking utilities can't handle multiple copies of a file with the same
+        name in a directory. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
