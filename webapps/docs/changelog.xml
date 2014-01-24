@@ -57,6 +57,10 @@
       <fix>
         Fix broken link in Jasper How-To documentation. (markt)
       </fix>
+      <fix>
+        Align index.html and index.jsp in ROOT web application. Correct links
+        to specifications and to the Tomcat mailing lists. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
 </section>

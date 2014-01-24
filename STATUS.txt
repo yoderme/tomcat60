@@ -53,24 +53,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, markt, rjung
   -1:
 
-* Align ROOT/index.html and ROOT/index.jsp
-  It is backport of r1560857 and followup to r648575 that
-  fixed one of the two files.
-
-  The following fixes were part of r648575:
-  - Fix broken links if ROOT application is renamed.
-  - Merge "Examples" section of menu into "Miscellaneous" one.
-
-  The following fixes are new:
-  - Remove dead links to Sun sites.
-  - Add link to the Specifications page of Tomcat Wiki.
-  - Correct mailing lists links so that they point to the Mailing List
-  page on the site, so that people have a chance to read instructions there.
-
-  https://people.apache.org/~kkolinko/patches/2014-01-24_tc6_ROOT_index.patch
-  +1: kkolinko, markt, rjung
-  -1:
-
 * Remove second copy of RUNNING.txt from the full-docs distribution.
   (Backport of r981845)
   https://people.apache.org/~kkolinko/patches/2014-01-24_tc6_fulldocs_RUNNING.patch

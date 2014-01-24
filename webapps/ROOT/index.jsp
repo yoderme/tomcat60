@@ -115,8 +115,8 @@
                 </tr>
                 <tr>
                   <td class="menu">
-                    <a href="manager/status">Status</a><br/>
-                    <a href="manager/html">Tomcat&nbsp;Manager</a><br/>
+                    <a href="/manager/status">Status</a><br/>
+                    <a href="/manager/html">Tomcat&nbsp;Manager</a><br/>
                     &nbsp;
                   </td>
                 </tr>
@@ -129,8 +129,8 @@
                 <tr>
                   <td class="menu">
                     <a href="RELEASE-NOTES.txt">Release&nbsp;Notes</a><br/>
-                    <a href="docs/changelog.html">Change&nbsp;Log</a><br/>
-                    <a href="docs">Tomcat&nbsp;Documentation</a><br/>
+                    <a href="/docs/changelog.html">Change&nbsp;Log</a><br/>
+                    <a href="/docs">Tomcat&nbsp;Documentation</a><br/>
                     &nbsp;
                     </td>
                 </tr>
@@ -155,26 +155,13 @@
             <br/>
             <table width="100%" border="1" cellspacing="0" cellpadding="3">
                 <tr>
-                  <th>Examples</th>
-                </tr>
-                <tr>
-                  <td class="menu">
-                    <a href="examples/servlets/">Servlets Examples</a><br/>
-                    <a href="examples/jsp/">JSP Examples</a><br/>
-                    <a href="webdav/">WebDAV&nbsp;capabilities</a><br/>
-                         &nbsp;
-                  </td>
-                </tr>
-            </table>
-            <br/>
-            <table width="100%" border="1" cellspacing="0" cellpadding="3">
-                <tr>
                   <th>Miscellaneous</th>
                 </tr>
                 <tr>
                   <td class="menu">
-                    <a href="http://java.sun.com/products/jsp">Sun's&nbsp;Java&nbsp;Server&nbsp;Pages&nbsp;Site</a><br/>
-                    <a href="http://java.sun.com/products/servlet">Sun's&nbsp;Servlet&nbsp;Site</a><br/>
+                    <a href="/examples/servlets/">Servlets Examples</a><br/>
+                    <a href="/examples/jsp/">JSP Examples</a><br/>
+                    <a href="http://wiki.apache.org/tomcat/Specifications">Specifications</a><br/>
                         &nbsp;
                   </td>
                 </tr>
@@ -190,7 +177,7 @@
           <p>As you may have guessed by now, this is the default Tomcat home page. It can be found on the local filesystem at:</p>
           <p class="code">$CATALINA_HOME/webapps/ROOT/index.jsp</p>
 
-          <p>where "$CATALINA_HOME" is the root of the Tomcat installation directory. If you're seeing this page, and you don't think you should be, then you're either a user who has arrived at new installation of Tomcat, or you're an administrator who hasn't got his/her setup quite right. Providing the latter is the case, please refer to the <a href="docs">Tomcat Documentation</a> for more detailed setup and administration information than is found in the INSTALL file.</p>
+          <p>where "$CATALINA_HOME" is the root of the Tomcat installation directory. If you're seeing this page, and you don't think you should be, then you're either a user who has arrived at new installation of Tomcat, or you're an administrator who hasn't got his/her setup quite right. Providing the latter is the case, please refer to the <a href="/docs">Tomcat Documentation</a> for more detailed setup and administration information than is found in the INSTALL file.</p>
 
             <p><b>NOTE: For security reasons, using the manager webapp
             is restricted to users with certain roles such as "manager-gui".</b>
@@ -201,8 +188,8 @@
             <p>Tomcat mailing lists are available at the Tomcat project web site:</p>
 
            <ul>
-               <li><b><a href="mailto:users@tomcat.apache.org">users@tomcat.apache.org</a></b> for general questions related to configuring and using Tomcat</li>
-               <li><b><a href="mailto:dev@tomcat.apache.org">dev@tomcat.apache.org</a></b> for developers working on Tomcat</li>
+               <li><b><a href="http://tomcat.apache.org/lists.html#tomcat-users">tomcat-users</a></b> for general questions related to configuring and using Tomcat</li>
+               <li><b><a href="http://tomcat.apache.org/lists.html#tomcat-dev">tomcat-dev</a></b> for developers working on Tomcat</li>
            </ul>
 
             <p>Thanks for using Tomcat!</p>
