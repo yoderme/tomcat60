@@ -50,6 +50,10 @@
         Make the HTTP NIO connector tolerant of whitespace in the individual
         values used for the ciphers attribute. (markt)
       </fix>
+      <fix>
+        Remove dependency introduced on the jsp-api.jar as part of the XML
+        validation changes introduced in 6.0.38. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Cluster">
@@ -83,7 +87,7 @@
         files. (kkolinko)
       </update>
       <fix>
-        Correct Maven dependencies for individual JAR file. (markt)
+        Correct Maven dependencies for individual JAR files. (markt)
       </fix>
     </changelog>
   </subsection>
