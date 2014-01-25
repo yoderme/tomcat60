@@ -16,8 +16,6 @@ rem limitations under the License.
 
 rem ---------------------------------------------------------------------------
 rem Set CLASSPATH and Java options
-rem
-rem $Id$
 rem ---------------------------------------------------------------------------
 
 rem Make sure prerequisite environment variables are set

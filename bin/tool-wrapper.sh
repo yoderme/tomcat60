@@ -29,8 +29,6 @@
 #
 #   JAVA_OPTS     (Optional) Java runtime options used when the "start",
 #                 "stop", or "run" command is executed.
-#
-# $Id$
 # -----------------------------------------------------------------------------
 
 # OS specific support.  $var _must_ be set to either true or false.
