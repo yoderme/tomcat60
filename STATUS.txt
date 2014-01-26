@@ -32,7 +32,7 @@ PATCHES PROPOSED TO BACKPORT:
   See "Tagging 6.0.39" thread on dev list.
   By the way, it fixes https://issues.apache.org/bugzilla/show_bug.cgi?id=55166
   https://people.apache.org/~kkolinko/patches/2014-01-26_tc6_schemas_Java5.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 
