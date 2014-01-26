@@ -28,7 +28,11 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-None
+* Fix error when running in strict servlet compliance mode with Java 5.
+  See "Tagging 6.0.39" thread on dev list.
+  https://people.apache.org/~kkolinko/patches/2014-01-26_tc6_schemas_Java5.patch
+  +1: kkolinko
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
