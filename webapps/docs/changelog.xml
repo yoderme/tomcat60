@@ -50,6 +50,10 @@
         <bug>55166</bug>: Fix regression that broke XML validation when running
         on some Java 5 JVMs. (kkolinko)
       </fix>
+      <fix>
+        Correct typo in definition of default value for contentType attribute
+        of jsp:directive.page element in jspxml Schema and DTD. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
