@@ -18,18 +18,6 @@ package org.apache.catalina.ha;
 
 import org.apache.catalina.tribes.Member;
 
-
-/**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- *
- * <p>Company: </p>
- *
- * @author not attributable
- * @version 1.0
- */
 public class ClusterMessageBase implements ClusterMessage {
     
     protected transient Member address;
@@ -42,7 +30,6 @@ public class ClusterMessageBase implements ClusterMessage {
      * getAddress
      *
      * @return Member
-     * @todo Implement this org.apache.catalina.ha.ClusterMessage method
      */
     public Member getAddress() {
         return address;
@@ -60,7 +47,6 @@ public class ClusterMessageBase implements ClusterMessage {
      * setAddress
      *
      * @param member Member
-     * @todo Implement this org.apache.catalina.ha.ClusterMessage method
      */
     public void setAddress(Member member) {
         this.address = member;

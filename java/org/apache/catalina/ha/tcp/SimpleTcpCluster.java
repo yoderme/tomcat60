@@ -327,7 +327,7 @@ public class SimpleTcpCluster
     /**
      * add cluster message listener and register cluster to this listener
      * 
-     * @see org.apache.catalina.ha.CatalinaCluster#addClusterListener(org.apache.catalina.ha.MessageListener)
+     * @see org.apache.catalina.ha.CatalinaCluster#addClusterListener(org.apache.catalina.ha.ClusterListener)
      */
     public void addClusterListener(ClusterListener listener) {
         if (listener != null && !clusterListeners.contains(listener)) {
@@ -339,7 +339,7 @@ public class SimpleTcpCluster
     /**
      * remove message listener and deregister Cluster from listener
      * 
-     * @see org.apache.catalina.ha.CatalinaCluster#removeClusterListener(org.apache.catalina.ha.MessageListener)
+     * @see org.apache.catalina.ha.CatalinaCluster#removeClusterListener(org.apache.catalina.ha.ClusterListener)
      */
     public void removeClusterListener(ClusterListener listener) {
         if (listener != null) {
