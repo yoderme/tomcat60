@@ -28,7 +28,11 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-None
+* Correct typo in definition of default value for contentType attribute of
+  jsp:directive.page element in jspxml Schema and DTD.
+  http://svn.apache.org/r1561641
+  +1: kkolinko
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
