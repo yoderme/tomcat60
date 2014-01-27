@@ -47,6 +47,19 @@ PATCHES PROPOSED TO BACKPORT:
   rjung: Is it helpful to remove the old version tags? They carry the information
          on which external varion the files were based on.
 
+  kkolinko: To me those tags say nothing and feel misleading, not
+         maintained and unmaintainable.
+
+         If the annotation says version "1.17 03/18/03", is it really that
+         version? If someone prints or copies the file, will such number on
+         a printed copy be correct? Unlikely. It feels more that it will
+         impersonate the correct "v1.17" that exists elsewhere.
+
+         The only reliable way to track history of such file is via its
+         actual history (in source code management system or via mail
+         archives). The first commit should have said where the file came
+         from.
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
