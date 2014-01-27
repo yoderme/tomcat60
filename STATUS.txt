@@ -31,7 +31,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Additional fixes for jspxml DTD
   for issues found by validating the file in Eclipse IDE.
   http://svn.apache.org/r1561737
-  +1: kkolinko, markt
+  +1: kkolinko, markt, rjung
   -1:
 
 * Remove svn keywords and similar constructs for other source code
@@ -44,6 +44,8 @@ PATCHES PROPOSED TO BACKPORT:
   (backport of r1561706)
   +1: kkolinko, markt
   -1:
+  rjung: Is it helpful to remove the old version tags? They carry the information
+         on which external varion the files were based on.
 
 
 PATCHES/ISSUES THAT ARE STALLED:
