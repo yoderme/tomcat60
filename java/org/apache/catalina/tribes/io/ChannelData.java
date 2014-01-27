@@ -136,7 +136,7 @@ public class ChannelData implements ChannelMessage {
         return options;
     }
     /**
-     * @param sets the message options
+     * @param options sets the message options
      */
     public void setOptions(int options) {
         this.options = options;
@@ -215,8 +215,6 @@ public class ChannelData implements ChannelMessage {
     
     /**
      * Deserializes a ChannelData object from a byte array
-     * @param b byte[]
-     * @return ChannelData
      */
     public static ChannelData getDataFromPackage(XByteBuffer xbuf)  {
         ChannelData data = new ChannelData(false);

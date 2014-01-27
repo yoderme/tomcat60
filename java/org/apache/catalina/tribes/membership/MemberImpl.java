@@ -118,8 +118,6 @@ public class MemberImpl implements Member, java.io.Externalizable {
 
     /**
      * Construct a new member object
-     * @param name - the name of this member, cluster unique
-     * @param domain - the cluster domain name of this member
      * @param host - the tcp listen host
      * @param port - the tcp listen port
      */

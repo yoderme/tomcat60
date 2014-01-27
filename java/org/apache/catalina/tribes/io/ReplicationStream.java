@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.apache.catalina.tribes.io;
 
 import java.io.IOException;
@@ -35,7 +33,6 @@ import java.lang.reflect.Proxy;
  * @author Filip Hanik
  * @version $Id$
  */
-
 public final class ReplicationStream extends ObjectInputStream {
 
     
@@ -48,7 +45,7 @@ public final class ReplicationStream extends ObjectInputStream {
      * Construct a new instance of CustomObjectInputStream
      *
      * @param stream The input stream we will read from
-     * @param classLoader The class loader used to instantiate objects
+     * @param classLoaders The class loaders used to instantiate objects
      *
      * @exception IOException if an input/output error occurs
      */

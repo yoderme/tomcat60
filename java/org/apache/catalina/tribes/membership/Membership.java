@@ -75,7 +75,6 @@ public class Membership
 
     /**
      * Constructs a new membership
-     * @param name - has to be the name of the local member. Used to filter the local member from the cluster membership
      */
     public Membership(MemberImpl local, boolean includeLocal) {
         this.local = local;

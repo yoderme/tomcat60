@@ -23,8 +23,6 @@ import java.nio.channels.SocketChannel;
 
 import org.apache.catalina.tribes.ChannelMessage;
 
-
-
 /**
  * The object reader object is an object used in conjunction with
  * java.nio TCP messages. This object stores the message bytes in a
@@ -86,17 +84,16 @@ public class ObjectReader {
      * Append new bytes to buffer. 
      * @see XByteBuffer#countPackages()
      * @param data new transfer buffer
-     * @param off offset
      * @param len length in buffer
-     * @return number of messages that sended to callback
+     * @return number of messages that sent to callback
      * @throws java.io.IOException
      */
     public int append(ByteBuffer data, int len, boolean count) throws java.io.IOException {
-       buffer.append(data,len);
-       int pkgCnt = -1;
-       if ( count ) pkgCnt = buffer.countPackages();
-       return pkgCnt;
-   }
+        buffer.append(data,len);
+        int pkgCnt = -1;
+        if ( count ) pkgCnt = buffer.countPackages();
+        return pkgCnt;
+    }
 
      public int append(byte[] data,int off,int len, boolean count) throws java.io.IOException {
         buffer.append(data,off,len);
@@ -109,7 +106,7 @@ public class ObjectReader {
      * Send buffer to cluster listener (callback).
      * Is message complete receiver send message to callback?
      *
-     * @see org.apache.catalina.tribes.transport.ClusterReceiverBase#messageDataReceived(ChannelMessage)
+     * @see org.apache.catalina.tribes.transport.ReceiverBase#messageDataReceived(ChannelMessage)
      * @see XByteBuffer#doesPackageExist()
      * @see XByteBuffer#extractPackage(boolean)
      *

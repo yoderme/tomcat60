@@ -92,7 +92,8 @@ public class XByteBuffer
     /**
      * Constructs a new XByteBuffer
      * @param size - the initial size of the byte buffer
-     * @todo use a pool of byte[] for performance
+     *
+     * TODO use a pool of byte[] for performance
      */
     public XByteBuffer(int size, boolean discard) {
         buf = new byte[size];
@@ -154,7 +155,6 @@ public class XByteBuffer
      * Appends the data to the buffer. If the data is incorrectly formatted, ie, the data should always start with the
      * header, false will be returned and the data will be discarded.
      * @param b - bytes to be appended
-     * @param off - the offset to extract data from
      * @param len - the number of bytes to append.
      * @return true if the data was appended correctly. Returns false if the package is incorrect, ie missing header or something, or the length of data is 0
      */
@@ -339,10 +339,8 @@ public class XByteBuffer
     
     /**
      * Creates a complete data package
-     * @param indata - the message data to be contained within the package
-     * @param compressed - compression flag for the indata buffer
+     * @param cdata - the message data to be contained within the package
      * @return - a full package (header,size,data,footer)
-     * 
      */
     public static byte[] createDataPackage(ChannelData cdata) {
 //        return createDataPackage(cdata.getDataPackage());
@@ -432,8 +430,8 @@ public class XByteBuffer
 
     
     /**
-     * Converts an integer to four bytes
-     * @param n - the integer
+     * Converts an boolean to four bytes
+     * @param bool - the boolean
      * @return - four bytes in an array
      * @deprecated use toBytes(boolean,byte[],int)
      */
@@ -448,11 +446,7 @@ public class XByteBuffer
         return data;
     }
     
-    /**
-     * 
-     * @param <any> long
-     * @return use
-     */
+
     public static boolean toBoolean(byte[] b, int offset) {
         return b[offset] != 0;
     }
@@ -588,9 +582,6 @@ public class XByteBuffer
     /**
      * Serializes a message into cluster data
      * @param msg ClusterMessage
-     * @param compress boolean
-     * @return 
-     * @throws IOException
      */
     public static byte[] serialize(Serializable msg) throws IOException {
         ByteArrayOutputStream outs = new ByteArrayOutputStream();
