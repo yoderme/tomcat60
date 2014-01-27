@@ -31,13 +31,13 @@ PATCHES PROPOSED TO BACKPORT:
 * Correct typo in definition of default value for contentType attribute of
   jsp:directive.page element in jspxml Schema and DTD.
   http://svn.apache.org/r1561641
-  +1: kkolinko, rjung
+  +1: kkolinko, rjung, markt
   -1:
 
 * Additional fixes for jspxml DTD
   for issues found by validating the file in Eclipse IDE.
   http://svn.apache.org/r1561737
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Remove svn keywords and similar constructs for other source code
