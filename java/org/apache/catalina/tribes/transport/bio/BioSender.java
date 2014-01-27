@@ -89,7 +89,7 @@ public class BioSender extends AbstractSender implements DataSender {
 
     /**
      * Connect other cluster member receiver 
-     * @see org.apache.catalina.tribes.transport.IDataSender#connect()
+     * @see org.apache.catalina.tribes.transport.DataSender#connect()
      */
     public  void connect() throws IOException {
         openSocket();
@@ -99,7 +99,7 @@ public class BioSender extends AbstractSender implements DataSender {
     /**
      * disconnect and close socket
      * 
-     * @see IDataSender#disconnect()
+     * @see DataSender#disconnect()
      */
     public  void disconnect() {
         boolean connect = isConnected();
@@ -113,9 +113,6 @@ public class BioSender extends AbstractSender implements DataSender {
 
     /**
      * Send message
-     * 
-     * @see org.apache.catalina.tribes.transport.IDataSender#sendMessage(,
-     *      ChannelMessage)
      */
     public  void sendMessage(byte[] data, boolean waitForAck) throws IOException {
         IOException exception = null;
@@ -197,7 +194,6 @@ public class BioSender extends AbstractSender implements DataSender {
      * close socket
      * 
      * @see DataSender#disconnect()
-     * @see DataSender#closeSocket()
      */
     protected void closeSocket() {
         if(isConnected()) {
@@ -223,13 +219,12 @@ public class BioSender extends AbstractSender implements DataSender {
      * Wait for ack is needed and make auto retry when write message is failed.
      * After sending error close and reopen socket again.
      * 
-     * After successfull sending update stats
+     * After successful sending update statistics
      * 
-     * WARNING: Subclasses must be very carefull that only one thread call this pushMessage at once!!!
+     * WARNING: Subclasses must be very careful that only one thread call this pushMessage at once!!!
      * 
      * @see #closeSocket()
      * @see #openSocket()
-     * @see #writeData(ChannelMessage)
      * 
      * @param data
      *            data to send
@@ -249,8 +244,7 @@ public class BioSender extends AbstractSender implements DataSender {
     
     /**
      * Wait for Acknowledgement from other server
-     * FIXME Please, not wait only for three charcters, better control that the wait ack message is correct.
-     * @param timeout
+     * FIXME Please, not wait only for three characters, better control that the wait ack message is correct.
      * @throws java.io.IOException
      * @throws java.net.SocketTimeoutException
      */

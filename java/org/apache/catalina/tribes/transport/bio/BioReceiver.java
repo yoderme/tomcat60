@@ -41,11 +41,7 @@ public class BioReceiver extends ReceiverBase implements Runnable, ChannelReceiv
     public BioReceiver() {
     }
 
-    /**
-     *
-     * @throws IOException
-     * @todo Implement this org.apache.catalina.tribes.ChannelReceiver method
-     */
+
     public void start() throws IOException {
         super.start();
         try {
@@ -79,10 +75,7 @@ public class BioReceiver extends ReceiverBase implements Runnable, ChannelReceiv
         return result;
     }
 
-    /**
-     *
-     * @todo Implement this org.apache.catalina.tribes.ChannelReceiver method
-     */
+
     public void stop() {
         setListen(false);
         try {
@@ -90,8 +83,6 @@ public class BioReceiver extends ReceiverBase implements Runnable, ChannelReceiv
         }catch ( Exception x ) {}
         super.stop();
     }
-
-    
     
     
     protected void bind() throws IOException {
@@ -101,7 +92,6 @@ public class BioReceiver extends ReceiverBase implements Runnable, ChannelReceiv
         //serverSocket.bind(new InetSocketAddress(getBind(), getTcpListenPort()));
         bind(serverSocket,getPort(),getAutoBind());
     }
-    
     
     
     public void run() {

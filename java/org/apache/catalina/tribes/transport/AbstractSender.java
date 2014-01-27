@@ -89,27 +89,13 @@ public abstract class AbstractSender implements DataSender {
         
     }
     
-    /**
-     * connect
-     *
-     * @throws IOException
-     * @todo Implement this org.apache.catalina.tribes.transport.DataSender method
-     */
+
     public abstract void connect() throws IOException;
 
-    /**
-     * disconnect
-     *
-     * @todo Implement this org.apache.catalina.tribes.transport.DataSender method
-     */
+
     public abstract void disconnect();
 
-    /**
-     * keepalive
-     *
-     * @return boolean
-     * @todo Implement this org.apache.catalina.tribes.transport.DataSender method
-     */
+
     public boolean keepalive() {
         boolean disconnect = false;
         if ( keepAliveCount >= 0 && requestCount>keepAliveCount ) disconnect = true;

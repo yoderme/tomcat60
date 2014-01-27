@@ -92,21 +92,12 @@ public abstract class ReceiverBase implements ChannelReceiver, ListenCallback, R
         executor = null;
     }
     
-    /**
-     * getMessageListener
-     *
-     * @return MessageListener
-     * @todo Implement this org.apache.catalina.tribes.ChannelReceiver method
-     */
+
     public MessageListener getMessageListener() {
         return listener;
     }
 
-    /**
-     *
-     * @return The port
-     * @todo Implement this org.apache.catalina.tribes.ChannelReceiver method
-     */
+
     public int getPort() {
         return port;
     }
@@ -127,12 +118,7 @@ public abstract class ReceiverBase implements ChannelReceiver, ListenCallback, R
         return getMaxThreads();
     }
 
-    /**
-     * setMessageListener
-     *
-     * @param listener MessageListener
-     * @todo Implement this org.apache.catalina.tribes.ChannelReceiver method
-     */
+
     public void setMessageListener(MessageListener listener) {
         this.listener = listener;
     }

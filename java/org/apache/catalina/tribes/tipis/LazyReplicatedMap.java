@@ -61,7 +61,9 @@ import org.apache.catalina.tribes.tipis.AbstractReplicatedMap.MapOwner;
  * 
  * <br><br><b>REMBER TO CALL <code>breakdown()</code> or <code>finalize()</code> when you are done with the map to 
  * avoid memory leaks.<br><br>
- * @todo implement periodic sync/transfer thread
+ * 
+ * TODO implement periodic sync/transfer thread
+ * 
  * @author Filip Hanik
  * @version 1.0
  */

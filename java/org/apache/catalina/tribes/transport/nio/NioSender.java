@@ -197,9 +197,6 @@ public class NioSender extends AbstractSender implements DataSender{
 
     /**
      * connect - blocking in this operation
-     *
-     * @throws IOException
-     * @todo Implement this org.apache.catalina.tribes.transport.IDataSender method
      */
     public synchronized void connect() throws IOException {
         if ( connecting ) return;
@@ -229,11 +226,6 @@ public class NioSender extends AbstractSender implements DataSender{
     }
     
 
-    /**
-     * disconnect
-     *
-     * @todo Implement this org.apache.catalina.tribes.transport.IDataSender method
-     */
     public void disconnect() {
         try {
             connecting = false;
@@ -285,16 +277,10 @@ public class NioSender extends AbstractSender implements DataSender{
         return (getDirectBuffer()?ByteBuffer.allocateDirect(size):ByteBuffer.allocate(size));
     }
     
-    /**
-    * sendMessage
-    *
-    * @param data ChannelMessage
-    * @throws IOException
-    * @todo Implement this org.apache.catalina.tribes.transport.IDataSender method
-    */
-   public synchronized void setMessage(byte[] data) throws IOException {
-       setMessage(data,0,data.length);
-   }
+
+    public synchronized void setMessage(byte[] data) throws IOException {
+        setMessage(data,0,data.length);
+    }
 
    public synchronized void setMessage(byte[] data,int offset, int length) throws IOException {
        if ( data != null ) {

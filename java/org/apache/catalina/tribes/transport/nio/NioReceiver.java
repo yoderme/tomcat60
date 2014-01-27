@@ -85,8 +85,7 @@ public class NioReceiver extends ReceiverBase implements Runnable, ChannelReceiv
 
     /**
      * start cluster receiver
-     * @throws Exception
-     * @see org.apache.catalina.tribes.ClusterReceiver#start()
+     * @see org.apache.catalina.tribes.ChannelReceiver#start()
      */
     public void start() throws IOException {
         super.start();
@@ -312,7 +311,7 @@ public class NioReceiver extends ReceiverBase implements Runnable, ChannelReceiv
     /**
      * Close Selector.
      *
-     * @see org.apache.catalina.tribes.transport.ClusterReceiverBase#stopListening()
+     * @see ChannelReceiverBase#stopListening()
      */
     protected void stopListening() {
         setListen(false);

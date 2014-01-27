@@ -73,7 +73,7 @@ public class ReplicationTransmitter implements ChannelSender {
     
     /**
      * Send data to one member
-     * @see org.apache.catalina.tribes.ClusterSender#sendMessage(org.apache.catalina.tribes.ClusterMessage, org.apache.catalina.tribes.Member)
+     * @see org.apache.catalina.tribes.ChannelSender#sendMessage(ChannelMessage, Member[])
      */
     public void sendMessage(ChannelMessage message, Member[] destination) throws ChannelException {
         MultiPointSender sender = getTransport();
@@ -84,7 +84,7 @@ public class ReplicationTransmitter implements ChannelSender {
     /**
      * start the sender and register transmitter mbean
      * 
-     * @see org.apache.catalina.tribes.ClusterSender#start()
+     * @see org.apache.catalina.tribes.ChannelSender#start()
      */
     public void start() throws java.io.IOException {
         getTransport().connect();
@@ -102,9 +102,8 @@ public class ReplicationTransmitter implements ChannelSender {
     /**
      * Call transmitter to check for sender socket status
      * 
-     * @see SimpleTcpCluster#backgroundProcess()
+     * @see org.apache.catalina.ha.tcp.SimpleTcpCluster#backgroundProcess()
      */
-
     public void heartbeat() {
         if (getTransport()!=null) getTransport().keepalive();
     }
@@ -113,7 +112,7 @@ public class ReplicationTransmitter implements ChannelSender {
      * add new cluster member and create sender ( s. replicationMode) transfer
      * current properties to sender
      * 
-     * @see org.apache.catalina.tribes.ClusterSender#add(org.apache.catalina.tribes.Member)
+     * @see org.apache.catalina.tribes.ChannelSender#add(Member)
      */
     public synchronized void add(Member member) {
         getTransport().add(member);
@@ -122,7 +121,7 @@ public class ReplicationTransmitter implements ChannelSender {
     /**
      * remove sender from transmitter. ( deregister mbean and disconnect sender )
      * 
-     * @see org.apache.catalina.tribes.ClusterSender#remove(org.apache.catalina.tribes.Member)
+     * @see org.apache.catalina.tribes.ChannelSender#remove(Member)
      */
     public synchronized void remove(Member member) {
         getTransport().remove(member);

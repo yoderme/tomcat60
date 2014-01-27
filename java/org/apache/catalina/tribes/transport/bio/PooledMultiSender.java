@@ -23,16 +23,6 @@ import org.apache.catalina.tribes.ChannelException;
 import org.apache.catalina.tribes.transport.MultiPointSender;
 import org.apache.catalina.tribes.ChannelMessage;
 
-/**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Company: </p>
- *
- * @author not attributable
- * @version 1.0
- */
 public class PooledMultiSender extends PooledSender {
     
 
@@ -56,17 +46,10 @@ public class PooledMultiSender extends PooledSender {
         }
     }
 
-    /**
-     * getNewDataSender
-     *
-     * @return DataSender
-     * @todo Implement this org.apache.catalina.tribes.transport.PooledSender
-     *   method
-     */
+
     public DataSender getNewDataSender() {
         MultipointBioSender sender = new MultipointBioSender();
         sender.transferProperties(this,sender);
         return sender;
     }
-
 }
