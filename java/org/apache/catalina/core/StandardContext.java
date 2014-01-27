@@ -761,10 +761,12 @@ public class StandardContext
     /**
      * If an HttpClient keep-alive timer thread has been started by this web
      * application and is still running, should Tomcat change the context class
-     * loader from the current {@link WebappClassLoader} to
-     * {@link WebappClassLoader#parent} to prevent a memory leak? Note that the
-     * keep-alive timer thread will stop on its own once the keep-alives all
-     * expire however, on a busy system that might not happen for some time.
+     * loader from the current
+     * {@link org.apache.catalina.loader.WebappClassLoader} to
+     * {@link org.apache.catalina.loader.WebappClassLoader#parent} to prevent a
+     * memory leak? Note that the keep-alive timer thread will stop on its own
+     * once the keep-alives all expire however, on a busy system that might not
+     * happen for some time.
      */
     private boolean clearReferencesHttpClientKeepAliveThread = true;
 
