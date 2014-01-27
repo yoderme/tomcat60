@@ -2298,7 +2298,7 @@ public class Request
      * between nodes in a cluster and session fixation prevention during the
      * authentication process.
      * 
-     * @param session   The session to change the session ID for
+     * @param newSessionId   The new session ID to use
      */
     public void changeSessionId(String newSessionId) {
         // This should only ever be called if there was an old session ID but
