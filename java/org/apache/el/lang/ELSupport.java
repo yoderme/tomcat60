@@ -49,12 +49,7 @@ public class ELSupport {
         }
     }
 
-    /**
-     * @param obj0
-     * @param obj1
-     * @return
-     * @throws EvaluationException
-     */
+
     public final static int compare(final Object obj0, final Object obj1)
             throws ELException {
         if (obj0 == obj1 || equals(obj0, obj1)) {
@@ -92,12 +87,7 @@ public class ELSupport {
         throw new ELException(MessageFactory.get("error.compare", obj0, obj1));
     }
 
-    /**
-     * @param obj0
-     * @param obj1
-     * @return
-     * @throws EvaluationException
-     */
+
     public final static boolean equals(final Object obj0, final Object obj1)
             throws ELException {
         if (obj0 == obj1) {
@@ -134,11 +124,7 @@ public class ELSupport {
         }
     }
 
-    /**
-     * @param obj
-     * @param type
-     * @return
-     */
+
     public final static Enum<?> coerceToEnum(final Object obj, Class type) {
         if (obj == null || "".equals(obj)) {
             return null;
@@ -358,10 +344,7 @@ public class ELSupport {
                 val, String.class, type));
     }
 
-    /**
-     * @param obj
-     * @return
-     */
+
     public final static String coerceToString(final Object obj) {
         if (obj == null) {
             return "";
@@ -431,10 +414,7 @@ public class ELSupport {
                 obj, obj.getClass(), type));
     }
 
-    /**
-     * @param obj
-     * @return
-     */
+
     public final static boolean containsNulls(final Object[] obj) {
         for (int i = 0; i < obj.length; i++) {
             if (obj[0] == null) {
@@ -521,11 +501,8 @@ public class ELSupport {
         }
     }
 
-    /**
-     * 
-     */
+
     public ELSupport() {
         super();
     }
-
 }
