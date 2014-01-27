@@ -53,9 +53,7 @@ import javax.servlet.ServletResponse;
  * user's session.</p>
  *
  * @author Craig McClanahan
- * @version $Id$
  */
-
 public class SetCharacterEncodingFilter implements Filter {
 
 

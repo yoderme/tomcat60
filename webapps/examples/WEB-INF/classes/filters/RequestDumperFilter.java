@@ -42,9 +42,7 @@ import javax.servlet.http.HttpServletRequest;
  * to assist in debugging problems.
  *
  * @author Craig McClanahan
- * @version $Id$
  */
-
 public final class RequestDumperFilter implements Filter {
 
 
