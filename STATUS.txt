@@ -31,7 +31,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Correct typo in definition of default value for contentType attribute of
   jsp:directive.page element in jspxml Schema and DTD.
   http://svn.apache.org/r1561641
-  +1: kkolinko
+  +1: kkolinko, rjung
   -1:
 
 
