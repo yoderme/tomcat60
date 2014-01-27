@@ -1631,7 +1631,7 @@ public class DefaultServlet
      *
      * @param request The servlet request we are processing
      * @param response The servlet response we are creating
-     * @param resourceInfo File object
+     * @param resourceAttributes Attributes of requested resource
      * @return boolean true if the resource meets the specified condition,
      * and false if the condition is not satisfied, in which case request
      * processing is stopped
@@ -1676,7 +1676,7 @@ public class DefaultServlet
      *
      * @param request The servlet request we are processing
      * @param response The servlet response we are creating
-     * @param resourceInfo File object
+     * @param resourceAttributes Attributes of requested resource
      * @return boolean true if the resource meets the specified condition,
      * and false if the condition is not satisfied, in which case request
      * processing is stopped
@@ -1897,7 +1897,7 @@ public class DefaultServlet
      * output stream, and ensure that both streams are closed before returning
      * (even in the face of an exception).
      *
-     * @param resourceInfo The ResourceInfo object
+     * @param cacheEntry Cached version of requested resource
      * @param ostream The output stream to write to
      * @param range Range the client wanted to retrieve
      * @exception IOException if an input/output error occurs
@@ -1928,7 +1928,7 @@ public class DefaultServlet
      * output stream, and ensure that both streams are closed before returning
      * (even in the face of an exception).
      *
-     * @param resourceInfo The ResourceInfo object
+     * @param cacheEntry Cached version of requested resource
      * @param writer The writer to write to
      * @param range Range the client wanted to retrieve
      * @exception IOException if an input/output error occurs
@@ -1966,7 +1966,7 @@ public class DefaultServlet
      * output stream, and ensure that both streams are closed before returning
      * (even in the face of an exception).
      *
-     * @param resourceInfo The ResourceInfo object
+     * @param cacheEntry Cached version of requested resource
      * @param ostream The output stream to write to
      * @param ranges Enumeration of the ranges the client wanted to retrieve
      * @param contentType Content type of the resource
@@ -2019,7 +2019,7 @@ public class DefaultServlet
      * output stream, and ensure that both streams are closed before returning
      * (even in the face of an exception).
      *
-     * @param resourceInfo The ResourceInfo object
+     * @param cacheEntry Cached version of requested resource
      * @param writer The writer to write to
      * @param ranges Enumeration of the ranges the client wanted to retrieve
      * @param contentType Content type of the resource

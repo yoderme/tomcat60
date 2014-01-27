@@ -56,9 +56,7 @@ import org.apache.catalina.util.ServerInfo;
 * @author Glenn L. Nielsen
 * @author Peter Rossbach
 * @version $Id$
-* @see ManagerServlet
 */
-
 public final class HTMLHostManagerServlet extends HostManagerServlet {
 
     // --------------------------------------------------------- Public Methods
@@ -131,7 +129,6 @@ public final class HTMLHostManagerServlet extends HostManagerServlet {
     /**
      * Remove the specified host.
      *
-     * @param writer Writer to render results to
      * @param name host name
      */
     protected String remove(String name) {

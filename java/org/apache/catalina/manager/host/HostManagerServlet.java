@@ -290,7 +290,6 @@ public class HostManagerServlet
      * @param parameter
      * @param theDefault
      * @param htmlMode
-     * @return
      */
     protected boolean booleanParameter(HttpServletRequest request,
             String parameter, boolean theDefault, boolean htmlMode) {

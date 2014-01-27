@@ -125,7 +125,7 @@ public class CombinedRealm extends RealmBase {
      *
      * @param username Username of the Principal to look up
      * @param clientDigest Digest which has been submitted by the client
-     * @param nOnce Unique (or supposedly unique) token which has been used
+     * @param once Unique (or supposedly unique) token which has been used
      * for this request
      * @param realmName Realm name
      * @param md5a2 Second MD5 digest used to calculate the digest :

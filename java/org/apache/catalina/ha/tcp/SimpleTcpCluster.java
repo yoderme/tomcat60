@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.catalina.ha.tcp;
 
 import java.beans.PropertyChangeSupport;
@@ -499,7 +498,7 @@ public class SimpleTcpCluster
      * @param name
      *            Context Name of this manager
      * @see org.apache.catalina.Cluster#createManager(java.lang.String)
-     * @see #addManager(String, Manager)
+     * @see #registerManager(Manager)
      * @see DeltaManager#start()
      */
     public synchronized Manager createManager(String name) {
@@ -540,7 +539,7 @@ public class SimpleTcpCluster
     /**
      * remove an application form cluster replication bus
      * 
-     * @see org.apache.catalina.ha.CatalinaCluster#removeManager(java.lang.String,Manager)
+     * @see org.apache.catalina.ha.CatalinaCluster#removeManager(Manager)
      */
     public void removeManager(Manager manager) {
         if (manager != null && manager instanceof ClusterManager ) {
@@ -554,11 +553,6 @@ public class SimpleTcpCluster
         }
     }
 
-    /**
-     * @param name
-     * @param manager
-     * @return
-     */
     public String getManagerName(String name, Manager manager) {
         String clusterName = name ;
         if ( clusterName == null ) clusterName = manager.getContainer().getName();
@@ -782,7 +776,7 @@ public class SimpleTcpCluster
      * send message to all cluster members
      * @param msg message to transfer
      * 
-     * @see org.apache.catalina.ha.CatalinaCluster#send(org.apache.catalina.ha.ClusterMessage)
+     * @see org.apache.catalina.ha.CatalinaCluster#send(ClusterMessage)
      */
     public void send(ClusterMessage msg) {
         send(msg, null);
@@ -791,7 +785,7 @@ public class SimpleTcpCluster
     /**
      * send message to all cluster members same cluster domain
      * 
-     * @see org.apache.catalina.ha.CatalinaCluster#send(org.apache.catalina.ha.ClusterMessage)
+     * @see org.apache.catalina.ha.CatalinaCluster#send(ClusterMessage)
      */
     public void sendClusterDomain(ClusterMessage msg) {
         send(msg,null);
@@ -803,8 +797,7 @@ public class SimpleTcpCluster
      * 
      * @param msg message to transfer
      * @param dest Receiver member
-     * @see org.apache.catalina.ha.CatalinaCluster#send(org.apache.catalina.ha.ClusterMessage,
-     *      org.apache.catalina.ha.Member)
+     * @see org.apache.catalina.ha.CatalinaCluster#send(ClusterMessage,Member)
      */
     public void send(ClusterMessage msg, Member dest) {
         try {
@@ -833,7 +826,7 @@ public class SimpleTcpCluster
     /**
      * New cluster member is registered
      * 
-     * @see org.apache.catalina.ha.MembershipListener#memberAdded(org.apache.catalina.ha.Member)
+     * @see MembershipListener#memberAdded(Member)
      */
     public void memberAdded(Member member) {
         try {
@@ -852,7 +845,7 @@ public class SimpleTcpCluster
     /**
      * Cluster member is gone
      * 
-     * @see org.apache.catalina.ha.MembershipListener#memberDisappeared(org.apache.catalina.ha.Member)
+     * @see MembershipListener#memberDisappeared(Member)
      */
     public void memberDisappeared(Member member) {
         try {
@@ -871,11 +864,11 @@ public class SimpleTcpCluster
     // messages
 
     /**
-     * notify all listeners from receiving a new message is not ClusterMessage
-     * emitt Failure Event to LifecylceListener
+     * Notify all listeners from receiving a new message is not ClusterMessage
+     * and emit Failure Event to LifecylceListener
      * 
-     * @param message
-     *            receveived Message
+     * @param msg
+     *            received Message
      */
     public boolean accept(Serializable msg, Member sender) {
         return (msg instanceof ClusterMessage);
