@@ -1129,9 +1129,6 @@ public class JspUtil {
      * 'int' -> 'int.class'
      * 'void' -> 'Void.TYPE'
      * 'int[]' -> 'int[].class'
-     * 
-     * @param type
-     * @return
      */
     public static String toJavaSourceTypeFromTld(String type) {
         if (type == null || "void".equals(type)) {
