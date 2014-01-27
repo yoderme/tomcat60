@@ -749,7 +749,7 @@ public class Http11Processor implements ActionHook {
     /**
      * Process pipelined HTTP requests on the specified socket.
      *
-     * @param socket Socket from which the HTTP requests will be read
+     * @param theSocket Socket from which the HTTP requests will be read
      *               and the HTTP responses will be written.
      *  
      * @throws IOException error during an I/O operation
