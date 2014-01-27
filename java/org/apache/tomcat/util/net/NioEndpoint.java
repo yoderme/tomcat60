@@ -519,7 +519,6 @@ public class NioEndpoint extends AbstractEndpoint {
     protected AtomicInteger pollerRotater = new AtomicInteger(0);
     /**
      * Return an available poller in true round robin fashion
-     * @return
      */
     public Poller getPoller0() {
         int idx = Math.abs(pollerRotater.incrementAndGet()) % pollers.length;
@@ -2177,10 +2176,10 @@ public class NioEndpoint extends AbstractEndpoint {
         }
 
         /** 
-         * Put the object into the queue. If the queue is full (for example if
-         * the queue has been reduced in size) the object will be dropped.
+         * Put the worker into the queue. If the queue is full (for example if
+         * the queue has been reduced in size) the worker will be dropped.
          * 
-         * @param   object  the object to be appended to the queue (first
+         * @param   worker  the worker to be appended to the queue (first
          *                  element).
          */
         public void push(Worker worker) {

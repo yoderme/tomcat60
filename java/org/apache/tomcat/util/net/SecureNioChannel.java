@@ -285,7 +285,6 @@ public class SecureNioChannel extends NioChannel  {
      * </code></pre>
      * @throws IOException if an I/O error occurs
      * @throws IOException if there is data on the outgoing network buffer and we are unable to flush it
-     * @todo Implement this java.io.Closeable method
      */
     public void close() throws IOException {
         if (closing) return;
@@ -336,7 +335,6 @@ public class SecureNioChannel extends NioChannel  {
      * @return The number of bytes read, possibly zero, or <tt>-1</tt> if the channel has reached end-of-stream
      * @throws IOException If some other I/O error occurs
      * @throws IllegalArgumentException if the destination buffer is different than bufHandler.getReadBuffer()
-     * @todo Implement this java.nio.channels.ReadableByteChannel method
      */
     public int read(ByteBuffer dst) throws IOException {
         //if we want to take advantage of the expand function, make sure we only use the ApplicationBufferHandler's buffers
@@ -390,7 +388,6 @@ public class SecureNioChannel extends NioChannel  {
      * @param src The buffer from which bytes are to be retrieved
      * @return The number of bytes written, possibly zero
      * @throws IOException If some other I/O error occurs
-     * @todo Implement this java.nio.channels.WritableByteChannel method
      */
     public int write(ByteBuffer src) throws IOException {
         if ( src == this.netOutBuffer ) {

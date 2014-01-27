@@ -1063,44 +1063,6 @@ public class BaseModelMBean implements DynamicMBean, MBeanRegistration, ModelMBe
         }
     }
 
-//    public void setRegistry(Registry registry) {
-//        this.registry = registry;
-//    }
-//
-//    public Registry getRegistry() {
-//        // XXX Need a better solution - to avoid the static
-//        if( registry == null )
-//            registry=Registry.getRegistry();
-//
-//        return registry;
-//    }
-
-    // ------------------------------------------------------ Protected Methods
-
-
-    /**
-     * Create and return a default <code>ModelMBeanInfo</code> object.
-     */
-//    protected ModelMBeanInfo createDefaultModelMBeanInfo() {
-//
-//        return (new ModelMBeanInfoSupport(this.getClass().getName(),
-//                                          "Default ModelMBean",
-//                                          null, null, null, null));
-//
-//    }
-
-    /**
-     * Is the specified <code>ModelMBeanInfo</code> instance valid?
-     *
-     * <p><strong>IMPLEMENTATION NOTE</strong> - This implementation
-     * does not check anything, but this method can be overridden
-     * as required.</p>
-     *
-     * @param info The <code>ModelMBeanInfo object to check
-     */
-//    protected boolean isModelMBeanInfoValid(ModelMBeanInfo info) {
-//        return (true);
-//    }
 
     // -------------------- Registration  --------------------
     // XXX We can add some method patterns here- like setName() and

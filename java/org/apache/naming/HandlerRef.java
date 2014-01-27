@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */ 
-
-
 package org.apache.naming;
 
 import java.util.Enumeration;
@@ -30,7 +28,6 @@ import javax.naming.StringRefAddr;
  *
  * @author Fabien Carrion
  */
-
 public class HandlerRef
     extends Reference {
 
@@ -96,21 +93,11 @@ public class HandlerRef
     // ----------------------------------------------------------- Constructors
 
 
-    /**
-     * Service Reference.
-     * 
-     * @param serviceClass Service class
-     */
     public HandlerRef(String refname, String handlerClass) {
         this(refname, handlerClass, null, null);
     }
 
 
-    /**
-     * Service Reference.
-     * 
-     * @param serviceClass Service class
-     */
     public HandlerRef(String refname, String handlerClass,
                     String factory, String factoryLocation) {
         super(refname, factory, factoryLocation);
@@ -179,9 +166,4 @@ public class HandlerRef
         return (sb.toString());
 
     }
-
-
-    // ------------------------------------------------------------- Properties
-
-
 }

@@ -21,18 +21,21 @@
    </head>
    <body>
       <p>
+         This is a packaged renamed copy of Apache Commons File Upload
+      </p>
+      <p>
          Component for handling html file uploads as given by rfc 1867
          <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC&nbsp;1867</a>.
       </p>
       <p>
          Normal usage of the package involves
-         {@link org.apache.commons.fileupload.DiskFileUpload DiskFileUpload}
+         {@link org.apache.tomcat.util.http.fileupload.DiskFileUpload DiskFileUpload}
          parsing the HttpServletRequest and returning a list of
-         {@link org.apache.commons.fileupload.FileItem FileItem}'s.
+         {@link org.apache.tomcat.util.http.fileupload.FileItem FileItem}'s.
          These <code>FileItem</code>'s provide easy access to the data
          given in the upload.  There is also a low level api for
          manipulating the upload data encapsulated in the
-         {@link org.apache.commons.fileupload.MultipartStream MultipartStream}
+         {@link org.apache.tomcat.util.http.fileupload.MultipartStream MultipartStream}
          class.
       </p>
 

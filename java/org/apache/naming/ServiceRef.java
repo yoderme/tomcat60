@@ -91,12 +91,6 @@ public class ServiceRef
 
     // ----------------------------------------------------------- Constructors
 
-
-    /**
-     * Service Reference.
-     * 
-     * @param serviceClass Service class
-     */
     public ServiceRef(String refname, String serviceInterface, String[] serviceQname, 
                        String wsdl, String jaxrpcmapping) {
         this(refname, serviceInterface, serviceQname, wsdl, jaxrpcmapping,
@@ -104,11 +98,6 @@ public class ServiceRef
     }
 
 
-    /**
-     * Service Reference.
-     * 
-     * @param serviceClass Service class
-     */
     public ServiceRef(String refname, String serviceInterface, String[] serviceQname, 
                        String wsdl, String jaxrpcmapping,
                        String factory, String factoryLocation) {
@@ -208,9 +197,4 @@ public class ServiceRef
         return (sb.toString());
 
     }
-
-
-    // ------------------------------------------------------------- Properties
-
-
 }

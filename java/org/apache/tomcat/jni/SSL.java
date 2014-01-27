@@ -339,8 +339,8 @@ public final class SSL {
      * Return true if all the requested SSL_OP_* are supported by OpenSSL.
      * 
      * <i>Note that for versions of tcnative &lt; 1.1.25, this method will
-     * return <code>true</code> if and only if <code>op</code>=
-     * {@link #SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION} and tcnative
+     * return <code>true</code> if and only if <code>op=0x00040000</code>
+     * (SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION) and tcnative
      * supports that flag.</i>
      *
      * @param op Bitwise-OR of all SSL_OP_* to test.
