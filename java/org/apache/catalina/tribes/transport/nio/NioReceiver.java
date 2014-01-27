@@ -310,8 +310,6 @@ public class NioReceiver extends ReceiverBase implements Runnable, ChannelReceiv
 
     /**
      * Close Selector.
-     *
-     * @see ChannelReceiverBase#stopListening()
      */
     protected void stopListening() {
         setListen(false);

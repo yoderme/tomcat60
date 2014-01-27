@@ -316,7 +316,6 @@ public class FastQueue {
 
     /**
      * remove the complete queued object list
-     * @see org.apache.catalina.tribes.util.IQueue#remove()
      * FIXME extract some method
      */
     public LinkObject remove() {
