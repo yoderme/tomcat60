@@ -42,7 +42,7 @@ PATCHES PROPOSED TO BACKPORT:
     svn propdel svn:keywords --depth files java/javax/servlet/resources
     svn propdel svn:keywords --depth files java/javax/servlet/jsp/resources
   (backport of r1561706)
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 
