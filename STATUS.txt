@@ -34,6 +34,23 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, rjung
   -1:
 
+* Additional fixes for jspxml DTD
+  for issues found by validating the file in Eclipse IDE.
+  http://svn.apache.org/r1561737
+  +1: kkolinko
+  -1:
+
+* Remove svn keywords and similar constructs for other source code
+  management systems from schema and DTD files
+  1.
+    https://people.apache.org/~kkolinko/patches/2014-01-27_tc6_schemas_keywords.patch
+  2. 
+    svn propdel svn:keywords --depth files java/javax/servlet/resources
+    svn propdel svn:keywords --depth files java/javax/servlet/jsp/resources
+  (backport of r1561706)
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
