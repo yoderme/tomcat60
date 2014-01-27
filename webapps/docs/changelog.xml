@@ -44,6 +44,14 @@
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
 <section name="Tomcat 6.0.39 (markt)">
+  <subsection name="Catalina">
+    <changelog>
+      <fix>
+        <bug>55166</bug>: Fix regression that broke XML validation when running
+        on some Java 5 JVMs. (kkolinko)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Coyote">
     <changelog>
       <fix>
