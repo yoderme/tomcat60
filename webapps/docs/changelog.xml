@@ -50,10 +50,6 @@
         <bug>55166</bug>: Fix regression that broke XML validation when running
         on some Java 5 JVMs. (kkolinko)
       </fix>
-      <fix>
-        Correct typo in definition of default value for contentType attribute
-        of jsp:directive.page element in jspxml Schema and DTD. (kkolinko)
-      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
@@ -65,6 +61,13 @@
       <fix>
         Remove dependency introduced on the jsp-api.jar as part of the XML
         validation changes introduced in 6.0.38. (markt)
+      </fix>
+    </changelog>
+  </subsection>
+  <subsection name="Jasper">
+    <changelog>
+      <fix>
+        Correct several errors in jspxml Schema and DTD. (kkolinko)
       </fix>
     </changelog>
   </subsection>

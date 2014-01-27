@@ -28,12 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Additional fixes for jspxml DTD
-  for issues found by validating the file in Eclipse IDE.
-  http://svn.apache.org/r1561737
-  +1: kkolinko, markt, rjung
-  -1:
-
 * Remove svn keywords and similar constructs for other source code
   management systems from schema and DTD files
   1.
