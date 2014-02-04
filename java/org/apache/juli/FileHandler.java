@@ -76,7 +76,7 @@ import java.util.logging.SimpleFormatter;
  *    <code>java.util.logging.SimpleFormatter</code></li>
  * </ul>
  *
- * @version $Id$
+ *
  */
 
 public class FileHandler
