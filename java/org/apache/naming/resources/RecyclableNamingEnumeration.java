@@ -28,7 +28,7 @@ import javax.naming.NamingException;
  * Naming enumeration implementation.
  *
  * @author Remy Maucherat
- * @version $Id$
+ *
  */
 
 public class RecyclableNamingEnumeration 

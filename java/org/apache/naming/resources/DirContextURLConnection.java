@@ -50,7 +50,7 @@ import org.apache.tomcat.util.http.FastHttpDateFormat;
  * content is directly returned.
  * 
  * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
- * @version $Revision$
+ *
  */
 public class DirContextURLConnection 
     extends URLConnection {

@@ -44,7 +44,7 @@ import org.apache.naming.ContextBindings;
  * </ul>
  * 
  * @author Remy Maucherat
- * @version $Id$
+ *
  */
 
 public class javaURLContextFactory

@@ -21,7 +21,7 @@ package org.apache.naming;
  * Naming MBean interface.
  * 
  * @author <a href="mailto:remm@apache.org">Remy Maucherat</a>
- * @version $Revision$
+ *
  */
 
 public interface NamingServiceMBean {

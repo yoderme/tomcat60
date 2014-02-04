@@ -33,7 +33,7 @@ import java.security.BasicPermission;
  * </p>
  *
  * @author Glenn Nielsen
- * @version $Id$
+ *
  */
 
 public final class JndiPermission extends BasicPermission {
