@@ -42,7 +42,7 @@ import org.apache.catalina.util.StringManager;
  * keep these two classes in synchronization when making changes!
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 class ApplicationHttpResponse extends HttpServletResponseWrapper {

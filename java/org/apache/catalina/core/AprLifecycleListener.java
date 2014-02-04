@@ -39,7 +39,7 @@ import org.apache.tomcat.util.ExceptionUtils;
  *
  * @author Remy Maucherat
  * @author Filip Hanik
- * @version $Id$
+ *
  * @since 4.1
  */
 

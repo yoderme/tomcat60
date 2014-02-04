@@ -64,7 +64,7 @@ import org.apache.catalina.Globals;
  *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
- * @version $Id$
+ *
  */
 
 public class ApplicationContext

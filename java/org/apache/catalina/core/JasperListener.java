@@ -31,7 +31,7 @@ import org.apache.juli.logging.LogFactory;
  * started.
  *
  * @author Remy Maucherat
- * @version $Id$
+ *
  * @since 4.1
  */
 

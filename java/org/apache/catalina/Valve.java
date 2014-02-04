@@ -39,7 +39,7 @@ import org.apache.catalina.connector.Response;
  * @author Craig R. McClanahan
  * @author Gunnar Rjnning
  * @author Peter Donald
- * @version $Id$
+ *
  */
 
 public interface Valve {

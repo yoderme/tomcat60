@@ -50,7 +50,7 @@ import org.apache.catalina.util.CharsetMapper;
  * <p>
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public interface Context extends Container {

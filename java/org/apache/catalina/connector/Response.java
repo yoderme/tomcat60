@@ -59,7 +59,7 @@ import org.apache.tomcat.util.net.URL;
  *
  * @author Remy Maucherat
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public class Response

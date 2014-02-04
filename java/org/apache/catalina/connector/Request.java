@@ -81,7 +81,7 @@ import org.apache.tomcat.util.ExceptionUtils;
  *
  * @author Remy Maucherat
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public class Request

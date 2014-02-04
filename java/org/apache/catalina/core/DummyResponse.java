@@ -38,7 +38,7 @@ import org.apache.catalina.connector.Request;
  * Dummy response object, used for JSP precompilation.
  *
  * @author Remy Maucherat
- * @version $Id$
+ *
  */
 
 public class DummyResponse

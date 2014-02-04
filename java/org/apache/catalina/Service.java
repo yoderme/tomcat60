@@ -31,7 +31,7 @@ import org.apache.catalina.connector.Connector;
  * and classes on the system class path.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public interface Service {

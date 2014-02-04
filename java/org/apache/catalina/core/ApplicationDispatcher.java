@@ -59,7 +59,7 @@ import org.apache.catalina.util.StringManager;
  * <code>javax.servlet.ServletResponseWrapper</code>.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 final class ApplicationDispatcher

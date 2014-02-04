@@ -32,7 +32,7 @@ import javax.servlet.ServletResponse;
  * as opposed to the Wrapper component that manages it.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public final class InstanceEvent

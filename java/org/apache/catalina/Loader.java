@@ -50,7 +50,7 @@ import java.beans.PropertyChangeListener;
  * </ul>
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public interface Loader {

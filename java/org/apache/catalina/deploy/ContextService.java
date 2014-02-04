@@ -29,7 +29,7 @@ import java.util.HashMap;
  * deployment descriptor.
  *
  * @author Fabien Carrion
- * @version $Id$
+ *
  */
 
 public class ContextService extends ResourceBase implements Serializable {

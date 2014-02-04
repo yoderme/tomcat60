@@ -32,7 +32,7 @@ import org.apache.catalina.deploy.LoginConfig;
  * only security constraints not involving user authentication.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public final class NonLoginAuthenticator

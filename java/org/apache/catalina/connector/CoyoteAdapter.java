@@ -49,7 +49,7 @@ import org.apache.tomcat.util.net.SocketStatus;
  *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
- * @version $Id$
+ *
  */
 
 public class CoyoteAdapter implements Adapter {

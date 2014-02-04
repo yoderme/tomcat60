@@ -40,7 +40,7 @@ import org.apache.catalina.security.SecurityUtil;
  *
  * @author Remy Maucherat
  * @author Jean-Francois Arcand
- * @version $Id$
+ *
  */
 @SuppressWarnings("deprecation")
 public class ResponseFacade 

@@ -51,7 +51,7 @@ import org.apache.tomcat.util.buf.MessageBytes;
  * JSP precompilation.
  *
  * @author Remy Maucherat
- * @version $Id$
+ *
  */
 
 public class DummyRequest

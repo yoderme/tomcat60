@@ -50,7 +50,7 @@ import org.apache.catalina.util.StringManager;
  * method itself.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 final class ApplicationFilterChain implements FilterChain, CometFilterChain {
