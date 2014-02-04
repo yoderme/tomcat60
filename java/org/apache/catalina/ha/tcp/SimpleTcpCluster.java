@@ -69,7 +69,7 @@ import org.apache.catalina.ha.session.SessionMessage;
  * @author Filip Hanik
  * @author Remy Maucherat
  * @author Peter Rossbach
- * @version $Id$
+ *
  */
 public class SimpleTcpCluster 
     implements CatalinaCluster, Lifecycle, LifecycleListener, IDynamicProperty,

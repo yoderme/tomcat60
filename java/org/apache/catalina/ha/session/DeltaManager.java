@@ -64,7 +64,7 @@ import org.apache.catalina.ha.ClusterManager;
  * @author Craig R. McClanahan
  * @author Jean-Francois Arcand
  * @author Peter Rossbach
- * @version $Id$
+ *
  */
 
 public class DeltaManager extends ClusterManagerBase{

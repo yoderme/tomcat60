@@ -23,7 +23,7 @@ package org.apache.catalina.ha;
  * package.
  *
  * @author Bip Thelin
- * @version $Id$
+ *
  */
 
 public final class Constants {

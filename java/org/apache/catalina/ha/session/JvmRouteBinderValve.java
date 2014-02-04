@@ -94,7 +94,7 @@ import org.apache.catalina.valves.ValveBase;
  * requested sessions are migrated.
  * 
  * @author Peter Rossbach
- * @version $Id$
+ *
  */
 public class JvmRouteBinderValve extends ValveBase implements ClusterValve, Lifecycle {
 

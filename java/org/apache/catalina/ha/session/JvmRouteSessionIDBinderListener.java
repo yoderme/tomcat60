@@ -36,7 +36,7 @@ import org.apache.tomcat.util.res.StringManager;
  * node is failed.
  * 
  * @author Peter Rossbach
- * @version $Id$
+ *
  */
 public class JvmRouteSessionIDBinderListener extends ClusterListener {
  

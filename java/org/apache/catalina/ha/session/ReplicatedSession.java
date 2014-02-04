@@ -38,7 +38,7 @@ package org.apache.catalina.ha.session;
  * This class inherits the readObjectData and writeObject data methods from the StandardSession
  * and does not contain any serializable elements in addition to the inherited ones from the StandardSession
  * @author  Filip Hanik
- * @version $Id$
+ *
  */
 import org.apache.catalina.Manager;
 import java.io.IOException;
