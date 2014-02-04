@@ -20,7 +20,7 @@ package org.apache.tomcat.jni;
 /** Error
  *
  * @author Mladen Turk
- * @version $Id$
+ *
  */
 
 public class Error extends Exception {

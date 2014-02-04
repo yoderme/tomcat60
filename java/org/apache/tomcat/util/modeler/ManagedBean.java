@@ -43,7 +43,7 @@ import javax.management.ServiceNotFoundException;
  * descriptor.</p>
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public class ManagedBean implements java.io.Serializable

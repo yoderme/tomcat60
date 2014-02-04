@@ -20,7 +20,7 @@ package org.apache.tomcat.jni;
 /** Local socket
  *
  * @author Mladen Turk
- * @version $Id$
+ *
  */
 
 public class Local {

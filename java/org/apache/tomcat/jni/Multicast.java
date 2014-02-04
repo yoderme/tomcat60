@@ -20,7 +20,7 @@ package org.apache.tomcat.jni;
 /** Multicast
  *
  * @author Mladen Turk
- * @version $Id$
+ *
  */
 
 public class Multicast {

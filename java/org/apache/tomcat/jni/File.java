@@ -21,7 +21,7 @@ import java.nio.ByteBuffer;
 /** File
  *
  * @author Mladen Turk
- * @version $Id$
+ *
  */
 
 public class File {

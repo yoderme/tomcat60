@@ -20,7 +20,7 @@ package org.apache.tomcat.jni;
 /** Global
  *
  * @author Mladen Turk
- * @version $Id$
+ *
  */
 
 public class Global {

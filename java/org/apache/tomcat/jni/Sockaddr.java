@@ -20,7 +20,7 @@ package org.apache.tomcat.jni;
 /** Sockaddr
  *
  * @author Mladen Turk
- * @version $Id$
+ *
  */
 
 public class Sockaddr {

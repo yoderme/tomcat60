@@ -20,7 +20,7 @@ package org.apache.tomcat.jni;
 /** Fileinfo
  *
  * @author Mladen Turk
- * @version $Id$
+ *
  */
 
 public class FileInfo {

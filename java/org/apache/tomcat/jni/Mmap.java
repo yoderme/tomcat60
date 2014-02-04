@@ -20,7 +20,7 @@ package org.apache.tomcat.jni;
 /** Mmap
  *
  * @author Mladen Turk
- * @version $Id$
+ *
  */
 
 public class Mmap {
