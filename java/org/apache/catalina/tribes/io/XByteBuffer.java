@@ -90,7 +90,8 @@ public class XByteBuffer
     protected boolean discard = true;
     
     /**
-     * Constructs a new XByteBuffer
+     * Constructs a new XByteBuffer.<br>
+     * TODO use a pool of byte[] for performance
      * @param size - the initial size of the byte buffer
      *
      * TODO use a pool of byte[] for performance
