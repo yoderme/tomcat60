@@ -32,7 +32,7 @@ import org.apache.el.util.ReflectionUtil;
 
 /**
  * @author Jacob Hookom [jacob@hookom.net]
- * @version $Id$
+ *
  */
 public class FunctionMapperImpl extends FunctionMapper implements
         Externalizable {

@@ -33,7 +33,7 @@ import org.apache.el.util.Validation;
 
 /**
  * @author Jacob Hookom [jacob@hookom.net]
- * @version $Id$
+ *
  */
 public final class AstIdentifier extends SimpleNode {
     public AstIdentifier(int id) {
