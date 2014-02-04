@@ -29,7 +29,7 @@ import org.apache.AnnotationProcessor;
  *
  * @author Fabien Carrion
  * @author Remy Maucherat
- * @version $Id$
+ *
  */
 public class AnnotationHelper {
 
