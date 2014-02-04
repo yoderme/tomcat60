@@ -125,7 +125,7 @@ import org.apache.juli.logging.LogFactory;
  * @author Tim Funk
  * @author Peter Rossbach
  * 
- * @version $Id$
+ *
  */
 
 public class ExtendedAccessLogValve

@@ -147,7 +147,7 @@ import org.apache.tomcat.util.buf.B2CConverter;
  * @author Takayuki Kaneko
  * @author Peter Rossbach
  * 
- * @version $Id$
+ *
  */
 
 public class AccessLogValve extends ValveBase implements AccessLog, Lifecycle {

@@ -28,7 +28,7 @@ import java.util.Properties;
  * when integrating Tomcat.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public class ServerInfo {

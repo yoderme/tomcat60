@@ -46,7 +46,7 @@ import org.apache.juli.logging.Log;
  * of the logging you wish to perform.</p>
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public class RequestDumperValve

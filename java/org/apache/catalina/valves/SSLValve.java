@@ -45,7 +45,7 @@ import org.apache.juli.logging.LogFactory;
  * </IfModule>
  *
  * @author Jean-Frederic Clere
- * @version $Id$
+ *
  */
 
 public class SSLValve extends ValveBase {

@@ -31,7 +31,7 @@ import java.util.HashSet;
  * is not locked.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public final class ResourceSet extends HashSet {

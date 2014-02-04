@@ -31,7 +31,7 @@ import org.apache.catalina.tribes.ChannelMessage;
  * for message encoding and decoding.
  *
  * @author Filip Hanik
- * @version $Id$
+ *
  */
 public class ObjectReader {
 

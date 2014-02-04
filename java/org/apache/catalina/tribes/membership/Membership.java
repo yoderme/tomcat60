@@ -34,7 +34,7 @@ import java.util.Comparator;
  *
  * @author Filip Hanik
  * @author Peter Rossbach
- * @version $Id$
+ *
  */
 public class Membership
 {

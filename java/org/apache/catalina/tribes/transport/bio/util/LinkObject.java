@@ -30,8 +30,8 @@ import org.apache.catalina.tribes.group.InterceptorPayload;
  * @author Rainer Jung
  * @author Peter Rossbach
  * @author Filip Hanik
- * @version $Id$
-
+ *
+ *
  */
 
 public class LinkObject {

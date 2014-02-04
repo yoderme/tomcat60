@@ -24,7 +24,7 @@ package org.apache.catalina.users;
  *
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  * @since 4.1
  */
 
