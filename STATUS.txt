@@ -57,7 +57,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56082
   Concurrency issue in JULI's LogManager
   http://svn.apache.org/r1562748
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 
