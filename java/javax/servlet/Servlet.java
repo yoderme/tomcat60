@@ -50,7 +50,7 @@ import java.io.IOException;
  * such as author, version, and copyright.
  *
  * @author 	Various
- * @version 	$Version$
+ *
  *
  * @see 	GenericServlet
  * @see 	javax.servlet.http.HttpServlet

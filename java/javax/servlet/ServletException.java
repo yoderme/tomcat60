@@ -22,7 +22,7 @@ package javax.servlet;
  * encounters difficulty.
  *
  * @author 	Various
- * @version 	$Version$
+ *
  */
 public class ServletException extends Exception {
 

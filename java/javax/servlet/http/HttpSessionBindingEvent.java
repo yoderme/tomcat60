@@ -34,7 +34,7 @@ package javax.servlet.http;
  *
  *
  * @author		Various
- * @version		$Version$
+ *
  * 
  * @see 		HttpSession
  * @see 		HttpSessionBindingListener

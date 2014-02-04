@@ -65,7 +65,7 @@ import javax.servlet.ServletContext;
  * will not be directly visible in another.
  *
  * @author	Various
- * @version	$Version$
+ *
  *
  *
  * @see 	HttpSessionBindingListener

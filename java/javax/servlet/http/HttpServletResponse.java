@@ -32,7 +32,7 @@ import javax.servlet.ServletResponse;
  *
  * 
  * @author	Various
- * @version	$Version$
+ *
  *
  * @see		javax.servlet.ServletResponse
  *

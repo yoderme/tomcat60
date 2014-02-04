@@ -42,7 +42,7 @@ import java.util.Enumeration;
  *
  *
  * @author 	Various
- * @version 	$Version$
+ *
  *
  *
  *

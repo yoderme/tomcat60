@@ -52,7 +52,7 @@ import java.util.Locale;
  * are still evolving.
  *
  * @author 	Various
- * @version 	$Version$
+ *
  *
  * @see		ServletOutputStream
  *

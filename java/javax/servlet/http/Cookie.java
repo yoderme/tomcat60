@@ -55,7 +55,7 @@ import java.util.ResourceBundle;
  *
  *
  * @author	Various
- * @version	$Version$
+ *
  *
  */
 

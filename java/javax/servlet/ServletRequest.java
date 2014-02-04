@@ -36,7 +36,7 @@ import java.util.Map;
  * provided by {@link javax.servlet.http.HttpServletRequest}.
  * 
  * @author 	Various
- * @version 	$Version$
+ *
  *
  * @see 	javax.servlet.http.HttpServletRequest
  *

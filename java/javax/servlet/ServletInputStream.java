@@ -37,7 +37,7 @@ import java.io.IOException;
  *
  *
  * @author 	Various
- * @version 	$Version$
+ *
  *
  * @see		ServletRequest 
  *

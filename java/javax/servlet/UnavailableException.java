@@ -44,7 +44,7 @@ package javax.servlet;
  *
  *
  * @author 	Various
- * @version 	$Version$
+ *
  *
  */
 

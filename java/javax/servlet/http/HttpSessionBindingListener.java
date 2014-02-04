@@ -32,7 +32,7 @@ import java.util.EventListener;
  *
  *
  * @author		Various
- * @version		$Version$
+ *
  *
  * @see HttpSession
  * @see HttpSessionBindingEvent

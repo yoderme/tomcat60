@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
  *
  * 
  * @author 	Various
- * @version 	$Version$
+ *
  *
  * @see 	ServletResponse
  *

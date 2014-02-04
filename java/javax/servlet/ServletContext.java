@@ -46,7 +46,7 @@ import java.util.Set;
  * servlet when the servlet is initialized.
  *
  * @author 	Various
- * @version 	$Version$
+ *
  *
  * @see 	Servlet#getServletConfig
  * @see 	ServletConfig#getServletContext
