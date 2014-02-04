@@ -46,7 +46,7 @@ import org.apache.catalina.LifecycleException;
  *
  *
  * @author Fabrizio Giustina
- * @version $Id$
+ *
  */
 public class VirtualWebappLoader extends WebappLoader {
 

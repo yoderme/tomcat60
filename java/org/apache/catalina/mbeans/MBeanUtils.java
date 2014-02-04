@@ -66,7 +66,7 @@ import org.apache.tomcat.util.modeler.Registry;
  *
  * @author Craig R. McClanahan
  * @author Amy Roh
- * @version $Id$
+ *
  */
 
 public class MBeanUtils {

@@ -43,7 +43,7 @@ import org.apache.catalina.util.StringManager;
  * @deprecated Servlets should be explicitly mapped in web.xml
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public final class InvokerServlet

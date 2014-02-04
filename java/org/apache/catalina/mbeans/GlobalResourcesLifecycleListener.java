@@ -43,7 +43,7 @@ import org.apache.tomcat.util.modeler.Registry;
  * management.
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  * @since 4.1
  */
 

@@ -42,7 +42,7 @@ import org.apache.juli.logging.LogFactory;
  * @author Craig R. McClanahan
  * @author Remy Maucherat
  * @author Glenn L. Nielsen
- * @version $Revision$
+ *
  */
 
 public class ExpandWar {

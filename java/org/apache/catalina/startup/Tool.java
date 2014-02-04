@@ -67,7 +67,7 @@ import org.apache.juli.logging.LogFactory;
  * </ul>
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public final class Tool {

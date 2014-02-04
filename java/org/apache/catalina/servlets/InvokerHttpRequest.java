@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * @deprecated Servlets should be explicitly mapped in web.xml
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 class InvokerHttpRequest extends HttpServletRequestWrapper {

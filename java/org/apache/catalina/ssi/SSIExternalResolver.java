@@ -25,7 +25,7 @@ import java.util.Date;
  * servlet )
  * 
  * @author Dan Sandberg
- * @version $Id$
+ *
  */
 public interface SSIExternalResolver {
     /**

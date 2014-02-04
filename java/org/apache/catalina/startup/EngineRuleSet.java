@@ -31,7 +31,7 @@ import org.apache.tomcat.util.digester.RuleSetBase;
  * <code>ContextRuleSet</code>, respectively.</p>
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public class EngineRuleSet extends RuleSetBase {

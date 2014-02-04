@@ -108,7 +108,7 @@ import org.apache.naming.resources.ResourceAttributes;
  * </p>
  * @author Craig R. McClanahan
  * @author Remy Maucherat
- * @version $Id$
+ *
  */
 
 public class DefaultServlet

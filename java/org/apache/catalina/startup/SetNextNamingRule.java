@@ -1,5 +1,4 @@
-/* $Id$
- *
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -23,6 +22,7 @@ import org.apache.catalina.Context;
 import org.apache.catalina.deploy.NamingResources;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.apache.tomcat.util.digester.Rule;
+
 
 
 /**

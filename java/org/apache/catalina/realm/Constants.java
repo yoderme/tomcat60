@@ -24,7 +24,7 @@ package org.apache.catalina.realm;
  *
  *
  * @author Craig R. McClanahan
- * @version $Id$
+ *
  */
 
 public final class Constants {
