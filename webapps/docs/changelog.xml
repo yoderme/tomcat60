@@ -43,6 +43,16 @@
 <!-- Section names:
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
+<section name="Tomcat 6.0.40" rtext="">
+  <subsection name="Other">
+    <changelog>
+      <scode>
+        Remove svn keywords (such as $Id) from source files and documentation.
+        (kkolinko)
+      </scode>
+    </changelog>
+  </subsection>
+</section>
 <section name="Tomcat 6.0.39 (markt)" rtext="released 2014-01-31">
   <subsection name="Catalina">
     <changelog>
