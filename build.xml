@@ -139,7 +139,6 @@
            deprecation="${compile.deprecation}"
            source="${compile.source}"
            target="${compile.target}"
-           optimize="${compile.optimize}"
            excludes="**/CVS/**,**/.svn/**"
            encoding="ISO-8859-1">
 <!-- Comment this in to show unchecked warnings:
@@ -557,7 +556,6 @@
              debug="${compile.debug}" deprecation="${compile.deprecation}"
              source="${compile.source}"
              target="${compile.target}"
-             optimize="${compile.optimize}"
              classpath="${tomcat.classes}"
              excludes="**/CVS/**,**/.svn/**"
              encoding="ISO-8859-1">
@@ -568,7 +566,6 @@
              debug="${compile.debug}" deprecation="${compile.deprecation}"
              source="${compile.source}"
              target="${compile.target}"
-             optimize="${compile.optimize}"
              classpath="$tomcat.lcasses}"
              excludes="**/CVS/**,**/.svn/**"
              encoding="ISO-8859-1">
@@ -880,7 +877,6 @@
     </move>
     <mkdir dir="${tomcat-dbcp.home}/classes"/>
     <javac destdir="${tomcat-dbcp.home}/classes"
-           optimize="off"
            debug="${compile.debug}"
            deprecation="${compile.deprecation}"
            source="${compile.source}"
