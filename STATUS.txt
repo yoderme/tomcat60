@@ -34,6 +34,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
+* Make the xmlBlockExternal option in Catalina and Jasper to be true by default.
+  https://people.apache.org/~kkolinko/patches/2014-02-17_tc6_xmlBlockExternalTrue.patch
+  (backport of r1564747)
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
