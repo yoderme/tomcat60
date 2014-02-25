@@ -171,10 +171,12 @@
         <code>true</code>. (markt) 
       </fix>
       <fix>
+        Fix CVE-2014-0033:
         Ensure that sessions IDs are not parsed from URLs for Contexts where
         <code>disableURLRewriting</code> is <code>true</code>. (markt)
       </fix>
       <add>
+        Fix CVE-2013-4590:
         Add an option to the Context to control the blocking of XML external
         entities when parsing XML configuration files and enable this blocking
         by default when a security manager is used. The block is implemented via
@@ -212,11 +214,12 @@
         (markt)
       </fix>
       <fix>
+        Fix CVE-2013-4286:
         Better adherence to RFC2616 for content-length headers. (markt)
       </fix>
       <fix>
-        Add support for limiting the size of chunk extensions when using chunked
-        encoding. (markt)
+        Fix CVE-2013-4322: Add support for limiting the size of chunk extensions
+        when using chunked encoding. (markt)
       </fix>
       <fix>
         <bug>55749</bug>: Improve the error message when SSLEngine is disabled
