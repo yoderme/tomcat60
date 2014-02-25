@@ -332,6 +332,7 @@
         an earlier timestamp than the true timestamp. (markt) 
       </fix>
       <fix>
+        Fix CVE-2013-2067:
         In FormAuthenticator: If it is configured to change Session IDs,
         do the change before displaying the login form. (kkolinko)
       </fix>
@@ -608,6 +609,7 @@
         (markt)
       </fix>
       <fix>
+        CVE-2012-3439:
         Various improvements to the DIGEST authenticator including
         <bug>52954</bug>, the disabling caching of an authenticated user in the
         session by default, tracking server rather than client nonces and better
@@ -666,6 +668,7 @@
         AJP connection using the APR/native connector. (kkolinko)
       </fix>
       <fix>
+        CVE-2012-2733:
         Improve <code>InternalNioInputBuffer.parseHeaders()</code>. (kkolinko)
       </fix>
       <add>
