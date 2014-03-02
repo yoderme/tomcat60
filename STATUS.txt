@@ -40,7 +40,7 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
-* https://issues.apache.org/bugzilla/show_bug.cgi?id=56199
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56199
   http://tomcat.markmail.org/thread/ydrqotnjkmdl6err
   Restore validateXml option in Jasper.
   Motivation: It is mentioned in documentation and some users complained on
@@ -50,6 +50,14 @@ PATCHES PROPOSED TO BACKPORT:
   http://svn.apache.org/r1570163
   +1: kkolinko
   -1:
+
+* Don't log to standard out in SSLValve.
+  Simplify: s/new String("xxx")/"xxx"/
+  http://svn.apache.org/r1081118
+  http://svn.apache.org/viewvc/tomcat/trunk/java/org/apache/catalina/valves/SSLValve.java?r1=1041511&r2=1041510&pathrev=1041511
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
