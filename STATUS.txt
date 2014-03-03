@@ -40,8 +40,7 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56199
-  http://tomcat.markmail.org/thread/ydrqotnjkmdl6err
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56208
   Restore validateXml option in Jasper.
   Motivation: It is mentioned in documentation and some users complained on
   removal of this option in Tomcat 7, as that broke their build scripts.
