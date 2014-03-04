@@ -57,6 +57,14 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56010
+  Allow to use JspWriter.DEFAULT_BUFFER constant with
+  JspFactory.getPageContext API.
+  http://svn.apache.org/r1558811
+  http://svn.apache.org/r1574004 (documentation)
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
