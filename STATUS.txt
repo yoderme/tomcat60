@@ -37,7 +37,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Make the xmlBlockExternal option in Catalina and Jasper to be true by default.
   https://people.apache.org/~kkolinko/patches/2014-02-17_tc6_xmlBlockExternalTrue.patch
   (backport of r1564747)
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56208
@@ -47,14 +47,14 @@ PATCHES PROPOSED TO BACKPORT:
   (The r1564747 backport proposal above have to be applied first, as it
   modified adjacent lines to this one)
   http://svn.apache.org/r1570163
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Don't log to standard out in SSLValve.
   Simplify: s/new String("xxx")/"xxx"/
   http://svn.apache.org/r1081118
   http://svn.apache.org/viewvc/tomcat/trunk/java/org/apache/catalina/valves/SSLValve.java?r1=1041511&r2=1041510&pathrev=1041511
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56010
@@ -62,7 +62,7 @@ PATCHES PROPOSED TO BACKPORT:
   JspFactory.getPageContext API.
   http://svn.apache.org/r1558811
   http://svn.apache.org/r1574004 (documentation)
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 
