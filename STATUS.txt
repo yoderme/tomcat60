@@ -65,6 +65,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, markt
   -1:
 
+* Fix issue with Tomcat running in environments (e.g. OSGI) with alternative
+  Servlet and JSP API implementations that package the XML schemas differently
+  http://people.apache.org/~markt/patches/2014-03-13-osgi-resources-tc6-v1.patch
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
