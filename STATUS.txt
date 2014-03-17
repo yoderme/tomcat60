@@ -31,13 +31,13 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56082
   Concurrency issue in JULI's LogManager
   http://svn.apache.org/r1562748
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 * Make the xmlBlockExternal option in Catalina and Jasper to be true by default.
   https://people.apache.org/~kkolinko/patches/2014-02-17_tc6_xmlBlockExternalTrue.patch
   (backport of r1564747)
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56208
@@ -47,14 +47,14 @@ PATCHES PROPOSED TO BACKPORT:
   (The r1564747 backport proposal above have to be applied first, as it
   modified adjacent lines to this one)
   http://svn.apache.org/r1570163
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 * Don't log to standard out in SSLValve.
   Simplify: s/new String("xxx")/"xxx"/
   http://svn.apache.org/r1081118
   http://svn.apache.org/viewvc/tomcat/trunk/java/org/apache/catalina/valves/SSLValve.java?r1=1041511&r2=1041510&pathrev=1041511
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56010
@@ -62,13 +62,13 @@ PATCHES PROPOSED TO BACKPORT:
   JspFactory.getPageContext API.
   http://svn.apache.org/r1558811
   http://svn.apache.org/r1574004 (documentation)
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 * Improve processing of chuck size from chunked headers. Avoid overflow and use
   a bit shift instead of a multiplication as it is marginally faster.
   http://people.apache.org/~markt/patches/2014-03-17-chunked-headers-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
   kkolinko: Technical notes:
     1. r1578329 does not belong to svn:mergeinfo, that is an unrelated commit
