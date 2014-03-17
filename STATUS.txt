@@ -68,8 +68,11 @@ PATCHES PROPOSED TO BACKPORT:
 * Improve processing of chuck size from chunked headers. Avoid overflow and use
   a bit shift instead of a multiplication as it is marginally faster.
   http://people.apache.org/~markt/patches/2014-03-17-chunked-headers-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
+  kkolinko: Technical notes:
+    1. r1578329 does not belong to svn:mergeinfo, that is an unrelated commit
+    2. changelog.xml part of the patch does not merge, because of later changes
 
 
 PATCHES/ISSUES THAT ARE STALLED:
