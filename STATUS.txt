@@ -70,6 +70,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Fix possible overflow when parsing long values from a byte array.
+  http://people.apache.org/~markt/patches/2014-03-18-ascii-tc6.patch
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
