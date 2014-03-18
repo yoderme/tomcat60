@@ -28,12 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56082
-  Concurrency issue in JULI's LogManager
-  http://svn.apache.org/r1562748
-  +1: markt, kkolinko, remm
-  -1:
-
 * Make the xmlBlockExternal option in Catalina and Jasper to be true by default.
   https://people.apache.org/~kkolinko/patches/2014-02-17_tc6_xmlBlockExternalTrue.patch
   (backport of r1564747)
