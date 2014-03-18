@@ -28,12 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Make the xmlBlockExternal option in Catalina and Jasper to be true by default.
-  https://people.apache.org/~kkolinko/patches/2014-02-17_tc6_xmlBlockExternalTrue.patch
-  (backport of r1564747)
-  +1: kkolinko, markt, remm
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56208
   Restore validateXml option in Jasper.
   Motivation: It is mentioned in documentation and some users complained on

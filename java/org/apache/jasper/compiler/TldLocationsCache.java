@@ -300,7 +300,7 @@ public class TldLocationsCache {
                     Constants.XML_BLOCK_EXTERNAL_INIT_PARAM);
             boolean blockExternal;
             if (blockExternalString == null) {
-                blockExternal = Constants.IS_SECURITY_ENABLED;
+                blockExternal = true;
             } else {
                 blockExternal = Boolean.parseBoolean(blockExternalString);
             }
@@ -482,7 +482,7 @@ public class TldLocationsCache {
                 Constants.XML_BLOCK_EXTERNAL_INIT_PARAM);
         boolean blockExternal;
         if (blockExternalString == null) {
-            blockExternal = Constants.IS_SECURITY_ENABLED;
+            blockExternal = true;
         } else {
             blockExternal = Boolean.parseBoolean(blockExternalString);
         }

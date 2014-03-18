@@ -56,6 +56,18 @@
         <bug>56082</bug>: Fix a concurrency bug in JULI&apos;s LogManager
         implementation. (markt)
       </fix>
+      <fix>
+        Change the default value of the <code>xmlBlockExternal</code> attribute
+        of Context elements. It is now <code>true</code>. (kkolinko) 
+      </fix>
+    </changelog>
+  </subsection>
+  <subsection name="Jasper">
+    <changelog>
+      <fix>
+        Change the default behaviour of JspC to block XML external entities by
+        default. (kkolinko) 
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">

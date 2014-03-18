@@ -651,7 +651,7 @@ public class StandardContext
     /**
      * Attribute used to turn on/off the use of external entities.
      */
-    private boolean xmlBlockExternal = Globals.IS_SECURITY_ENABLED;
+    private boolean xmlBlockExternal = true;
 
 
     /**
