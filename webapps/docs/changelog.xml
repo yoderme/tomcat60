@@ -65,6 +65,15 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Coyote">
+    <changelog>
+      <fix>
+        Improve processing of chuck size from chunked headers. Avoid overflow
+        and use a bit shift instead of a multiplication as it is marginally
+        faster. (markt/kkolinko)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Jasper">
     <changelog>
       <fix>
