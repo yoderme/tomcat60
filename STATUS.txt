@@ -52,6 +52,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Update tc-native to 1.1.29
+  http://people.apache.org/~markt/patches/2014-03-19-tc-native-tc6-v1.patch
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
