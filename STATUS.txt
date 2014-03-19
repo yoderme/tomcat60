@@ -28,16 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56208
-  Restore validateXml option in Jasper.
-  Motivation: It is mentioned in documentation and some users complained on
-  removal of this option in Tomcat 7, as that broke their build scripts.
-  (The r1564747 backport proposal above have to be applied first, as it
-  modified adjacent lines to this one)
-  http://svn.apache.org/r1570163
-  +1: kkolinko, markt, remm
-  -1:
-
 * Don't log to standard out in SSLValve.
   Simplify: s/new String("xxx")/"xxx"/
   http://svn.apache.org/r1081118
