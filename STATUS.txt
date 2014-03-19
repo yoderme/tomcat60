@@ -28,13 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Don't log to standard out in SSLValve.
-  Simplify: s/new String("xxx")/"xxx"/
-  http://svn.apache.org/r1081118
-  http://svn.apache.org/viewvc/tomcat/trunk/java/org/apache/catalina/valves/SSLValve.java?r1=1041511&r2=1041510&pathrev=1041511
-  +1: kkolinko, markt, remm
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56010
   Allow to use JspWriter.DEFAULT_BUFFER constant with
   JspFactory.getPageContext API.

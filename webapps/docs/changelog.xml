@@ -60,6 +60,9 @@
         Change the default value of the <code>xmlBlockExternal</code> attribute
         of Context elements. It is now <code>true</code>. (kkolinko) 
       </fix>
+      <fix>
+        Don&apos;t log to standard out in SSLValve. (kkolinko/markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">

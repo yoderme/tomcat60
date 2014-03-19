@@ -98,7 +98,7 @@ public class SSLValve extends ValveBase {
         if (strcert0 != null && strcert0.length()>28) {
             String strcert1 = strcert0.replace(' ', '\n');
             String strcert2 = strcert1.substring(28, strcert1.length()-26);
-            String strcert3 = new String("-----BEGIN CERTIFICATE-----\n");
+            String strcert3 = "-----BEGIN CERTIFICATE-----\n";
             String strcert4 = strcert3.concat(strcert2);
             String strcerts = strcert4.concat("\n-----END CERTIFICATE-----\n");
             // ByteArrayInputStream bais = new ByteArrayInputStream(strcerts.getBytes("UTF-8"));
@@ -117,8 +117,7 @@ public class SSLValve extends ValveBase {
                 jsseCerts = new X509Certificate[1];
                 jsseCerts[0] = cert;
             } catch (java.security.cert.CertificateException e) {
-                System.out.println("SSLValve failed " + strcerts);
-                System.out.println("SSLValve failed " + e);
+                log.warn(sm.getString("sslValve.certError", strcerts), e);
             } catch (NoSuchProviderException e) {
                 log.error(sm.getString(
                         "sslValve.invalidProvider", providerName), e);
