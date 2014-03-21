@@ -36,45 +36,22 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1: schultz: The idea of the patch is fine: I'm actually +1.
                I have some small nits:
-               1. DocumentBuilderFactory is not thread-safe, and shouldn't
-               be shared. 2. Two instances of swallowing IOException
+               2. Two instances of swallowing IOException
                when closing File streams. We should at least log a warning.
-               It looks like there is an opportinity to use StringBuilder
-               instead of StringBuffer, there, too, if you want.
+               The case of InputStream vs OutputStream is not relevant:
+               a stream left open should be logged. Honestly, it will
+               pretty much never happen, but that's no excuse not to log
+               a potential problem.
       kkolinko:
-        Re 1.:
-          The newDocumentBuilder() method is thread safe.
-
-          See JSR 206 (Final Release = JAXP 1.3)
-          https://jcp.org/en/jsr/detail?id=206
-          Ch.3 -> Thread Safety
-          [quote]
-             Implementations of the SAXParser, DocumentBuilder, Transformer, Validator and Validat
-             orHandler abstract classes are not expected to be thread safe by this specification. (...)
-
-             Configuration of a SAXParserFactory, DocumentBuilderFactory TransformerFactory or
-             SchemaFactory is also not expected to be thread safe. (...)
-
-             It is expected that the newSAXParser method of a SAXParserFactory implementation, the newDocument
-             Builder method of a DocumentBuilderFactory and the newTransformer method of a Transformer
-             Factory will be thread safe without side effects. (...)
-
-             Note that Schema is thread safe.
-          [/quote]
-
         Re 2.:
           Those are input streams that are read, not written. Nothing
           should really happen when those are closed.
-
-        Re StringBuilder:
-          I think it is not of much concern. But if there is any interest,
-          I am proposing a patch below. It is a 4 years old one.
   -1:
 
 * Use StringBuilder in DefaultServlet
   Apply only DefaultServlet.java part of the following patch:
   https://people.apache.org/~kkolinko/patches/StringBuilder/2009-11-02_StringBuilder_o_a_c_servlets.patch
-  +1: kkolinko
+  +1: kkolinko, schultz
   -1:
 
 * Fix possible overflow when parsing long values from a byte array.
