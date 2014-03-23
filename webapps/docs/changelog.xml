@@ -102,6 +102,10 @@
         controls the validation of *.tld files when Jasper parses them. (markt)
       </fix>
       <fix>
+        <bug>54475</bug>: Add Java 8 support to SMAP generation for JSPs. Patch
+        by Robbie Gibson. (markt)
+      </fix>
+      <fix>
         <bug>56010</bug>: Don&apos;t throw an
         <code>IllegalArgumentException</code> when
         <code>JspFactory.getPageContext</code> is used with
