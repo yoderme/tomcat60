@@ -79,6 +79,9 @@
         Fix possible overflow when parsing long values from a byte array.
         (markt)
       </fix>
+      <update>
+        Update tc-native to 1.1.29. (markt)
+      </update>
     </changelog>
   </subsection>
   <subsection name="Jasper">
