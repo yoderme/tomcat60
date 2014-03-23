@@ -49,11 +49,6 @@ PATCHES PROPOSED TO BACKPORT:
       remm: no need to add i18n for something that will not happen
   -1:
 
-* Fix possible overflow when parsing long values from a byte array.
-  http://people.apache.org/~markt/patches/2014-03-18-ascii-tc6.patch
-  +1: markt, kkolinko, schultz, remm
-  -1:
-
 * Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56283
   Add Java 8 support to Jasper's default configuration
   http://people.apache.org/~markt/patches/2014-03-19-Jasper-Java8-tc6-v1.patch
