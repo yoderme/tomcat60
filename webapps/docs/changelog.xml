@@ -63,6 +63,9 @@
       <fix>
         Don&apos;t log to standard out in SSLValve. (kkolinko/markt)
       </fix>
+      <scode>
+        Use StringBuilder in DefaultServlet. (kkolinko)
+      </scode>
     </changelog>
   </subsection>
   <subsection name="Coyote">
