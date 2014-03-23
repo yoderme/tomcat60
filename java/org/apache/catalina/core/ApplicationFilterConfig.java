@@ -44,6 +44,7 @@ import org.apache.catalina.security.SecurityUtil;
 import org.apache.catalina.util.Enumerator;
 import org.apache.catalina.util.StringManager;
 import org.apache.juli.logging.LogFactory;
+import org.apache.tomcat.util.ExceptionUtils;
 import org.apache.tomcat.util.log.SystemLogHandler;
 import org.apache.tomcat.util.modeler.Registry;
 
@@ -112,8 +113,10 @@ public final class ApplicationFilterConfig implements FilterConfig, Serializable
         }
         
         this.context = context;
-        setFilterDef(filterDef);
+        this.filterDef = filterDef;
 
+        // Allocate a new filter instance
+        getFilter();
     }
 
 
@@ -346,16 +349,22 @@ public final class ApplicationFilterConfig implements FilterConfig, Serializable
         
         if (this.filter != null)
         {
-            if (Globals.IS_SECURITY_ENABLED) {
-                try {
-                    SecurityUtil.doAsPrivilege("destroy", filter); 
-                } catch(java.lang.Exception ex){                    
-                    context.getLogger().error("ApplicationFilterConfig.doAsPrivilege", ex);
-                } finally {
-                    SecurityUtil.remove(filter);
+            try {
+                if (Globals.IS_SECURITY_ENABLED) {
+                    try {
+                        SecurityUtil.doAsPrivilege("destroy", filter); 
+                    } finally {
+                        SecurityUtil.remove(filter);
+                    }
+                } else { 
+                    filter.destroy();
                 }
-            } else { 
-                filter.destroy();
+            } catch (Throwable t) {
+                ExceptionUtils.handleThrowable(t);
+                context.getLogger().error(sm.getString(
+                        "applicationFilterConfig.release",
+                        filterDef.getFilterName(),
+                        filterDef.getFilterClass()), t);
             }
             if (!context.getIgnoreAnnotations()) {
                 try {
@@ -368,64 +377,6 @@ public final class ApplicationFilterConfig implements FilterConfig, Serializable
         this.filter = null;
 
      }
-
-
-    /**
-     * Set the filter definition we are configured for.  This has the side
-     * effect of instantiating an instance of the corresponding filter class.
-     *
-     * @param filterDef The new filter definition
-     *
-     * @exception ClassCastException if the specified class does not implement
-     *  the <code>javax.servlet.Filter</code> interface
-     * @exception ClassNotFoundException if the filter class cannot be found
-     * @exception IllegalAccessException if the filter class cannot be
-     *  publicly instantiated
-     * @exception InstantiationException if an exception occurs while
-     *  instantiating the filter object
-     * @exception ServletException if thrown by the filter's init() method
-     * @throws NamingException 
-     * @throws InvocationTargetException 
-     */
-    void setFilterDef(FilterDef filterDef)
-        throws ClassCastException, ClassNotFoundException,
-               IllegalAccessException, InstantiationException,
-               ServletException, InvocationTargetException, NamingException {
-
-        this.filterDef = filterDef;
-        if (filterDef == null) {
-
-            // Release any previously allocated filter instance
-            if (this.filter != null){
-                if (Globals.IS_SECURITY_ENABLED) {
-                    try{
-                        SecurityUtil.doAsPrivilege("destroy", filter);  
-                    } catch(java.lang.Exception ex){    
-                        context.getLogger().error("ApplicationFilterConfig.doAsPrivilege", ex);
-                    } finally {
-                        SecurityUtil.remove(filter);
-                    }
-                } else { 
-                    filter.destroy();
-                }
-                if (!context.getIgnoreAnnotations()) {
-                    try {
-                        ((StandardContext)context).getAnnotationProcessor().preDestroy(this.filter);
-                    } catch (Exception e) {
-                        context.getLogger().error("ApplicationFilterConfig.preDestroy", e);
-                    }
-                }
-            }
-            this.filter = null;
-
-        } else {
-
-            // Allocate a new filter instance
-            Filter filter = getFilter();
-
-        }
-
-    }
 
 
     // -------------------------------------------------------- Private Methods

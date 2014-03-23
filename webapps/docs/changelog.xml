@@ -66,6 +66,11 @@
       <scode>
         Use StringBuilder in DefaultServlet. (kkolinko)
       </scode>
+      <fix>
+        <bug>56275</bug>: Allow web applications to be stopped cleanly even if
+        filters throw exceptions when their destroy() method is called.
+        (markt/kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">

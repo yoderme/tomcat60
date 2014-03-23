@@ -64,12 +64,6 @@ PATCHES PROPOSED TO BACKPORT:
          Thus I am OK with this change.
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56275
-  Fix memory leak if a Filter throws an exception during its destroy() method
-  http://people.apache.org/~markt/patches/2014-03-19-bug56275-tc6-v1.patch
-  +1: markt, schultz, kkolinko, remm
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=54475
   Add Java 8 support to SMAP generation for JSPs.
   Patch by Robbie Gibson.
