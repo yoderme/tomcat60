@@ -103,6 +103,10 @@
         <code>JspWriter.DEFAULT_BUFFER</code>. Based on a patch by Eugene Chung.
         (markt)
       </fix>
+      <fix>
+        <bug>56265</bug>: Do not escape values of dynamic tag attributes
+        containing EL expressions. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
@@ -236,7 +240,7 @@
         aware, validating parser will be used when processing <code>*.tld</code>
         and <code>web.xml</code> files if the system property
         <code>org.apache.catalina.STRICT_SERVLET_COMPLIANCE</code> is set to
-        <code>true</code>. (markt) 
+        <code>true</code>. (markt)
       </fix>
       <fix>
         Fix CVE-2014-0033:
