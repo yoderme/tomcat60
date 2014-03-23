@@ -52,6 +52,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56283
   Add Java 8 support to Jasper's default configuration
   http://people.apache.org/~markt/patches/2014-03-19-Jasper-Java8-tc6-v1.patch
+  http://people.apache.org/~markt/patches/2014-03-23-Jasper-Java8-tc6-part2-v1.patch
   +1: markt, remm
   +0: kkolinko:
        - See r1557990. There are noTldJars lists in TldConfig, TldLocationsCache
@@ -62,6 +63,7 @@ PATCHES PROPOSED TO BACKPORT:
          so it will be inlined at compile time. At runtime Jasper will be
          compatible with any earlier versions of ecj 4.3.x.
          Thus I am OK with this change.
+      markt: Additional patch added
   -1:
 
 
