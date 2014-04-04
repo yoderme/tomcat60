@@ -47,14 +47,14 @@
   <subsection name="Catalina">
     <changelog>
       <fix>
+        <bug>56082</bug>: Fix a concurrency bug in JULI&apos;s LogManager
+        implementation. (markt)
+      </fix>
+      <fix>
         <bug>56236</bug>: Enable Tomcat to work with alternative Servlet and
         JSP API JARs that package the XML schemas in such as way as to require
         a dependency on the JSP API before enabling validation for web.xml.
         Tomcat has no such dependency. (markt)
-      </fix>
-      <fix>
-        <bug>56082</bug>: Fix a concurrency bug in JULI&apos;s LogManager
-        implementation. (markt)
       </fix>
       <fix>
         Change the default value of the <code>xmlBlockExternal</code> attribute
