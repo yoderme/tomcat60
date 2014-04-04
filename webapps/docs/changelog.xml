@@ -116,6 +116,12 @@
         <bug>56265</bug>: Do not escape values of dynamic tag attributes
         containing EL expressions. (kkolinko)
       </fix>
+      <update>
+        <bug>56283</bug>: Update to the Eclipse JDT Compiler P20140317-1600
+        which adds support for Java 8 syntax to JSPs. Add support for value
+        "1.8" for the <code>compilerSourceVM</code> and
+        <code>compilerTargetVM</code> options. (markt)
+      </update>
     </changelog>
   </subsection>
   <subsection name="Web applications">

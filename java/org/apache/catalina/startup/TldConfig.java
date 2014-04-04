@@ -94,6 +94,8 @@ public final class TldConfig  implements LifecycleListener {
         noTldJars.add("ecj-4.2.1.jar");
         noTldJars.add("ecj-4.2.2.jar");
         noTldJars.add("ecj-4.3.1.jar");
+        noTldJars.add("ecj-4.3.2.jar");
+        noTldJars.add("ecj-P20140317-1600.jar");
         noTldJars.add("jsp-api.jar");
         noTldJars.add("servlet-api.jar");
         noTldJars.add("tomcat-coyote.jar");
