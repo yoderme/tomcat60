@@ -47,6 +47,12 @@ PATCHES PROPOSED TO BACKPORT:
           Those are input streams that are read, not written. Nothing
           should really happen when those are closed.
       remm: no need to add i18n for something that will not happen
+      markt: Not logging exceptions on close is consistent with the code prior
+             to this patch. While I'm not convinced of the need, I'm happy to
+             replace each of those two // Ignore lines with these three lines:
+             if (debug > 10) {
+                 log(e.getMessage(), e);
+             }
   -1:
 
 * Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56283
