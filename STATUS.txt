@@ -73,6 +73,14 @@ PATCHES PROPOSED TO BACKPORT:
       kkolinko: Thank you. Changing the vote to +1.
   -1:
 
+* Add a work around for validating XML documents (often TLDs) that use
+  just the file name to refer to refer to the JavaEE schema on which they
+  are based.
+  (Backport of r1579931)
+  https://people.apache.org/~kkolinko/patches/2014-04-05_tc6_LocalResolver_nameOnly.patch
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
