@@ -53,6 +53,10 @@ PATCHES PROPOSED TO BACKPORT:
              if (debug > 10) {
                  log(e.getMessage(), e);
              }
+
+      schultz: I'm +1 if there's a debug message. I would prefer a WARN or
+               something like that for an allegedly impossible situation, but
+               I'll settle for debug ;)
   -1:
 
 * Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56283
