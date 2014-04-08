@@ -44,7 +44,7 @@ PATCHES PROPOSED TO BACKPORT:
   are based.
   (Backport of r1579931)
   https://people.apache.org/~kkolinko/patches/2014-04-05_tc6_LocalResolver_nameOnly.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 
