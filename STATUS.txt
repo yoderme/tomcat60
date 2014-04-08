@@ -36,7 +36,7 @@ PATCHES PROPOSED TO BACKPORT:
   running with Java 6 or later. The "1.8" options make sense only when running
   with Java 8 (or later).
   https://issues.apache.org/bugzilla/attachment.cgi?id=31476&action=diff
-  +1: markt
+  +1: markt, schultz
   -1:
 
 * Add a work around for validating XML documents (often TLDs) that use
@@ -44,7 +44,7 @@ PATCHES PROPOSED TO BACKPORT:
   are based.
   (Backport of r1579931)
   https://people.apache.org/~kkolinko/patches/2014-04-05_tc6_LocalResolver_nameOnly.patch
-  +1: kkolinko, markt
+  +1: kkolinko, markt, schultz
   -1:
 
 
