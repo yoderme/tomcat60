@@ -28,37 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Redefine the <code>globalXsltFile</code> initialisation parameter of the
-  DefaultServlet as relative to CATALINA_BASE/conf or CATALINA_HOME/conf.
-  Prevent user supplied XSLTs used by the DefaultServlet from defining external
-  entities.
-  http://people.apache.org/~markt/patches/2014-03-17-globalXsltFile-tc6-v1.patch
-  +1: markt, kkolinko, remm
-  -1: schultz: The idea of the patch is fine: I'm actually +1.
-               I have some small nits:
-               2. Two instances of swallowing IOException
-               when closing File streams. We should at least log a warning.
-               The case of InputStream vs OutputStream is not relevant:
-               a stream left open should be logged. Honestly, it will
-               pretty much never happen, but that's no excuse not to log
-               a potential problem.
-      kkolinko:
-        Re 2.:
-          Those are input streams that are read, not written. Nothing
-          should really happen when those are closed.
-      remm: no need to add i18n for something that will not happen
-      markt: Not logging exceptions on close is consistent with the code prior
-             to this patch. While I'm not convinced of the need, I'm happy to
-             replace each of those two // Ignore lines with these three lines:
-             if (debug > 10) {
-                 log(e.getMessage(), e);
-             }
-
-      schultz: I'm +1 if there's a debug message. I would prefer a WARN or
-               something like that for an allegedly impossible situation, but
-               I'll settle for debug ;)
-  -1:
-
 * Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56283
   Add Java 8 support to Jasper's default configuration
   http://people.apache.org/~markt/patches/2014-03-19-Jasper-Java8-tc6-v1.patch

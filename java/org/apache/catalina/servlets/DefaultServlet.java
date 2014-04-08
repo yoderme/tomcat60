@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.apache.catalina.servlets;
 
 
@@ -35,6 +33,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 import javax.naming.InitialContext;
@@ -48,10 +47,14 @@ import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -65,6 +68,10 @@ import org.apache.naming.resources.CacheEntry;
 import org.apache.naming.resources.ProxyDirContext;
 import org.apache.naming.resources.Resource;
 import org.apache.naming.resources.ResourceAttributes;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.ext.EntityResolver2;
 
 
 /**
@@ -104,7 +111,7 @@ import org.apache.naming.resources.ResourceAttributes;
  * </pre>
  * <p>
  * Then a request to <code>/context/static/images/tomcat.jpg</code> will succeed
- * while a request to <code>/context/images/tomcat2.jpg</code> will fail. 
+ * while a request to <code>/context/images/tomcat2.jpg</code> will fail.
  * </p>
  * @author Craig R. McClanahan
  * @author Remy Maucherat
@@ -113,9 +120,14 @@ import org.apache.naming.resources.ResourceAttributes;
 
 public class DefaultServlet
     extends HttpServlet {
-    
-    // ----------------------------------------------------- Instance Variables
 
+    private static final DocumentBuilderFactory factory;
+
+    private static final SecureEntityResolver secureEntityResolver =
+            new SecureEntityResolver();
+
+
+    // ----------------------------------------------------- Instance Variables
 
     /**
      * The debugging detail level for this servlet.
@@ -163,8 +175,8 @@ public class DefaultServlet
      * Allow customized directory listing per context.
      */
     protected String contextXsltFile = null;
-    
-    
+
+
     /**
      * Allow customized directory listing per instance.
      */
@@ -188,13 +200,13 @@ public class DefaultServlet
      * the platform default is used.
      */
     protected String fileEncoding = null;
-    
-    
+
+
     /**
      * Minimum size for sendfile usage in bytes.
      */
     protected int sendfileSize = 48 * 1024;
-    
+
     /**
      * Should the Accept-Ranges: bytes header be send with static resources?
      */
@@ -204,8 +216,8 @@ public class DefaultServlet
      * Full range marker.
      */
     protected static ArrayList FULL = new ArrayList();
-    
-    
+
+
     // ----------------------------------------------------- Static Initializer
 
 
@@ -219,6 +231,10 @@ public class DefaultServlet
         urlEncoder.addSafeCharacter('.');
         urlEncoder.addSafeCharacter('*');
         urlEncoder.addSafeCharacter('/');
+
+        factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setValidating(false);
     }
 
 
@@ -277,7 +293,7 @@ public class DefaultServlet
             readOnly = Boolean.parseBoolean(getServletConfig().getInitParameter("readonly"));
 
         if (getServletConfig().getInitParameter("sendfileSize") != null)
-            sendfileSize = 
+            sendfileSize =
                 Integer.parseInt(getServletConfig().getInitParameter("sendfileSize")) * 1024;
 
         fileEncoding = getServletConfig().getInitParameter("fileEncoding");
@@ -371,7 +387,7 @@ public class DefaultServlet
 
     /**
      * Determines the appropriate path to prepend resources with
-     * when generating directory listings. Depending on the behaviour of 
+     * when generating directory listings. Depending on the behaviour of
      * {@link #getRelativePath(HttpServletRequest)} this will change.
      * @param request the request to determine the path for
      * @return the prefix to apply to all resources in the listing.
@@ -429,7 +445,7 @@ public class DefaultServlet
      *
      * @param resp  the {@link HttpServletResponse} object that
      *                  contains the response the servlet returns
-     *                  to the client                                
+     *                  to the client
      *
      * @exception IOException   if an input or output error occurs
      *                              while the servlet is handling the
@@ -457,11 +473,11 @@ public class DefaultServlet
         }
         // Always allow options
         allow.append(", OPTIONS");
-        
+
         resp.setHeader("Allow", allow.toString());
     }
-    
-    
+
+
     /**
      * Process a POST request for the specified resource.
      *
@@ -741,7 +757,7 @@ public class DefaultServlet
         CacheEntry cacheEntry = resources.lookupCache(path);
 
         if (!cacheEntry.exists) {
-            // Check if we're included so we can return the appropriate 
+            // Check if we're included so we can return the appropriate
             // missing resource name in the error
             String requestUri = (String) request.getAttribute(
                                             Globals.INCLUDE_REQUEST_URI_ATTR);
@@ -766,7 +782,7 @@ public class DefaultServlet
         // ends with "/" or "\", return NOT FOUND
         if (cacheEntry.context == null) {
             if (path.endsWith("/") || (path.endsWith("\\"))) {
-                // Check if we're included so we can return the appropriate 
+                // Check if we're included so we can return the appropriate
                 // missing resource name in the error
                 String requestUri = (String) request.getAttribute(
                                             Globals.INCLUDE_REQUEST_URI_ATTR);
@@ -827,13 +843,13 @@ public class DefaultServlet
                     // Accept ranges header
                     response.setHeader("Accept-Ranges", "bytes");
                 }
-    
+
                 // Parse range specifier
                 ranges = parseRange(request, response, cacheEntry.attributes);
-    
+
                 // ETag header
                 response.setHeader("ETag", cacheEntry.attributes.getETag());
-    
+
                 // Last-Modified header
                 response.setHeader("Last-Modified",
                         cacheEntry.attributes.getLastModifiedHttp());
@@ -1194,23 +1210,21 @@ public class DefaultServlet
     }
 
 
-
     /**
      *  Decide which way to render. HTML or XML.
      */
     protected InputStream render(String contextPath, CacheEntry cacheEntry)
         throws IOException, ServletException {
 
-        InputStream xsltInputStream =
-            findXsltInputStream(cacheEntry.context);
+        Source xsltSource = findXsltInputStream(cacheEntry.context);
 
-        if (xsltInputStream==null) {
+        if (xsltSource == null) {
             return renderHtml(contextPath, cacheEntry);
-        } else {
-            return renderXml(contextPath, cacheEntry, xsltInputStream);
         }
+        return renderXml(contextPath, cacheEntry, xsltSource);
 
     }
+
 
     /**
      * Return an InputStream to an HTML representation of the contents
@@ -1221,7 +1235,7 @@ public class DefaultServlet
      */
     protected InputStream renderXml(String contextPath,
                                     CacheEntry cacheEntry,
-                                    InputStream xsltInputStream)
+                                    Source xsltSource)
         throws IOException, ServletException {
 
         StringBuilder sb = new StringBuilder();
@@ -1243,7 +1257,7 @@ public class DefaultServlet
 
             // Render the directory entries within this directory
             NamingEnumeration enumeration = resources.list(cacheEntry.name);
-            
+
             // rewriteUrl(contextPath) is expensive. cache result for later reuse
             String rewrittenContextPath =  rewriteUrl(contextPath);
 
@@ -1314,8 +1328,7 @@ public class DefaultServlet
         try {
             TransformerFactory tFactory = TransformerFactory.newInstance();
             Source xmlSource = new StreamSource(new StringReader(sb.toString()));
-            Source xslSource = new StreamSource(xsltInputStream);
-            Transformer transformer = tFactory.newTransformer(xslSource);
+            Transformer transformer = tFactory.newTransformer(xsltSource);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             OutputStreamWriter osWriter = new OutputStreamWriter(stream, "UTF8");
@@ -1353,7 +1366,7 @@ public class DefaultServlet
         PrintWriter writer = new PrintWriter(osWriter);
 
         StringBuilder sb = new StringBuilder();
-        
+
         // rewriteUrl(contextPath) is expensive. cache result for later reuse
         String rewrittenContextPath =  rewriteUrl(contextPath);
 
@@ -1540,9 +1553,9 @@ public class DefaultServlet
 
 
     /**
-     * Return the xsl template inputstream (if possible)
+     * Return a Source for the xsl template (if possible)
      */
-    protected InputStream findXsltInputStream(DirContext directory)
+    protected Source findXsltInputStream(DirContext directory)
         throws IOException, ServletException {
 
         if (localXsltFile != null) {
@@ -1550,8 +1563,13 @@ public class DefaultServlet
                 Object obj = directory.lookup(localXsltFile);
                 if ((obj != null) && (obj instanceof Resource)) {
                     InputStream is = ((Resource) obj).streamContent();
-                    if (is != null)
-                        return is;
+                    if (is != null) {
+                        if (Globals.IS_SECURITY_ENABLED) {
+                            return secureXslt(is);
+                        } else {
+                            return new StreamSource(is);
+                        }
+                    }
                 }
             } catch (NamingException e) {
                 if (debug > 10)
@@ -1562,8 +1580,13 @@ public class DefaultServlet
         if (contextXsltFile != null) {
             InputStream is =
                 getServletContext().getResourceAsStream(contextXsltFile);
-            if (is != null)
-                return is;
+            if (is != null) {
+                if (Globals.IS_SECURITY_ENABLED) {
+                    return secureXslt(is);
+                } else {
+                    return new StreamSource(is);
+                }
+            }
 
             if (debug > 10)
                 log("contextXsltFile '" + contextXsltFile + "' not found");
@@ -1572,20 +1595,26 @@ public class DefaultServlet
         /*  Open and read in file in one fell swoop to reduce chance
          *  chance of leaving handle open.
          */
-        if (globalXsltFile!=null) {
-            FileInputStream fis = null;
-
-            try {
-                File f = new File(globalXsltFile);
-                if (f.exists()){
-                    fis =new FileInputStream(f);
+        if (globalXsltFile != null) {
+            File f = validateGlobalXsltFile();
+            if (f != null){
+                FileInputStream fis = null;
+                try {
+                    fis = new FileInputStream(f);
                     byte b[] = new byte[(int)f.length()]; /* danger! */
                     fis.read(b);
-                    return new ByteArrayInputStream(b);
+                    return new StreamSource(new ByteArrayInputStream(b));
+                } finally {
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException ioe) {
+                            if (debug > 10) {
+                                log(ioe.getMessage(), ioe);
+                            }
+                        }
+                    }
                 }
-            } finally {
-                if (fis!=null)
-                    fis.close();
             }
         }
 
@@ -1594,8 +1623,93 @@ public class DefaultServlet
     }
 
 
-    // -------------------------------------------------------- protected Methods
+    private File validateGlobalXsltFile() {
 
+        File result = null;
+        String base = System.getProperty("catalina.base");
+
+        if (base != null) {
+            File baseConf = new File(base, "conf");
+            result = validateGlobalXsltFile(baseConf);
+        }
+
+        if (result == null) {
+            String home = System.getProperty("catalina.home");
+            if (home != null && !home.equals(base)) {
+                File homeConf = new File(home, "conf");
+                result = validateGlobalXsltFile(homeConf);
+            }
+        }
+
+        return result;
+    }
+
+
+    private File validateGlobalXsltFile(File base) {
+        File candidate = new File(globalXsltFile);
+        if (!candidate.isAbsolute()) {
+            candidate = new File(base, globalXsltFile);
+        }
+
+        if (!candidate.isFile()) {
+            return null;
+        }
+
+        // First check that the resulting path is under the provided base
+        try {
+            if (!candidate.getCanonicalPath().startsWith(base.getCanonicalPath())) {
+                return null;
+            }
+        } catch (IOException ioe) {
+            return null;
+        }
+
+        // Next check that an .xsl or .xslt file has been specified
+        String nameLower = candidate.getName().toLowerCase(Locale.ENGLISH);
+        if (!nameLower.endsWith(".xslt") && !nameLower.endsWith(".xsl")) {
+            return null;
+        }
+
+        return candidate;
+    }
+
+
+    private Source secureXslt(InputStream is) {
+        // Need to filter out any external entities
+        Source result = null;
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setEntityResolver(secureEntityResolver);
+            Document document = builder.parse(is);
+            result = new DOMSource(document);
+        } catch (ParserConfigurationException e) {
+            if (debug > 0) {
+                log(e.getMessage(), e);
+            }
+        } catch (SAXException e) {
+            if (debug > 0) {
+                log(e.getMessage(), e);
+            }
+        } catch (IOException e) {
+            if (debug > 0) {
+                log(e.getMessage(), e);
+            }
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    if (debug > 10) {
+                        log(e.getMessage(), e);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+
+    // -------------------------------------------------------- protected Methods
 
     /**
      * Check if sendfile can be used.
@@ -1624,8 +1738,8 @@ public class DefaultServlet
             return false;
         }
     }
-    
-    
+
+
     /**
      * Check if the if-match condition is satisfied.
      *
@@ -2034,7 +2148,7 @@ public class DefaultServlet
         while ( (exception == null) && (ranges.hasNext()) ) {
 
             InputStream resourceInputStream = cacheEntry.resource.streamContent();
-            
+
             Reader reader;
             if (fileEncoding == null) {
                 reader = new InputStreamReader(resourceInputStream);
@@ -2238,10 +2352,6 @@ public class DefaultServlet
     }
 
 
-
-    // ------------------------------------------------------ Range Inner Class
-
-
     protected class Range {
 
         public long start;
@@ -2267,4 +2377,29 @@ public class DefaultServlet
     }
 
 
+    /**
+     * This is secure in the sense that any attempt to use an external entity
+     * will trigger an exception.
+     */
+    private static class SecureEntityResolver implements EntityResolver2  {
+
+        public InputSource resolveEntity(String publicId, String systemId)
+                throws SAXException, IOException {
+            throw new SAXException(sm.getString("defaultServlet.blockExternalEntity",
+                    publicId, systemId));
+        }
+
+        public InputSource getExternalSubset(String name, String baseURI)
+                throws SAXException, IOException {
+            throw new SAXException(sm.getString("defaultServlet.blockExternalSubset",
+                    name, baseURI));
+        }
+
+        public InputSource resolveEntity(String name, String publicId,
+                String baseURI, String systemId) throws SAXException,
+                IOException {
+            throw new SAXException(sm.getString("defaultServlet.blockExternalEntity2",
+                    name, publicId, baseURI, systemId));
+        }
+    }
 }
