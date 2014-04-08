@@ -29,21 +29,14 @@ PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
 * Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56283
-  Add Java 8 support to Jasper's default configuration
-  http://people.apache.org/~markt/patches/2014-03-19-Jasper-Java8-tc6-v1.patch
-  http://people.apache.org/~markt/patches/2014-03-23-Jasper-Java8-tc6-part2-v1.patch
-  +1: markt, remm
-  +1: kkolinko:
-       - See r1557990. There are noTldJars lists in TldConfig, TldLocationsCache
-         that have to be updated. Maybe add support for "ecj-*.jar" pattern
-         there? (If not, then just add "4.3.2" and "P20140317-1600" versions).
-
-       - Technically CompilerOptions.VERSION_1_8 is a String constant "1.8",
-         so it will be inlined at compile time. At runtime Jasper will be
-         compatible with any earlier versions of ecj 4.3.x.
-         Thus I am OK with this change.
-      markt: Additional patch added
-      kkolinko: Thank you. Changing the vote to +1.
+  Add support for running Tomcat 6 with ecj-P20140317-1600.jar (as drop-in
+  replacement for ecj-4.3.1.jar). Add support for value "1.8" for the
+  compilerSourceVM and compilerTargetVM options.
+  Note that, per previous comments, ecj-P20140317-1600.jar can only be used when
+  running with Java 6 or later. The "1.8" options make sense only when running
+  with Java 8 (or later).
+  https://issues.apache.org/bugzilla/attachment.cgi?id=31476&action=diff
+  +1: markt
   -1:
 
 * Add a work around for validating XML documents (often TLDs) that use
