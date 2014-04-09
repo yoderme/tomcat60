@@ -36,7 +36,7 @@ PATCHES PROPOSED TO BACKPORT:
   running with Java 6 or later. The "1.8" options make sense only when running
   with Java 8 (or later).
   https://issues.apache.org/bugzilla/attachment.cgi?id=31476&action=diff
-  +1: markt, schultz
+  +1: markt, schultz, kkolinko
   -1:
 
 * Add a work around for validating XML documents (often TLDs) that use
