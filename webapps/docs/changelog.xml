@@ -122,6 +122,14 @@
         <bug>56265</bug>: Do not escape values of dynamic tag attributes
         containing EL expressions. (kkolinko)
       </fix>
+      <fix>
+        <bug>56283</bug>: Add support for running Tomcat 6 with
+        ecj-P20140317-1600.jar (as drop-in replacement for ecj-4.3.1.jar). Add
+        support for value "1.8" for the <code>compilerSourceVM</code> and
+        <code>compilerTargetVM</code> options. Note that ecj-P20140317-1600.jar
+        can only be used when running with Java 6 or later. The "1.8" options
+        make sense only when running with Java 8 (or later). (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">

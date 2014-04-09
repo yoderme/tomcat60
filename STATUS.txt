@@ -28,17 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56283
-  Add support for running Tomcat 6 with ecj-P20140317-1600.jar (as drop-in
-  replacement for ecj-4.3.1.jar). Add support for value "1.8" for the
-  compilerSourceVM and compilerTargetVM options.
-  Note that, per previous comments, ecj-P20140317-1600.jar can only be used when
-  running with Java 6 or later. The "1.8" options make sense only when running
-  with Java 8 (or later).
-  https://issues.apache.org/bugzilla/attachment.cgi?id=31476&action=diff
-  +1: markt, schultz, kkolinko
-  -1:
-
 * Add a work around for validating XML documents (often TLDs) that use
   just the file name to refer to refer to the JavaEE schema on which they
   are based.
