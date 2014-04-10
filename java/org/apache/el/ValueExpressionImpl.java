@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ import org.apache.el.util.ReflectionUtil;
 
 /**
  * An <code>Expression</code> that can get or set a value.
- * 
+ *
  * <p>
  * In previous incarnations of this API, expressions could only be read.
  * <code>ValueExpression</code> objects can now be used both to retrieve a
@@ -55,37 +55,37 @@ import org.apache.el.util.ReflectionUtil;
  * details. Expressions that cannot be used as l-values must always return
  * <code>true</code> from <code>isReadOnly()</code>.
  * </p>
- * 
+ *
  * <p>
  * <code>The {@link ExpressionFactory#createValueExpression} method
  * can be used to parse an expression string and return a concrete instance
  * of <code>ValueExpression</code> that encapsulates the parsed expression.
- * The {@link FunctionMapper} is used at parse time, not evaluation time, 
- * so one is not needed to evaluate an expression using this class.  
+ * The {@link FunctionMapper} is used at parse time, not evaluation time,
+ * so one is not needed to evaluate an expression using this class.
  * However, the {@link ELContext} is needed at evaluation time.</p>
  *
  * <p>The {@link #getValue}, {@link #setValue}, {@link #isReadOnly} and
  * {@link #getType} methods will evaluate the expression each time they are
- * called. The {@link ELResolver} in the <code>ELContext</code> is used to 
+ * called. The {@link ELResolver} in the <code>ELContext</code> is used to
  * resolve the top-level variables and to determine the behavior of the
  * <code>.</code> and <code>[]</code> operators. For any of the four methods,
- * the {@link ELResolver#getValue} method is used to resolve all properties 
- * up to but excluding the last one. This provides the <code>base</code> 
- * object. At the last resolution, the <code>ValueExpression</code> will 
- * call the corresponding {@link ELResolver#getValue}, 
- * {@link ELResolver#setValue}, {@link ELResolver#isReadOnly} or 
- * {@link ELResolver#getType} method, depending on which was called on 
+ * the {@link ELResolver#getValue} method is used to resolve all properties
+ * up to but excluding the last one. This provides the <code>base</code>
+ * object. At the last resolution, the <code>ValueExpression</code> will
+ * call the corresponding {@link ELResolver#getValue},
+ * {@link ELResolver#setValue}, {@link ELResolver#isReadOnly} or
+ * {@link ELResolver#getType} method, depending on which was called on
  * the <code>ValueExpression</code>.
  * </p>
  *
- * <p>See the notes about comparison, serialization and immutability in 
+ * <p>See the notes about comparison, serialization and immutability in
  * the {@link Expression} javadocs.
  *
  * @see javax.el.ELResolver
  * @see javax.el.Expression
  * @see javax.el.ExpressionFactory
  * @see javax.el.ValueExpression
- * 
+ *
  * @author Jacob Hookom [jacob@hookom.net]
  *
  */
@@ -107,7 +107,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
     }
 
     /**
-     * 
+     *
      */
     public ValueExpressionImpl(String expr, Node node, FunctionMapper fnMapper,
             VariableMapper varMapper, Class expectedType) {
@@ -120,7 +120,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
@@ -130,7 +130,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.el.ValueExpression#getExpectedType()
      */
     public Class getExpectedType() {
@@ -140,21 +140,17 @@ public final class ValueExpressionImpl extends ValueExpression implements
     /**
      * Returns the type the result of the expression will be coerced to after
      * evaluation.
-     * 
+     *
      * @return the <code>expectedType</code> passed to the
      *         <code>ExpressionFactory.createValueExpression</code> method
      *         that created this <code>ValueExpression</code>.
-     * 
+     *
      * @see javax.el.Expression#getExpressionString()
      */
     public String getExpressionString() {
         return this.expr;
     }
 
-    /**
-     * @return
-     * @throws ELException
-     */
     private Node getNode() throws ELException {
         if (this.node == null) {
             this.node = ExpressionBuilder.createNode(this.expr);
@@ -164,7 +160,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.el.ValueExpression#getType(javax.el.ELContext)
      */
     public Class getType(ELContext context) throws PropertyNotFoundException,
@@ -176,7 +172,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.el.ValueExpression#getValue(javax.el.ELContext)
      */
     public Object getValue(ELContext context) throws PropertyNotFoundException,
@@ -192,7 +188,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
@@ -201,7 +197,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.el.ValueExpression#isLiteralText()
      */
     public boolean isLiteralText() {
@@ -214,7 +210,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.el.ValueExpression#isReadOnly(javax.el.ELContext)
      */
     public boolean isReadOnly(ELContext context)
@@ -237,7 +233,7 @@ public final class ValueExpressionImpl extends ValueExpression implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.el.ValueExpression#setValue(javax.el.ELContext,
      *      java.lang.Object)
      */
