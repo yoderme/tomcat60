@@ -37,9 +37,9 @@ public final class Cookies { // extends MultiMap {
 
     private static org.apache.juli.logging.Log log=
         org.apache.juli.logging.LogFactory.getLog(Cookies.class );
-    
+
     // expected average number of cookies per request
-    public static final int INITIAL_SIZE=4; 
+    public static final int INITIAL_SIZE=4;
     ServerCookie scookies[]=new ServerCookie[INITIAL_SIZE];
     int cookieCount=0;
     boolean unprocessed=true;
@@ -51,16 +51,16 @@ public final class Cookies { // extends MultiMap {
      * being quoted.
      */
     public static final boolean ALLOW_EQUALS_IN_VALUE;
-    
+
     /*
     List of Separator Characters (see isSeparator())
-    Excluding the '/' char violates the RFC, but 
+    Excluding the '/' char violates the RFC, but
     it looks like a lot of people put '/'
-    in unquoted values: '/': ; //47 
-    '\t':9 ' ':32 '\"':34 '(':40 ')':41 ',':44 ':':58 ';':59 '<':60 
+    in unquoted values: '/': ; //47
+    '\t':9 ' ':32 '\"':34 '(':40 ')':41 ',':44 ':':58 ';':59 '<':60
     '=':61 '>':62 '?':63 '@':64 '[':91 '\\':92 ']':93 '{':123 '}':125
     */
-    public static final char SEPARATORS[] = { '\t', ' ', '\"', '(', ')', ',', 
+    public static final char SEPARATORS[] = { '\t', ' ', '\"', '(', ')', ',',
         ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '{', '}' };
 
     protected static final boolean separators[] = new boolean[128];
@@ -71,7 +71,7 @@ public final class Cookies { // extends MultiMap {
         for (int i = 0; i < SEPARATORS.length; i++) {
             separators[SEPARATORS[i]] = true;
         }
-        
+
         ALLOW_EQUALS_IN_VALUE = Boolean.valueOf(System.getProperty(
                 "org.apache.tomcat.util.http.ServerCookie.ALLOW_EQUALS_IN_VALUE",
                 "false")).booleanValue();
@@ -138,7 +138,7 @@ public final class Cookies { // extends MultiMap {
     }
 
     // -------------------- Indexed access --------------------
-    
+
     public ServerCookie getCookie( int idx ) {
         if( unprocessed ) {
             getCookieCount(); // will also update the cookies
@@ -166,7 +166,7 @@ public final class Cookies { // extends MultiMap {
             System.arraycopy( scookies, 0, scookiesTmp, 0, cookieCount);
             scookies=scookiesTmp;
         }
-        
+
         ServerCookie c = scookies[cookieCount];
         if( c==null ) {
             c= new ServerCookie();
@@ -177,7 +177,7 @@ public final class Cookies { // extends MultiMap {
     }
 
 
-    // code from CookieTools 
+    // code from CookieTools
 
     /** Add all Cookie found in the headers of a request.
      */
@@ -227,11 +227,11 @@ public final class Cookies { // extends MultiMap {
         }
         return true;
     }
-    
+
 
     // ---------------------------------------------------------
     // -------------------- DEPRECATED, OLD --------------------
-    
+
     private void processCookieHeader(  String cookieString )
     {
         if( dbg>0 ) log( "Parsing cookie header " + cookieString );
@@ -245,17 +245,17 @@ public final class Cookies { // extends MultiMap {
             String token = tok.nextToken();
             int i = token.indexOf("=");
             if (i > -1) {
-                
+
                 // XXX
                 // the trims here are a *hack* -- this should
                 // be more properly fixed to be spec compliant
-                
+
                 String name = token.substring(0, i).trim();
                 String value = token.substring(i+1, token.length()).trim();
-                // RFC 2109 and bug 
+                // RFC 2109 and bug
                 value=stripQuote( value );
                 ServerCookie cookie = addCookie();
-                
+
                 cookie.getName().setString(name);
                 cookie.getValue().setString(value);
                 if( dbg > 0 ) log( "Add cookie " + name + "=" + value);
@@ -269,12 +269,11 @@ public final class Cookies { // extends MultiMap {
      *
      * Strips quotes from the start and end of the cookie string
      * This conforms to RFC 2965
-     * 
-     * @param value            a <code>String</code> specifying the cookie 
+     *
+     * @param value            a <code>String</code> specifying the cookie
      *                         value (possibly quoted).
      *
-     * @see #setValue
-     *
+     * @see #processCookieHeader
      */
     private static String stripQuote( String value )
     {
@@ -282,11 +281,11 @@ public final class Cookies { // extends MultiMap {
         if (value.startsWith("\"") && value.endsWith("\"")) {
             try {
                 return value.substring(1,value.length()-1);
-            } catch (Exception ex) { 
+            } catch (Exception ex) {
             }
         }
         return value;
-    }  
+    }
 
 
     // log
@@ -310,7 +309,7 @@ public final class Cookies { // extends MultiMap {
          else
              return false;
     }
-    
+
     /**
      * Returns true if the byte is a whitespace character as
      * defined in RFC2619
@@ -320,7 +319,7 @@ public final class Cookies { // extends MultiMap {
         // This switch statement is slightly slower
         // for my vm than the if statement.
         // Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_07-164)
-        /* 
+        /*
         switch (c) {
         case ' ':;
         case '\t':;
@@ -362,9 +361,9 @@ public final class Cookies { // extends MultiMap {
             isQuoted = false;
 
             // Skip whitespace and non-token characters (separators)
-            while (pos < end && 
-                   (isSeparator(bytes[pos]) || isWhiteSpace(bytes[pos]))) 
-                {pos++; } 
+            while (pos < end &&
+                   (isSeparator(bytes[pos]) || isWhiteSpace(bytes[pos])))
+                {pos++; }
 
             if (pos >= end)
                 return;
@@ -375,24 +374,24 @@ public final class Cookies { // extends MultiMap {
                 pos++;
             }
 
-            // Get the cookie name. This must be a token            
-            valueEnd = valueStart = nameStart = pos; 
+            // Get the cookie name. This must be a token
+            valueEnd = valueStart = nameStart = pos;
             pos = nameEnd = getTokenEndPosition(bytes,pos,end,true);
 
             // Skip whitespace
-            while (pos < end && isWhiteSpace(bytes[pos])) {pos++; }; 
-         
+            while (pos < end && isWhiteSpace(bytes[pos])) {pos++; };
+
 
             // Check for an '=' -- This could also be a name-only
             // cookie at the end of the cookie header, so if we
             // are past the end of the header, but we have a name
             // skip to the name-only part.
-            if (pos < end && bytes[pos] == '=') {                
+            if (pos < end && bytes[pos] == '=') {
 
                 // Skip whitespace
                 do {
                     pos++;
-                } while (pos < end && isWhiteSpace(bytes[pos])); 
+                } while (pos < end && isWhiteSpace(bytes[pos]));
 
                 if (pos >= end)
                     return;
@@ -403,15 +402,15 @@ public final class Cookies { // extends MultiMap {
                 case '"':; // Quoted Value
                     isQuoted = true;
                     valueStart=pos + 1; // strip "
-                    // getQuotedValue returns the position before 
+                    // getQuotedValue returns the position before
                     // at the last qoute. This must be dealt with
                     // when the bytes are copied into the cookie
-                    valueEnd=getQuotedValueEndPosition(bytes, 
+                    valueEnd=getQuotedValueEndPosition(bytes,
                                                        valueStart, end);
                     // We need pos to advance
-                    pos = valueEnd; 
-                    // Handles cases where the quoted value is 
-                    // unterminated and at the end of the header, 
+                    pos = valueEnd;
+                    // Handles cases where the quoted value is
+                    // unterminated and at the end of the header,
                     // e.g. [myname="value]
                     if (pos >= end)
                         return;
@@ -439,15 +438,15 @@ public final class Cookies { // extends MultiMap {
                         // The starting character of the cookie value was
                         // not valid.
                         log("Invalid cookie. Value not a token or quoted value");
-                        while (pos < end && bytes[pos] != ';' && 
-                               bytes[pos] != ',') 
+                        while (pos < end && bytes[pos] != ';' &&
+                               bytes[pos] != ',')
                             {pos++; };
                         pos++;
-                        // Make sure no special avpairs can be attributed to 
+                        // Make sure no special avpairs can be attributed to
                         // the previous cookie by setting the current cookie
                         // to null
                         sc = null;
-                        continue;                        
+                        continue;
                     }
                 }
             } else {
@@ -456,21 +455,21 @@ public final class Cookies { // extends MultiMap {
                 pos = nameEnd;
 
             }
-          
+
             // We should have an avpair or name-only cookie at this
             // point. Perform some basic checks to make sure we are
             // in a good state.
-  
+
             // Skip whitespace
-            while (pos < end && isWhiteSpace(bytes[pos])) {pos++; }; 
+            while (pos < end && isWhiteSpace(bytes[pos])) {pos++; };
 
 
             // Make sure that after the cookie we have a separator. This
             // is only important if this is not the last cookie pair
-            while (pos < end && bytes[pos] != ';' && bytes[pos] != ',') { 
+            while (pos < end && bytes[pos] != ';' && bytes[pos] != ',') {
                 pos++;
             }
-            
+
             pos++;
 
             /*
@@ -479,10 +478,10 @@ public final class Cookies { // extends MultiMap {
                 // of having two ';' characters in a row.
                 // log("Cookie name/value does not conform to RFC 2965");
                 // Advance to next delimiter (ignoring everything else)
-                while (pos < end && bytes[pos] != ';' && bytes[pos] != ',') 
+                while (pos < end && bytes[pos] != ';' && bytes[pos] != ',')
                     { pos++; };
                 pos++;
-                // Make sure no special cookies can be attributed to 
+                // Make sure no special cookies can be attributed to
                 // the previous cookie by setting the current cookie
                 // to null
                 sc = null;
@@ -490,13 +489,13 @@ public final class Cookies { // extends MultiMap {
             }
             */
 
-            // All checks passed. Add the cookie, start with the 
+            // All checks passed. Add the cookie, start with the
             // special avpairs first
             if (isSpecial) {
                 isSpecial = false;
                 // $Version must be the first avpair in the cookie header
                 // (sc must be null)
-                if (equals( "Version", bytes, nameStart, nameEnd) && 
+                if (equals( "Version", bytes, nameStart, nameEnd) &&
                     sc == null) {
                     // Set version
                     if( bytes[valueStart] =='1' && valueEnd == (valueStart+1)) {
@@ -505,8 +504,8 @@ public final class Cookies { // extends MultiMap {
                         // unknown version (Versioning is not very strict)
                     }
                     continue;
-                } 
-                
+                }
+
                 // We need an active cookie for Path/Port/etc.
                 if (sc == null) {
                     continue;
@@ -518,14 +517,14 @@ public final class Cookies { // extends MultiMap {
                                            valueStart,
                                            valueEnd-valueStart);
                     continue;
-                } 
+                }
 
                 if (equals( "Path", bytes, nameStart, nameEnd)) {
                     sc.getPath().setBytes( bytes,
                                            valueStart,
                                            valueEnd-valueStart);
                     continue;
-                } 
+                }
 
 
                 if (equals( "Port", bytes, nameStart, nameEnd)) {
@@ -534,7 +533,7 @@ public final class Cookies { // extends MultiMap {
                     //                        valueStart,
                     //                        valueEnd-valueStart );
                     continue;
-                } 
+                }
 
                 // Unknown cookie, complain
                 log("Unknown Special Cookie");
@@ -544,7 +543,7 @@ public final class Cookies { // extends MultiMap {
                 sc.setVersion( version );
                 sc.getName().setBytes( bytes, nameStart,
                                        nameEnd-nameStart);
-                
+
                 if (valueStart != -1) { // Normal AVPair
                     sc.getValue().setBytes( bytes, valueStart,
                             valueEnd-valueStart);
@@ -555,7 +554,7 @@ public final class Cookies { // extends MultiMap {
                     }
                 } else {
                     // Name Only
-                    sc.getValue().setString(""); 
+                    sc.getValue().setString("");
                 }
                 continue;
             }
@@ -569,7 +568,7 @@ public final class Cookies { // extends MultiMap {
     public static final int getTokenEndPosition(byte bytes[], int off, int end){
         return getTokenEndPosition(bytes, off, end, true);
     }
-    
+
     /**
      * Given the starting position of a token, this gets the end of the
      * token, with no separator characters in between.
@@ -578,18 +577,18 @@ public final class Cookies { // extends MultiMap {
     private static final int getTokenEndPosition(byte bytes[], int off, int end,
             boolean isName) {
         int pos = off;
-        while (pos < end && 
+        while (pos < end &&
                 (!isSeparator(bytes[pos]) ||
                  bytes[pos]=='=' && ALLOW_EQUALS_IN_VALUE && !isName)) {
             pos++;
         }
-        
+
         if (pos > end)
             return end;
         return pos;
     }
 
-    /** 
+    /**
      * Given a starting position after an initial quote chracter, this gets
      * the position of the end quote. This escapes anything after a '\' char
      * JVK RFC 2616
@@ -598,7 +597,7 @@ public final class Cookies { // extends MultiMap {
         int pos = off;
         while (pos < end) {
             if (bytes[pos] == '"') {
-                return pos;                
+                return pos;
             } else if (bytes[pos] == '\\' && pos < (end - 1)) {
                 pos+=2;
             } else {
