@@ -37,6 +37,11 @@ public class LocalResolver implements EntityResolver2 {
     private static final StringManager sm =
             StringManager.getManager(Constants.PACKAGE_NAME);
 
+    private static final String[] JAVA_EE_NAMESPACES = {
+        XmlIdentifiers.JAVAEE_1_4_NS,
+        XmlIdentifiers.JAVAEE_5_NS };
+
+
     private final Map<String,String> publicIds;
     private final Map<String,String> systemIds;
     private final boolean blockExternal;
@@ -90,6 +95,18 @@ public class LocalResolver implements EntityResolver2 {
             InputSource is = new InputSource(resolved);
             is.setPublicId(publicId);
             return is;
+        }
+
+        // Work-around for XML documents that use just the file name for the
+        // location to refer to a JavaEE schema
+        for (String javaEENamespace : JAVA_EE_NAMESPACES) {
+            String javaEESystemId = javaEENamespace + '/' + systemId;
+            resolved = systemIds.get(javaEESystemId);
+            if (resolved != null) {
+                InputSource is = new InputSource(resolved);
+                is.setPublicId(publicId);
+                return is;
+            }
         }
 
         // Resolve the supplied systemId against the base

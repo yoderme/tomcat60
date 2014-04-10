@@ -49,6 +49,8 @@ public final class XmlIdentifiers {
             "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd";
 
     // from J2EE 1.4
+    public static final String JAVAEE_1_4_NS =
+            "http://java.sun.com/xml/ns/j2ee";
     public static final String WEB_24_XSD =
             "http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd";
     public static final String TLD_20_XSD =
@@ -57,6 +59,8 @@ public final class XmlIdentifiers {
             "http://www.ibm.com/webservices/xsd/j2ee_web_services_1_1.xsd";
 
     // from JavaEE 5
+    public static final String JAVAEE_5_NS =
+            "http://java.sun.com/xml/ns/javaee";
     public static final String WEB_25_XSD =
             "http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd";
     public static final String TLD_21_XSD =
