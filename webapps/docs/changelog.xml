@@ -142,6 +142,10 @@
       <add>
         <bug>56093</bug>: Documentation for SSLValve. (markt/kkolinko)
       </add>
+      <fix>
+        Correct documentation on Windows service options, aligning it with
+        Apache Commons Daemon documentation. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
