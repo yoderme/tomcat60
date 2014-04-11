@@ -28,6 +28,15 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
+* Improvements to exe installer:
+  Specify explicit JVM memory sizes when installing the service (--JvmMs,
+  --JvmMx) with values of 128 Mb and 256 Mb respectively, the same as used
+  by service.bat file.
+  Explicitly specify --LogPath path when uninstalling Windows service. (The
+  default value for that option was "%SystemRoot%\System32\LogFiles\Apache".)
+  https://people.apache.org/~kkolinko/patches/2014-04-11_tc6_tomcat_nsi.patch
+  +1: kkolinko
+  -1:
 
 PATCHES/ISSUES THAT ARE STALLED:
 
