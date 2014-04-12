@@ -35,7 +35,7 @@ PATCHES PROPOSED TO BACKPORT:
   Explicitly specify --LogPath path when uninstalling Windows service. (The
   default value for that option was "%SystemRoot%\System32\LogFiles\Apache".)
   https://people.apache.org/~kkolinko/patches/2014-04-11_tc6_tomcat_nsi.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56334
