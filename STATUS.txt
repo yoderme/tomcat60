@@ -74,6 +74,7 @@ PATCHES PROPOSED TO BACKPORT:
   same as in TC7 & TC8).
 
   https://people.apache.org/~kkolinko/patches/2014-04-13_tc6_service_bat.patch
+  https://people.apache.org/~kkolinko/patches/2014-04-13_tc6_service_bat_docs.patch (documentation)
   +1: kkolinko
   -1:
 
