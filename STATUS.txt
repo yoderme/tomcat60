@@ -42,12 +42,48 @@ PATCHES PROPOSED TO BACKPORT:
   Correct double unescaping
   http://people.apache.org/~markt/patches/2014-04-12-attribute-escaping-tc6-v1.patch
   +1: markt
+  -1:
 
 * Enabling building with Java 8
   http://people.apache.org/~markt/patches/2014-04-12-build-with-java8-tc6-v1.patch
   (Note: It is easier to verify the AbstractReplicatedMap changes by diffing
          against the Tomcat 7 version of the class)
   +1: markt
+  -1:
+
+* Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=49993
+  Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56143
+
+  Improvements to service.bat:
+
+  - Improve service.bat so that it can be launched from a non-UAC console.
+  This includes using a single call to tomcat6.exe to install the Windows
+  service rather than three calls, and using command line arguments instead
+  of environment variables to pass the settings. (BZ 56143)
+
+  - Align options with *.exe Windows installer. This affects --Classpath,
+  --DisplayName, --StartPath, --StopPath and --LogPath.
+
+  - Make command comparisons case-insensitive. Remove %OS% check for setlocal.
+  (This assumes that nobody runs on ancient non-NT systems).
+
+  - Improve check for JAVA_HOME and add support for JRE_HOME environment
+  variable. (BZ 49993)
+
+  (I am not backporting the "/user" option. The rest of service.bat is the
+  same as in TC7 & TC8).
+
+  https://people.apache.org/~kkolinko/patches/2014-04-13_tc6_service_bat.patch
+  +1: kkolinko
+  -1:
+
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56369
+  Ensure that removing an MBean notification listener
+  reverts all the operations performed when adding an MBean notification
+  listener.
+  http://svn.apache.org/r1586897
+  http://svn.apache.org/r1586960
+  +1: kkolinko
   -1:
 
 
