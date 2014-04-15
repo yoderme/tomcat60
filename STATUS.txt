@@ -102,13 +102,14 @@ PATCHES PROPOSED TO BACKPORT:
 * Update required tcnative version to 1.1.30
   http://people.apache.org/~schultz/patches/tcnative.heartbleed.tomcat6.diff
   +1: schultz
-  -0: kkolinko:
+  -0: kkolinko, markt:
         -0 for changing TCN_REQUIRED_PATCH in AprLifecycleListener.java
         +1 for changing TCN_RECOMMENDED_PV in AprLifecycleListener.java
         +1 for build.properties.default
       There is nothing in Tomcat 6 that requires TCNative 1.1.30 APIs.
       I think that there are TCNative builds on Linux that use safe version
       of OpenSSL while being an older version of TCNative.
+
 
 
 PATCHES/ISSUES THAT ARE STALLED:
