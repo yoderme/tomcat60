@@ -110,7 +110,11 @@ PATCHES PROPOSED TO BACKPORT:
       I think that there are TCNative builds on Linux that use safe version
       of OpenSSL while being an older version of TCNative.
 
-
+* Back-port patch to allow different kinds of FIPS configuration.
+  http://svn.apache.org/viewvc?view=revision&revision=r1587379
+  (Note: requires tcnative 1.1.30)
+  +1: schultz
+  -1:
 
 PATCHES/ISSUES THAT ARE STALLED:
 
