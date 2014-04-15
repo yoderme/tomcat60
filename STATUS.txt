@@ -99,6 +99,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Update required tcnative version to 1.1.30
+  http://people.apache.org/~schultz/patches/tcnative.heartbleed.tomcat6.diff
+  +1: schultz
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
