@@ -40,7 +40,7 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56334
   Correct double unescaping
-  http://people.apache.org/~markt/patches/2014-04-12-attribute-escaping-tc6-v1.patch
+  http://people.apache.org/~markt/patches/2014-04-17-attribute-escaping-tc6-v2.patch
   +1: markt
   -1:
 
