@@ -87,7 +87,7 @@ PATCHES PROPOSED TO BACKPORT:
   - Print a warning in case if neither server nor client jvm is found.
 
   https://people.apache.org/~kkolinko/patches/2014-04-14_tc6_56143_v2.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56369
@@ -96,7 +96,7 @@ PATCHES PROPOSED TO BACKPORT:
   listener.
   http://svn.apache.org/r1586897
   http://svn.apache.org/r1586960
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Back-port patch to allow different kinds of FIPS configuration.
@@ -104,7 +104,7 @@ PATCHES PROPOSED TO BACKPORT:
   http://svn.apache.org/viewvc?view=revision&revision=r1587379
   http://svn.apache.org/viewvc?view=revision&amp;revision=r1587723 (adapt)
   (Note: requires tcnative 1.1.30)
-  +1: schultz
+  +1: schultz, markt
   -1:
 
 PATCHES/ISSUES THAT ARE STALLED:
