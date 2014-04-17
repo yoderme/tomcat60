@@ -107,6 +107,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: schultz, markt
   -1:
 
+* Avoid memory leak and add small optimisation to default Servlet
+  http://svn.apache.org/r1588199
+  +1: markt 
+  -1:
+
+
 PATCHES/ISSUES THAT ARE STALLED:
 
 None
