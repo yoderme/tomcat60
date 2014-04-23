@@ -154,6 +154,14 @@
         Remove svn keywords (such as $Id) from source files and documentation.
         (kkolinko)
       </scode>
+      <update>
+        Improvements to the Windows installer, to align it with installing
+        the sevice with <code>service.bat</code>. Use explicit memory sizes
+        (--JvmMs 128 Mb and --JvmMx 256 Mb). Specify log directory path
+        when ininstalling, so that the log file is written to the Tomcat logs
+        directory, instead of "%SystemRoot%\System32\LogFiles\Apache".
+        (kkolinko)
+      </update>
     </changelog>
   </subsection>
 </section>

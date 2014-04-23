@@ -28,16 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Improvements to exe installer:
-  Specify explicit JVM memory sizes when installing the service (--JvmMs,
-  --JvmMx) with values of 128 Mb and 256 Mb respectively, the same as used
-  by service.bat file.
-  Explicitly specify --LogPath path when uninstalling Windows service. (The
-  default value for that option was "%SystemRoot%\System32\LogFiles\Apache".)
-  https://people.apache.org/~kkolinko/patches/2014-04-11_tc6_tomcat_nsi.patch
-  +1: kkolinko, markt, remm
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56334
   Correct double unescaping
   http://people.apache.org/~markt/patches/2014-04-17-attribute-escaping-tc6-v2.patch
