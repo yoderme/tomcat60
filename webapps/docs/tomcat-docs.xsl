@@ -35,6 +35,8 @@
   <xsl:param    name="apache-logo"      select="'/images/asf-logo.gif'"/>
   <xsl:param    name="relative-path"    select="'.'"/>
   <xsl:param    name="version"          select="'6.0.x'"/>
+  <xsl:param    name="majorversion"        select="'6'"/>
+  <xsl:param    name="majorminorversion"   select="'6.0'"/>
   <xsl:param    name="build-date"       select="'MMM d yyyy'"/>
   <xsl:param    name="year"             select="'yyyy'"/>
   <xsl:param    name="void-image"       select="'/images/void.gif'"/>
@@ -516,6 +518,14 @@
   <xsl:template match="rev">
       <xsl:variable name="link"><xsl:value-of select="$revlink"/><xsl:value-of select="text()"/></xsl:variable>
       <a href="{$link}">r<xsl:apply-templates/></a>
+  </xsl:template>
+
+  <!-- Version numbers -->
+  <xsl:template match="version-major-minor">
+    <xsl:value-of select="$majorminorversion"/>
+  </xsl:template>
+  <xsl:template match="version-major">
+    <xsl:value-of select="$majorversion"/>
   </xsl:template>
 
   <!-- specially process td tags ala site.vsl -->

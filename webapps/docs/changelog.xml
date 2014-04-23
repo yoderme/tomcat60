@@ -146,6 +146,11 @@
         Correct documentation on Windows service options, aligning it with
         Apache Commons Daemon documentation. (kkolinko)
       </fix>
+      <add>
+        Add support for <code>version-major</code>,
+        <code>version-major-minor</code> tags in documentation XSLT, to simplify
+        documentation backports. (kkolinko)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Other">
@@ -161,6 +166,16 @@
         when ininstalling, so that the log file is written to the Tomcat logs
         directory, instead of "%SystemRoot%\System32\LogFiles\Apache".
         (kkolinko)
+      </update>
+      <update>
+        <bug>49993</bug>, <bug>56143</bug>: Improve <code>service.bat</code>
+        script. Allow it to be launched from non-UAC console. The UAC prompt
+        will be shown only once. Now there is no need to run the command shell
+        with elevated privileges. Improve check for <code>JAVA_HOME</code>
+        and add support for <code>JRE_HOME</code>. Warn if neither "client"
+        nor "server" JVM is found. Align classpath, display name and other
+        options with the <code>exe</code> installer. Make command names
+        case-insensitive. Update documentation. (kkolinko)
       </update>
     </changelog>
   </subsection>

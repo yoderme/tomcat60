@@ -41,45 +41,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, remm
   -1:
 
-* Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56143
-  and http://issues.apache.org/bugzilla/show_bug.cgi?id=49993
-
-  Improve service.bat so that it can be launched from a non-UAC console,
-  and backport other minor improvements.
-
-  Update documentation. There is no more a need to start cmd.exe with
-  elevated priviledges.
-
-  Add support for '<version-major/>', '<version-major-minor>' to
-  tomcat-docs.xsl to simplify documentation backports.
-
-  (I am not backporting the "/user" option of service.bat. The rest of
-  service.bat is the same as in TC7 and TC8.)
-
-  Changes to service.bat:
-
-  - Improve service.bat so that it can be launched from a non-UAC console.
-  This includes using a single call to tomcat6.exe to install the Windows
-  service rather than three calls, and using command line arguments instead
-  of environment variables to pass the settings. (BZ 56143)
-
-  - Align options with *.exe Windows installer. This affects --Classpath,
-  --DisplayName, --StartPath, --StopPath and --LogPath.
-
-  - Make command comparisons case-insensitive. Remove %OS% check for setlocal.
-
-  (This assumes that nobody runs on ancient non-NT systems that do not have
-  setlocal).
-
-  - Improve check for JAVA_HOME and add support for JRE_HOME environment
-  variable. (BZ 49993)
-
-  - Print a warning in case if neither server nor client jvm is found.
-
-  https://people.apache.org/~kkolinko/patches/2014-04-14_tc6_56143_v2.patch
-  +1: kkolinko, markt, remm
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56369
   Ensure that removing an MBean notification listener
   reverts all the operations performed when adding an MBean notification
