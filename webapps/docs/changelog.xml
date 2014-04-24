@@ -141,6 +141,14 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Cluster">
+    <changelog>
+      <scode>
+        Refactor <code>AbstractReplicatedMap</code> and related classes to
+        enable Tomcat 6 to be compiled using Java 8. (markt)
+      </scode>
+    </changelog>
+  </subsection>
   <subsection name="Web applications">
     <changelog>
       <add>

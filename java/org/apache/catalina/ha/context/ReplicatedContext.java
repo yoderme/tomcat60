@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,20 +24,19 @@ import org.apache.catalina.tribes.Channel;
 import org.apache.catalina.Loader;
 import org.apache.catalina.core.ApplicationContext;
 import org.apache.catalina.Globals;
+
 import javax.servlet.ServletContext;
-import java.util.AbstractMap;
-import org.apache.catalina.tribes.tipis.AbstractReplicatedMap;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.servlet.ServletContextAttributeListener;
-import javax.servlet.ServletContextAttributeEvent;
+
+import java.util.Map;
+
 import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleListener;
+
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.catalina.util.Enumerator;
 import org.apache.catalina.tribes.tipis.AbstractReplicatedMap.MapOwner;
-import org.apache.catalina.ha.session.DeltaSession;
 
 /**
  * @author Filip Hanik
@@ -48,23 +47,23 @@ public class ReplicatedContext extends StandardContext implements LifecycleListe
     public static org.apache.juli.logging.Log log = org.apache.juli.logging.LogFactory.getLog( ReplicatedContext.class );
     protected boolean startComplete = false;
     protected static long DEFAULT_REPL_TIMEOUT = 15000;//15 seconds
-    
+
     public void lifecycleEvent(LifecycleEvent event) {
-        if ( event.getType() == AFTER_START_EVENT ) 
+        if ( event.getType() == AFTER_START_EVENT )
             startComplete = true;
     }
 
     @Override
     public synchronized void start() throws LifecycleException {
         if ( this.started ) return;
-        if( !initialized ) { 
+        if( !initialized ) {
             try {
                 init();
             } catch( Exception ex ) {
                 throw new LifecycleException("Error initializaing ", ex);
             }
         }
-        super.addLifecycleListener(this);            
+        super.addLifecycleListener(this);
         try {
             CatalinaCluster catclust = (CatalinaCluster)this.getCluster();
             if (this.context == null) this.context = new ReplApplContext(this.getBasePath(), this);
@@ -81,14 +80,14 @@ public class ReplicatedContext extends StandardContext implements LifecycleListe
             throw new LifecycleException("Failed to start ReplicatedContext",x);
         }
     }
-    
+
     @Override
     public synchronized void stop() throws LifecycleException
     {
         if ( !this.started ) return;
-        AbstractMap map = (AbstractMap)((ReplApplContext)this.context).getAttributeMap();
+        Map<String,Object> map = ((ReplApplContext)this.context).getAttributeMap();
         if ( map!=null && map instanceof ReplicatedMap) {
-            ((ReplicatedMap)map).breakdown();
+            ((ReplicatedMap<String,Object>)map).breakdown();
         }
         try {
             super.lifecycle.removeLifecycleListener(this);
@@ -99,7 +98,7 @@ public class ReplicatedContext extends StandardContext implements LifecycleListe
             this.startComplete = false;
             super.stop();
         }
-        
+
 
     }
 
@@ -111,7 +110,7 @@ public class ReplicatedContext extends StandardContext implements LifecycleListe
     public int getMapSendOptions() {
         return mapSendOptions;
     }
-    
+
     public ClassLoader[] getClassLoaders() {
         Loader loader = null;
         ClassLoader classLoader = null;
@@ -124,7 +123,7 @@ public class ReplicatedContext extends StandardContext implements LifecycleListe
             return new ClassLoader[] {classLoader,Thread.currentThread().getContextClassLoader()};
         }
     }
-    
+
     public ServletContext getServletContext() {
         if (context == null) {
             context = new ReplApplContext(getBasePath(), this);
@@ -136,53 +135,54 @@ public class ReplicatedContext extends StandardContext implements LifecycleListe
 
     }
 
-    
+
     protected static class ReplApplContext extends ApplicationContext {
-        protected ConcurrentHashMap tomcatAttributes = new ConcurrentHashMap();
-        
+        protected ConcurrentHashMap<String,Object> tomcatAttributes =
+                new ConcurrentHashMap<String,Object>();
+
         public ReplApplContext(String basePath, ReplicatedContext context) {
             super(basePath,context);
         }
-        
+
         protected ReplicatedContext getParent() {
             return (ReplicatedContext)getContext();
         }
-        
+
         protected ServletContext getFacade() {
              return super.getFacade();
         }
-        
-        public AbstractMap getAttributeMap() {
-            return (AbstractMap)this.attributes;
+
+        public Map<String,Object> getAttributeMap() {
+            return this.attributes;
         }
-        public void setAttributeMap(AbstractMap map) {
+        public void setAttributeMap(Map<String,Object> map) {
             this.attributes = map;
         }
-        
+
         public void removeAttribute(String name) {
             tomcatAttributes.remove(name);
             //do nothing
             super.removeAttribute(name);
         }
-        
+
         public void setAttribute(String name, Object value) {
             if ( (!getParent().startComplete) || "org.apache.jasper.runtime.JspApplicationContextImpl".equals(name) ){
                 tomcatAttributes.put(name,value);
             } else
                 super.setAttribute(name,value);
         }
-        
+
         public Object getAttribute(String name) {
             if (tomcatAttributes.containsKey(name) )
                 return tomcatAttributes.get(name);
-            else 
+            else
                 return super.getAttribute(name);
         }
-        
+
         public Enumeration getAttributeNames() {
             return new MultiEnumeration(new Enumeration[] {super.getAttributeNames(),new Enumerator(tomcatAttributes.keySet(), true)});
         }
-        
+
     }
 
     protected static class MultiEnumeration implements Enumeration {
@@ -204,7 +204,7 @@ public class ReplicatedContext extends StandardContext implements LifecycleListe
 
         }
     }
-    
+
     public void objectMadePrimay(Object key, Object value) {
         //noop
     }
