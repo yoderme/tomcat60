@@ -28,15 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56369
-  Ensure that removing an MBean notification listener
-  reverts all the operations performed when adding an MBean notification
-  listener.
-  http://svn.apache.org/r1586897
-  http://svn.apache.org/r1586960
-  +1: kkolinko, markt, remm
-  -1:
-
 * Back-port patch to allow different kinds of FIPS configuration.
   http://people.apache.org/~schultz/patches/tcnative.heartbleed.tomcat6.diff
   http://svn.apache.org/viewvc?view=revision&revision=r1587379

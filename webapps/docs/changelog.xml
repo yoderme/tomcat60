@@ -82,6 +82,11 @@
         just the file name to refer to refer to the JavaEE schema on which they
         are based. (kkolinko)
       </fix>
+      <fix>
+        <bug>56369</bug>: Ensure that removing an MBean notification listener
+        reverts all the operations performed when adding an MBean notification
+        listener. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">

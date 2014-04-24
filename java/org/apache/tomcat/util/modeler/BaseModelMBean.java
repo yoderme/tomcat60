@@ -616,11 +616,11 @@ public class BaseModelMBean implements DynamicMBean, MBeanRegistration, ModelMBe
 
         if (listener == null)
             throw new IllegalArgumentException("Listener is null");
-        if (attributeBroadcaster == null)
-            attributeBroadcaster = new BaseNotificationBroadcaster();
 
         // FIXME - currently this removes *all* notifications for this listener
-        attributeBroadcaster.removeNotificationListener(listener);
+        if (attributeBroadcaster != null) {
+            attributeBroadcaster.removeNotificationListener(listener);
+        }
 
     }
 
@@ -871,12 +871,15 @@ public class BaseModelMBean implements DynamicMBean, MBeanRegistration, ModelMBe
 
         if (listener == null)
             throw new IllegalArgumentException("Listener is null");
-        if (generalBroadcaster == null)
-            generalBroadcaster = new BaseNotificationBroadcaster();
-        generalBroadcaster.removeNotificationListener(listener);
 
+        if (generalBroadcaster != null) {
+            generalBroadcaster.removeNotificationListener(listener);
+        }
 
-    }
+        if (attributeBroadcaster != null) {
+            attributeBroadcaster.removeNotificationListener(listener);
+        }
+     }
 
 
     /**
