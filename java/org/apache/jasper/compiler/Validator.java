@@ -1359,7 +1359,8 @@ class Validator {
                         // The wrinkle is that the output of any EL must not be
                         // re-escaped as that must be output as is.
                         if (el != null) {
-                            XmlEscapeNonELVisitor v = new XmlEscapeNonELVisitor();
+                            XmlEscapeNonELVisitor v = new XmlEscapeNonELVisitor(
+                                    pageInfo.isDeferredSyntaxAllowedAsLiteral());
                             el.visit(v);
                             value = v.getText();
                         } else {
@@ -1403,6 +1404,11 @@ class Validator {
 
         private static class XmlEscapeNonELVisitor extends ELParser.TextBuilder {
 
+            protected XmlEscapeNonELVisitor(
+                    boolean isDeferredSyntaxAllowedAsLiteral) {
+                super(isDeferredSyntaxAllowedAsLiteral);
+            }
+            
             @Override
             public void visit(Text n) throws JasperException {
                 output.append(xmlEscape(n.getText()));

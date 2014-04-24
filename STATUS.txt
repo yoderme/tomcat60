@@ -28,12 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56334
-  Correct double unescaping
-  http://people.apache.org/~markt/patches/2014-04-17-attribute-escaping-tc6-v2.patch
-  +1: markt, remm, fhanik
-  -1:
-
 * Enabling building with Java 8
   http://people.apache.org/~markt/patches/2014-04-12-build-with-java8-tc6-v1.patch
   (Note: It is easier to verify the AbstractReplicatedMap changes by diffing

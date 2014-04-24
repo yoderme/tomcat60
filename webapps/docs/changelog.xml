@@ -135,6 +135,10 @@
         can only be used when running with Java 6 or later. The "1.8" options
         make sense only when running with Java 8 (or later). (kkolinko)
       </fix>
+      <fix>
+        <bug>56334</bug>: Fix a regression in the handling of back-slash
+        escaping introduced by the fix for <bug>55735</bug>. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
