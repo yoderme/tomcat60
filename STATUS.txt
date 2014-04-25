@@ -55,7 +55,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Defensive coding around some XML activities that are triggered by web
   applications and are therefore at potential risk of a memory leak.
   http://people.apache.org/~markt/patches/2014-04-25-memory-leak-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 * Ensure TLD parser obtained from cache has correct value of blockExternal
@@ -63,8 +63,9 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
-  Additional patch:
+  Additional patches:
   http://svn.apache.org/r1590040
+  http://svn.apache.org/r1590065
   +1: kkolinko
   -1:
 
