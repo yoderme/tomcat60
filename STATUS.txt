@@ -63,9 +63,9 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
-  Additional patches:
-  http://svn.apache.org/r1590040
-  http://svn.apache.org/r1590065
+  Alternative proposal:
+  (r1590036 + r1590040 + r1590065)
+  https://people.apache.org/~kkolinko/patches/2014-04-26_tc6_TldConfig.patch
   +1: kkolinko
   -1:
 
