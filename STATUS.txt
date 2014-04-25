@@ -58,6 +58,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Ensure TLD parser obtained from cache has correct value of blockExternal
+  http://svn.apache.org/r1590036
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
