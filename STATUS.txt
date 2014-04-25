@@ -60,7 +60,19 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Ensure TLD parser obtained from cache has correct value of blockExternal
   http://svn.apache.org/r1590036
-  +1: markt
+  +1: markt, kkolinko
+  -1:
+
+  Additional patch:
+  http://svn.apache.org/r1590040
+  +1: kkolinko
+  -1:
+
+* Followup to r1589635
+  To simplify code and align it with TC7 & 8.
+  (Discussed in Re:r1589635)
+  http://svn.apache.org/r1589737
+  +1: kkolinko
   -1:
 
 
