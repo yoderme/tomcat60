@@ -131,6 +131,7 @@
 
   <section name="APR Lifecycle Listener Configuration">
     <subsection name="AprLifecycleListener">
+    <attributes>
     <attribute name="SSLEngine" required="false">
     <p>
       Name of the SSLEngine to use. off: Do not use SSL, on: Use SSL but no specific ENGINE.
@@ -145,6 +146,7 @@
        website</a> for more details on SSL hardware engines and manufacturers.
     </p>
     </attribute>
+    </attributes>
     </subsection>
   </section>
 
