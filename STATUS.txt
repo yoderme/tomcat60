@@ -50,12 +50,22 @@ PATCHES PROPOSED TO BACKPORT:
           value when in FIPS mode. You cannot expect it to be '1'.
           Reference:
            http://wiki.openssl.org/index.php/FIPS_mode%28%29
-  -1:
+       Alternative patch is proposed below.
 
-* Fix http://issues.apache.org/bugzilla/show_bug.cgi?id=56363
+
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56363
   Update version of Tomcat Native library included with Tomcat to 1.1.30
   and make it the recommended version.
   https://people.apache.org/~kkolinko/patches/2014-04-27_tc6_native_1_1_30.patch
+  +1: kkolinko
+  -1:
+
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56027
+  Add more options for managing FIPS mode in the AprLifecycleListener.
+  Update to version 1.1.30 of Tomcat Native library.
+  (This feature requires TCNative 1.1.30)
+  (Reimplemented, based on earlier proposal by schultz)
+  https://people.apache.org/~kkolinko/patches/2014-04-27_tc6_56027_FIPSMode.patch
   +1: kkolinko
   -1:
 
