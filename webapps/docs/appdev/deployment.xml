@@ -156,7 +156,7 @@ deployed).</p>
 in Chapter 13 of the Servlet API Specification, version 2.3.  Over time, it
 is expected that development tools will be provided that create and edit the
 deployment descriptor for you.  In the meantime, to provide a starting point,
-a <a href="web.xml.txt" target="_new">basic web.xml file</a>
+a <a href="web.xml.txt" target="_blank">basic web.xml file</a>
 is provided.  This file includes comments that describe the purpose of each
 included element.</p>
 

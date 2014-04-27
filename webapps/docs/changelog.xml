@@ -172,6 +172,10 @@
         <code>version-major-minor</code> tags in documentation XSLT, to simplify
         documentation backports. (kkolinko)
       </add>
+      <fix>
+        Fix target and rel attributes on links in documentation. They were
+        lost during XSLT transformation. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
