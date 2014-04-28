@@ -93,6 +93,13 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Correct the handling of back-slash escaping in the EL parser and no longer
+  require that "\$" or "\#" must be followed by "{" in order for the back-slash
+  escaping to take effect.
+  http://svn.apache.org/r1590838
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
