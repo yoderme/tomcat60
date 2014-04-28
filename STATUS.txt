@@ -85,7 +85,7 @@ PATCHES PROPOSED TO BACKPORT:
   To simplify code and align it with TC7 & 8.
   (Discussed in Re:r1589635)
   http://svn.apache.org/r1589737
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Additional change missed in back-port to fix BZ 56334
