@@ -104,7 +104,7 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Additional fixes for BZ 56334
   http://svn.apache.org/r1590848
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
    kkolinko: I expect to prepare a more formal patch for this later. The
    merge is unlikely to complete cleanly without Mark's
