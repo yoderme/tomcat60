@@ -98,6 +98,7 @@ PATCHES PROPOSED TO BACKPORT:
   require that "\$" or "\#" must be followed by "{" in order for the back-slash
   escaping to take effect.
   http://svn.apache.org/r1590838
+  http://svn.apache.org/r1590912
   +1: markt, kkolinko
   -1:
 
