@@ -116,6 +116,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Extend token protection to either access option in NamingContextListener
+  https://svn.apache.org/r1593288
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
