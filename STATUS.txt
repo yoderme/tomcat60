@@ -57,7 +57,7 @@ PATCHES PROPOSED TO BACKPORT:
   Update version of Tomcat Native library included with Tomcat to 1.1.30
   and make it the recommended version.
   https://people.apache.org/~kkolinko/patches/2014-04-27_tc6_native_1_1_30.patch
-  +1: kkolinko, markt
+  +1: kkolinko, markt, fhanik
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56027
@@ -67,31 +67,31 @@ PATCHES PROPOSED TO BACKPORT:
   (Reimplemented, based on earlier proposal by schultz)
   https://people.apache.org/~kkolinko/patches/2014-04-27_tc6_56027_FIPSMode.patch
   http://svn.apache.org/r1590845 (javadoc fixes)
-  +1: kkolinko, markt
+  +1: kkolinko, markt, fhanik
   -1:
 
 * Defensive coding around some XML activities that are triggered by web
   applications and are therefore at potential risk of a memory leak.
   http://people.apache.org/~markt/patches/2014-04-25-memory-leak-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, fhanik
   -1:
 
 * Ensure TLD parser obtained from cache has correct value of blockExternal
   (r1590036 + r1590040 + r1590065)
   https://people.apache.org/~kkolinko/patches/2014-04-26_tc6_TldConfig.patch
-  +1: kkolinko, markt
+  +1: kkolinko, markt, fhanik
   -1:
 
 * Followup to r1589635
   To simplify code and align it with TC7 & 8.
   (Discussed in Re:r1589635)
   http://svn.apache.org/r1589737
-  +1: kkolinko, markt
+  +1: kkolinko, markt, fhanik
   -1:
 
 * Additional change missed in back-port to fix BZ 56334
   http://people.apache.org/~markt/patches/2014-04-28-bug56334-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, fhanik
   -1:
 
 * Correct the handling of back-slash escaping in the EL parser and no longer
@@ -99,12 +99,12 @@ PATCHES PROPOSED TO BACKPORT:
   escaping to take effect.
   http://svn.apache.org/r1590838
   http://svn.apache.org/r1590912
-  +1: markt, kkolinko
+  +1: markt, kkolinko, fhanik
   -1:
 
 * Additional fixes for BZ 56334
   http://svn.apache.org/r1590848
-  +1: kkolinko, markt
+  +1: kkolinko, markt, fhanik
   -1:
    kkolinko: I expect to prepare a more formal patch for this later. The
    merge is unlikely to complete cleanly without Mark's
@@ -113,13 +113,13 @@ PATCHES PROPOSED TO BACKPORT:
 * Clean-up and add additional packages
   https://svn.apache.org/r1593262
   https://svn.apache.org/r1593285
-  +1: markt, kkolinko
+  +1: markt, kkolinko, fhanik
   -1:
 
 * Extend token protection to either access option in NamingContextListener
   https://svn.apache.org/r1593288
   https://svn.apache.org/r1593371
-  +1: markt
+  +1: markt, fhanik
   +1: kkolinko: Added r1593371 to proposal
   -1:
 
