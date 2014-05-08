@@ -110,8 +110,9 @@ PATCHES PROPOSED TO BACKPORT:
    merge is unlikely to complete cleanly without Mark's
    2014-04-28-bug56334-tc6-v1.patch being applied first.
 
-* Clean-up and additional packages
-  svn.apache.org/r1593262
+* Clean-up and add additional packages
+  https://svn.apache.org/r1593262
+  https://svn.apache.org/r1593285
   +1: markt
   -1:
 
