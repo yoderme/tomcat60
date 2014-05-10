@@ -202,6 +202,10 @@
         options with the <code>exe</code> installer. Make command names
         case-insensitive. Update documentation. (kkolinko)
       </update>
+      <update>
+        <bug>56363</bug>: Update to version 1.1.30 of Tomcat Native library.
+        (kkolinko)
+      </update>
     </changelog>
   </subsection>
 </section>
