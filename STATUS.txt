@@ -28,40 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Back-port patch to allow different kinds of FIPS configuration.
-  http://people.apache.org/~schultz/patches/tcnative.heartbleed.tomcat6.diff
-  http://svn.apache.org/viewvc?view=revision&revision=r1587379
-  http://svn.apache.org/viewvc?view=revision&amp;revision=r1587723 (adapt)
-  (Note: requires tcnative 1.1.30)
-  +1: schultz, markt, remm
-  -1: kkolinko:
-       a) I cannot test (without FIPS-enabled library), but from my code review
-          the new options will not work because you are not setting
-          "fipsModeActive" field in AprLifecycleListener.
-
-          Thus AprLifecycleListener.isFIPSModeActive() will return false
-          and startup will be aborted.
-
-       b) It needs backport of r1588102 as an Exception is thrown by native code
-
-       c) "enterFipsMode = 1 != fipsModeState;" code and comment before it are wrong.
-
-          FIPS_mode() function of OpenSSL is documented to return non-zero
-          value when in FIPS mode. You cannot expect it to be '1'.
-          Reference:
-           http://wiki.openssl.org/index.php/FIPS_mode%28%29
-       Alternative patch is proposed below.
-
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56027
-  Add more options for managing FIPS mode in the AprLifecycleListener.
-  Update to version 1.1.30 of Tomcat Native library.
-  (This feature requires TCNative 1.1.30)
-  (Reimplemented, based on earlier proposal by schultz)
-  https://people.apache.org/~kkolinko/patches/2014-04-27_tc6_56027_FIPSMode.patch
-  http://svn.apache.org/r1590845 (javadoc fixes)
-  +1: kkolinko, markt, fhanik
-  -1:
-
 * Defensive coding around some XML activities that are triggered by web
   applications and are therefore at potential risk of a memory leak.
   http://people.apache.org/~markt/patches/2014-04-25-memory-leak-tc6-v1.patch

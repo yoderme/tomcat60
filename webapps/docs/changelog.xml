@@ -47,6 +47,10 @@
   <subsection name="Catalina">
     <changelog>
       <fix>
+        <bug>56027</bug>: Add more options for managing FIPS mode in the
+        AprLifecycleListener. (schultz/kkolinko)
+      </fix>
+      <fix>
         <bug>56082</bug>: Fix a concurrency bug in JULI&apos;s LogManager
         implementation. (markt)
       </fix>
