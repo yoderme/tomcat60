@@ -99,6 +99,11 @@
         Ensure that a TLD parser obtained from the cache has the correct value
         of <code>blockExternal</code>. (markt/kkolinko)
       </fix>
+      <add>
+        Extend XML factory, parser etc. memory leak protection to cover some
+        additional locations where, theoretically, a memory leak could occur.
+        (markt)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Coyote">

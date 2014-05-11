@@ -60,6 +60,7 @@ import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.realm.GenericPrincipal;
 import org.apache.catalina.security.SecurityUtil;
 import org.apache.catalina.session.ManagerBase.SessionTiming;
+import org.apache.tomcat.util.security.PrivilegedSetTccl;
 
 /**
  * Standard implementation of the <b>Session</b> interface.  This object is
@@ -1744,27 +1745,8 @@ public class StandardSession
                     (sm.getString("standardSession.attributeEvent"), t);
             }
         }
-
     }
-
-
-    private static class PrivilegedSetTccl
-    implements PrivilegedAction<Void> {
-
-        private ClassLoader cl;
-
-        PrivilegedSetTccl(ClassLoader cl) {
-            this.cl = cl;
-        }
-
-        public Void run() {
-            Thread.currentThread().setContextClassLoader(cl);
-            return null;
-        }
-    }
-
 }
-
 
 // ------------------------------------------------------------ Protected Class
 

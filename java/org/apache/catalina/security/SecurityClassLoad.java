@@ -96,17 +96,10 @@ public final class SecurityClassLoad {
 
     private final static void loadSessionPackage(ClassLoader loader)
         throws Exception {
-        String basePackage = "org.apache.catalina.";
-        loader.loadClass
-            (basePackage + "session.StandardSession");
-        loader.loadClass
-            (basePackage + "session.StandardSession$PrivilegedSetTccl");
-        loader.loadClass
-            (basePackage +
-             "session.StandardSession$1");
-        loader.loadClass
-            (basePackage +
-             "session.StandardManager$PrivilegedDoUnload");
+        String basePackage = "org.apache.catalina.session.";
+        loader.loadClass(basePackage + "StandardSession");
+        loader.loadClass(basePackage + "StandardSession$1");
+        loader.loadClass(basePackage + "StandardManager$PrivilegedDoUnload");
     }
     
     
@@ -229,6 +222,10 @@ public final class SecurityClassLoad {
         Class<?> clazz = loader.loadClass(
                 basePackage + "util.http.FastHttpDateFormat");
         clazz.newInstance();
+
+        // security
+        loader.loadClass(basePackage + "util.security.PrivilegedGetTccl");
+        loader.loadClass(basePackage + "util.security.PrivilegedSetTccl");
     }
 }
 
