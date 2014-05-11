@@ -28,13 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Followup to r1589635
-  To simplify code and align it with TC7 & 8.
-  (Discussed in Re:r1589635)
-  http://svn.apache.org/r1589737
-  +1: kkolinko, markt, fhanik
-  -1:
-
 * Additional change missed in back-port to fix BZ 56334
   http://people.apache.org/~markt/patches/2014-04-28-bug56334-tc6-v1.patch
   +1: markt, kkolinko, fhanik
