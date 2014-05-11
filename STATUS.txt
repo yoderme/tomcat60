@@ -28,11 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Additional change missed in back-port to fix BZ 56334
-  http://people.apache.org/~markt/patches/2014-04-28-bug56334-tc6-v1.patch
-  +1: markt, kkolinko, fhanik
-  -1:
-
 * Correct the handling of back-slash escaping in the EL parser and no longer
   require that "\$" or "\#" must be followed by "{" in order for the back-slash
   escaping to take effect.

@@ -1059,6 +1059,7 @@ class Validator {
                     pageInfo.isDeferredSyntaxAllowedAsLiteral() ||
                     libraryVersion < 2.1;
 
+                String attributeValue;
                 ELNode.Nodes el = null;
                 if (!runtimeExpression && !pageInfo.isELIgnored()) {
                     el = ELParser.parse(attrs.getValue(i),
@@ -1083,6 +1084,14 @@ class Validator {
                             }
                         }
                     }
+                    if (elExpression) {
+                        attributeValue = attrs.getValue(i);
+                    } else {
+                        // Should be a single Text node
+                        attributeValue = ((ELNode.Text) el.iterator().next()).getText();
+                    }
+                } else {
+                    attributeValue = attrs.getValue(i);
                 }
 
                 boolean expression = runtimeExpression || elExpression;
@@ -1138,18 +1147,18 @@ class Validator {
                                     }
                                     // Check casting
                                     try {
-                                        ELSupport.checkType(attrs.getValue(i), expectedClass);
+                                        ELSupport.checkType(attributeValue, expectedClass);
                                     } catch (Exception e) {
                                         err.jspError
                                             (n, "jsp.error.coerce_to_type",
-                                             tldAttr.getName(), expectedType, attrs.getValue(i));
+                                             tldAttr.getName(), expectedType, attributeValue);
                                     }
                                 }
 
                                 jspAttrs[i] = new Node.JspAttribute(tldAttr,
                                         attrs.getQName(i), attrs.getURI(i), attrs
                                                 .getLocalName(i),
-                                        attrs.getValue(i), false, null, false);
+                                        attributeValue, false, null, false);
                             } else {
 
                                 if (deferred && !tldAttr.isDeferredMethod() && !tldAttr.isDeferredValue()) {
@@ -1178,7 +1187,7 @@ class Validator {
                                         jspAttrs[i] = new Node.JspAttribute(tldAttr,
                                                 attrs.getQName(i), attrs.getURI(i), 
                                                 attrs.getLocalName(i),
-                                                attrs.getValue(i), false, el, false);
+                                                attributeValue, false, el, false);
                                         ELContextImpl ctx = new ELContextImpl();
                                         ctx.setFunctionMapper(getFunctionMapper(el));
                                         try {
@@ -1186,7 +1195,7 @@ class Validator {
                                         } catch (ELException e) {
                                             this.err.jspError(n.getStart(),
                                                     "jsp.error.invalid.expression", 
-                                                    attrs.getValue(i), e.toString());
+                                                    attributeValue, e.toString());
                                         }
                                     } else {
                                         // Runtime expression
@@ -1213,7 +1222,7 @@ class Validator {
                             jspAttrs[i] = new Node.JspAttribute(tldAttr,
                                     attrs.getQName(i), attrs.getURI(i), attrs
                                             .getLocalName(i),
-                                    attrs.getValue(i), false, null, false);
+                                    attributeValue, false, null, false);
                         }
                         if (expression) {
                             tagDataAttrs.put(attrs.getQName(i),
