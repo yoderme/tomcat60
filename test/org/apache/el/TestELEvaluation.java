@@ -73,8 +73,8 @@ public class TestELEvaluation extends TestCase {
         assertEquals("many", evaluateExpression(
                 "${0 lt 2 ? 1 lt 2 ? 'many': 'one': 'none'}"));
     }
-    
-    
+
+
     public void testParserBug45511() {
         // Test cases provided by OP
         assertEquals("true", evaluateExpression("${empty ('')}"));
@@ -102,14 +102,21 @@ public class TestELEvaluation extends TestCase {
         assertEquals("\\", evaluateExpression("\\"));
         assertEquals("$", evaluateExpression("$"));
         assertEquals("#", evaluateExpression("#"));
-        assertEquals("\\$", evaluateExpression("\\$"));
-        assertEquals("\\#", evaluateExpression("\\#"));
-        assertEquals("\\\\$", evaluateExpression("\\\\$"));
-        assertEquals("\\\\#", evaluateExpression("\\\\#"));
+        assertEquals("$", evaluateExpression("\\$"));
+        assertEquals("#", evaluateExpression("\\#"));
+        assertEquals("\\$", evaluateExpression("\\\\$"));
+        assertEquals("\\#", evaluateExpression("\\\\#"));
         assertEquals("${", evaluateExpression("\\${"));
         assertEquals("#{", evaluateExpression("\\#{"));
         assertEquals("\\${", evaluateExpression("\\\\${"));
         assertEquals("\\#{", evaluateExpression("\\\\#{"));
+
+        // '\' is only an escape for '$' and '#'.
+        assertEquals("$", evaluateExpression("\\$"));
+        assertEquals("${", evaluateExpression("\\${"));
+        assertEquals("$a", evaluateExpression("\\$a"));
+        assertEquals("\\a", evaluateExpression("\\a"));
+        assertEquals("\\\\", evaluateExpression("\\\\"));
     }
 
     public void testParserStringLiteral() {
@@ -169,6 +176,20 @@ public class TestELEvaluation extends TestCase {
             // Expected
         }
         assertTrue(null == null);
+    }
+
+    /**
+     * Test mixing ${...} and #{...} in the same expression.
+     */
+    public void testMixedTypes() {
+        // Mixing types should throw an error
+        Exception e = null;
+        try {
+            evaluateExpression("${1+1}#{1+1}");
+        } catch (ELException el) {
+            e = el;
+        }
+        assertNotNull(e);
     }
 
     // ************************************************************************

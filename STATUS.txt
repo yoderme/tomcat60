@@ -28,14 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Correct the handling of back-slash escaping in the EL parser and no longer
-  require that "\$" or "\#" must be followed by "{" in order for the back-slash
-  escaping to take effect.
-  http://svn.apache.org/r1590838
-  http://svn.apache.org/r1590912
-  +1: markt, kkolinko, fhanik
-  -1:
-
 * Additional fixes for BZ 56334
   http://svn.apache.org/r1590848
   +1: kkolinko, markt, fhanik
