@@ -27,7 +27,6 @@ import javax.el.ELException;
 import javax.el.ExpressionFactory;
 import javax.el.FunctionMapper;
 import javax.servlet.jsp.tagext.FunctionInfo;
-import javax.servlet.jsp.tagext.JspFragment;
 import javax.servlet.jsp.tagext.PageData;
 import javax.servlet.jsp.tagext.TagAttributeInfo;
 import javax.servlet.jsp.tagext.TagData;
@@ -542,8 +541,7 @@ class Validator {
             // request-time expression
             throwErrorIfExpression(n, "name", "jsp:param");
             n.setValue(getJspAttribute(null, "value", null, null, n
-                    .getAttributeValue("value"), java.lang.String.class, n,
-                    false));
+                    .getAttributeValue("value"), n, false));
             visitBody(n);
         }
 
@@ -560,16 +558,14 @@ class Validator {
             JspUtil.checkAttributes("Include action", n, includeActionAttrs,
                     err);
             n.setPage(getJspAttribute(null, "page", null, null, n
-                    .getAttributeValue("page"), java.lang.String.class, n,
-                    false));
+                    .getAttributeValue("page"), n, false));
             visitBody(n);
-        };
+        }
 
         public void visit(Node.ForwardAction n) throws JasperException {
             JspUtil.checkAttributes("Forward", n, forwardActionAttrs, err);
             n.setPage(getJspAttribute(null, "page", null, null, n
-                    .getAttributeValue("page"), java.lang.String.class, n,
-                    false));
+                    .getAttributeValue("page"), n, false));
             visitBody(n);
         }
 
@@ -584,7 +580,7 @@ class Validator {
             String value = n.getAttributeValue("value");
 
             n.setValue(getJspAttribute(null, "value", null, null, value,
-                    java.lang.Object.class, n, false));
+                    n, false));
 
             boolean valueSpecified = n.getValue() != null;
 
@@ -619,8 +615,7 @@ class Validator {
                 err.jspError(n, "jsp.error.usebean.noSession");
 
             Node.JspAttribute jattr = getJspAttribute(null, "beanName", null,
-                    null, n.getAttributeValue("beanName"),
-                    java.lang.String.class, n, false);
+                    null, n.getAttributeValue("beanName"), n, false);
             n.setBeanName(jattr);
             if (className != null && jattr != null)
                 err.jspError(n, "jsp.error.usebean.notBoth");
@@ -657,13 +652,11 @@ class Validator {
                 err.jspError(n, "jsp.error.plugin.nocode");
 
             Node.JspAttribute width = getJspAttribute(null, "width", null,
-                    null, n.getAttributeValue("width"), java.lang.String.class,
-                    n, false);
+                    null, n.getAttributeValue("width"), n, false);
             n.setWidth(width);
 
             Node.JspAttribute height = getJspAttribute(null, "height", null,
-                    null, n.getAttributeValue("height"),
-                    java.lang.String.class, n, false);
+                    null, n.getAttributeValue("height"), n, false);
             n.setHeight(height);
 
             visitBody(n);
@@ -742,8 +735,8 @@ class Validator {
                         }
                     }
                     jspAttrs[i] = getJspAttribute(null, attrs.getQName(i),
-                            attrs.getURI(i), attrs.getLocalName(i), value,
-                            java.lang.Object.class, n, false);
+                            attrs.getURI(i), attrs.getLocalName(i), value, n,
+                            false);
                 }
                 n.setJspAttributes(jspAttrs);
             }
@@ -888,14 +881,12 @@ class Validator {
                 if ("name".equals(attrs.getLocalName(i))) {
                     n.setNameAttribute(getJspAttribute(null, attrs.getQName(i),
                             attrs.getURI(i), attrs.getLocalName(i), attrs
-                                    .getValue(i), java.lang.String.class, n,
-                            false));
+                                    .getValue(i), n, false));
                 } else {
                     if (jspAttrIndex < jspAttrSize) {
                         jspAttrs[jspAttrIndex++] = getJspAttribute(null, attrs
                                 .getQName(i), attrs.getURI(i), attrs
-                                .getLocalName(i), attrs.getValue(i),
-                                java.lang.Object.class, n, false);
+                                .getLocalName(i), attrs.getValue(i), n, false);
                     }
                 }
             }
@@ -1137,7 +1128,7 @@ class Validator {
                                     expectedType = tldAttr.getExpectedTypeName();
                                 }
                                 if (expectedType != null) {
-                                    Class expectedClass = String.class;
+                                    Class<?> expectedClass = String.class;
                                     try {
                                         expectedClass = JspUtil.toClass(expectedType, loader);
                                     } catch (ClassNotFoundException e) {
@@ -1171,47 +1162,32 @@ class Validator {
                                     err.jspError(n, "jsp.error.attribute.custom.non_rt_with_expr",
                                             tldAttr.getName());
                                 }
-                                
-                                Class expectedType = String.class;
-                                try {
-                                    String typeStr = tldAttr.getTypeName();
-                                    if (tldAttr.isFragment()) {
-                                        expectedType = JspFragment.class;
-                                    } else if (typeStr != null) {
-                                        expectedType = JspUtil.toClass(typeStr,
-                                                loader);
+
+                                if (elExpression) {
+                                    // El expression
+                                    validateFunctions(el, n);
+                                    jspAttrs[i] = new Node.JspAttribute(tldAttr,
+                                            attrs.getQName(i), attrs.getURI(i), 
+                                            attrs.getLocalName(i),
+                                            attributeValue, false, el, false);
+                                    ELContextImpl ctx = new ELContextImpl();
+                                    ctx.setFunctionMapper(getFunctionMapper(el));
+                                    try {
+                                        jspAttrs[i].validateEL(this.pageInfo.getExpressionFactory(), ctx);
+                                    } catch (ELException e) {
+                                        this.err.jspError(n.getStart(),
+                                                "jsp.error.invalid.expression", 
+                                                attributeValue, e.toString());
                                     }
-                                    if (elExpression) {
-                                        // El expression
-                                        validateFunctions(el, n);
-                                        jspAttrs[i] = new Node.JspAttribute(tldAttr,
-                                                attrs.getQName(i), attrs.getURI(i), 
-                                                attrs.getLocalName(i),
-                                                attributeValue, false, el, false);
-                                        ELContextImpl ctx = new ELContextImpl();
-                                        ctx.setFunctionMapper(getFunctionMapper(el));
-                                        try {
-                                            jspAttrs[i].validateEL(this.pageInfo.getExpressionFactory(), ctx);
-                                        } catch (ELException e) {
-                                            this.err.jspError(n.getStart(),
-                                                    "jsp.error.invalid.expression", 
-                                                    attributeValue, e.toString());
-                                        }
-                                    } else {
-                                        // Runtime expression
-                                        jspAttrs[i] = getJspAttribute(tldAttr,
-                                                attrs.getQName(i), attrs.getURI(i),
-                                                attrs.getLocalName(i), attrs
-                                                .getValue(i), expectedType, n,
-                                                false);
-                                    }
-                                } catch (ClassNotFoundException e) {
-                                    err.jspError
-                                        (n, "jsp.error.unknown_attribute_type",
-                                         tldAttr.getName(), tldAttr.getTypeName());
+                                } else {
+                                    // Runtime expression
+                                    jspAttrs[i] = getJspAttribute(tldAttr,
+                                            attrs.getQName(i), attrs.getURI(i),
+                                            attrs.getLocalName(i), attrs
+                                            .getValue(i), n, false);
                                 }
                             }
-                            
+
                         } else {
                             // Attribute does not accept any expressions.
                             // Make sure its value does not contain any.
@@ -1239,8 +1215,7 @@ class Validator {
                     if (tagInfo.hasDynamicAttributes()) {
                         jspAttrs[i] = getJspAttribute(null, attrs.getQName(i),
                                 attrs.getURI(i), attrs.getLocalName(i), attrs
-                                        .getValue(i), java.lang.Object.class,
-                                n, true);
+                                        .getValue(i), n, true);
                     } else {
                         err.jspError(n, "jsp.error.bad_attribute", attrs
                                 .getQName(i), n.getLocalName());
@@ -1321,7 +1296,7 @@ class Validator {
          */
         private Node.JspAttribute getJspAttribute(TagAttributeInfo tai,
                 String qName, String uri, String localName, String value,
-                Class expectedType, Node n, boolean dynamic)
+                Node n, boolean dynamic)
                 throws JasperException {
 
             Node.JspAttribute result = null;
@@ -1649,7 +1624,7 @@ class Validator {
                 }
                 start = p + 1;
             }
-            return (String[]) params.toArray(new String[params.size()]);
+            return params.toArray(new String[params.size()]);
         }
 
         private FunctionMapper getFunctionMapper(ELNode.Nodes el)
@@ -1677,7 +1652,7 @@ class Validator {
 
                 public void visit(ELNode.Function n) throws JasperException {
 
-                    Class c = null;
+                    Class<?> c = null;
                     Method method = null;
                     try {
                         c = loader.loadClass(n.getFunctionInfo()
@@ -1690,7 +1665,7 @@ class Validator {
                     }
                     String paramTypes[] = n.getParameters();
                     int size = paramTypes.length;
-                    Class params[] = new Class[size];
+                    Class<?> params[] = new Class[size];
                     int i = 0;
                     try {
                         for (i = 0; i < size; i++) {
