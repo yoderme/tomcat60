@@ -118,7 +118,9 @@
         (markt)
       </fix>
       <update>
-        Update tc-native to 1.1.29. (markt)
+        <bug>56363</bug>: Update to version 1.1.30 of Tomcat Native library.
+        The minimum required version of this library for APR connector is now
+        1.1.30. (kkolinko)
       </update>
     </changelog>
   </subsection>
@@ -214,10 +216,6 @@
         nor "server" JVM is found. Align classpath, display name and other
         options with the <code>exe</code> installer. Make command names
         case-insensitive. Update documentation. (kkolinko)
-      </update>
-      <update>
-        <bug>56363</bug>: Update to version 1.1.30 of Tomcat Native library.
-        (kkolinko)
       </update>
     </changelog>
   </subsection>
