@@ -34,12 +34,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko, fhanik
   -1:
 
-* Ensure TLD parser obtained from cache has correct value of blockExternal
-  (r1590036 + r1590040 + r1590065)
-  https://people.apache.org/~kkolinko/patches/2014-04-26_tc6_TldConfig.patch
-  +1: kkolinko, markt, fhanik
-  -1:
-
 * Followup to r1589635
   To simplify code and align it with TC7 & 8.
   (Discussed in Re:r1589635)

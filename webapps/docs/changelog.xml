@@ -95,6 +95,10 @@
         Only create XML parsing objects if required and fix associated potential
         memory leak in the default Servlet. (markt)
       </fix>
+      <fix>
+        Ensure that a TLD parser obtained from the cache has the correct value
+        of <code>blockExternal</code>. (markt/kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
