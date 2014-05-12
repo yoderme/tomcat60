@@ -28,12 +28,7 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Extend token protection to either access option in NamingContextListener
-  https://svn.apache.org/r1593288
-  https://svn.apache.org/r1593371
-  +1: markt, fhanik
-  +1: kkolinko: Added r1593371 to proposal
-  -1:
+None
 
 
 PATCHES/ISSUES THAT ARE STALLED:
