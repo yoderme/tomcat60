@@ -28,12 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Clean-up and add additional packages
-  https://svn.apache.org/r1593262
-  https://svn.apache.org/r1593285
-  +1: markt, kkolinko, fhanik
-  -1:
-
 * Extend token protection to either access option in NamingContextListener
   https://svn.apache.org/r1593288
   https://svn.apache.org/r1593371
