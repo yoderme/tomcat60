@@ -28,7 +28,10 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-None
+* Require RuntimePermission when introducing a new token.
+  https://svn.apache.org/r1594230
+  +1: kkolinko
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
