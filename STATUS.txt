@@ -30,7 +30,7 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Require RuntimePermission when introducing a new token.
   https://svn.apache.org/r1594230
-  +1: kkolinko
+  +1: kkolinko, remm
   -1:
 
 
