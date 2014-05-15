@@ -115,8 +115,8 @@
         when running under a security manager. (markt)
       </add>
       <fix>
-        Make the naming context tokens for containers more robust.
-        (markt/kkolinko)
+        Make the naming context tokens for containers more robust. Require
+        RuntimePermission when introducing a new token. (markt/kkolinko)
       </fix>
     </changelog>
   </subsection>
