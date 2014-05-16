@@ -33,6 +33,12 @@ PATCHES PROPOSED TO BACKPORT:
   in custom tags. Patch provided by Hariprasad Manchi.
   http://svn.apache.org/viewvc?view=revision&revision=1595174
   +1: markt, fhanik, remm
+  +1: kkolinko (additional patch below)
+  -1:
+
+  Additional patch:
+  http://svn.apache.org/viewvc?view=revision&revision=1595366
+  +1: kkolinko
   -1:
 
 
