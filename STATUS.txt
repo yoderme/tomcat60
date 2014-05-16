@@ -32,7 +32,7 @@ PATCHES PROPOSED TO BACKPORT:
   Fix NoSuchElementException while handling attributes with empty string value
   in custom tags. Patch provided by Hariprasad Manchi.
   http://svn.apache.org/viewvc?view=revision&revision=1595174
-  +1: markt
+  +1: markt, fhanik
   -1:
 
 
