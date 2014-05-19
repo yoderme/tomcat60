@@ -38,7 +38,7 @@ PATCHES PROPOSED TO BACKPORT:
 
   Additional patch:
   http://svn.apache.org/viewvc?view=revision&revision=1595366
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 
