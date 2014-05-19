@@ -28,19 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56529
-  Fix NoSuchElementException while handling attributes with empty string value
-  in custom tags. Patch provided by Hariprasad Manchi.
-  http://svn.apache.org/viewvc?view=revision&revision=1595174
-  +1: markt, fhanik, remm
-  +1: kkolinko (additional patch below)
-  -1:
-
-  Additional patch:
-  http://svn.apache.org/viewvc?view=revision&revision=1595366
-  +1: kkolinko, markt, violetagg
-  -1:
-
 
 PATCHES/ISSUES THAT ARE STALLED:
 

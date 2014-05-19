@@ -1086,11 +1086,16 @@ class Validator {
                 String textAttributeValue;
                 if (!elExpression && el != null) {
                     // Should be a single Text node
-                    textAttributeValue = ((ELNode.Text) el.iterator().next()).getText();
+                    Iterator<ELNode> it = el.iterator();
+                    if (it.hasNext()) {
+                        textAttributeValue = ((ELNode.Text) it.next())
+                                .getText();
+                    } else {
+                        textAttributeValue = "";
+                    }
                 } else {
                     textAttributeValue = xmlAttributeValue;
                 }
-
                 for (int j = 0; tldAttrs != null && j < tldAttrs.length; j++) {
                     if (attrs.getLocalName(i).equals(tldAttrs[j].getName())
                             && (attrs.getURI(i) == null
