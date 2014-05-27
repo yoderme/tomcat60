@@ -43,6 +43,16 @@
 <!-- Section names:
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
+<section name="Tomcat 6.0.42 (markt)">
+  <subsection name="Jasper">
+    <changelog>
+      <fix>
+        <bug>56561</bug>: Avoid <code>NoSuchElementException</code> while
+        handling attributes with empty string value. (violetagg)
+      </fix>
+    </changelog>
+  </subsection>
+</section>
 <section name="Tomcat 6.0.41 (markt)" rtext="released 2014-05-23">
   <subsection name="Jasper">
     <changelog>

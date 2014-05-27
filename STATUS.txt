@@ -27,11 +27,6 @@ None
 
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56561
-  Fixed NoSuchElementException when an attribute has empty string as value
-  http://svn.apache.org/viewvc?view=revision&revision=1597532
-  +1 violetagg, kkolinko, markt
-  -1
 
 PATCHES/ISSUES THAT ARE STALLED:
 
