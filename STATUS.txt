@@ -28,6 +28,15 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
+* https://issues.apache.org/bugzilla/show_bug.cgi?id=56560
+  Fix NoClassDefFoundError when using Ant
+  Fix the Jasper Ant task
+  Patch provided by  M Gemmell
+  https://issues.apache.org/bugzilla/attachment.cgi?id=31659&action=diff
+  +1: markt
+  -1:
+
+
 PATCHES/ISSUES THAT ARE STALLED:
 
 None
