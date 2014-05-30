@@ -97,6 +97,7 @@
         (markt/kkolinko)
       </fix>
       <fix>
+        Fix CVE-2014-0096:
         Redefine the <code>globalXsltFile</code> initialisation parameter of the
         DefaultServlet as relative to CATALINA_BASE/conf or CATALINA_HOME/conf.
         Prevent user supplied XSLTs used by the DefaultServlet from defining
@@ -113,18 +114,15 @@
         listener. (markt)
       </fix>
       <fix>
+        Fix CVE-2014-0119:
         Only create XML parsing objects if required and fix associated potential
-        memory leak in the default Servlet. (markt)
-      </fix>
-      <fix>
+        memory leak in the default Servlet.
         Ensure that a TLD parser obtained from the cache has the correct value
-        of <code>blockExternal</code>. (markt/kkolinko)
-      </fix>
-      <add>
+        of <code>blockExternal</code>.
         Extend XML factory, parser etc. memory leak protection to cover some
         additional locations where, theoretically, a memory leak could occur.
-        (markt)
-      </add>
+        (markt/kkolinko)
+      </fix>
       <add>
         Add the <code>org.apache.naming</code> package to the packages requiring
         code to have the <code>defineClassInPackage</code> permission when
@@ -144,11 +142,13 @@
   <subsection name="Coyote">
     <changelog>
       <fix>
+        Fix CVE-2014-0075:
         Improve processing of chuck size from chunked headers. Avoid overflow
         and use a bit shift instead of a multiplication as it is marginally
         faster. (markt/kkolinko)
       </fix>
       <fix>
+        Fix CVE-2014-0099:
         Fix possible overflow when parsing long values from a byte array.
         (markt)
       </fix>
