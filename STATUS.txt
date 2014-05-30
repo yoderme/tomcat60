@@ -33,7 +33,7 @@ PATCHES PROPOSED TO BACKPORT:
   Fix the Jasper Ant task
   Patch provided by  M Gemmell
   https://issues.apache.org/bugzilla/attachment.cgi?id=31659&action=diff
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 
