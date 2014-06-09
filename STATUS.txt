@@ -33,13 +33,13 @@ PATCHES PROPOSED TO BACKPORT:
   Fix the Jasper Ant task
   Patch provided by  M Gemmell
   https://issues.apache.org/bugzilla/attachment.cgi?id=31659&action=diff
-  +1: markt, kkolinko
+  +1: markt, kkolinko, schultz
   -1:
 
 * http://issues.apache.org/bugzilla/show_bug.cgi?id=56600
   In WebdavServlet: Do not waste time generating response for broken PROPFIND request.
   http://svn.apache.org/r1600956
-  +1: kkolinko, markt
+  +1: kkolinko, markt, schultz
   -1:
 
 * Improvements to ChunkedInputFilter
