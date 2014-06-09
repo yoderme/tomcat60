@@ -48,7 +48,7 @@ PATCHES PROPOSED TO BACKPORT:
   - Add error flag to allow subsequent attempts at reading after an error to
     fail fast
   http://people.apache.org/~markt/patches/2014-06-09-chunked-input-filter-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 
