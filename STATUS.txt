@@ -63,6 +63,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
+  http://svn.apache.org/r1601909
+  Use if/elseif for alternative branches.
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
