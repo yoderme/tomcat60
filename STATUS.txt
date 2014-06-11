@@ -28,14 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* https://issues.apache.org/bugzilla/show_bug.cgi?id=56560
-  Fix NoClassDefFoundError when using Ant
-  Fix the Jasper Ant task
-  Patch provided by  M Gemmell
-  https://issues.apache.org/bugzilla/attachment.cgi?id=31659&action=diff
-  +1: markt, kkolinko, schultz
-  -1:
-
 * Improvements to ChunkedInputFilter
   - Clean-up
   - i18n for ChunkedInputFilter error message

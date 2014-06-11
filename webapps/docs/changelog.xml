@@ -55,6 +55,11 @@
   <subsection name="Jasper">
     <changelog>
       <fix>
+        <bug>56560</bug>: Fix NoClassDefFoundError when using Jasper Ant task
+        defined by <code>catalina-tasks.xml</code> file. Patch provided by
+        M Gemmell. (kkolinko)
+      </fix>
+      <fix>
         <bug>56561</bug>: Avoid <code>NoSuchElementException</code> while
         handling attributes with empty string value. (violetagg)
       </fix>
