@@ -36,12 +36,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko, schultz
   -1:
 
-* http://issues.apache.org/bugzilla/show_bug.cgi?id=56600
-  In WebdavServlet: Do not waste time generating response for broken PROPFIND request.
-  http://svn.apache.org/r1600956
-  +1: kkolinko, markt, schultz
-  -1:
-
 * Improvements to ChunkedInputFilter
   - Clean-up
   - i18n for ChunkedInputFilter error message

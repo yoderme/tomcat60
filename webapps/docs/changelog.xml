@@ -44,6 +44,14 @@
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
 <section name="Tomcat 6.0.42 (markt)">
+  <subsection name="Catalina">
+    <changelog>
+      <fix>
+        <bug>56600</bug>: In WebdavServlet: Do not waste time generating
+        response for broken PROPFIND request. (kkolinko)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Jasper">
     <changelog>
       <fix>
