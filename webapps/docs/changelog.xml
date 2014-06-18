@@ -52,6 +52,15 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Coyote">
+    <changelog>
+      <fix>
+        Various improvements to ChunkedInputFilter including clean-up, i18n for
+        error messages and adding an error flag to allow subsequent attempts at
+        reading after an error to fail fast. (markt)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Jasper">
     <changelog>
       <fix>
