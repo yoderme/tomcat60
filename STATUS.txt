@@ -50,6 +50,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
+* Assert that MappingData object is empty before performing mapping work.
+  It is backport of r1604663
+  https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper.patch
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
