@@ -56,6 +56,14 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
+  Log an error if there is a conflict between Host and Alias names.
+  Improve host management methods in Mapper to avoid occasionally removing
+  a wrong host.
+  https://issues.apache.org/bugzilla/attachment.cgi?id=31744
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
