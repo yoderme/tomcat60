@@ -60,7 +60,8 @@ PATCHES PROPOSED TO BACKPORT:
   Log an error if there is a conflict between Host and Alias names.
   Improve host management methods in Mapper to avoid occasionally removing
   a wrong host.
-  https://issues.apache.org/bugzilla/attachment.cgi?id=31744
+  1) https://issues.apache.org/bugzilla/attachment.cgi?id=31744
+  2) http://svn.apache.org/r1608653
   +1: kkolinko
   -1:
 
