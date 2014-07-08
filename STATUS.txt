@@ -56,15 +56,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
-  Log an error if there is a conflict between Host and Alias names.
-  Improve host management methods in Mapper to avoid occasionally removing
-  a wrong host.
-  1) https://issues.apache.org/bugzilla/attachment.cgi?id=31744
-  2) http://svn.apache.org/r1608653
-  +1: kkolinko
-  -1:
-
 * Fix generics warnings in Mapper.
   It is just some local variables. No change in functionality or APIs.
   https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper_generics.patch
@@ -74,4 +65,16 @@ PATCHES PROPOSED TO BACKPORT:
 
 PATCHES/ISSUES THAT ARE STALLED:
 
-None
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
+  Log an error if there is a conflict between Host and Alias names.
+  Improve host management methods in Mapper to avoid occasionally removing
+  a wrong host. Check that host management operations are performed on
+  the host and not on an alias.
+  1) https://issues.apache.org/bugzilla/attachment.cgi?id=31744
+  2) http://svn.apache.org/r1608653
+  3) http://svn.apache.org/r1608833
+  4) TestMapper changes from http://svn.apache.org/r1608831
+  +1: kkolinko
+  -1:
+   kkolinko: Good for occasional review, but as backporting r1608833 won't
+   be trivial I'd have to update the patch.
