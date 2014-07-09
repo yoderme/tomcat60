@@ -62,6 +62,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Workaroud https://issues.apache.org/bugzilla/show_bug.cgi?id=56684
+  Don't shutdown if shutdown port experiences a SocketTimeoutException
+  http://svn.apache.org/r1609079
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
