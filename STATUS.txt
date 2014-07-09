@@ -65,13 +65,13 @@ PATCHES PROPOSED TO BACKPORT:
 * Workaroud https://issues.apache.org/bugzilla/show_bug.cgi?id=56684
   Don't shutdown if shutdown port experiences a SocketTimeoutException
   http://svn.apache.org/r1609079
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56648
   Don't block requests while a Context is started
   http://people.apache.org/~markt/patches/2014-07-08-bug56648-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 
