@@ -37,12 +37,12 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56612
   Correct parse {'\'\''} in JSPs
   http://people.apache.org/~markt/patches/2014-06-11-bug56612-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, schultz
   -1:
 
 * Use if/elseif for alternative branches.
   http://svn.apache.org/r1601909
-  +1: kkolinko, markt
+  +1: kkolinko, markt, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56334#c15
@@ -65,20 +65,20 @@ PATCHES PROPOSED TO BACKPORT:
 * Workaroud https://issues.apache.org/bugzilla/show_bug.cgi?id=56684
   Don't shutdown if shutdown port experiences a SocketTimeoutException
   http://svn.apache.org/r1609079
-  +1: markt, kkolinko
+  +1: markt, kkolinko, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56648
   Don't block requests while a Context is started
   http://people.apache.org/~markt/patches/2014-07-08-bug56648-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56661
   Support using AJP request attribute AJP_LOCAL_ADDR to fix getLocalAddr().
   Backport of r1609593 from trunk resp. r1609606 from tc7.
   http://people.apache.org/~rjung/patches/getLocalAddr-tc6.patch
-  +1: rjung, kkolinko
+  +1: rjung, kkolinko, schultz
   -1:
 
 
