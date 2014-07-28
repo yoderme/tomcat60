@@ -78,7 +78,7 @@ PATCHES PROPOSED TO BACKPORT:
   Support using AJP request attribute AJP_LOCAL_ADDR to fix getLocalAddr().
   Backport of r1609593 from trunk resp. r1609606 from tc7.
   http://people.apache.org/~rjung/patches/getLocalAddr-tc6.patch
-  +1: rjung
+  +1: rjung, kkolinko
   -1:
 
 
