@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -193,7 +193,7 @@ public abstract class ContainerBase
      * Associated logger name.
      */
     protected String logName = null;
-    
+
 
     /**
      * The Manager implementation with which this Container is associated.
@@ -206,7 +206,7 @@ public abstract class ContainerBase
      */
     protected Cluster cluster = null;
 
-    
+
     /**
      * The human-readable name of this Container.
      */
@@ -293,10 +293,10 @@ public abstract class ContainerBase
     /**
      * Get the delay between the invocation of the backgroundProcess method on
      * this container and its children. Child containers will not be invoked
-     * if their delay value is not negative (which would mean they are using 
-     * their own thread). Setting this to a positive value will cause 
-     * a thread to be spawn. After waiting the specified amount of time, 
-     * the thread will invoke the executePeriodic method on this container 
+     * if their delay value is not negative (which would mean they are using
+     * their own thread). Setting this to a positive value will cause
+     * a thread to be spawn. After waiting the specified amount of time,
+     * the thread will invoke the executePeriodic method on this container
      * and all its children.
      */
     public int getBackgroundProcessorDelay() {
@@ -307,8 +307,8 @@ public abstract class ContainerBase
     /**
      * Set the delay between the invocation of the execute method on this
      * container and its children.
-     * 
-     * @param delay The delay in seconds between the invocation of 
+     *
+     * @param delay The delay in seconds between the invocation of
      *              backgroundProcess methods
      */
     public void setBackgroundProcessorDelay(int delay) {
@@ -732,8 +732,8 @@ public abstract class ContainerBase
      */
     public synchronized void setResources(DirContext resources) {
         // Called from StandardContext.setResources()
-        //              <- StandardContext.start() 
-        //              <- ContainerBase.addChildInternal() 
+        //              <- StandardContext.start()
+        //              <- ContainerBase.addChildInternal()
 
         // Change components if necessary
         DirContext oldResources = this.resources;
@@ -791,27 +791,30 @@ public abstract class ContainerBase
                                                    "' is not unique");
             child.setParent(this);  // May throw IAE
             children.put(child.getName(), child);
+        }
 
-            // Start child
-            if (started && startChildren && (child instanceof Lifecycle)) {
-                boolean success = false;
-                try {
-                    ((Lifecycle) child).start();
-                    success = true;
-                } catch (LifecycleException e) {
-                    log.error("ContainerBase.addChild: start: ", e);
-                    throw new IllegalStateException
-                        ("ContainerBase.addChild: start: " + e);
-                } finally {
-                    if (!success) {
+        // Start child
+        // Don't do this inside sync block - start can be a slow process and
+        // locking the children object can cause problems elsewhere
+        if (started && startChildren && (child instanceof Lifecycle)) {
+            boolean success = false;
+            try {
+                ((Lifecycle) child).start();
+                success = true;
+            } catch (LifecycleException e) {
+                log.error("ContainerBase.addChild: start: ", e);
+                throw new IllegalStateException
+                    ("ContainerBase.addChild: start: " + e);
+            } finally {
+                if (!success) {
+                    synchronized(children) {
                         children.remove(child.getName());
                     }
                 }
             }
-
-            fireContainerEvent(ADD_CHILD_EVENT, child);
         }
 
+        fireContainerEvent(ADD_CHILD_EVENT, child);
     }
 
 
@@ -851,7 +854,7 @@ public abstract class ContainerBase
 
         if (name == null)
             return (null);
-        synchronized (children) {       // Required by post-start changes
+        synchronized (children) {
             return ((Container) children.get(name));
         }
 
@@ -880,7 +883,7 @@ public abstract class ContainerBase
     public ContainerListener[] findContainerListeners() {
 
         synchronized (listeners) {
-            ContainerListener[] results = 
+            ContainerListener[] results =
                 new ContainerListener[listeners.size()];
             return ((ContainerListener[]) listeners.toArray(results));
         }
@@ -922,13 +925,13 @@ public abstract class ContainerBase
         if (child == null) {
             return;
         }
-        
+
         synchronized(children) {
             if (children.get(child.getName()) == null)
                 return;
             children.remove(child.getName());
         }
-        
+
         if (started && (child instanceof Lifecycle)) {
             try {
                 if( child instanceof ContainerBase ) {
@@ -942,9 +945,9 @@ public abstract class ContainerBase
                 log.error("ContainerBase.removeChild: stop: ", e);
             }
         }
-        
+
         fireContainerEvent(REMOVE_CHILD_EVENT, child);
-        
+
         // child.setParent(null);
 
     }
@@ -992,7 +995,7 @@ public abstract class ContainerBase
 
 
     /**
-     * Get the lifecycle listeners associated with this lifecycle. If this 
+     * Get the lifecycle listeners associated with this lifecycle. If this
      * Lifecycle has no listeners registered, a zero-length array is returned.
      */
     public LifecycleListener[] findLifecycleListeners() {
@@ -1028,7 +1031,7 @@ public abstract class ContainerBase
                 log.info(sm.getString("containerBase.alreadyStarted", logName()));
             return;
         }
-        
+
         // Notify our interested LifecycleListeners
         lifecycle.fireLifecycleEvent(BEFORE_START_EVENT, null);
 
@@ -1141,15 +1144,15 @@ public abstract class ContainerBase
     }
 
     /** Init method, part of the MBean lifecycle.
-     *  If the container was added via JMX, it'll register itself with the 
+     *  If the container was added via JMX, it'll register itself with the
      * parent, using the ObjectName conventions to locate the parent.
-     * 
+     *
      *  If the container was added directly and it doesn't have an ObjectName,
-     * it'll create a name and register itself with the JMX console. On destroy(), 
+     * it'll create a name and register itself with the JMX console. On destroy(),
      * the object will unregister.
-     * 
+     *
      * @throws Exception
-     */ 
+     */
     public void init() throws Exception {
 
         if( this.getParent() == null ) {
@@ -1157,8 +1160,8 @@ public abstract class ContainerBase
             ObjectName parentName=getParentName();
 
             //log.info("Register " + parentName );
-            if( parentName != null && 
-                    mserver.isRegistered(parentName)) 
+            if( parentName != null &&
+                    mserver.isRegistered(parentName))
             {
                 mserver.invoke(parentName, "addChild", new Object[] { this },
                         new String[] {"org.apache.catalina.Container"});
@@ -1166,11 +1169,11 @@ public abstract class ContainerBase
         }
         initialized=true;
     }
-    
+
     public ObjectName getParentName() throws MalformedObjectNameException {
         return null;
     }
-    
+
     public void destroy() throws Exception {
         if( started ) {
             stop();
@@ -1200,10 +1203,10 @@ public abstract class ContainerBase
         for (int i = 0; i < children.length; i++) {
             removeChild(children[i]);
         }
-                
+
     }
 
-    
+
     /**
      * Check this container for an access log and if none is found, look to the
      * parent. If there is no parent and still none is found, use the NoOp
@@ -1211,14 +1214,14 @@ public abstract class ContainerBase
      */
     public void logAccess(Request request, Response response, long time,
             boolean useDefault) {
-        
+
         boolean logged = false;
-        
+
         if (getAccessLog() != null) {
             getAccessLog().log(request, response, time);
             logged = true;
         }
-        
+
         if (getParent() != null) {
             // No need to use default logger once request/response has been logged
             // once
@@ -1227,11 +1230,11 @@ public abstract class ContainerBase
     }
 
     public AccessLog getAccessLog() {
-        
+
         if (accessLogScanComplete) {
             return accessLog;
         }
-        
+
         Valve valves[] = getPipeline().getValves();
         for (Valve valve : valves) {
             if (valve instanceof AccessLog) {
@@ -1273,7 +1276,7 @@ public abstract class ContainerBase
     public ObjectName[] getValveObjectNames() {
         return ((StandardPipeline)pipeline).getValveObjectNames();
     }
-    
+
     /**
      * <p>Return the Valve instance that has been distinguished as the basic
      * Valve for this Pipeline (if any).
@@ -1345,7 +1348,7 @@ public abstract class ContainerBase
      * throwables will be caught and logged.
      */
     public void backgroundProcess() {
-        
+
         if (!started)
             return;
 
@@ -1353,28 +1356,28 @@ public abstract class ContainerBase
             try {
                 cluster.backgroundProcess();
             } catch (Exception e) {
-                log.warn(sm.getString("containerBase.backgroundProcess.cluster", cluster), e);                
+                log.warn(sm.getString("containerBase.backgroundProcess.cluster", cluster), e);
             }
         }
         if (loader != null) {
             try {
                 loader.backgroundProcess();
             } catch (Exception e) {
-                log.warn(sm.getString("containerBase.backgroundProcess.loader", loader), e);                
+                log.warn(sm.getString("containerBase.backgroundProcess.loader", loader), e);
             }
         }
         if (manager != null) {
             try {
                 manager.backgroundProcess();
             } catch (Exception e) {
-                log.warn(sm.getString("containerBase.backgroundProcess.manager", manager), e);                
+                log.warn(sm.getString("containerBase.backgroundProcess.manager", manager), e);
             }
         }
         if (realm != null) {
             try {
                 realm.backgroundProcess();
             } catch (Exception e) {
-                log.warn(sm.getString("containerBase.backgroundProcess.realm", realm), e);                
+                log.warn(sm.getString("containerBase.backgroundProcess.realm", realm), e);
             }
         }
         Valve current = pipeline.getFirst();
@@ -1382,7 +1385,7 @@ public abstract class ContainerBase
             try {
                 current.backgroundProcess();
             } catch (Exception e) {
-                log.warn(sm.getString("containerBase.backgroundProcess.valve", current), e);                
+                log.warn(sm.getString("containerBase.backgroundProcess.valve", current), e);
             }
             current = current.getNext();
         }
@@ -1431,16 +1434,16 @@ public abstract class ContainerBase
             if ((name == null) || (name.equals(""))) {
                 name = "/";
             }
-            loggerName = "[" + name + "]" 
+            loggerName = "[" + name + "]"
                 + ((loggerName != null) ? ("." + loggerName) : "");
             current = current.getParent();
         }
         logName = ContainerBase.class.getName() + "." + loggerName;
         return logName;
-        
+
     }
 
-    
+
     // -------------------- JMX and Registration  --------------------
     protected String type;
     protected String domain;
@@ -1452,7 +1455,7 @@ public abstract class ContainerBase
     public ObjectName getJmxName() {
         return oname;
     }
-    
+
     public String getObjectName() {
         if (oname != null) {
             return oname.toString();
@@ -1468,7 +1471,7 @@ public abstract class ContainerBase
             }
             if( parent instanceof StandardEngine ) {
                 domain=((StandardEngine)parent).getDomain();
-            } 
+            }
         }
         return domain;
     }
@@ -1476,7 +1479,7 @@ public abstract class ContainerBase
     public void setDomain(String domain) {
         this.domain=domain;
     }
-    
+
     public String getType() {
         return type;
     }
@@ -1547,9 +1550,9 @@ public abstract class ContainerBase
         Container context=null;
         Container host=null;
         Container servlet=null;
-        
+
         StringBuffer suffix=new StringBuffer();
-        
+
         if( container instanceof StandardHost ) {
             host=container;
         } else if( container instanceof StandardContext ) {
@@ -1563,7 +1566,7 @@ public abstract class ContainerBase
         if( context!=null ) {
             String path=((StandardContext)context).getPath();
             suffix.append(",path=").append((path.equals("")) ? "/" : path);
-        } 
+        }
         if( host!=null ) suffix.append(",host=").append( host.getName() );
         if( servlet != null ) {
             String name=container.getName();
@@ -1620,7 +1623,7 @@ public abstract class ContainerBase
 
 
     /**
-     * Private thread class to invoke the backgroundProcess method 
+     * Private thread class to invoke the backgroundProcess method
      * of this container and its children after a fixed delay.
      */
     protected class ContainerBackgroundProcessor implements Runnable {
@@ -1634,7 +1637,7 @@ public abstract class ContainerBase
                 }
                 if (!threadDone) {
                     Container parent = (Container) getMappingObject();
-                    ClassLoader cl = 
+                    ClassLoader cl =
                         Thread.currentThread().getContextClassLoader();
                     if (parent.getLoader() != null) {
                         cl = parent.getLoader().getClassLoader();

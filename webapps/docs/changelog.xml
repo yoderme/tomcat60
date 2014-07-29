@@ -50,6 +50,11 @@
         <bug>56600</bug>: In WebdavServlet: Do not waste time generating
         response for broken PROPFIND request. (kkolinko)
       </fix>
+      <fix>
+       <bug>56648</bug>: Reduce scope of synchronization when adding children to
+       a container (e.g. adding a Context to a Host) to prevent blocking
+       requests to other children while the new child starts. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
