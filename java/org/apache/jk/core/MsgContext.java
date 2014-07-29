@@ -378,9 +378,12 @@ public class MsgContext implements ActionHook {
             req.setContentLength(bc.getLength());
             jkIS.setReplay(bc);
         } else if (actionCode == ActionCode.ACTION_REQ_LOCAL_ADDR_ATTRIBUTE) {
-            // Copy from local name for now, which should simply be an address
             Request req=(Request)param;
-            req.localAddr().setString(req.localName().toString());
+            // Automatically populated during prepareRequest() when using
+            // modern AJP forwarder, otherwise copy from local name
+            if (req.localAddr().isNull()) {
+                req.localAddr().setString(req.localName().toString());
+            }
         }
     }
     

@@ -99,6 +99,7 @@ public class AjpConstants {
     /**
      * AJP private request attributes
      */
+    public static final String SC_A_REQ_LOCAL_ADDR  = "AJP_LOCAL_ADDR";
     public static final String SC_A_REQ_REMOTE_PORT = "AJP_REMOTE_PORT";
 
     /**

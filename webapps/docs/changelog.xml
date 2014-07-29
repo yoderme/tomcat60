@@ -69,6 +69,10 @@
         error messages and adding an error flag to allow subsequent attempts at
         reading after an error to fail fast. (markt)
       </fix>
+      <fix>
+        <bug>56661</bug>:  Support using AJP request attribute
+        <code>AJP_LOCAL_ADDR</code> to fix <code>getLocalAddr()</code>. (rjung)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">
