@@ -34,12 +34,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56612
-  Correct parse {'\'\''} in JSPs
-  http://people.apache.org/~markt/patches/2014-06-11-bug56612-tc6-v1.patch
-  +1: markt, kkolinko, schultz
-  -1:
-
 * Use if/elseif for alternative branches.
   http://svn.apache.org/r1601909
   +1: kkolinko, markt, schultz
