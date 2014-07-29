@@ -51,12 +51,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
-* Workaroud https://issues.apache.org/bugzilla/show_bug.cgi?id=56684
-  Don't shutdown if shutdown port experiences a SocketTimeoutException
-  http://svn.apache.org/r1609079
-  +1: markt, kkolinko, schultz
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56661
   Support using AJP request attribute AJP_LOCAL_ADDR to fix getLocalAddr().
   Backport of r1609593 from trunk resp. r1609606 from tc7.

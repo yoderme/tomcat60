@@ -5,19 +5,16 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.apache.catalina.core;
-
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -26,6 +23,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.security.AccessControlException;
 import java.util.Random;
 
@@ -59,10 +57,10 @@ import org.apache.tomcat.util.modeler.Registry;
  *
  */
 public final class StandardServer
-    implements Lifecycle, Server, MBeanRegistration 
+    implements Lifecycle, Server, MBeanRegistration
  {
     private static Log log = LogFactory.getLog(StandardServer.class);
-   
+
 
     // -------------------------------------------------------------- Constants
 
@@ -376,7 +374,7 @@ public final class StandardServer
 
     /**
      * Wait until a proper shutdown command is received, then return.
-     * This keeps the main thread alive - the thread pool listening for http 
+     * This keeps the main thread alive - the thread pool listening for http
      * connections is daemon threads.
      */
     public void await() {
@@ -421,16 +419,23 @@ public final class StandardServer
                 if (serverSocket == null) {
                     break;
                 }
-    
+
                 // Wait for the next connection
                 Socket socket = null;
                 StringBuilder command = new StringBuilder();
                 try {
                     InputStream stream = null;
+                    long acceptStartTime = System.currentTimeMillis();
                     try {
                         socket = serverSocket.accept();
                         socket.setSoTimeout(10 * 1000);  // Ten seconds
                         stream = socket.getInputStream();
+                    } catch (SocketTimeoutException ste) {
+                        // This should never happen but bug 56684 suggests that
+                        // it does.
+                        log.warn(sm.getString("standardServer.accept.timeout",
+                                Long.valueOf(System.currentTimeMillis() - acceptStartTime)), ste);
+                        continue;
                     } catch (AccessControlException ace) {
                         log.warn("StandardServer.accept security exception: "
                                            + ace.getMessage(), ace);
@@ -531,8 +536,8 @@ public final class StandardServer
         return (services);
 
     }
-    
-    /** 
+
+    /**
      * Return the JMX service names.
      */
     public ObjectName[] getServiceNames() {
@@ -638,7 +643,7 @@ public final class StandardServer
      */
     public synchronized void storeConfig() throws Exception {
         ObjectName sname = new ObjectName("Catalina:type=StoreConfig");
-        mserver.invoke(sname, "storeConfig", null, null);            
+        mserver.invoke(sname, "storeConfig", null, null);
     }
 
 
@@ -654,20 +659,20 @@ public final class StandardServer
      *  by the persistence mechanism
      */
     public synchronized void storeContext(Context context) throws Exception {
-        
-        ObjectName sname = null;    
+
+        ObjectName sname = null;
         try {
            sname = new ObjectName("Catalina:type=StoreConfig");
            if(mserver.isRegistered(sname)) {
                mserver.invoke(sname, "store",
-                   new Object[] {context}, 
+                   new Object[] {context},
                    new String [] { "java.lang.String"});
            } else
                log.error("StoreConfig mbean not registered" + sname);
         } catch (Throwable t) {
             log.error(t);
         }
- 
+
     }
 
 
@@ -798,13 +803,13 @@ public final class StandardServer
     public void init() throws Exception {
         initialize();
     }
-    
+
     /**
      * Invoke a pre-startup initialization. This is used to allow connectors
      * to bind to restricted ports under Unix operating environments.
      */
     public void initialize()
-        throws LifecycleException 
+        throws LifecycleException
     {
         if (initialized) {
                 log.info(sm.getString("standardServer.initialize.initialized"));
@@ -822,10 +827,10 @@ public final class StandardServer
                 log.error("Error registering ",e);
             }
         }
-        
+
         // Register global String cache
         try {
-            ObjectName oname2 = 
+            ObjectName oname2 =
                 new ObjectName(oname.getDomain() + ":type=StringCache");
             Registry.getRegistry(null, null)
                 .registerComponent(new StringCache(), oname2, null );
@@ -838,7 +843,7 @@ public final class StandardServer
             services[i].initialize();
         }
     }
-    
+
     protected String type;
     protected String domain;
     protected String suffix;
@@ -869,5 +874,5 @@ public final class StandardServer
 
     public void postDeregister() {
     }
-    
+
 }
