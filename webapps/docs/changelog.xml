@@ -81,6 +81,11 @@
         <bug>56612</bug>: Correctly parse consecutive escaped single quotes when
         used in an EL expression. (markt)
       </fix>
+      <scode>
+        Use <code>if { ... } else if { ... }</code> rather than multiple
+        <code>if { ... }</code> for alternative branches in the JSP parser.
+        (kkolinko)
+      </scode>
     </changelog>
   </subsection>
 </section>
