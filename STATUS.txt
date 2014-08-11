@@ -51,6 +51,13 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56829
+  Add the ability for users to define their own values for _RUNJAVA and _RUNJBD.
+  Based on a patch by Neeme Praks.
+  http://svn.apache.org/r1617364
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
