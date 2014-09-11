@@ -35,6 +35,7 @@ PATCHES PROPOSED TO BACKPORT:
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56334#c15
+  Fix a regression in EL parsing when quoted string follows a whitespace.
   http://people.apache.org/~markt/patches/2014-06-18-bug56334%23c15-tc6-v1.patch
   +1: markt, kkolinko
   -1:
@@ -63,6 +64,17 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Be more strict with executable filename on Windows (s/java/java.exe/).
   http://svn.apache.org/r1617458
+  +1: kkolinko
+  -1:
+
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=43001
+  Enable the JspC Ant task to set the JspC option mappedFile.
+
+  Motivation: A really simple fix. The mappedFile option has different
+  default (false) in JspC vs. EmbeddedServletOptions, and there was no way
+  to configure it in an Ant task.
+
+  http://svn.apache.org/r1624249
   +1: kkolinko
   -1:
 
