@@ -42,11 +42,28 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Assert that MappingData object is empty before performing mapping work.
   It is backport of r1604663
+
+  Motivation: Remove dead branches. Protect Mapper from operating on
+  non-recycled MappingData. Using non-recycled MappingData might result in
+  mapping request onto a different target, like an issue that prevented us
+  from releasing 8.0.4 and fixed by r1580080/r1580083. I do not know such
+  bugs in Tomcat 6, but I want the code to be more safe.
+  Just a single (mappingData.host != null) check is enough to discern
+  recycled vs. non-recycled data. Checks for other MappingData fields are
+  removed by this patch, simplifying the code.
+
+  A patch generated with "svn diff -x --ignore-space-change" for easier
+  overview of the change is
+    https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper_diff-x-b.patch
+
   https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper.patch
   +1: kkolinko
   -1:
 
 * Fix generics warnings in Mapper.
+
+  Motivation: Resolve IDE warnings to make it easier to spot more serious
+  errors when working on this class.
   It is just some local variables. No change in functionality or APIs.
   https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper_generics.patch
   +1: kkolinko
