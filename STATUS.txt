@@ -95,6 +95,29 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Update documented minimum Ant version to use at build time to be 1.8.0
+
+  Motivation: Align documentation with code.
+
+  - Compatibility with Ant 1.6.5 was broken 6 years ago by r673614,
+    as "osfamily" attribute of <exec> task is since Ant 1.7.0.
+    Running `ant -f dist.xml` with Ant 1.6.5 fails with
+    .../dist.xml:403: The <exec> type doesn't support the "osfamily" attribute.
+  
+  - Compatibility with Ant 1.7.x was broken 8 months ago by r1557724
+    as <replace> task supports arbitrary collections such as <restrict>
+    since Ant 1.8.
+    Running `ant -f dist.xml` with Ant 1.7.0, 1.7.1 fails with
+    .../dist.xml:239: The following error occurred while executing this line:
+    .../dist.xml:258: replace doesn't support the nested "restrict" element.
+
+  - Builds successfully with Ant 1.8.0.
+
+  https://people.apache.org/~kkolinko/patches/2014-09-22_tc6_Ant180.patch
+  +1: kkolinko
+  -1:
+
+
 PATCHES/ISSUES THAT ARE STALLED:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
