@@ -130,6 +130,14 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Fix a potential resource leak in JDTCompiler when checking wether
+  a resource is a package. Reported by Coverity Scan.
+
+  Motivation: An obvious issue that is easy to fix.
+
+  http://svn.apache.org/r1627469
+  +1: kkolinko
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
