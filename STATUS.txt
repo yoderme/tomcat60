@@ -139,6 +139,16 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* For https://issues.apache.org/bugzilla/show_bug.cgi?id=56079
+  Switch to the signed versions of Apache Commons Daemon 1.0.15 binaries.
+
+  Motivation: An improvement. As signed binaries are available, let's use
+  them. I do not envision any drawbacks.
+
+  http://svn.apache.org/r1627420
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
