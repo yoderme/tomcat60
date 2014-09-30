@@ -97,6 +97,13 @@
       </scode>
     </changelog>
   </subsection>
+  <subsection name="Other">
+    <changelog>
+      <bug>56606</bug>: When creating <code>tomcat-users.xml</code> in the
+      Windows Installer, use the new attribute name for the name of the user.
+      (markt)
+    </changelog>
+  </subsection>
 </section>
 <section name="Tomcat 6.0.41 (markt)" rtext="released 2014-05-23">
   <subsection name="Jasper">

@@ -28,12 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56606
-  User new attribute name for username
-  http://people.apache.org/~markt/patches/2014-06-10-user-username-tc6-v1.patch
-  +1: markt, kkolinko, remm
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56334#c15
   Fix a regression in EL parsing when quoted string follows a whitespace.
   http://people.apache.org/~markt/patches/2014-06-18-bug56334%23c15-tc6-v1.patch
