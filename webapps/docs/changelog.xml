@@ -78,6 +78,10 @@
   <subsection name="Jasper">
     <changelog>
       <fix>
+        <bug>56334</bug>: Fix a regression in EL parsing when quoted string
+        follows a whitespace. (markt)
+      </fix>
+      <fix>
         <bug>56560</bug>: Fix NoClassDefFoundError when using Jasper Ant task
         defined by <code>catalina-tasks.xml</code> file. Patch provided by
         M Gemmell. (kkolinko)
