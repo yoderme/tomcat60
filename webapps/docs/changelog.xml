@@ -103,9 +103,11 @@
   </subsection>
   <subsection name="Other">
     <changelog>
-      <bug>56606</bug>: When creating <code>tomcat-users.xml</code> in the
-      Windows Installer, use the new attribute name for the name of the user.
-      (markt)
+      <fix>
+        <bug>56606</bug>: When creating <code>tomcat-users.xml</code> in the
+        Windows Installer, use the new attribute name for the name of the user.
+        (markt)
+      </fix>
       <add>
         <bug>56829</bug>: Add the ability for users to define their own values
         for <code>_RUNJAVA</code> and <code>_RUNJDB</code>. Based on a patch by
