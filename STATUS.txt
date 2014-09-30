@@ -57,16 +57,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56829
-  Add the ability for users to define their own values for _RUNJAVA and _RUNJDB.
-  Based on a patch by Neeme Praks.
-  http://svn.apache.org/r1617364 (the actual fix)
-  http://svn.apache.org/r1617374 (fix typo in changelog)
-  http://svn.apache.org/r1617433 (copy/paste error)
-  http://svn.apache.org/r1617457 (comments)
-  +1: markt, kkolinko, remm
-  -1:
-
 * Be more strict with executable filename on Windows (s/java/java.exe/).
   http://svn.apache.org/r1617458
   +1: kkolinko, remm, markt
