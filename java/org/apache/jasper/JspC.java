@@ -477,6 +477,10 @@ public class JspC extends Task implements Options {
         return mappedFile;
     }
 
+    public void setMappedFile(boolean b) {
+        mappedFile = b;
+    }
+
     /**
      * @deprecated Removed in Tomcat 7
      */

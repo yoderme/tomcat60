@@ -78,6 +78,10 @@
   <subsection name="Jasper">
     <changelog>
       <fix>
+        <bug>43001</bug>: Enable the JspC Ant task to set the JspC option
+        <code>mappedFile</code>. (kkolinko)
+      </fix>
+      <fix>
         <bug>56334</bug>: Fix a regression in EL parsing when quoted string
         follows a whitespace. (markt)
       </fix>
