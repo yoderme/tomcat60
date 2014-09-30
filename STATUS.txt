@@ -81,7 +81,7 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Be more strict with executable filename on Windows (s/java/java.exe/).
   http://svn.apache.org/r1617458
-  +1: kkolinko, remm
+  +1: kkolinko, remm, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=43001
@@ -92,7 +92,7 @@ PATCHES PROPOSED TO BACKPORT:
   to configure it in an Ant task.
 
   http://svn.apache.org/r1624249
-  +1: kkolinko, remm
+  +1: kkolinko, remm, markt
   -1:
 
 * Update documented minimum Ant version to use at build time to be 1.8.0
@@ -114,7 +114,7 @@ PATCHES PROPOSED TO BACKPORT:
   - Builds successfully with Ant 1.8.0.
 
   https://people.apache.org/~kkolinko/patches/2014-09-22_tc6_Ant180.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56988
@@ -127,7 +127,7 @@ PATCHES PROPOSED TO BACKPORT:
   may run in different environments, e.g. Buildbot.
 
   https://issues.apache.org/bugzilla/attachment.cgi?id=32041
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Fix a potential resource leak in JDTCompiler when checking wether
@@ -136,7 +136,7 @@ PATCHES PROPOSED TO BACKPORT:
   Motivation: An obvious issue that is easy to fix.
 
   http://svn.apache.org/r1627469
-  +1: kkolinko, remm
+  +1: kkolinko, remm, markt
   -1:
 
 * For https://issues.apache.org/bugzilla/show_bug.cgi?id=56079
@@ -146,7 +146,7 @@ PATCHES PROPOSED TO BACKPORT:
   them. I do not envision any drawbacks.
 
   http://svn.apache.org/r1627420
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 
