@@ -103,6 +103,10 @@
         <code>if { ... }</code> for alternative branches in the JSP parser.
         (kkolinko)
       </scode>
+      <fix>
+        Fix a potential resource leak in JDTCompiler when checking wether
+        a resource is a package. Reported by Coverity Scan. (fschumacher)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
