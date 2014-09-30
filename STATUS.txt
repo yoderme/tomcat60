@@ -57,11 +57,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
-* Be more strict with executable filename on Windows (s/java/java.exe/).
-  http://svn.apache.org/r1617458
-  +1: kkolinko, remm, markt
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=43001
   Enable the JspC Ant task to set the JspC option mappedFile.
 
