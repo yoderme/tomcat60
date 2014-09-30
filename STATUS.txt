@@ -31,13 +31,13 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56606
   User new attribute name for username
   http://people.apache.org/~markt/patches/2014-06-10-user-username-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56334#c15
   Fix a regression in EL parsing when quoted string follows a whitespace.
   http://people.apache.org/~markt/patches/2014-06-18-bug56334%23c15-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 * Assert that MappingData object is empty before performing mapping work.
@@ -76,12 +76,12 @@ PATCHES PROPOSED TO BACKPORT:
   http://svn.apache.org/r1617374 (fix typo in changelog)
   http://svn.apache.org/r1617433 (copy/paste error)
   http://svn.apache.org/r1617457 (comments)
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 * Be more strict with executable filename on Windows (s/java/java.exe/).
   http://svn.apache.org/r1617458
-  +1: kkolinko
+  +1: kkolinko, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=43001
@@ -92,7 +92,7 @@ PATCHES PROPOSED TO BACKPORT:
   to configure it in an Ant task.
 
   http://svn.apache.org/r1624249
-  +1: kkolinko
+  +1: kkolinko, remm
   -1:
 
 * Update documented minimum Ant version to use at build time to be 1.8.0
@@ -136,7 +136,7 @@ PATCHES PROPOSED TO BACKPORT:
   Motivation: An obvious issue that is easy to fix.
 
   http://svn.apache.org/r1627469
-  +1: kkolinko
+  +1: kkolinko, remm
   -1:
 
 * For https://issues.apache.org/bugzilla/show_bug.cgi?id=56079
