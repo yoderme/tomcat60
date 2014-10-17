@@ -102,8 +102,13 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, markt, remm
   -1:
 
-* Mitigate POODLE by disabling SSLv3 by default
+* Mitigate POODLE by disabling SSLv3 by default for JSSE
   http://people.apache.org/~markt/patches/2014-10-17-poodle-tc6-v1.patch
+  +1: markt
+  -1:
+
+* Mitigate POODLE by disabling SSLv3 by default for APR/native
+  http://svn.apache.org/r1632586
   +1: markt
   -1:
 
