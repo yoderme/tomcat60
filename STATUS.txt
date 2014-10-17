@@ -76,7 +76,7 @@ PATCHES PROPOSED TO BACKPORT:
   - Builds successfully with Ant 1.8.0.
 
   https://people.apache.org/~kkolinko/patches/2014-09-22_tc6_Ant180.patch
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56988
@@ -89,7 +89,7 @@ PATCHES PROPOSED TO BACKPORT:
   may run in different environments, e.g. Buildbot.
 
   https://issues.apache.org/bugzilla/attachment.cgi?id=32041
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 * For https://issues.apache.org/bugzilla/show_bug.cgi?id=56079
@@ -99,13 +99,13 @@ PATCHES PROPOSED TO BACKPORT:
   them. I do not envision any drawbacks.
 
   http://svn.apache.org/r1627420
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57102
   Ensure the the sslEnabledProtocols option works with both BIO and NIO
   http://people.apache.org/~markt/patches/2014-10-17-bug57102-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 
