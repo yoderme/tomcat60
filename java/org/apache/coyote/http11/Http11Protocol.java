@@ -78,7 +78,7 @@ public class Http11Protocol extends AbstractProtocol
         setTcpNoDelay(Constants.DEFAULT_TCP_NO_DELAY);
     }
 
-    
+
     // ----------------------------------------------------------------- Fields
 
 
@@ -105,7 +105,7 @@ public class Http11Protocol extends AbstractProtocol
 
     protected HashMap<String, Object> attributes = new HashMap<String, Object>();
 
-    
+
     /**
      * Pass config info
      */
@@ -175,7 +175,7 @@ public class Http11Protocol extends AbstractProtocol
                 socketFactory.setAttribute(key, v);
             }
         }
-        
+
         try {
             endpoint.init();
         } catch (Exception ex) {
@@ -258,7 +258,7 @@ public class Http11Protocol extends AbstractProtocol
 
     // ------------------------------------------------------------- Properties
 
-    
+
     /**
      * Processor cache.
      */
@@ -280,15 +280,15 @@ public class Http11Protocol extends AbstractProtocol
 
     protected boolean SSLEnabled = false;
     public boolean isSSLEnabled() { return SSLEnabled;}
-    public void setSSLEnabled(boolean SSLEnabled) {this.SSLEnabled = SSLEnabled;}    
-    
+    public void setSSLEnabled(boolean SSLEnabled) {this.SSLEnabled = SSLEnabled;}
+
     /**
      * Name of the socket factory.
      */
     protected String socketFactoryName = null;
     public String getSocketFactory() { return socketFactoryName; }
     public void setSocketFactory(String valueS) { socketFactoryName = valueS; }
-    
+
     /**
      * Name of the SSL implementation.
      */
@@ -298,11 +298,11 @@ public class Http11Protocol extends AbstractProtocol
         sslImplementationName = valueS;
         setSecure(true);
     }
-    
-    
+
+
     // HTTP
     /**
-     * Maximum number of requests which can be performed over a keepalive 
+     * Maximum number of requests which can be performed over a keepalive
      * connection. The default is the same as for Apache HTTP Server.
      */
     protected int maxKeepAliveRequests = 100;
@@ -367,20 +367,20 @@ public class Http11Protocol extends AbstractProtocol
     protected String compression = "off";
     public String getCompression() { return compression; }
     public void setCompression(String valueS) { compression = valueS; }
-    
-    
+
+
     // HTTP
     protected String noCompressionUserAgents = null;
     public String getNoCompressionUserAgents() { return noCompressionUserAgents; }
     public void setNoCompressionUserAgents(String valueS) { noCompressionUserAgents = valueS; }
 
-    
+
     // HTTP
     protected String compressableMimeTypes = "text/html,text/xml,text/plain";
     public String getCompressableMimeType() { return compressableMimeTypes; }
     public void setCompressableMimeType(String valueS) { compressableMimeTypes = valueS; }
-    
-    
+
+
     // HTTP
     protected int compressionMinSize = 2048;
     public int getCompressionMinSize() { return compressionMinSize; }
@@ -394,7 +394,7 @@ public class Http11Protocol extends AbstractProtocol
     protected String restrictedUserAgents = null;
     public String getRestrictedUserAgents() { return restrictedUserAgents; }
     public void setRestrictedUserAgents(String valueS) { restrictedUserAgents = valueS; }
-    
+
     // HTTP
     /**
      * Server header.
@@ -405,7 +405,7 @@ public class Http11Protocol extends AbstractProtocol
 
     public Executor getExecutor() { return endpoint.getExecutor(); }
     public void setExecutor(Executor executor) { endpoint.setExecutor(executor); }
-    
+
     public int getMaxThreads() { return endpoint.getMaxThreads(); }
     public void setMaxThreads(int maxThreads) { endpoint.setMaxThreads(maxThreads); }
 
@@ -456,7 +456,7 @@ public class Http11Protocol extends AbstractProtocol
     /*
      * Note: All the following are JSSE/java.io specific attributes.
      */
-    
+
     public String getKeystore() {
         return (String) getAttribute("keystore");
     }
@@ -529,7 +529,7 @@ public class Http11Protocol extends AbstractProtocol
      * provider is used to perform the conversion. For example it is used with
      * the AJP connectors, the HTTP APR connector and with the
      * {@link org.apache.catalina.valves.SSLValve}. If not specified, the
-     * default provider will be used. 
+     * default provider will be used.
      */
     protected String clientCertProvider = null;
     public String getClientCertProvider() { return clientCertProvider; }
@@ -544,7 +544,7 @@ public class Http11Protocol extends AbstractProtocol
         protected AtomicLong registerCount = new AtomicLong(0);
         protected RequestGroupInfo global = new RequestGroupInfo();
 
-        protected ConcurrentLinkedQueue<Http11Processor> recycledProcessors = 
+        protected ConcurrentLinkedQueue<Http11Processor> recycledProcessors =
             new ConcurrentLinkedQueue<Http11Processor>() {
             protected AtomicInteger size = new AtomicInteger(0);
             public boolean offer(Http11Processor processor) {
@@ -560,7 +560,7 @@ public class Http11Protocol extends AbstractProtocol
                 if (!result) unregister(processor);
                 return result;
             }
-            
+
             public Http11Processor poll() {
                 Http11Processor result = super.poll();
                 if ( result != null ) {
@@ -568,7 +568,7 @@ public class Http11Protocol extends AbstractProtocol
                 }
                 return result;
             }
-            
+
             public void clear() {
                 Http11Processor next = poll();
                 while ( next != null ) {
@@ -602,7 +602,7 @@ public class Http11Protocol extends AbstractProtocol
                 } else {
                     processor.setSSLSupport(null);
                 }
-                
+
                 processor.process(socket);
                 return false;
 
@@ -637,7 +637,7 @@ public class Http11Protocol extends AbstractProtocol
             }
             return false;
         }
-        
+
         protected Http11Processor createProcessor() {
             Http11Processor processor =
                 new Http11Processor(proto.maxHttpHeaderSize, proto.endpoint);
@@ -657,7 +657,7 @@ public class Http11Protocol extends AbstractProtocol
             register(processor);
             return processor;
         }
-        
+
         protected void register(Http11Processor processor) {
             if (proto.getDomain() != null) {
                 synchronized (this) {

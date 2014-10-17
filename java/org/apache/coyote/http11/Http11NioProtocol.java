@@ -14,7 +14,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package org.apache.coyote.http11;
 
 import java.net.InetAddress;
@@ -58,7 +57,7 @@ import org.apache.tomcat.util.res.StringManager;
 public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistration
 {
     protected JSSEImplementation sslImplementation = null;
-    
+
     public Http11NioProtocol() {
         cHandler = new Http11ConnectionHandler( this );
         setSoLinger(Constants.DEFAULT_CONNECTION_LINGER);
@@ -102,7 +101,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
         } else {
             return ep.setProperty(name,value); //make sure we at least try to set all properties
         }
-        
+
     }
 
     /**
@@ -128,11 +127,11 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     public void init() throws Exception {
         ep.setName(getName());
         ep.setHandler(cHandler);
-        
+
         //todo, determine if we even need these
         ep.getSocketProperties().setRxBufSize(Math.max(ep.getSocketProperties().getRxBufSize(),getMaxHttpHeaderSize()));
         ep.getSocketProperties().setTxBufSize(Math.max(ep.getSocketProperties().getTxBufSize(),getMaxHttpHeaderSize()));
-        
+
         try {
             ep.init();
             sslImplementation = new JSSEImplementation();
@@ -225,7 +224,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     private int socketCloseDelay=-1;
     private boolean disableUploadTimeout = true;
     private int socketBuffer = 9000;
-    
+
     private Adapter adapter;
     private Http11ConnectionHandler cHandler;
 
@@ -245,15 +244,15 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     public void setPollerThreadCount(int count) {
         ep.setPollerThreadCount(count);
     }
-    
+
     public int getPollerThreadCount() {
         return ep.getPollerThreadCount();
     }
-    
+
     public void setSelectorTimeout(long timeout) {
         ep.setSelectorTimeout(timeout);
     }
-    
+
     public long getSelectorTimeout() {
         return ep.getSelectorTimeout();
     }
@@ -266,7 +265,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     public void setExecutor(Executor executor) {
         ep.setExecutor(executor);
     }
-    
+
     public void setUseExecutor(boolean useexec) {
         ep.setUseExecutor(useexec);
     }
@@ -284,7 +283,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
       ep.setThreadPriority(threadPriority);
       setAttribute("threadPriority", "" + threadPriority);
     }
-    
+
     public void setAcceptorThreadPriority(int threadPriority) {
       ep.setAcceptorThreadPriority(threadPriority);
       setAttribute("acceptorThreadPriority", "" + threadPriority);
@@ -302,12 +301,12 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     public int getAcceptorThreadPriority() {
       return ep.getAcceptorThreadPriority();
     }
-    
+
     public int getPollerThreadPriority() {
       return ep.getThreadPriority();
     }
-    
-    
+
+
     public boolean getUseSendfile() {
         return ep.getUseSendfile();
     }
@@ -315,7 +314,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     public void setUseSendfile(boolean useSendfile) {
         ep.setUseSendfile(useSendfile);
     }
-    
+
     // -------------------- Tcp setup --------------------
 
     public int getBacklog() {
@@ -549,19 +548,19 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     public void setKeystoreFile(String s ) { ep.setKeystoreFile(s);}
     public void setKeystore(String s) { setKeystoreFile(s);}
     public String getKeystore(){ return getKeystoreFile();}
-    
+
     public String getKeyAlias() { return ep.getKeyAlias();}
     public void setKeyAlias(String s ) { ep.setKeyAlias(s);}
 
-    
+
     public String getAlgorithm() { return ep.getAlgorithm();}
     public void setAlgorithm(String s ) { ep.setAlgorithm(s);}
-    
+
     public void setClientauth(String s) {setClientAuth(s);}
     public String getClientauth(){ return getClientAuth();}
     public String getClientAuth() { return ep.getClientAuth();}
     public void setClientAuth(String s ) { ep.setClientAuth(s);}
-    
+
     public String getKeystorePass() { return ep.getKeystorePass();}
     public void setKeystorePass(String s ) { ep.setKeystorePass(s);}
     public void setKeypass(String s) { setKeystorePass(s);}
@@ -577,17 +576,17 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     public String getTruststorePass(){return ep.getTruststorePass();}
     public void setTruststoreType(String t){ep.setTruststoreType(t);}
     public String getTruststoreType(){ return ep.getTruststoreType();}
-    
-    
+
+
     public String getSslProtocol() { return ep.getSslProtocol();}
     public void setSslProtocol(String s) { ep.setSslProtocol(s);}
-    
+
     public String getCiphers() { return ep.getCiphers();}
     public void setCiphers(String s) { ep.setCiphers(s);}
-    
+
     public boolean getSSLEnabled() { return ep.isSSLEnabled(); }
     public void setSSLEnabled(boolean SSLEnabled) { ep.setSSLEnabled(SSLEnabled); }
-    
+
     /**
      * When client certificate information is presented in a form other than
      * instances of {@link java.security.cert.X509Certificate} it needs to be
@@ -595,7 +594,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
      * provider is used to perform the conversion. For example it is used with
      * the AJP connectors, the HTTP APR connector and with the
      * {@link org.apache.catalina.valves.SSLValve}. If not specified, the
-     * default provider will be used. 
+     * default provider will be used.
      */
     protected String clientCertProvider = null;
     public String getClientCertProvider() { return clientCertProvider; }
@@ -627,7 +626,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
                 if (!result) deregister(processor);
                 return result;
             }
-            
+
             public Http11NioProcessor poll() {
                 Http11NioProcessor result = super.poll();
                 if ( result != null ) {
@@ -635,7 +634,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
                 }
                 return result;
             }
-            
+
             public void clear() {
                 Http11NioProcessor next = poll();
                 while ( next != null ) {
@@ -650,11 +649,11 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
         Http11ConnectionHandler(Http11NioProtocol proto) {
             this.proto = proto;
         }
-        
+
         public void releaseCaches() {
             recycledProcessors.clear();
         }
-        
+
         /**
          * Use this only if the processor is not available, otherwise use
          * {@link #release(NioChannel, Http11NioProcessor).
@@ -678,7 +677,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
         public SocketState event(NioChannel socket, SocketStatus status) {
             Http11NioProcessor result = connections.get(socket);
 
-            SocketState state = SocketState.CLOSED; 
+            SocketState state = SocketState.CLOSED;
             if (result != null) {
                 if (log.isDebugEnabled()) log.debug("Http11NioProcessor.error="+result.error);
                 // Call the appropriate event
@@ -725,7 +724,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
             Http11NioProcessor processor = null;
             try {
                 processor = connections.remove(socket);
-                
+
                 if (processor == null) {
                     processor = recycledProcessors.poll();
                 }
@@ -736,7 +735,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
                 if (processor instanceof ActionHook) {
                     ((ActionHook) processor).action(ActionCode.ACTION_START, null);
                 }
-                
+
                 if (proto.ep.isSSLEnabled() && (proto.sslImplementation != null)) {
                     if (socket instanceof SecureNioChannel) {
                         SecureNioChannel ch = (SecureNioChannel)socket;
@@ -792,7 +791,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
         public Http11NioProcessor createProcessor() {
             Http11NioProcessor processor = new Http11NioProcessor(
               proto.ep.getSocketProperties().getRxBufSize(),
-              proto.ep.getSocketProperties().getTxBufSize(), 
+              proto.ep.getSocketProperties().getTxBufSize(),
               proto.maxHttpHeaderSize,
               proto.ep);
             processor.setAdapter(proto.adapter);
@@ -830,7 +829,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
                 }
             }
         }
-    
+
         public void deregister(Http11NioProcessor processor) {
             if (proto.getDomain() != null) {
                 synchronized (this) {
@@ -850,7 +849,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
         }
 
     }
-    
+
 
 
     protected static org.apache.juli.logging.Log log

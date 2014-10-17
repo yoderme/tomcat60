@@ -701,7 +701,7 @@ public class Connector
         return getProtocolHandlerClassName();
 
     }
-    
+
 
     /**
      * Set the Coyote protocol which will be used by the connector.
