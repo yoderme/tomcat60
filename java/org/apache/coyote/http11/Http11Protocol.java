@@ -498,6 +498,15 @@ public class Http11Protocol extends AbstractProtocol
         setAttribute("protocols", k);
     }
 
+    // Alias for protocols
+    public String getSslEnabledProtocols() {
+        return getProtocols();
+    }
+
+    public void setSslEnabledProtocols(String k) {
+        setProtocols(k);
+    }
+
     public String getAlgorithm() {
         return (String) getAttribute("algorithm");
     }

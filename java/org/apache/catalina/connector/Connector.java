@@ -312,7 +312,6 @@ public class Connector
          replacements.put("keystoreType", "keytype");
          replacements.put("sslProtocol", "protocol");
          replacements.put("sslProtocols", "protocols");
-         replacements.put("sslEnabledProtocols", "protocols");
      }
 
 

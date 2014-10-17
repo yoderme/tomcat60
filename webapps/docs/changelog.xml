@@ -73,6 +73,10 @@
         <bug>56661</bug>:  Support using AJP request attribute
         <code>AJP_LOCAL_ADDR</code> to fix <code>getLocalAddr()</code>. (rjung)
       </fix>
+      <fix>
+        <bug>57102</bug>: Fix bug that meant sslEnabledProtocols setting was not
+        recognised for the HTTPS NIO connector. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">

@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.management.MBeanRegistration;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -586,6 +587,16 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
 
     public boolean getSSLEnabled() { return ep.isSSLEnabled(); }
     public void setSSLEnabled(boolean SSLEnabled) { ep.setSSLEnabled(SSLEnabled); }
+
+    // Alias for sslEnabledProtocols
+    public void setProtocols(String k) {
+        setSslEnabledProtocols(k);
+    }
+
+    public void setSslEnabledProtocols(String k) {
+        ep.setSslEnabledProtocols(k);
+    }
+
 
     /**
      * When client certificate information is presented in a form other than
