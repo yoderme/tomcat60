@@ -112,7 +112,7 @@ public class NioEndpoint extends AbstractEndpoint {
 
     public static final int OP_REGISTER = 0x100; //register interest op
     public static final int OP_CALLBACK = 0x200; //callback interest op
-    
+
     // ----------------------------------------------------------------- Fields
 
 
@@ -156,51 +156,51 @@ public class NioEndpoint extends AbstractEndpoint {
      * Sequence number used to generate thread names.
      */
     protected int sequence = 0;
-    
+
     protected NioSelectorPool selectorPool = new NioSelectorPool();
-    
+
     /**
      * Server socket "pointer".
      */
     protected ServerSocketChannel serverSock = null;
-    
+
     /**
      * use send file
      */
     protected boolean useSendfile = true;
-    
+
     /**
      * The size of the OOM parachute.
      */
     protected int oomParachute = 1024*1024;
     /**
-     * The oom parachute, when an OOM error happens, 
-     * will release the data, giving the JVM instantly 
+     * The oom parachute, when an OOM error happens,
+     * will release the data, giving the JVM instantly
      * a chunk of data to be able to recover with.
      */
     protected byte[] oomParachuteData = null;
-    
+
     /**
      * Make sure this string has already been allocated
      */
-    protected static final String oomParachuteMsg = 
+    protected static final String oomParachuteMsg =
         "SEVERE:Memory usage is low, parachute is non existent, your system may start failing.";
-    
+
     /**
      * Keep track of OOM warning messages.
      */
     long lastParachuteCheck = System.currentTimeMillis();
-    
+
     /**
      * Keep track of how many threads are in use
      */
     protected AtomicInteger activeSocketProcessors = new AtomicInteger(0);
-    
+
     /**
-     * 
+     *
      */
     protected volatile CountDownLatch stopLatch = null;
-    
+
     /**
      * Cache for SocketProcessor objects
      */
@@ -219,7 +219,7 @@ public class NioEndpoint extends AbstractEndpoint {
             }
             else return false;
         }
-        
+
         public SocketProcessor poll() {
             SocketProcessor result = super.poll();
             if ( result != null ) {
@@ -227,7 +227,7 @@ public class NioEndpoint extends AbstractEndpoint {
             }
             return result;
         }
-        
+
         public void clear() {
             super.clear();
             size.set(0);
@@ -268,7 +268,7 @@ public class NioEndpoint extends AbstractEndpoint {
         }
     };
 
-    
+
     /**
      * Cache for poller events
      */
@@ -323,7 +323,7 @@ public class NioEndpoint extends AbstractEndpoint {
             }
             else return false;
         }
-        
+
         public NioChannel poll() {
             NioChannel result = super.poll();
             if ( result != null ) {
@@ -332,7 +332,7 @@ public class NioEndpoint extends AbstractEndpoint {
             }
             return result;
         }
-        
+
         public void clear() {
             super.clear();
             size.set(0);
@@ -340,7 +340,7 @@ public class NioEndpoint extends AbstractEndpoint {
         }
     };
 
-    
+
 
     // ------------------------------------------------------------- Properties
 
@@ -351,7 +351,7 @@ public class NioEndpoint extends AbstractEndpoint {
     protected Executor executor = null;
     public void setExecutor(Executor executor) { this.executor = executor; }
     public Executor getExecutor() { return executor; }
-    
+
     protected boolean useExecutor = true;
     public void setUseExecutor(boolean useexec) { useExecutor = useexec;}
     public boolean getUseExecutor() { return useExecutor || (executor!=null);}
@@ -367,7 +367,7 @@ public class NioEndpoint extends AbstractEndpoint {
                 if (executor instanceof ThreadPoolExecutor) {
                     ((ThreadPoolExecutor)executor).setMaximumPoolSize(maxThreads);
                 }
-            }else if (workers!=null){            
+            }else if (workers!=null){
                 synchronized(workers) {
                     workers.resize(maxThreads);
                 }
@@ -454,7 +454,7 @@ public class NioEndpoint extends AbstractEndpoint {
      * Socket linger.
      */
     public int getSoLinger() { return socketProperties.getSoLingerTime(); }
-    public void setSoLinger(int soLinger) { 
+    public void setSoLinger(int soLinger) {
         socketProperties.setSoLingerTime(soLinger);
         socketProperties.setSoLingerOn(soLinger>=0);
     }
@@ -535,7 +535,7 @@ public class NioEndpoint extends AbstractEndpoint {
      * Dummy minSpareThreads property.
      */
     public int getMinSpareThreads() { return Math.min(getMaxThreads(),5); }
-    
+
     /**
      * Generic properties, introspected
      */
@@ -568,7 +568,7 @@ public class NioEndpoint extends AbstractEndpoint {
         }
         return path;
     }
-    
+
     public String defaultIfNull(String val, String defaultValue) {
         if (val==null) return defaultValue;
         else return val;
@@ -589,9 +589,9 @@ public class NioEndpoint extends AbstractEndpoint {
 
     protected String keystoreFile = System.getProperty("user.home")+"/.keystore";
     public String getKeystoreFile() { return keystoreFile;}
-    public void setKeystoreFile(String s ) { 
+    public void setKeystoreFile(String s ) {
         s = adjustRelativePath(s,System.getProperty("catalina.base"));
-        this.keystoreFile = s; 
+        this.keystoreFile = s;
     }
     public void setKeystore(String s ) { setKeystoreFile(s);}
     public String getKeystore() { return getKeystoreFile();}
@@ -599,8 +599,8 @@ public class NioEndpoint extends AbstractEndpoint {
     String keyAlias = null;
     public String getKeyAlias() { return keyAlias;}
     public void setKeyAlias(String s ) { keyAlias = s;}
-    
-    
+
+
     protected String algorithm = KeyManagerFactory.getDefaultAlgorithm();
     public String getAlgorithm() { return algorithm;}
     public void setAlgorithm(String s ) { this.algorithm = s;}
@@ -608,19 +608,19 @@ public class NioEndpoint extends AbstractEndpoint {
     protected String clientAuth = "false";
     public String getClientAuth() { return clientAuth;}
     public void setClientAuth(String s ) { this.clientAuth = s;}
-    
+
     protected String keystorePass = "changeit";
     public String getKeystorePass() { return keystorePass;}
     public void setKeystorePass(String s ) { this.keystorePass = s;}
-    
+
     protected String keystoreType = "JKS";
     public String getKeystoreType() { return keystoreType;}
     public void setKeystoreType(String s ) { this.keystoreType = s;}
 
-    protected String sslProtocol = "TLS"; 
+    protected String sslProtocol = "TLS";
     public String getSslProtocol() { return sslProtocol;}
     public void setSslProtocol(String s) { sslProtocol = s;}
-    
+
     protected String sslEnabledProtocols=null; //"TLSv1,SSLv3,SSLv2Hello"
     protected String[] sslEnabledProtocolsarr =  new String[0];
     public void setSslEnabledProtocols(String s) {
@@ -629,11 +629,11 @@ public class NioEndpoint extends AbstractEndpoint {
         sslEnabledProtocolsarr = new String[t.countTokens()];
         for (int i=0; i<sslEnabledProtocolsarr.length; i++ ) sslEnabledProtocolsarr[i] = t.nextToken();
     }
-    
+
     protected String ciphers = null;
     protected String[] ciphersarr = new String[0];
     public String getCiphers() { return ciphers;}
-    public void setCiphers(String s) { 
+    public void setCiphers(String s) {
         ciphers = s;
         if ( s == null ) ciphersarr = new String[0];
         else {
@@ -688,7 +688,7 @@ public class NioEndpoint extends AbstractEndpoint {
     protected SSLContext sslContext = null;
     public SSLContext getSSLContext() { return sslContext;}
     public void setSSLContext(SSLContext c) { sslContext = c;}
-    
+
     // --------------------------------------------------------- OOM Parachute Methods
 
     protected void checkParachute() {
@@ -702,22 +702,22 @@ public class NioEndpoint extends AbstractEndpoint {
             lastParachuteCheck = System.currentTimeMillis();
         }
     }
-    
+
     protected boolean reclaimParachute(boolean force) {
         if ( oomParachuteData != null ) return true;
-        if ( oomParachute > 0 && ( force || (Runtime.getRuntime().freeMemory() > (oomParachute*2))) )  
+        if ( oomParachute > 0 && ( force || (Runtime.getRuntime().freeMemory() > (oomParachute*2))) )
             oomParachuteData = new byte[oomParachute];
         return oomParachuteData != null;
     }
-    
+
     protected void releaseCaches() {
         this.keyCache.clear();
         this.nioChannels.clear();
         this.processorCache.clear();
         if ( handler != null ) handler.releaseCaches();
-        
+
     }
-    
+
     // --------------------------------------------------------- Public Methods
     /**
      * Number of keepalive sockets.
@@ -754,7 +754,7 @@ public class NioEndpoint extends AbstractEndpoint {
     }
 
     /**
-     * Return the amount of threads that are in use 
+     * Return the amount of threads that are in use
      *
      * @return the amount of threads that are in use
      */
@@ -807,7 +807,7 @@ public class NioEndpoint extends AbstractEndpoint {
                                                       socketProperties.getPerformanceLatency(),
                                                       socketProperties.getPerformanceBandwidth());
         InetSocketAddress addr = (address!=null?new InetSocketAddress(address,port):new InetSocketAddress(port));
-        serverSock.socket().bind(addr,backlog); 
+        serverSock.socket().bind(addr,backlog);
         serverSock.configureBlocking(true); //mimic APR behavior
         serverSock.socket().setSoTimeout(getSocketProperties().getSoTimeout());
 
@@ -829,7 +829,7 @@ public class NioEndpoint extends AbstractEndpoint {
 
             char[] tpassphrase = (getTruststorePass()!=null)?getTruststorePass().toCharArray():passphrase;
             String ttype = (getTruststoreType()!=null)?getTruststoreType():getKeystoreType();
-            
+
             KeyStore ks = KeyStore.getInstance(getKeystoreType());
             ks.load(new FileInputStream(getKeystoreFile()), passphrase);
             KeyStore ts = null;
@@ -855,13 +855,13 @@ public class NioEndpoint extends AbstractEndpoint {
                 sessionContext.setSessionTimeout(sessionTimeout);
             }
         }
-        
+
         if (oomParachute>0) reclaimParachute(true);
         selectorPool.open();
         initialized = true;
 
     }
-    
+
     public KeyManager[] wrap(KeyManager[] managers) {
         if (managers==null) return null;
         KeyManager[] result = new KeyManager[managers.length];
@@ -888,7 +888,7 @@ public class NioEndpoint extends AbstractEndpoint {
         if (!running) {
             running = true;
             paused = false;
-            
+
             // Create worker collection
             if (getUseExecutor()) {
                 if ( executor == null ) {
@@ -972,7 +972,7 @@ public class NioEndpoint extends AbstractEndpoint {
             }
             executor = null;
         }
-        
+
     }
 
 
@@ -1061,7 +1061,7 @@ public class NioEndpoint extends AbstractEndpoint {
             s.connect(saddr,getSocketProperties().getUnlockTimeout());
             if (log.isDebugEnabled()) {
                 log.debug("Socket unlock completed for:"+saddr);
-            } 
+            }
         } catch(Exception e) {
             if (log.isDebugEnabled()) {
                 log.debug(sm.getString("endpoint.debug.unlock", "" + port), e);
@@ -1107,7 +1107,7 @@ public class NioEndpoint extends AbstractEndpoint {
 
                     channel = new NioChannel(socket, bufhandler);
                 }
-            } else {                
+            } else {
                 channel.setIOChannel(socket);
                 if ( channel instanceof SecureNioChannel ) {
                     SSLEngine engine = createSSLEngine();
@@ -1140,7 +1140,7 @@ public class NioEndpoint extends AbstractEndpoint {
         engine.setUseClientMode(false);
         if ( ciphersarr.length > 0 ) engine.setEnabledCipherSuites(ciphersarr);
         if ( sslEnabledProtocolsarr.length > 0 ) engine.setEnabledProtocols(sslEnabledProtocolsarr);
-        
+
         return engine;
     }
 
@@ -1258,7 +1258,7 @@ public class NioEndpoint extends AbstractEndpoint {
     protected boolean processSocket(NioChannel socket, SocketStatus status) {
         return processSocket(socket,status,true);
     }
-    
+
     protected boolean processSocket(NioChannel socket, SocketStatus status, boolean dispatch) {
         try {
             KeyAttachment attachment = (KeyAttachment)socket.getAttachment(false);
@@ -1320,7 +1320,7 @@ public class NioEndpoint extends AbstractEndpoint {
                                 if (log.isDebugEnabled())
                                     log.debug("", ix);
                             }
-                        } 
+                        }
                     }
                 }catch (SocketTimeoutException sx) {
                     //normal condition
@@ -1350,28 +1350,28 @@ public class NioEndpoint extends AbstractEndpoint {
     // ----------------------------------------------------- Poller Inner Classes
 
     /**
-     * 
+     *
      * PollerEvent, cacheable object for poller events to avoid GC
      */
     public class PollerEvent implements Runnable {
-        
+
         protected NioChannel socket;
         protected int interestOps;
         protected KeyAttachment key;
         public PollerEvent(NioChannel ch, KeyAttachment k, int intOps) {
             reset(ch, k, intOps);
         }
-    
+
         public void reset(NioChannel ch, KeyAttachment k, int intOps) {
             socket = ch;
             interestOps = intOps;
             key = k;
         }
-    
+
         public void reset() {
             reset(null, null, 0);
         }
-    
+
         public void run() {
             if ( interestOps == OP_REGISTER ) {
                 try {
@@ -1413,12 +1413,12 @@ public class NioEndpoint extends AbstractEndpoint {
                 }
             }//end if
         }//run
-        
+
         public String toString() {
             return super.toString()+"[intOps="+this.interestOps+"]";
         }
     }
-    
+
     /**
      * Poller class.
      */
@@ -1426,12 +1426,12 @@ public class NioEndpoint extends AbstractEndpoint {
 
         protected Selector selector;
         protected ConcurrentLinkedQueue<Runnable> events = new ConcurrentLinkedQueue<Runnable>();
-        
+
         protected volatile boolean close = false;
         protected long nextExpiration = 0;//optimize expiration handling
-        
+
         protected AtomicLong wakeupCounter = new AtomicLong(0l);
-        
+
         protected CountDownLatch stopLatch = new CountDownLatch(1);
 
 
@@ -1439,7 +1439,7 @@ public class NioEndpoint extends AbstractEndpoint {
         public Poller() throws IOException {
             this.selector = Selector.open();
         }
-        
+
         public Selector getSelector() { return selector;}
 
         /**
@@ -1453,12 +1453,12 @@ public class NioEndpoint extends AbstractEndpoint {
             events.clear();
             selector.wakeup();
         }
-        
+
         public void addEvent(Runnable event) {
             events.offer(event);
             if ( wakeupCounter.incrementAndGet() == 0 ) selector.wakeup();
         }
-        
+
         public void cometInterest(NioChannel socket) {
             KeyAttachment att = (KeyAttachment)socket.getAttachment(false);
             add(socket,att.getCometOps());
@@ -1467,7 +1467,7 @@ public class NioEndpoint extends AbstractEndpoint {
                 selector.wakeup();
             }
         }
-        
+
         public void wakeup() {
             selector.wakeup();
         }
@@ -1483,7 +1483,7 @@ public class NioEndpoint extends AbstractEndpoint {
         public void add(final NioChannel socket) {
             add(socket,SelectionKey.OP_READ);
         }
-        
+
         public void add(final NioChannel socket, final int interestOps) {
             PollerEvent r = eventCache.poll();
             if ( r==null) r = new PollerEvent(socket,null,interestOps);
@@ -1493,7 +1493,7 @@ public class NioEndpoint extends AbstractEndpoint {
 
         /**
          * Processes events in the event queue of the Poller.
-         * 
+         *
          * @return <code>true</code> if some events were processed,
          *   <code>false</code> if queue was empty
          */
@@ -1516,7 +1516,7 @@ public class NioEndpoint extends AbstractEndpoint {
 
             return result;
         }
-        
+
         public void register(final NioChannel socket)
         {
             socket.setPoller(this);
@@ -1542,9 +1542,9 @@ public class NioEndpoint extends AbstractEndpoint {
                         return; // don't close on comet timeout
                     } else {
                         processSocket(ka.getChannel(), status, false); //don't dispatch if the lines below are cancelling the key
-                    }                    
+                    }
                 }
-                
+
                 key.attach(null);
                 if (ka!=null) handler.release(ka.getChannel());
                 if (key.isValid()) key.cancel();
@@ -1595,8 +1595,8 @@ public class NioEndpoint extends AbstractEndpoint {
                         }
                         if (close) {
                             timeout(0, false);
-                            selector.close(); 
-                            break; 
+                            selector.close();
+                            break;
                         }
                     } catch ( NullPointerException x ) {
                         //sun bug 5076772 on windows JDK 1.5
@@ -1654,7 +1654,7 @@ public class NioEndpoint extends AbstractEndpoint {
             stopLatch.countDown();
 
         }
-        
+
         protected boolean processKey(SelectionKey sk, KeyAttachment attachment) {
             boolean result = true;
             try {
@@ -1698,7 +1698,7 @@ public class NioEndpoint extends AbstractEndpoint {
                                 result = false;
                             }
                         }
-                    } 
+                    }
                 } else {
                     //invalid key
                     cancelledKey(sk, SocketStatus.ERROR,false);
@@ -1710,7 +1710,7 @@ public class NioEndpoint extends AbstractEndpoint {
             }
             return result;
         }
-        
+
         public boolean processSendfile(SelectionKey sk, KeyAttachment attachment, boolean reg, boolean event) {
             NioChannel sc = null;
             try {
@@ -1807,9 +1807,9 @@ public class NioEndpoint extends AbstractEndpoint {
             //this is a must, so that we don't have multiple threads messing with the socket
             reg(sk,attachment,sk.interestOps()& (~readyOps));
         }
-        
+
         protected void reg(SelectionKey sk, KeyAttachment attachment, int intops) {
-            sk.interestOps(intops); 
+            sk.interestOps(intops);
             attachment.interestOps(intops);
             //attachment.setCometOps(intops);
         }
@@ -1847,11 +1847,11 @@ public class NioEndpoint extends AbstractEndpoint {
                         long timeout = (ka.getTimeout()==-1)?((long) socketProperties.getSoTimeout()):(ka.getTimeout());
                         boolean isTimedout = delta > timeout;
                         if ( close ) {
-                            key.interestOps(0); 
+                            key.interestOps(0);
                             ka.interestOps(0); //avoid duplicate stop calls
                             processKey(key,ka);
                         } else if (isTimedout) {
-                            key.interestOps(0); 
+                            key.interestOps(0);
                             ka.interestOps(0); //avoid duplicate timeout calls
                             cancelledKey(key, SocketStatus.TIMEOUT,true);
                         } else {
@@ -1869,11 +1869,11 @@ public class NioEndpoint extends AbstractEndpoint {
         }
     }
 
-// ----------------------------------------------------- Key Attachment Class   
+// ----------------------------------------------------- Key Attachment Class
     public static class KeyAttachment {
-        
+
         public KeyAttachment() {
-            
+
         }
         public void reset(Poller poller, NioChannel channel, long soTimeout) {
             this.channel = channel;
@@ -1893,11 +1893,11 @@ public class NioEndpoint extends AbstractEndpoint {
             cometOps = SelectionKey.OP_READ;
             sendfileData = null;
         }
-        
+
         public void reset() {
             reset(null,null,-1);
         }
-        
+
         public Poller getPoller() { return poller;}
         public void setPoller(Poller poller){this.poller = poller;}
         public long getLastAccess() { return lastAccess; }
@@ -1929,8 +1929,8 @@ public class NioEndpoint extends AbstractEndpoint {
         }
         public void resetReadLatch() { readLatch = resetLatch(readLatch); }
         public void resetWriteLatch() { writeLatch = resetLatch(writeLatch); }
-        
-        protected CountDownLatch startLatch(CountDownLatch latch, int cnt) { 
+
+        protected CountDownLatch startLatch(CountDownLatch latch, int cnt) {
             if ( latch == null || latch.getCount() == 0 ) {
                 return new CountDownLatch(cnt);
             }
@@ -1938,21 +1938,21 @@ public class NioEndpoint extends AbstractEndpoint {
         }
         public void startReadLatch(int cnt) { readLatch = startLatch(readLatch,cnt);}
         public void startWriteLatch(int cnt) { writeLatch = startLatch(writeLatch,cnt);}
-        
-        
+
+
         protected void awaitLatch(CountDownLatch latch, long timeout, TimeUnit unit) throws InterruptedException {
             if ( latch == null ) throw new IllegalStateException("Latch cannot be null");
             latch.await(timeout,unit);
         }
         public void awaitReadLatch(long timeout, TimeUnit unit) throws InterruptedException { awaitLatch(readLatch,timeout,unit);}
         public void awaitWriteLatch(long timeout, TimeUnit unit) throws InterruptedException { awaitLatch(writeLatch,timeout,unit);}
-        
+
         public long getLastRegistered() { return lastRegistered; };
         public void setLastRegistered(long reg) { lastRegistered = reg; }
-        
+
         public void setSendfileData(SendfileData sf) { this.sendfileData = sf;}
         public SendfileData getSendfileData() { return this.sendfileData;}
-        
+
         protected long lastAccess = -1;
         protected boolean currentAccess = false;
         protected boolean comet = false;
@@ -2077,7 +2077,7 @@ public class NioEndpoint extends AbstractEndpoint {
                             }
                         } else {
                             //now we have it registered, remove it from the cache
-                            
+
                         }
                     } else {
                         socket = (NioChannel)channel;
@@ -2127,7 +2127,7 @@ public class NioEndpoint extends AbstractEndpoint {
     public class NioBufferHandler implements ApplicationBufferHandler {
         protected ByteBuffer readbuf = null;
         protected ByteBuffer writebuf = null;
-        
+
         public NioBufferHandler(int readsize, int writesize, boolean direct) {
             if ( direct ) {
                 readbuf = ByteBuffer.allocateDirect(readsize);
@@ -2137,7 +2137,7 @@ public class NioEndpoint extends AbstractEndpoint {
                 writebuf = ByteBuffer.allocate(writesize);
             }
         }
-        
+
         public ByteBuffer expand(ByteBuffer buffer, int remaining) {return buffer;}
         public ByteBuffer getReadBuffer() {return readbuf;}
         public ByteBuffer getWriteBuffer() {return writebuf;}
@@ -2175,10 +2175,10 @@ public class NioEndpoint extends AbstractEndpoint {
             workers = new Worker[size];
         }
 
-        /** 
+        /**
          * Put the worker into the queue. If the queue is full (for example if
          * the queue has been reduced in size) the worker will be dropped.
-         * 
+         *
          * @param   worker  the worker to be appended to the queue (first
          *                  element).
          */
@@ -2192,7 +2192,7 @@ public class NioEndpoint extends AbstractEndpoint {
 
         /**
          * Get the first object out of the queue. Return null if the queue
-         * is empty. 
+         * is empty.
          */
         public Worker pop() {
             if (end > 0) {
@@ -2222,11 +2222,11 @@ public class NioEndpoint extends AbstractEndpoint {
         public int size() {
             return (end);
         }
-        
+
         /**
          * Resize the queue. If there are too many objects in the queue for the
          * new size, drop the excess.
-         * 
+         *
          * @param newSize
          */
         public void resize(int newSize) {
@@ -2251,17 +2251,17 @@ public class NioEndpoint extends AbstractEndpoint {
     protected class SocketProcessor implements Runnable {
 
         protected NioChannel socket = null;
-        protected SocketStatus status = null; 
+        protected SocketStatus status = null;
 
         public SocketProcessor(NioChannel socket, SocketStatus status) {
             reset(socket,status);
         }
-        
+
         public void reset(NioChannel socket, SocketStatus status) {
             this.socket = socket;
             this.status = status;
         }
-         
+
         public void run() {
             synchronized (socket) {
                 NioEndpoint.this.activeSocketProcessors.addAndGet(1);
@@ -2269,7 +2269,7 @@ public class NioEndpoint extends AbstractEndpoint {
                 try {
                     key = socket.getIOChannel().keyFor(socket.getPoller().getSelector());
                     int handshake = -1;
-                    
+
                     try {
                         if (key!=null) handshake = socket.handshake(key.isReadable(), key.isWritable());
                     }catch ( IOException x ) {
@@ -2282,7 +2282,7 @@ public class NioEndpoint extends AbstractEndpoint {
                         // Process the request from this socket
                         boolean closed = (status==null)?(handler.process(socket)==Handler.SocketState.CLOSED) :
                             (handler.event(socket,status)==Handler.SocketState.CLOSED);
-    
+
                         if (closed) {
                             // Close socket and pool
                             try {
@@ -2299,7 +2299,7 @@ public class NioEndpoint extends AbstractEndpoint {
                             }catch ( Exception x ) {
                                 log.error("",x);
                             }
-                        } 
+                        }
                     } else if (handshake == -1 ) {
                         KeyAttachment ka = null;
                         if (key!=null) {
@@ -2343,12 +2343,12 @@ public class NioEndpoint extends AbstractEndpoint {
             }
         }
     }
-    
+
     // ---------------------------------------------- TaskQueue Inner Class
     public static class TaskQueue extends LinkedBlockingQueue<Runnable> {
         ThreadPoolExecutor parent = null;
         NioEndpoint endpoint = null;
-        
+
         public TaskQueue() {
             super();
         }
@@ -2356,17 +2356,17 @@ public class NioEndpoint extends AbstractEndpoint {
         public TaskQueue(int initialCapacity) {
             super(initialCapacity);
         }
- 
+
         public TaskQueue(Collection<? extends Runnable> c) {
             super(c);
         }
 
-        
+
         public void setParent(ThreadPoolExecutor tp, NioEndpoint ep) {
             parent = tp;
             this.endpoint = ep;
         }
-        
+
         public boolean offer(Runnable o) {
             //we can't do any checks
             if (parent==null) return super.offer(o);
@@ -2401,7 +2401,7 @@ public class NioEndpoint extends AbstractEndpoint {
             return t;
         }
     }
-    
+
     // ----------------------------------------------- SendfileData Inner Class
 
 
