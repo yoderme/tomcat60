@@ -45,7 +45,7 @@ PATCHES PROPOSED TO BACKPORT:
     https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper_diff-x-b.patch
 
   https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Fix generics warnings in Mapper.
@@ -54,7 +54,7 @@ PATCHES PROPOSED TO BACKPORT:
   errors when working on this class.
   It is just some local variables. No change in functionality or APIs.
   https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper_generics.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Update documented minimum Ant version to use at build time to be 1.8.0
