@@ -43,7 +43,17 @@
 <!-- Section names:
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
-<section name="Tomcat 6.0.42 (markt)">
+<section name="Tomcat 6.0.43 (markt)">
+  <subsection name="Coyote">
+    <changelog>
+      <fix>
+        <bug>57102</bug>: Fix bug that meant sslEnabledProtocols setting was not
+        recognised for the HTTPS NIO connector. (markt)
+      </fix>
+    </changelog>
+  </subsection>
+</section>
+<section name="Tomcat 6.0.42 (jfclere)" rtext="not released">
   <subsection name="Catalina">
     <changelog>
       <fix>
@@ -72,10 +82,6 @@
       <fix>
         <bug>56661</bug>:  Support using AJP request attribute
         <code>AJP_LOCAL_ADDR</code> to fix <code>getLocalAddr()</code>. (rjung)
-      </fix>
-      <fix>
-        <bug>57102</bug>: Fix bug that meant sslEnabledProtocols setting was not
-        recognised for the HTTPS NIO connector. (markt)
       </fix>
     </changelog>
   </subsection>
