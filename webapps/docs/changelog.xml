@@ -58,6 +58,10 @@
         <bug>56988</bug>: Allow to use relative path in <code>base.path</code>
         setting when building Tomcat. (kkolinko)
       </update>
+      <fix>
+        Update documentation: the minimum version of Apache Ant required to
+        build Tomcat is 1.8.0. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
 </section>
