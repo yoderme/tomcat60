@@ -182,7 +182,7 @@
 
     <ant antfile="${tomcat.extras}/logging/commons-logging-${commons-logging.version}-src/build2.xml"
          dir="${tomcat.extras}/logging/commons-logging-${commons-logging.version}-src"
-         target="compile" />
+         inheritAll="false" target="compile" />
 
     <jar jarfile="${tomcat-juli.jar}"
          manifest="${tomcat.manifests}/default.manifest" >

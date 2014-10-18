@@ -79,19 +79,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, markt, remm
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56988
-  Allow to use relative path in <code>base.path</code> setting when
-  building Tomcat.
-
-  Tested with Ant 1.8.0.
-
-  Motivation: Allow to simplify configuration of automated CI tools that
-  may run in different environments, e.g. Buildbot.
-
-  https://issues.apache.org/bugzilla/attachment.cgi?id=32041
-  +1: kkolinko, markt, remm
-  -1:
-
 * For https://issues.apache.org/bugzilla/show_bug.cgi?id=56079
   Switch to the signed versions of Apache Commons Daemon 1.0.15 binaries.
 

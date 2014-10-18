@@ -52,6 +52,14 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Other">
+    <changelog>
+      <update>
+        <bug>56988</bug>: Allow to use relative path in <code>base.path</code>
+        setting when building Tomcat. (kkolinko)
+      </update>
+    </changelog>
+  </subsection>
 </section>
 <section name="Tomcat 6.0.42 (jfclere)" rtext="not released">
   <subsection name="Catalina">

@@ -827,9 +827,7 @@
       <param name="destfile" value="${commons-dbcp.home}/build.xml" />
     </antcall>
     <mkdir dir="${tomcat-dbcp.home}"/>
-    <antcall target="build-tomcat-dbcp">
-      <param name="basedir" value="${tomcat-dbcp.home}" />
-    </antcall>
+    <antcall target="build-tomcat-dbcp" />
 
     <!-- Download JDT (Eclipse compiler) -->
     <antcall target="downloadfile-2">
