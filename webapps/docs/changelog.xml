@@ -55,6 +55,11 @@
   <subsection name="Other">
     <changelog>
       <update>
+        <bug>56079</bug>: The Apache Tomcat Windows service and the Apache
+        Tomcat Windows service monitor application are now digitally
+        signed. (markt/kkolinko)
+      </update>
+      <update>
         <bug>56988</bug>: Allow to use relative path in <code>base.path</code>
         setting when building Tomcat. (kkolinko)
       </update>
