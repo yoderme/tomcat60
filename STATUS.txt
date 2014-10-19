@@ -61,10 +61,20 @@ PATCHES PROPOSED TO BACKPORT:
   http://people.apache.org/~markt/patches/2014-10-17-poodle-tc6-v1.patch
   +1: markt
   -1:
+  -0: kkolinko: I think that JSSESocketFactory.getEnabledProtocols() shall
+       not return DEFAULT_SERVER_PROTOCOLS list in case if there are no
+       matches. This behaviour silently enables default list of protocols,
+       instead of erroring out.
+       This bug did exist before this patch, so I filed
+        https://issues.apache.org/bugzilla/show_bug.cgi?id=57116
+
+       I wish there were some debug logging to see what protocols are being
+       filtered out by "if (protocol.contains("SSL"))".
+
 
 * Mitigate POODLE by disabling SSLv3 by default for APR/native
   http://svn.apache.org/r1632586
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 
