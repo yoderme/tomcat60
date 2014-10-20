@@ -83,6 +83,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Do not increase remaining counter at end of stream in IdentityInputFilter.
+  http://svn.apache.org/r1633132
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
