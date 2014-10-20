@@ -70,11 +70,16 @@ PATCHES PROPOSED TO BACKPORT:
 
        I wish there were some debug logging to see what protocols are being
        filtered out by "if (protocol.contains("SSL"))".
+  -0: schultz; I agree with Konstantin's critique. Small adjustments to the
+        proposal are in order. Additionally, the code for filtering protocols
+        should probably be factored-out into a separte method to ensure
+        the filtering stays consistent between the two methods that currently
+        do it.
 
 
 * Mitigate POODLE by disabling SSLv3 by default for APR/native
   http://svn.apache.org/r1632586
-  +1: markt, kkolinko
+  +1: markt, kkolinko, schultz
   -1:
 
 * Fix timestamps in Tomcat build to use 24-hour format instead of 12-hour
