@@ -58,7 +58,7 @@ PATCHES PROPOSED TO BACKPORT:
   -1:
 
 * Mitigate POODLE by disabling SSLv3 by default for JSSE
-  http://people.apache.org/~markt/patches/2014-10-17-poodle-tc6-v1.patch
+  http://people.apache.org/~markt/patches/2014-10-21-poodle-tc6-v2.patch
   +1: markt
   -1:
   -0: kkolinko: I think that JSSESocketFactory.getEnabledProtocols() shall
@@ -70,12 +70,13 @@ PATCHES PROPOSED TO BACKPORT:
 
        I wish there were some debug logging to see what protocols are being
        filtered out by "if (protocol.contains("SSL"))".
+       markt: Addressed in v2 patch
   -0: schultz; I agree with Konstantin's critique. Small adjustments to the
         proposal are in order. Additionally, the code for filtering protocols
         should probably be factored-out into a separte method to ensure
         the filtering stays consistent between the two methods that currently
         do it.
-
+       markt: Addressed in v2 patch
 
 * Mitigate POODLE by disabling SSLv3 by default for APR/native
   http://svn.apache.org/r1632586
@@ -97,7 +98,6 @@ PATCHES PROPOSED TO BACKPORT:
   Add support for TLSv1.1 and TLSv1.2 to APR connector.
   Back-port r1632606 from Tomcat 7.
   http://people.apache.org/~schultz/patches/53952.tc6.patch
-
   +1: schultz
   -1:
 
