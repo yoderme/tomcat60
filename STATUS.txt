@@ -60,17 +60,24 @@ PATCHES PROPOSED TO BACKPORT:
 * Mitigate POODLE by disabling SSLv3 by default for JSSE
   http://people.apache.org/~markt/patches/2014-10-21-poodle-tc6-v2.patch
   +1: markt, schultz
+  +1: kkolinko (several comments below)
   -1:
-  -0: kkolinko: I think that JSSESocketFactory.getEnabledProtocols() shall
-       not return DEFAULT_SERVER_PROTOCOLS list in case if there are no
-       matches. This behaviour silently enables default list of protocols,
-       instead of erroring out.
-       This bug did exist before this patch, so I filed
-        https://issues.apache.org/bugzilla/show_bug.cgi?id=57116
+   kkolinko:
+     Good.
+     I think this makes BZ 57116 fixed as well.
+     Several notes:
+      1) From BZ 56780 the static{} block in JSSESocketFactory
+       needs try/catch(IllegalArgumentException),
+       like it is already done in Tomcat 7 in r1615951
 
-       I wish there were some debug logging to see what protocols are being
-       filtered out by "if (protocol.contains("SSL"))".
-       markt: Addressed in v2 patch
+      2) In getEnabledProtocols() the
+        "if (requestedProtocols == null) { return DEFAULT_SERVER_PROTOCOLS; }"
+       block can be moved several lines earlier.
+
+      3) From BZ 56780 the DEFAULT_SERVER_PROTOCOLS value might result as
+      null. I am afraid that passing that null to Java APIs will result in
+      some cryptic messages. This question may be addressed later via BZ 56780.
+        https://issues.apache.org/bugzilla/show_bug.cgi?id=56780#c9
 
       schultz: it's not clear from the code what will happen if
                DEFAULT_SERVER_PROTOCOLS remains null. Would it be more clear
