@@ -67,6 +67,10 @@
         Update documentation: the minimum version of Apache Ant required to
         build Tomcat is 1.8.0. (kkolinko)
       </fix>
+      <add>
+        Disable SSLv3 by default for the APR/native HTTPS connector.
+        (markt/schultz)
+      </add>
     </changelog>
   </subsection>
 </section>

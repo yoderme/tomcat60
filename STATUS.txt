@@ -85,11 +85,6 @@ PATCHES PROPOSED TO BACKPORT:
                slightly different "null" behavior in Oracle/OpenJDK versus
                IBM JVMs.
 
-* Mitigate POODLE by disabling SSLv3 by default for APR/native
-  http://svn.apache.org/r1632586
-  +1: markt, kkolinko, schultz
-  -1:
-
 * Fix timestamps in Tomcat build to use 24-hour format instead of 12-hour
   one and use UTC timezone. 
   https://people.apache.org/~kkolinko/patches/2014-10-20_tc6_tstamp.patch
