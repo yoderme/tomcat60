@@ -50,6 +50,10 @@
         <bug>57102</bug>: Fix bug that meant sslEnabledProtocols setting was not
         recognised for the HTTPS NIO connector. (markt)
       </fix>
+      <add>
+        Disable SSLv3 by default for the APR/native HTTPS connector.
+        (markt/schultz)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Other">
@@ -67,10 +71,6 @@
         Update documentation: the minimum version of Apache Ant required to
         build Tomcat is 1.8.0. (kkolinko)
       </fix>
-      <add>
-        Disable SSLv3 by default for the APR/native HTTPS connector.
-        (markt/schultz)
-      </add>
     </changelog>
   </subsection>
 </section>
