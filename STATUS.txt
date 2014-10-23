@@ -99,7 +99,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=53952
   Add support for TLSv1.1 and TLSv1.2 to APR connector.
   Back-port r1632606 from Tomcat 7.
-  http://people.apache.org/~schultz/patches/53952.tc6.patch
+  http://people.apache.org/~schultz/patches/53952.tc6.patch.2
   +1: schultz, kkolinko
   -1:
    kkolinko:
@@ -123,7 +123,6 @@ PATCHES PROPOSED TO BACKPORT:
     There are five protocols now.
 
     4) Changelog part of the patch breaks XML. Tags are not paired.
-
 
 PATCHES/ISSUES THAT ARE STALLED:
 
