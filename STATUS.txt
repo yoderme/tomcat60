@@ -113,6 +113,7 @@ PATCHES PROPOSED TO BACKPORT:
     As such, it needs to wait until TC-Native is released and it needs bump
     in recommended/required TC-Native version in AprLifecycleListener.
     Such bump may be addressed as a separate proposal.
+
     2) Documentation patch is off.
     The "SSLCACertificateFile" and other properties are documented in
     Tomcat 6 in docs/apr.html
@@ -121,6 +122,12 @@ PATCHES PROPOSED TO BACKPORT:
     documentation yet. OK to backport that if you have time. Docs are CTR.
     But I am -1 to documenting it twice in new and old place like the
     proposed patch does.)
+
+    3) In documentation "and any combination of the three protocols"
+
+    There are five protocols now.
+
+    4) Changelog part of the patch breaks XML. Tags are not paired.
 
 
 PATCHES/ISSUES THAT ARE STALLED:
