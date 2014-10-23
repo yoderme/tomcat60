@@ -105,8 +105,23 @@ PATCHES PROPOSED TO BACKPORT:
   Add support for TLSv1.1 and TLSv1.2 to APR connector.
   Back-port r1632606 from Tomcat 7.
   http://people.apache.org/~schultz/patches/53952.tc6.patch
-  +1: schultz
+  +1: schultz, kkolinko
   -1:
+   kkolinko:
+    1) It depends on a newer TC-Native. The "ALL" value of protocol
+    (default) will break if it is run with an older version.
+    As such, it needs to wait until TC-Native is released and it needs bump
+    in recommended/required TC-Native version in AprLifecycleListener.
+    Such bump may be addressed as a separate proposal.
+    2) Documentation patch is off.
+    The "SSLCACertificateFile" and other properties are documented in
+    Tomcat 6 in docs/apr.html
+    (In Tomcat 7 they were moved to config/http.html, config/ajp.html for
+    consistency, but that move have not been ported to Tomcat 6
+    documentation yet. OK to backport that if you have time. Docs are CTR.
+    But I am -1 to documenting it twice in new and old place like the
+    proposed patch does.)
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
