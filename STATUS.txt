@@ -54,7 +54,7 @@ PATCHES PROPOSED TO BACKPORT:
   errors when working on this class.
   It is just some local variables. No change in functionality or APIs.
   https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper_generics.patch
-  +1: kkolinko, markt
+  +1: kkolinko, markt, schultz
   -1:
 
 * Mitigate POODLE by disabling SSLv3 by default for JSSE
@@ -88,12 +88,12 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix timestamps in Tomcat build to use 24-hour format instead of 12-hour
   one and use UTC timezone. 
   https://people.apache.org/~kkolinko/patches/2014-10-20_tc6_tstamp.patch
-  +1: kkolinko
+  +1: kkolinko, schultz
   -1:
 
 * Do not increase remaining counter at end of stream in IdentityInputFilter.
   http://svn.apache.org/r1633132
-  +1: kkolinko
+  +1: kkolinko, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=53952
