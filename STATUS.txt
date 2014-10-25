@@ -48,15 +48,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, markt
   -1:
 
-* Fix generics warnings in Mapper.
-
-  Motivation: Resolve IDE warnings to make it easier to spot more serious
-  errors when working on this class.
-  It is just some local variables. No change in functionality or APIs.
-  https://people.apache.org/~kkolinko/patches/2014-06-23_tc6_Mapper_generics.patch
-  +1: kkolinko, markt, schultz
-  -1:
-
 * Mitigate POODLE by disabling SSLv3 by default for JSSE
   http://people.apache.org/~markt/patches/2014-10-21-poodle-tc6-v2.patch
   +1: markt, schultz
