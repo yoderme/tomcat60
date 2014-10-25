@@ -94,6 +94,15 @@ PATCHES PROPOSED TO BACKPORT:
   +1: schultz, kkolinko
   -1:
 
+* Update to Tomcat Native 1.1.32
+  I do not change versions in AprLifecycleListener. Changing
+  "recommended" version (TCN_RECOMMENDED_PV) is covered by schultz's BZ
+  53952 patch above and I think that there is no pressing need to change
+  the "required" version.
+  https://people.apache.org/~kkolinko/patches/2014-10-25_tc6_native1132.patch
+  +1: kkolinko
+  -1:
+
 PATCHES/ISSUES THAT ARE STALLED:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
