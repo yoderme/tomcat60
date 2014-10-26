@@ -103,6 +103,25 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, schultz
   -1:
 
+* Configure javadoc tool to read sources as ISO-8859-1, suppress timestamp
+  comments and enable charset header.
+
+  Motivation:
+  Timestamp comments: Those comments result in one changed line per each
+  HTML file, which makes the diff between different versions of
+  documentation unnecessary huge. I expect that the effect will be
+  noticeable when publishing documentation for version (next+1). The diff
+  between versions (next) and (next+1) will be smaller and easier to review.
+
+  Charset header: The rest of Tomcat 6 documentation already has <META>
+  header with charset information in generated HTML. This enables it for
+  Javadoc as well.
+
+  https://people.apache.org/~kkolinko/patches/2014-10-26_tc6_javadoc_timestamp.patch
+  +1: kkolinko
+  -1:
+
+
 PATCHES/ISSUES THAT ARE STALLED:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
