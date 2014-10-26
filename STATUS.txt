@@ -100,7 +100,7 @@ PATCHES PROPOSED TO BACKPORT:
   53952 patch above and I think that there is no pressing need to change
   the "required" version.
   https://people.apache.org/~kkolinko/patches/2014-10-25_tc6_native1132.patch
-  +1: kkolinko
+  +1: kkolinko, schultz
   -1:
 
 PATCHES/ISSUES THAT ARE STALLED:
