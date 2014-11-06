@@ -49,13 +49,20 @@ PATCHES PROPOSED TO BACKPORT:
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56780
-  Enable Tomcat to start when usinf a IBM JRE in strict SP800-131a mode
+  Enable Tomcat to start when using a IBM JRE in strict SP800-131a mode
   This back-ports the fix as well as some additional changes to more closely
   align the Tomcat 6 code with the code in Tomcat 7.
   http://people.apache.org/~markt/patches/2014-11-06-bug56780-tc6-v1.patch
   +1: markt
+  +0: kkolinko:
+       1) A problem:
+         Looking up attributes.get("protocol") in JSSESocketFactory
+         constructor won't work. It is a constructor. None attributes have
+         been set yet.
+       2) A trivial glitch:
+         In LocalStrings.properties a "jsse.excludeDefaultProtocol"
+         message is already present with the same text.
   -1:
-
 
 PATCHES/ISSUES THAT ARE STALLED:
 
