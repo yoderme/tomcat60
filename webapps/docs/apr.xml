@@ -248,11 +248,15 @@
       Protocol which may be used for communicating with clients. The default
       value is <code>all</code>, which is equivalent to <code>TLSv1</code>
       with other acceptable values being <code>SSLv2</code>,
-      <code>SSLv3</code>, and <code>TLSv1</code>.
+      <code>SSLv3</code>, <code>TLSv1</code>, <code>TLSv1.1</code><sup>*</sup>,
+      and <code>TLSv1.2</code><sup>*</sup>.
       Starting with version 1.1.21 of the Tomcat native
       library any combination of these protocols concatenated with a
       plus sign is be supported. Note that both protocols <code>SSLv2</code>
       and <code>SSLv3</code> are inherently unsafe.
+      <br />
+      <sup>*<sup> The use of TLSv1.1 and TLSv1.2 require Tomcat native v1.1.32
+      or higher.
     </p>
     </attribute>
     <attribute name="SSLCipherSuite" required="false">

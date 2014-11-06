@@ -371,8 +371,7 @@ file installed with Tomcat.  For JSSE, it should look something like this:</p>
            scheme="https" secure="true" SSLEnabled="true"
            SSLCertificateFile="/usr/local/ssl/server.crt" 
            SSLCertificateKeyFile="/usr/local/ssl/server.pem"
-           clientAuth="optional" SSLProtocol="TLSv1"/&gt;
---&gt;
+           SSLVerifyClient="optional" SSLProtocol="TLSv1+TLSv1.1+TLSv1.2"/&gt;
 </source>
 </p>
 

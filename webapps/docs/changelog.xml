@@ -54,6 +54,10 @@
         Disable SSLv3 by default for the APR/native HTTPS connector.
         (markt/schultz)
       </add>
+      <fix>
+        <bug>53952</bug>: Add support for TLSv1.1 and TLSv1.2 for APR connector.
+        Based upon a patch by Marcel &#352;ebek. (schultz/jfclere)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
