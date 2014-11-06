@@ -232,7 +232,10 @@
       doctitle="Apache Tomcat ${version} API"
       header="&lt;b&gt;Apache Tomcat ${version}&lt;/b&gt;"
       bottom="Copyright &amp;#169; 2000-${year} Apache Software Foundation. All Rights Reserved."
-      additionalparam="-breakiterator"
+      encoding="ISO-8859-1"
+      docencoding="ISO-8859-1"
+      charset="ISO-8859-1"
+      additionalparam="-breakiterator -notimestamp"
       maxmemory="256m" >
     </javadoc>
     <patch-javadoc dir="${tomcat.dist}/webapps/docs/api"

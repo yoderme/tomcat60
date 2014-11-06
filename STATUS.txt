@@ -107,23 +107,6 @@ PATCHES PROPOSED TO BACKPORT:
              allow 'ALL' to include TLSv1.1 and TLSv1.2
   -1:
 
-* Configure javadoc tool to read sources as ISO-8859-1, suppress timestamp
-  comments and enable charset header.
-
-  Motivation:
-  Timestamp comments: It makes diff between javadoc versions smaller. The
-  diff between versions will still change almost every file, because of
-  Tomcat version (6.0.41) in title of the pages, but the change will be a
-  bit smaller.
-
-  Charset header: The rest of Tomcat 6 documentation already has <META>
-  header with charset information in generated HTML. This enables it for
-  Javadoc as well.
-
-  https://people.apache.org/~kkolinko/patches/2014-10-26_tc6_javadoc_timestamp.patch
-  +1: kkolinko, markt, remm
-  -1:
-
 
 PATCHES/ISSUES THAT ARE STALLED:
 
