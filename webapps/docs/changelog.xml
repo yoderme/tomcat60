@@ -92,6 +92,10 @@
         pick up the Windows binaries that are based on OpenSSL 1.0.1j and APR
         1.5.1. (markt)
       </update>
+      <fix>
+        Fix timestamps in Tomcat build to use 24-hour instead of 12-hour format
+        and use UTC timezone. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
 </section>

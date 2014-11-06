@@ -76,12 +76,6 @@ PATCHES PROPOSED TO BACKPORT:
                slightly different "null" behavior in Oracle/OpenJDK versus
                IBM JVMs.
 
-* Fix timestamps in Tomcat build to use 24-hour format instead of 12-hour
-  one and use UTC timezone. 
-  https://people.apache.org/~kkolinko/patches/2014-10-20_tc6_tstamp.patch
-  +1: kkolinko, schultz, markt
-  -1:
-
 
 PATCHES/ISSUES THAT ARE STALLED:
 

@@ -38,7 +38,7 @@
   <property name="project"               value="apache-tomcat" />
   <property name="name"                  value="Apache Tomcat" />
   <tstamp>
-    <format property="year" pattern="yyyy" locale="en"/>
+    <format property="year" pattern="yyyy" locale="en" timezone="UTC"/>
   </tstamp>
   <property name="version.major"         value="6" />
   <property name="version.minor"         value="0" />

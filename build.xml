@@ -99,9 +99,9 @@
 
   <!-- Version info filter set -->
   <tstamp>
-    <format property="year" pattern="yyyy" locale="en"/>
-    <format property="TODAY" pattern="MMM d yyyy" locale="en"/>
-    <format property="TSTAMP" pattern="hh:mm:ss"/>
+    <format property="year" pattern="yyyy" locale="en" timezone="UTC"/>
+    <format property="TODAY" pattern="MMM d yyyy" locale="en" timezone="UTC"/>
+    <format property="TSTAMP" pattern="HH:mm:ss" locale="en" timezone="UTC"/>
   </tstamp>
   <filterset id="version.filters">
     <filter token="YEAR" value="${year}"/>
@@ -109,7 +109,7 @@
     <filter token="VERSION_NUMBER" value="${version.number}"/>
     <filter token="VERSION_MAJOR" value="${version.major}"/>
     <filter token="VERSION_MAJOR_MINOR" value="${version.major.minor}"/>
-    <filter token="VERSION_BUILT" value="${TODAY} ${TSTAMP}"/>
+    <filter token="VERSION_BUILT" value="${TODAY} ${TSTAMP} UTC"/>
     <filter token="JDT_VERSION" value="${jdt.version}"/>
   </filterset>
 
