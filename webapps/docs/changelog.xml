@@ -62,6 +62,15 @@
         Do not increase remaining counter at end of stream in
         IdentityInputFilter. (kkolinko)
       </fix>
+      <fix>
+        Disable SSLv3 by default (along with SSLv2 which was already disabled
+        by default) in light of the recently announced POODLE vulnerability
+        (CVE-2014-3566). (markt)
+      </fix>
+      <fix>
+        <bug>57116</bug>: Do not fallback to default protocol list for HTTPS BIO
+        connector if <code>sslEnabledProtocols</code> has no matches. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">

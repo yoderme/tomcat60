@@ -59,6 +59,7 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.apache.tomcat.util.net.SecureNioChannel.ApplicationBufferHandler;
+import org.apache.tomcat.util.net.jsse.JSSESocketFactory;
 import org.apache.tomcat.util.net.jsse.NioX509KeyManager;
 import org.apache.tomcat.util.res.StringManager;
 
@@ -1139,7 +1140,13 @@ public class NioEndpoint extends AbstractEndpoint {
         }
         engine.setUseClientMode(false);
         if ( ciphersarr.length > 0 ) engine.setEnabledCipherSuites(ciphersarr);
-        if ( sslEnabledProtocolsarr.length > 0 ) engine.setEnabledProtocols(sslEnabledProtocolsarr);
+        if (sslEnabledProtocolsarr.length > 0) {
+            engine.setEnabledProtocols(sslEnabledProtocolsarr);
+        } else {
+            // Filter out the insecure protocols from the defaults
+            engine.setEnabledProtocols(JSSESocketFactory.filterInsecureProcotols(
+                    engine.getEnabledProtocols()));
+        }
 
         return engine;
     }
