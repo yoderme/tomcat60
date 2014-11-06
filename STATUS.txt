@@ -79,12 +79,12 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix timestamps in Tomcat build to use 24-hour format instead of 12-hour
   one and use UTC timezone. 
   https://people.apache.org/~kkolinko/patches/2014-10-20_tc6_tstamp.patch
-  +1: kkolinko, schultz
+  +1: kkolinko, schultz, markt
   -1:
 
 * Do not increase remaining counter at end of stream in IdentityInputFilter.
   http://svn.apache.org/r1633132
-  +1: kkolinko, schultz
+  +1: kkolinko, schultz, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=53952
@@ -92,6 +92,8 @@ PATCHES PROPOSED TO BACKPORT:
   Back-port r1632606 from Tomcat 7.
   http://people.apache.org/~schultz/patches/53952.tc6.patch.2
   +1: schultz, kkolinko
+  +1: markt: 'ALL' excluding TLSv1.1 and TLSv1.2 is a bit odd but I see why you
+  			 did it that way.
   -1:
 
 * Update to Tomcat Native 1.1.32
@@ -101,6 +103,8 @@ PATCHES PROPOSED TO BACKPORT:
   the "required" version.
   https://people.apache.org/~kkolinko/patches/2014-10-25_tc6_native1132.patch
   +1: kkolinko, schultz
+  +1: markt: I do see one reason for increasing the 'required' version. It would
+             allow 'ALL' to include TLSv1.1 and TLSv1.2
   -1:
 
 * Configure javadoc tool to read sources as ISO-8859-1, suppress timestamp
@@ -117,7 +121,7 @@ PATCHES PROPOSED TO BACKPORT:
   Javadoc as well.
 
   https://people.apache.org/~kkolinko/patches/2014-10-26_tc6_javadoc_timestamp.patch
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 
