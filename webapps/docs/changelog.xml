@@ -47,6 +47,10 @@
   <subsection name="Coyote">
     <changelog>
       <fix>
+        <bug>53952</bug>: Add support for TLSv1.1 and TLSv1.2 for APR connector.
+        Based upon a patch by Marcel &#352;ebek. (schultz/jfclere)
+      </fix>
+      <fix>
         <bug>57102</bug>: Fix bug that meant sslEnabledProtocols setting was not
         recognised for the HTTPS NIO connector. (markt)
       </fix>
@@ -55,8 +59,8 @@
         (markt/schultz)
       </add>
       <fix>
-        <bug>53952</bug>: Add support for TLSv1.1 and TLSv1.2 for APR connector.
-        Based upon a patch by Marcel &#352;ebek. (schultz/jfclere)
+        Do not increase remaining counter at end of stream in
+        IdentityInputFilter. (kkolinko)
       </fix>
     </changelog>
   </subsection>
