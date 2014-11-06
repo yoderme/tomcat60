@@ -63,17 +63,11 @@ import javax.net.ssl.X509KeyManager;
 
 import org.apache.tomcat.util.res.StringManager;
 
-/*
-  1. Make the JSSE's jars available, either as an installed
-     extension (copy them into jre/lib/ext) or by adding
-     them to the Tomcat classpath.
-  2. keytool -genkey -alias tomcat -keyalg RSA
-     Use "changeit" as password ( this is the default we use )
- */
-
 /**
- * SSL server socket factory. It _requires_ a valid RSA key and
- * JSSE.
+ * SSL server socket factory. It <b>requires</b> a valid RSA key and
+ * JSSE.<br/>
+ * keytool -genkey -alias tomcat -keyalg RSA</br>
+ * Use "changeit" as password (this is the default we use).
  *
  * @author Harish Prabandham
  * @author Costin Manolache
