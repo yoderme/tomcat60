@@ -53,7 +53,7 @@ PATCHES PROPOSED TO BACKPORT:
   This back-ports the fix as well as some additional changes to more closely
   align the Tomcat 6 code with the code in Tomcat 7.
   http://people.apache.org/~markt/patches/2014-11-06-bug56780-tc6-v2.patch
-  +1: markt
+  +1: markt, remm
   -1:
 
 
