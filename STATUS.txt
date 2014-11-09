@@ -54,7 +54,16 @@ PATCHES PROPOSED TO BACKPORT:
   align the Tomcat 6 code with the code in Tomcat 7.
   http://people.apache.org/~markt/patches/2014-11-06-bug56780-tc6-v2.patch
   +1: markt, remm
-  -1:
+  -1: kkolinko: It does not compile with Java 5.
+
+       First, Java 5 does not allow @Override annotations when implementing
+       method declared by an interface.
+
+       Second, once I remove those overrides, compilation fails at
+       "context.getSupportedSSLParameters().getCipherSuites();" line
+       in JSSESocketFactory.java line 539. The method
+       SSLContext.getSupportedSSLParameters() is @since Java 6.
+       https://docs.oracle.com/javase/6/docs/api/javax/net/ssl/SSLContext.html
 
 
 PATCHES/ISSUES THAT ARE STALLED:
