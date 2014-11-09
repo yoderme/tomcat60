@@ -87,6 +87,10 @@
         Configure the Javadoc tool to read sources as ISO-8859-1, suppress
         timestamp comments and enable charset header. (kkolinko)
       </fix>
+      <fix>
+        Correct typos in configuration samples on SSL Configuration page
+        of Tomcat documentation. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
