@@ -65,6 +65,13 @@ PATCHES PROPOSED TO BACKPORT:
        SSLContext.getSupportedSSLParameters() is @since Java 6.
        https://docs.oracle.com/javase/6/docs/api/javax/net/ssl/SSLContext.html
 
+       I think it can be replaced with "sslProxy.getSupportedCipherSuites()".
+
+  Updated patch:
+  https://people.apache.org/~kkolinko/patches/2014-11-09_tc6_bug56780-v3.patch
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
