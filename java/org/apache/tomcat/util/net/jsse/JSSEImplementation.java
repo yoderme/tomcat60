@@ -47,20 +47,30 @@ public class JSSEImplementation extends SSLImplementation
     }
 
 
+    @Override
     public String getImplementationName(){
       return "JSSE";
     }
-      
+
+    @Override
     public ServerSocketFactory getServerSocketFactory()  {
         ServerSocketFactory ssf = factory.getSocketFactory();
         return ssf;
-    } 
+    }
 
+    @Override
+    public ServerSocketFactory getServerSocketFactory(String sslProtocol)  {
+        ServerSocketFactory ssf = factory.getSocketFactory(sslProtocol);
+        return ssf;
+    }
+
+    @Override
     public SSLSupport getSSLSupport(Socket s) {
         SSLSupport ssls = factory.getSSLSupport(s);
         return ssls;
     }
 
+    @Override
     public SSLSupport getSSLSupport(SSLSession session) {
         SSLSupport ssls = factory.getSSLSupport(session);
         return ssls;

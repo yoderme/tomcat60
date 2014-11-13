@@ -68,7 +68,7 @@ abstract public class SSLImplementation {
 	    if( JSSEImplementationClass.equals(className) ) {
 		return new org.apache.tomcat.util.net.jsse.JSSEImplementation();
 	    }
-	    Class clazz=Class.forName(className);
+	    Class<?> clazz=Class.forName(className);
 	    return (SSLImplementation)clazz.newInstance();
 	} catch (Exception e){
 	    if(logger.isDebugEnabled())
@@ -81,6 +81,7 @@ abstract public class SSLImplementation {
 
     abstract public String getImplementationName();
     abstract public ServerSocketFactory getServerSocketFactory();
+    abstract public ServerSocketFactory getServerSocketFactory(String sslProtocol);
     abstract public SSLSupport getSSLSupport(Socket sock);
     
     /**

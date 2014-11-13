@@ -59,6 +59,10 @@
         Based upon a patch by Marcel &#352;ebek. (schultz/jfclere)
       </fix>
       <fix>
+        <bug>56780</bug>: Enable Tomcat to start when using SSL with an IBM JRE
+        in strict SP800-131a mode. (markt/kkolinko) 
+      </fix>
+      <fix>
         <bug>57102</bug>: Fix bug that meant sslEnabledProtocols setting was not
         recognised for the HTTPS NIO connector. (markt)
       </fix>
@@ -79,6 +83,11 @@
         <bug>57116</bug>: Do not fallback to default protocol list for HTTPS BIO
         connector if <code>sslEnabledProtocols</code> has no matches. (markt)
       </fix>
+      <update>
+        Align calculation of default ciphers and default protocols for JSSE
+        HTTPS connectors with Tomcat 7 which allows for per connector defaults
+        based on the choice of <code>sslProtocol</code>. (markt/kkolinko)
+      </update>
     </changelog>
   </subsection>
   <subsection name="Web applications">

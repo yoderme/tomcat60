@@ -85,6 +85,7 @@ public class Http11Protocol extends AbstractProtocol
     protected Http11ConnectionHandler cHandler = new Http11ConnectionHandler(this);
     protected JIoEndpoint endpoint = new JIoEndpoint();
 
+    @Override
     protected final AbstractEndpoint getEndpoint() {
         return endpoint;
     }
@@ -155,7 +156,8 @@ public class Http11Protocol extends AbstractProtocol
             if (isSSLEnabled()) {
                 sslImplementation =
                     SSLImplementation.getInstance(sslImplementationName);
-                socketFactory = sslImplementation.getServerSocketFactory();
+                socketFactory = sslImplementation.getServerSocketFactory(
+                        (String) getAttribute("sslProtocol"));
                 endpoint.setServerSocketFactory(socketFactory);
             } else if (socketFactoryName != null) {
                 socketFactory = (ServerSocketFactory) Class.forName(socketFactoryName).newInstance();
@@ -556,6 +558,7 @@ public class Http11Protocol extends AbstractProtocol
         protected ConcurrentLinkedQueue<Http11Processor> recycledProcessors =
             new ConcurrentLinkedQueue<Http11Processor>() {
             protected AtomicInteger size = new AtomicInteger(0);
+            @Override
             public boolean offer(Http11Processor processor) {
                 boolean offer = (proto.processorCache == -1) ? true : (size.get() < proto.processorCache);
                 //avoid over growing our cache or add after we have stopped
@@ -570,6 +573,7 @@ public class Http11Protocol extends AbstractProtocol
                 return result;
             }
 
+            @Override
             public Http11Processor poll() {
                 Http11Processor result = super.poll();
                 if ( result != null ) {
@@ -578,6 +582,7 @@ public class Http11Protocol extends AbstractProtocol
                 return result;
             }
 
+            @Override
             public void clear() {
                 Http11Processor next = poll();
                 while ( next != null ) {

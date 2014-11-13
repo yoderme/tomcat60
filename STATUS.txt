@@ -28,13 +28,7 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=56780
-  Enable Tomcat to start when using a IBM JRE in strict SP800-131a mode
-  This back-ports the fix as well as some additional changes to more closely
-  align the Tomcat 6 code with the code in Tomcat 7.
-  https://people.apache.org/~kkolinko/patches/2014-11-09_tc6_bug56780-v3.patch
-  +1: kkolinko, markt, remm
-  -1:
+None
 
 
 PATCHES/ISSUES THAT ARE STALLED:

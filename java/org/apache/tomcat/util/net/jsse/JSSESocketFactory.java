@@ -41,11 +41,11 @@ import java.security.cert.CollectionCertStoreParameters;
 import java.security.cert.PKIXBuilderParameters;
 import java.security.cert.X509CertSelector;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.net.ssl.CertPathTrustManagerParameters;
 import javax.net.ssl.KeyManager;
@@ -79,65 +79,26 @@ import org.apache.tomcat.util.res.StringManager;
 public class JSSESocketFactory
     extends org.apache.tomcat.util.net.ServerSocketFactory {
 
+    private static final org.apache.juli.logging.Log log =
+            org.apache.juli.logging.LogFactory.getLog(JSSESocketFactory.class);
     private static StringManager sm =
         StringManager.getManager("org.apache.tomcat.util.net.jsse.res");
 
-    private static final boolean RFC_5746_SUPPORTED;
-
-    public static final String[] DEFAULT_SERVER_PROTOCOLS;
-
     // defaults
-    static String defaultProtocol = "TLS";
-    static boolean defaultClientAuth = false;
-    static String defaultKeystoreType = "JKS";
+    private static final String defaultProtocol = "TLS";
+    private static final String defaultKeystoreType = "JKS";
     private static final String defaultKeystoreFile
         = System.getProperty("user.home") + "/.keystore";
-    private static final String defaultKeyPass = "changeit";
     private static final int defaultSessionCacheSize = 0;
     private static final int defaultSessionTimeout = 86400;
+    private static final String ALLOW_ALL_SUPPORTED_CIPHERS = "ALL";
+    private static final String defaultKeyPass = "changeit";
 
-    static org.apache.juli.logging.Log log =
-        org.apache.juli.logging.LogFactory.getLog(JSSESocketFactory.class);
-
-    static {
-        boolean result = false;
-        SSLContext context;
-        String[] protocols = null;
-        try {
-            context = SSLContext.getInstance("TLS");
-            context.init(null, null, new SecureRandom());
-            SSLServerSocketFactory ssf = context.getServerSocketFactory();
-            String ciphers[] = ssf.getSupportedCipherSuites();
-            for (String cipher : ciphers) {
-                if ("TLS_EMPTY_RENEGOTIATION_INFO_SCSV".equals(cipher)) {
-                    result = true;
-                    break;
-                }
-            }
-
-            // There is no API to obtain the default server protocols and cipher
-            // suites. Having inspected the OpenJDK code there the same results
-            // can be achieved via the standard API but there is no guarantee
-            // that every JVM implementation determines the defaults the same
-            // way. Therefore the defaults are determined by creating a server
-            // socket and requested the configured values.
-
-            SSLServerSocket socket = (SSLServerSocket) ssf.createServerSocket();
-            // Filter out all the insecure protocols
-            protocols = filterInsecureProcotols(socket.getEnabledProtocols());
-        } catch (NoSuchAlgorithmException e) {
-            // Assume no RFC 5746 support
-        } catch (KeyManagementException e) {
-            // Assume no RFC 5746 support
-        } catch (IOException e) {
-            // Unable to determine default ciphers/protocols so use none
-        }
-        RFC_5746_SUPPORTED = result;
-        DEFAULT_SERVER_PROTOCOLS = protocols;
-    }
+    private final boolean rfc5746Supported;
+    private final String[] defaultServerProtocols;
+    private final String[] defaultServerCipherSuites;
 
     protected boolean initialized;
-    protected String clientAuth = "false";
     protected SSLServerSocketFactory sslProxy = null;
     protected String[] enabledCiphers;
     protected boolean allowUnsafeLegacyRenegotiation = false;
@@ -154,8 +115,80 @@ public class JSSESocketFactory
 
 
     public JSSESocketFactory () {
+        this(null);
     }
 
+    public JSSESocketFactory(String sslProtocol) {
+
+        if (sslProtocol == null) {
+            sslProtocol = defaultProtocol;
+        }
+
+        SSLContext context;
+        try {
+             context = SSLContext.getInstance(sslProtocol);
+             context.init(null,  null,  null);
+        } catch (NoSuchAlgorithmException e) {
+            // This is fatal for the connector so throw an exception to prevent
+            // it from starting
+            throw new IllegalArgumentException(e);
+        } catch (KeyManagementException e) {
+            // This is fatal for the connector so throw an exception to prevent
+            // it from starting
+            throw new IllegalArgumentException(e);
+        }
+
+        // Supported cipher suites aren't accessible directly from the
+        // SSLContext so use the SSL server socket factory
+        SSLServerSocketFactory ssf = context.getServerSocketFactory();
+        String supportedCiphers[] = ssf.getSupportedCipherSuites();
+        boolean found = false;
+        for (String cipher : supportedCiphers) {
+            if ("TLS_EMPTY_RENEGOTIATION_INFO_SCSV".equals(cipher)) {
+                found = true;
+                break;
+            }
+        }
+        rfc5746Supported = found;
+
+        // There is no standard way to determine the default protocols and
+        // cipher suites so create a server socket to see what the defaults are
+        SSLServerSocket socket;
+        try {
+            socket = (SSLServerSocket) ssf.createServerSocket();
+        } catch (IOException e) {
+            // This is very likely to be fatal but there is a slim chance that
+            // the JSSE implementation just doesn't like creating unbound
+            // sockets so allow the code to proceed.
+            defaultServerCipherSuites = new String[0];
+            defaultServerProtocols = new String[0];
+            log.warn(sm.getString("jsse.noDefaultCiphers"));
+            log.warn(sm.getString("jsse.noDefaultProtocols"));
+            return;
+        }
+
+        defaultServerCipherSuites = socket.getEnabledCipherSuites();
+        if (defaultServerCipherSuites.length == 0) {
+            log.warn(sm.getString("jsse.noDefaultCiphers"));
+        }
+
+        // Filter out all the SSL protocols (SSLv2 and SSLv3) from the defaults
+        // since they are no longer considered secure
+        List<String> filteredProtocols = new ArrayList<String>();
+        for (String protocol : socket.getEnabledProtocols()) {
+            if (protocol.contains("SSL")) {
+                log.debug(sm.getString("jsse.excludeDefaultProtocol", protocol));
+                continue;
+            }
+            filteredProtocols.add(protocol);
+        }
+        defaultServerProtocols = filteredProtocols.toArray(new String[filteredProtocols.size()]);
+        if (defaultServerProtocols.length == 0) {
+            log.warn(sm.getString("jsse.noDefaultProtocols"));
+        }
+    }
+
+    @Override
     public ServerSocket createSocket (int port)
         throws IOException
     {
@@ -165,6 +198,7 @@ public class JSSESocketFactory
         return socket;
     }
 
+    @Override
     public ServerSocket createSocket (int port, int backlog)
         throws IOException
     {
@@ -174,6 +208,7 @@ public class JSSESocketFactory
         return socket;
     }
 
+    @Override
     public ServerSocket createSocket (int port, int backlog,
                                       InetAddress ifAddress)
         throws IOException
@@ -185,6 +220,7 @@ public class JSSESocketFactory
         return socket;
     }
 
+    @Override
     public Socket acceptSocket(ServerSocket socket)
         throws IOException
     {
@@ -198,10 +234,11 @@ public class JSSESocketFactory
         return asock;
     }
 
+    @Override
     public void handshake(Socket sock) throws IOException {
         ((SSLSocket)sock).startHandshake();
 
-        if (!allowUnsafeLegacyRenegotiation && !RFC_5746_SUPPORTED) {
+        if (!allowUnsafeLegacyRenegotiation && !rfc5746Supported) {
             // Prevent further handshakes by removing all cipher suites
             ((SSLSocket) sock).setEnabledCipherSuites(new String[0]);
         }
@@ -216,70 +253,41 @@ public class JSSESocketFactory
      * @return Array of SSL cipher suites to be enabled, or null if none of the
      * requested ciphers are supported
      */
-    protected String[] getEnabledCiphers(String requestedCiphers,
+    protected String[] getEnabledCiphers(String requestedCiphersStr,
                                          String[] supportedCiphers) {
 
-        String[] enabledCiphers = null;
-
-        if (requestedCiphers != null) {
-            Vector vec = null;
-            String cipher = requestedCiphers;
-            int index = requestedCiphers.indexOf(',');
-            if (index != -1) {
-                int fromIndex = 0;
-                while (index != -1) {
-                    cipher = requestedCiphers.substring(fromIndex, index).trim();
-                    if (cipher.length() > 0) {
-                        /*
-                         * Check to see if the requested cipher is among the
-                         * supported ciphers, i.e., may be enabled
-                         */
-                        for (int i=0; supportedCiphers != null
-                                     && i<supportedCiphers.length; i++) {
-                            if (supportedCiphers[i].equals(cipher)) {
-                                if (vec == null) {
-                                    vec = new Vector();
-                                }
-                                vec.addElement(cipher);
-                                break;
-                            }
-                        }
-                    }
-                    fromIndex = index+1;
-                    index = requestedCiphers.indexOf(',', fromIndex);
-                } // while
-                cipher = requestedCiphers.substring(fromIndex);
-            }
-
-            if (cipher != null) {
-                cipher = cipher.trim();
-                if (cipher.length() > 0) {
-                    /*
-                     * Check to see if the requested cipher is among the
-                     * supported ciphers, i.e., may be enabled
-                     */
-                    for (int i=0; supportedCiphers != null
-                                 && i<supportedCiphers.length; i++) {
-                        if (supportedCiphers[i].equals(cipher)) {
-                            if (vec == null) {
-                                vec = new Vector();
-                            }
-                            vec.addElement(cipher);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (vec != null) {
-                enabledCiphers = new String[vec.size()];
-                vec.copyInto(enabledCiphers);
-            }
-        } else {
-            enabledCiphers = sslProxy.getDefaultCipherSuites();
+        if ((requestedCiphersStr == null)
+                || (requestedCiphersStr.trim().length() == 0)) {
+            return defaultServerCipherSuites;
         }
 
-        return enabledCiphers;
+        List<String> requestedCiphers = new ArrayList<String>();
+        for (String rc : requestedCiphersStr.split(",")) {
+            final String cipher = rc.trim();
+            if (cipher.length() > 0) {
+                requestedCiphers.add(cipher);
+            }
+        }
+        if (requestedCiphers.isEmpty()) {
+            return defaultServerCipherSuites;
+        }
+        List<String> ciphers = new ArrayList<String>(requestedCiphers);
+        ciphers.retainAll(Arrays.asList(supportedCiphers));
+
+        if (ciphers.isEmpty()) {
+            log.warn(sm.getString("jsse.requested_ciphers_not_supported",
+                    requestedCiphersStr));
+        }
+        if (log.isDebugEnabled()) {
+            log.debug(sm.getString("jsse.enableable_ciphers", ciphers));
+            if (ciphers.size() != requestedCiphers.size()) {
+                List<String> skipped = new ArrayList<String>(requestedCiphers);
+                skipped.removeAll(ciphers);
+                log.debug(sm.getString("jsse.unsupported_ciphers", skipped));
+            }
+        }
+
+        return ciphers.toArray(new String[ciphers.size()]);
     }
 
     /*
@@ -527,8 +535,12 @@ public class JSSESocketFactory
 
             // Determine which cipher suites to enable
             String requestedCiphers = (String)attributes.get("ciphers");
-            enabledCiphers = getEnabledCiphers(requestedCiphers,
-                                               sslProxy.getSupportedCipherSuites());
+            if (ALLOW_ALL_SUPPORTED_CIPHERS.equals(requestedCiphers)) {
+                enabledCiphers = sslProxy.getSupportedCipherSuites();
+            } else {
+                enabledCiphers = getEnabledCiphers(requestedCiphers,
+                        sslProxy.getSupportedCipherSuites());
+            }
 
             allowUnsafeLegacyRenegotiation =
                 "true".equals(attributes.get("allowUnsafeLegacyRenegotiation"));
@@ -714,7 +726,7 @@ public class JSSESocketFactory
      */
     protected void setEnabledProtocols(SSLServerSocket socket, String []protocols){
         if (protocols == null) {
-            socket.setEnabledProtocols(DEFAULT_SERVER_PROTOCOLS);
+            socket.setEnabledProtocols(defaultServerProtocols);
         } else {
             socket.setEnabledProtocols(protocols);
         }
@@ -738,7 +750,7 @@ public class JSSESocketFactory
         }
 
         if (requestedProtocols == null) {
-            return DEFAULT_SERVER_PROTOCOLS;
+            return defaultServerProtocols;
         }
 
         String[] requestedProtocolsArr = requestedProtocols.split(",");
