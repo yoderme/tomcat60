@@ -28,6 +28,15 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
+* Use JSSESocketFactory.filterInsecureProtocols instead of duplicate
+  implementation of the same code.
+  http://people.apache.org/~schultz/patches/coalesce-protocol-filtering.tc6.patch
+  (Not a back-port)
+  Also corrects spelling of filterInsecureProtocols method.
+
++1: schultz
+-1:
+
 None
 
 
