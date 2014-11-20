@@ -43,6 +43,17 @@
 <!-- Section names:
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
+<section name="Tomcat 6.0.44 (markt)">
+  <subsection name="Web applications">
+    <changelog>
+      <fix>
+        Update documentation for CGI servlet. Recommend to copy the servlet
+        declaration into web application instead of enabling it globally.
+        Correct documentation for cgiPathPrefix. (kkolinko)
+      </fix>
+    </changelog>
+  </subsection>
+</section>
 <section name="Tomcat 6.0.43 (markt)">
   <subsection name="Catalina">
     <changelog>
