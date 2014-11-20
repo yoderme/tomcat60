@@ -31,7 +31,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Use JSSESocketFactory.filterInsecureProtocols instead of duplicate
   implementation of the same code.
   http://people.apache.org/~schultz/patches/coalesce-protocol-filtering.tc6.patch
-  (Not a back-port)
+  (Not a back-port. No functional change.)
   Also corrects spelling of filterInsecureProtocols method.
 
 +1: schultz
