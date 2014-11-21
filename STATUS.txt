@@ -34,10 +34,8 @@ PATCHES PROPOSED TO BACKPORT:
   (Not a back-port. No functional change.)
   Also corrects spelling of filterInsecureProtocols method.
 
-+1: schultz
++1: schultz, kkolinko
 -1:
-
-None
 
 
 PATCHES/ISSUES THAT ARE STALLED:
