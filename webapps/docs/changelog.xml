@@ -44,6 +44,13 @@
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
 <section name="Tomcat 6.0.44 (markt)">
+  <subsection name="Catalina">
+    <changelog>
+      <fix>
+        Correct typo in a message. (kkolinko)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Web applications">
     <changelog>
       <fix>
