@@ -61,7 +61,7 @@
     </changelog>
   </subsection>
 </section>
-<section name="Tomcat 6.0.43 (markt)">
+<section name="Tomcat 6.0.43 (markt)" rtext="released 2014-11-22">
   <subsection name="Catalina">
     <changelog>
       <fix>
