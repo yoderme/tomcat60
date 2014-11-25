@@ -34,8 +34,21 @@ PATCHES PROPOSED TO BACKPORT:
   (Not a back-port. No functional change.)
   Also corrects spelling of filterInsecureProtocols method.
 +1: schultz, kkolinko
-+0: markt: Should fix BZ57234 at the same time
++0: markt: Should fix BZ57234 at the same time  kkolinko: Updated patch is proposed below.
 -1:
+
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57234
+  Make SSL protocol filtering to remove insecure protocols case
+  insensitive. Correct spelling of filterInsecureProtocols method.
+  This is
+   - Backport of r1641377
+   - + patch by Christopher Schultz to de-duplicate code and correct
+   spelling of filterInsecureProtocols method
+   - Fix a pair of compiler warnings in JSSESocketFactory.java
+    (fix duplicate ';' and use generics in declaration of a local variable).
+  https://issues.apache.org/bugzilla/attachment.cgi?id=32226
+  +1: kkolinko
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
