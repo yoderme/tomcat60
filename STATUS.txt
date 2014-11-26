@@ -48,6 +48,7 @@ PATCHES PROPOSED TO BACKPORT:
     (fix duplicate ';' and use generics in declaration of a local variable).
   https://issues.apache.org/bugzilla/attachment.cgi?id=32226
   +1: kkolinko
+  +1: schultz, and I withdraw above proposal if this one is accepted
   -1:
 
 
