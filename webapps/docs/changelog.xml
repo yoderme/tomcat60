@@ -58,6 +58,9 @@
         declaration into web application instead of enabling it globally.
         Correct documentation for cgiPathPrefix. (kkolinko)
       </fix>
+      <update>
+        Improve Tomcat Manager documentation. (kkolinko)
+      </update>
     </changelog>
   </subsection>
 </section>

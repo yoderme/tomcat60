@@ -66,7 +66,7 @@ the following functions:</p>
     directory (unless it was deployed from file system).</li>
 </ul>
 
-<p>A default Tomcat installation includes the manager. To add an instance of the
+<p>A default Tomcat installation includes the Manager. To add an instance of the
 Manager web application <code>Context</code> to a new host install the
 <code>manager.xml</code> context configuration file in the
 <code>$CATALINA_BASE/conf/[enginename]/[hostname]</code> folder. Here is an
@@ -124,14 +124,14 @@ disabled by default.</p>
 <p>To enable access to the Manager web application, you must either create
 a new username/password combination and associate one of the manager roles with
 it, or add a manager role to some existing username/password combination. There
-are four roles defined by the manager application:</p>
+are four roles defined by the Manager application:</p>
 <ul>
 <li><em>manager-gui</em> - Allows access to the html interface</li>
 <li><em>manager-script</em> - Allows access to the plain text interface</li>
 <li><em>manager-jmx</em> - Allows access to the JMX proxy interface</li>
 <li><em>manager-status</em> - Allows access to the read-only status pages</li>
 </ul>
-<p>The manager application is configured to use the CSRF prevention filter. For
+<p>The Manager application is configured to use the CSRF prevention filter. For
 this filter to be effective, any user assigned the <code>manager-gui</code> role
 must not be assigned the <code>manager-script</code> nor the
 <code>manager-jmx</code> roles.</p>
@@ -172,7 +172,7 @@ BASIC authentication.  The username and password you enter do not matter,
 as long as they identify a valid user in the users database who possesses
 the appropriate role.</p>
 
-<p>In addition to the password restrictions the manager web application
+<p>In addition to the password restrictions the Manager web application
 could be restricted by the remote IP address or host by adding a
 <code>RemoteAddrValve</code> or <code>RemoteHostValve</code>.  Here is
 an example of restricting access to the localhost by IP address:</p>
@@ -325,7 +325,7 @@ This command is the logical opposite of the <code>/undeploy</code> command.</p>
 
 <p>This can be used to deploy a previous version of a web application, which
 has been deployed using the <code>tag</code> attribute. Note that the work
-directory for the manager webapp will contain the previously deployed WARs;
+directory for the Manager webapp will contain the previously deployed WARs;
 removing it would make the deployment fail.</p>
 <source>
 http://localhost:8080/manager/deploy?path=/footoo&amp;tag=footag
@@ -948,7 +948,7 @@ The same information is available for both of them :
         appropriate.</p></li>
         <li><p><em>"Keep-Alive"</em> : The thread keeps the connection open to
         the client in case the client sends another request. If another request
-        is recieved, the next stage will br "Parse and Prepare Requst". If no
+        is received, the next stage will be "Parse and Prepare Request". If no
         request is received before the keep alive times out, the connection will
         be closed and the next stage will be "Ready".</p></li>
         <li><p><em>"Ready"</em> : The thread is at rest and ready to be
