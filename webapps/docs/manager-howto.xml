@@ -87,7 +87,7 @@ example:</p>
 <ul>
 <li>As an application with a user interface you use in your browser.
 Here is an example URL where you can replace <code>localhost</code> with
-your website host name:  <code>http://localhost/manager/html/</code> .</li>
+your website host name:  <code>http://localhost:8080/manager/html</code> .</li>
 <li>A minimal version using HTTP requests only which is suitable for use
 by scripts setup by system administrators.  Commands are given as part of the
 request URI, and responses are in the form of simple text that can be easily
@@ -115,28 +115,65 @@ With Ant</a> for more information.</li>
 anyone on the Internet to execute the Manager application on your server.
 Therefore, the Manager application is shipped with the requirement that anyone
 who attempts to use it must authenticate themselves, using a username and
-password that have the appropriate role associated with them.
+password that have one of <strong>manager-**</strong> roles associated with
+them (the role name depends on what functionality is required).
 Further, there is no username in the default users file
-(<code>$CATALINA_BASE/conf/tomcat-users.xml</code>) that is assigned an
-appropriate role.  Therefore, access to the Manager application is completely
-disabled by default.</p>
+(<code>$CATALINA_BASE/conf/tomcat-users.xml</code>) that is assigned to those
+roles.  Therefore, access to the Manager application is completely disabled
+by default.</p>
+
+<p>You can find the role names in the <code>web.xml</code> file of the Manager
+web application. The available roles are:</p>
+
+<ul>
+  <li><strong>manager-gui</strong> &#8212; Access to the HTML interface.</li>
+  <li><strong>manager-status</strong> &#8212; Access to the "Server Status"
+    page only.</li>
+  <li><strong>manager-script</strong> &#8212; Access to the tools-friendly
+    plain text interface that is described in this document,
+    and to the "Server Status" page.</li>
+  <li><strong>manager-jmx</strong> &#8212; Access to JMX proxy interface
+    and to the "Server Status" page.</li>
+  <li><strong>manager</strong> (deprecated) &#8212; Combines the above four
+    roles, allows access everywhere where one of the above roles is allowed.
+    Do not use it. Use one of the above specific <strong>manager-**</strong>
+    roles or a combination of them.</li>
+</ul>
+
+<p>The HTML interface is protected against CSRF (Cross-Site Request Forgery)
+attacks, but the text and JMX interfaces cannot be protected. It means that
+users who are allowed access to the text and JMX interfaces have to be cautious
+when accessing the Manager application with a web browser.
+To maintain the CSRF protection:</p>
+
+<ul>
+  <li>If you use web browser to access the Manager application using
+      a user that has either <strong>manager-script</strong> or
+      <strong>manager-jmx</strong> or <strong>manager</strong> role,
+      you MUST close all windows
+      of the browser afterwards to terminate the session.
+      If you do not close the browser and visit other sites, you may become
+      victim of a CSRF attack.</li>
+  <li>It is recommended to never grant
+      the <strong>manager-script</strong> or <strong>manager-jmx</strong>
+      roles to users that have the <strong>manager-gui</strong> role.
+      Do not use the <strong>manager</strong> role.</li>
+</ul>
+
+<p><strong>Note</strong> that JMX proxy interface is effectively low-level root-like
+administrative interface of Tomcat. One can do a lot, if he knows
+what commands to call. You should be cautious when enabling the
+<strong>manager-jmx</strong> role.</p>
 
 <p>To enable access to the Manager web application, you must either create
-a new username/password combination and associate one of the manager roles with
-it, or add a manager role to some existing username/password combination. There
-are four roles defined by the Manager application:</p>
-<ul>
-<li><em>manager-gui</em> - Allows access to the html interface</li>
-<li><em>manager-script</em> - Allows access to the plain text interface</li>
-<li><em>manager-jmx</em> - Allows access to the JMX proxy interface</li>
-<li><em>manager-status</em> - Allows access to the read-only status pages</li>
-</ul>
-<p>The Manager application is configured to use the CSRF prevention filter. For
-this filter to be effective, any user assigned the <code>manager-gui</code> role
-must not be assigned the <code>manager-script</code> nor the
-<code>manager-jmx</code> roles.</p>
-
-<p>Exactly where roles are associated to users depends on which
+a new username/password combination and associate one of the
+<strong>manager-**</strong> roles with it, or add a
+<strong>manager-**</strong> role
+to some existing username/password combination.
+As the majority of this document describes the commands of plain textual
+interface, let the role name for further example to be
+<strong>manager-script</strong>.
+Exactly how the usernames/passwords are configured depends on which
 <a href="config/realm.html">Realm implementation</a> you are using:</p>
 <ul>
 <li><em>UserDatabaseRealm</em> plus <em>MemoryUserDatabase</em>, or <em>MemoryRealm</em>
@@ -149,11 +186,11 @@ must not be assigned the <code>manager-script</code> nor the
     <code>&lt;user&gt;</code> for each individual user, which might
     look something like this:
 <source>
-&lt;user name="craigmcc" password="secret" roles="standard,manager-gui" /&gt;
+&lt;user name="craigmcc" password="secret" roles="standard,manager-script" /&gt;
 </source>
     which defines the username and password used by this individual to
     log on, and the role names he or she is associated with.  You can
-    add a role, e.g. <strong>manager-gui</strong>, to the comma-delimited
+    add a role, e.g. <strong>manager-script</strong>, to the comma-delimited
     <code>roles</code> attribute for one or more existing users, and/or
     create new users with that assigned role.</li>
 <li><em>DataSourceRealm</em> or <em>JDBCRealm</em>
@@ -187,6 +224,28 @@ an example of restricting access to the localhost by IP address:</p>
 </pre>
 </section>
 
+<section name="HTML User-friendly Interface">
+
+<p>The user-friendly HTML interface of Manager web application is located at</p>
+
+<source>http://{host}:{port}/manager/html</source>
+
+<p>As has already been mentioned above, you need <strong>manager-gui</strong>
+role to be allowed to access it. There is a separate document that provides
+help on this interface. See:</p>
+
+<ul>
+  <li><a href="html-manager-howto.html">HTML Manager documentation</a></li>
+</ul>
+
+<p>The HTML interface is protected against CSRF (Cross-Site Request Forgery)
+attacks. Each access to the HTML pages generates a random token, which is
+stored in your session and is included in all links on the page. If your next
+action does not have correct value of the token, the action will be denied.
+If the token has expired you can start again from the main page or
+<em>List Applications</em> page of Manager.</p>
+
+</section>
 
 <section name="Supported Manager Commands">
 
