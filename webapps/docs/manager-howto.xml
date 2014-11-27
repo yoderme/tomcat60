@@ -137,11 +137,13 @@ must not be assigned the <code>manager-script</code> nor the
 <code>manager-jmx</code> roles.</p>
 
 <p>Exactly where roles are associated to users depends on which
-<code>Realm</code> implementation you are using:</p>
+<a href="config/realm.html">Realm implementation</a> you are using:</p>
 <ul>
-<li><em>MemoryRealm</em> - If you have not customized your
-    <code>$CATALINA_BASE/conf/server.xml</code> to select a different one,
-    Tomcat 6 defaults to an XML-format file stored at
+<li><em>UserDatabaseRealm</em> plus <em>MemoryUserDatabase</em>, or <em>MemoryRealm</em>
+    &#8212; The <em>UserDatabaseRealm</em> and <em>MemoryUserDatabase</em> are
+    configured in the default <code>$CATALINA_BASE/conf/server.xml</code>.
+    Both <em>MemoryUserDatabase</em> and <em>MemoryRealm</em> read an
+    XML-format file by default stored at
     <code>$CATALINA_BASE/conf/tomcat-users.xml</code>, which can be
     edited with any text editor.  This file contains an XML
     <code>&lt;user&gt;</code> for each individual user, which might
@@ -154,12 +156,13 @@ must not be assigned the <code>manager-script</code> nor the
     add a role, e.g. <strong>manager-gui</strong>, to the comma-delimited
     <code>roles</code> attribute for one or more existing users, and/or
     create new users with that assigned role.</li>
-<li><em>JDBCRealm</em> - Your user and role information is stored in
+<li><em>DataSourceRealm</em> or <em>JDBCRealm</em>
+    &#8212; Your user and role information is stored in
     a database accessed via JDBC.  Add the required role(s) to one or more
     existing users, and/or create one or more new users with the required
     role(s) assigned, following the standard procedures for your
     environment.</li>
-<li><em>JNDIRealm</em> - Your user and role information is stored in
+<li><em>JNDIRealm</em> &#8212; Your user and role information is stored in
     a directory server accessed via LDAP.  Add the required role(s) to one or
     more existing users, and/or create one or more new users with the required
     role(s) assigned, following the standard procedures for your
