@@ -51,6 +51,50 @@ PATCHES PROPOSED TO BACKPORT:
   +1: schultz, and I withdraw above proposal if this one is accepted
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=54143
+  1. Add display of memory pools usage (including PermGen) to the Status page
+  of the Manager web application.
+  
+  2. Fix several issues with <code>status.xsd</code> schema in Manager web
+  application, testing it against actual output of StatusTransformer
+  class. Add the new <memorypool/> element to the schema.
+
+  To test the schema, one can save output of /manager/status?XML=true command and
+  add the following attributes to the root <status> element:
+
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="status.xsd"
+
+  This fixes the following schema issues:
+  1) Remove minSpareThreads, maxSpareThreads attributes from schema and XSLT.
+
+  StatusTransformer does not generate them on threadInfo element.
+
+  2) Correct cardinality of <worker/> and <connector/> elements.
+
+  There are 0..inf workers, 1..inf connectors.
+
+  (In theory there are 0..inf connectors, but if one can access the manager
+  app then at least one connector is running)
+
+  3) Correct misspelled attribute name, recieved->received.
+
+  There are several code paths in StatusTransformer and one generated
+  misspelled name, while others used the correct one. Fixed the java code
+  and schema.
+
+  4) Add the new <memorypool/> element to the schema.
+
+  Backport of r1409014, r1453106, r1453119, r1348992 from tomcat/tc7.0.x/trunk.
+
+  Justification:
+    To be able to monitor PermGen. The necessary APIs (MemoryPoolMXBean)
+    are available since Java 5.
+
+  https://issues.apache.org/bugzilla/attachment.cgi?id=32252&action=edit
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
