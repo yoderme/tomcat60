@@ -47,7 +47,7 @@ PATCHES PROPOSED TO BACKPORT:
    - Fix a pair of compiler warnings in JSSESocketFactory.java
     (fix duplicate ';' and use generics in declaration of a local variable).
   https://issues.apache.org/bugzilla/attachment.cgi?id=32226
-  +1: kkolinko
+  +1: kkolinko, remm
   +1: schultz, and I withdraw above proposal if this one is accepted
   -1:
 
@@ -92,7 +92,7 @@ PATCHES PROPOSED TO BACKPORT:
     are available since Java 5.
 
   https://issues.apache.org/bugzilla/attachment.cgi?id=32252&action=edit
-  +1: kkolinko
+  +1: kkolinko, remm
   -1:
 
 
@@ -107,7 +107,7 @@ PATCHES/ISSUES THAT ARE STALLED:
   2) http://svn.apache.org/r1608653
   3) http://svn.apache.org/r1608833
   4) TestMapper changes from http://svn.apache.org/r1608831
-  +1: kkolinko
+  +1: kkolinko, remm
   -1:
    kkolinko: Good for occasional review, but as backporting r1608833 won't
    be trivial I'd have to update the patch.
