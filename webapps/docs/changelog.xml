@@ -80,6 +80,11 @@
         application, testing it against actual output of StatusTransformer
         class. (kkolinko)
       </fix>
+      <update>
+        Align algorithm that generates anchor names in Tomcat documentation
+        with Tomcat 7/8/9. No visible changes, but may help with future
+        updates to the documentation. (kkolinko)
+      </update>
     </changelog>
   </subsection>
 </section>
