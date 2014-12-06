@@ -1144,7 +1144,7 @@ public class NioEndpoint extends AbstractEndpoint {
             engine.setEnabledProtocols(sslEnabledProtocolsarr);
         } else {
             // Filter out the insecure protocols from the defaults
-            engine.setEnabledProtocols(JSSESocketFactory.filterInsecureProcotols(
+            engine.setEnabledProtocols(JSSESocketFactory.filterInsecureProtocols(
                     engine.getEnabledProtocols()));
         }
 

@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.net.ssl.CertPathTrustManagerParameters;
@@ -174,15 +175,8 @@ public class JSSESocketFactory
 
         // Filter out all the SSL protocols (SSLv2 and SSLv3) from the defaults
         // since they are no longer considered secure
-        List<String> filteredProtocols = new ArrayList<String>();
-        for (String protocol : socket.getEnabledProtocols()) {
-            if (protocol.contains("SSL")) {
-                log.debug(sm.getString("jsse.excludeDefaultProtocol", protocol));
-                continue;
-            }
-            filteredProtocols.add(protocol);
-        }
-        defaultServerProtocols = filteredProtocols.toArray(new String[filteredProtocols.size()]);
+        defaultServerProtocols = filterInsecureProtocols(socket.getEnabledProtocols());
+
         if (defaultServerProtocols.length == 0) {
             log.warn(sm.getString("jsse.noDefaultProtocols"));
         }
@@ -482,7 +476,7 @@ public class JSSESocketFactory
             // Certificate encoding algorithm (e.g., SunX509)
             String algorithm = (String) attributes.get("algorithm");
             if (algorithm == null) {
-                algorithm = KeyManagerFactory.getDefaultAlgorithm();;
+                algorithm = KeyManagerFactory.getDefaultAlgorithm();
             }
 
             String keystoreType = (String) attributes.get("keystoreType");
@@ -663,7 +657,7 @@ public class JSSESocketFactory
         if("PKIX".equalsIgnoreCase(algorithm)) {
             PKIXBuilderParameters xparams = new PKIXBuilderParameters(trustStore,
                                                                      new X509CertSelector());
-            Collection crls = getCRLs(crlf);
+            Collection<? extends CRL> crls = getCRLs(crlf);
             CertStoreParameters csp = new CollectionCertStoreParameters(crls);
             CertStore store = CertStore.getInstance("Collection", csp);
             xparams.addCertStore(store);
@@ -856,14 +850,14 @@ public class JSSESocketFactory
     }
 
 
-    public static String[] filterInsecureProcotols(String[] protocols) {
+    public static String[] filterInsecureProtocols(String[] protocols) {
         if (protocols == null) {
             return null;
         }
 
         List<String> result = new ArrayList<String>(protocols.length);
         for (String protocol : protocols) {
-            if (protocol == null || protocol.contains("SSL")) {
+            if (protocol == null || protocol.toUpperCase(Locale.ENGLISH).contains("SSL")) {
                 log.debug(sm.getString("jsse.excludeDefaultProtocol", protocol));
             } else {
                 result.add(protocol);
