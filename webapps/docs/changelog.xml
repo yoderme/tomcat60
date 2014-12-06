@@ -71,6 +71,15 @@
         Improve Tomcat Manager documentation. Rearrange, add section on
         HTML GUI, document Server Status page. (kkolinko)
       </update>
+      <add>
+        <bug>54143</bug>: Add display of the memory pools usage (including
+        PermGen) to the Status page of the Manager web application. (kkolinko)
+      </add>
+      <fix>
+        Fix several issues with <code>status.xsd</code> schema in Manager web
+        application, testing it against actual output of StatusTransformer
+        class. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
 </section>
