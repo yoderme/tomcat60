@@ -91,8 +91,8 @@ PATCHES PROPOSED TO BACKPORT:
     To be able to monitor PermGen. The necessary APIs (MemoryPoolMXBean)
     are available since Java 5.
 
-  https://issues.apache.org/bugzilla/attachment.cgi?id=32252&action=edit
-  +1: kkolinko, remm
+  https://issues.apache.org/bugzilla/attachment.cgi?id=32252
+  +1: kkolinko, remm, rjung
   -1:
 
 * Add addConnectorPort() to RemoteAddrValve and RemoteHostValve.
