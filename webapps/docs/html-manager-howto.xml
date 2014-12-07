@@ -319,7 +319,7 @@ This command is the logical opposite of the <em>Undeploy</em> command.</p>
 
 <p>There are a number of different ways the deploy command can be used.</p>
 
-<h3>Deploy a Directory or WAR by URL</h3>
+<subsection name="Deploy a Directory or WAR by URL">
 
 <p>Install a web application directory or ".war" file located on the Tomcat
 server. If no <i>Context Path</i> is specified, the directory name or the
@@ -348,8 +348,9 @@ archive file without the ".war" extension.</p>
 WAR or Directory URL: jar:file:/path/to/bar.war!/
 </source>
 
+</subsection>
 
-<h3>Deploy a Directory or War from the Host appBase</h3>
+<subsection name="Deploy a Directory or War from the Host appBase">
 
 <p>Install a web application directory or ".war" file located in your Host
 appBase directory. If no <i>Context Path</i> is specified the directory name
@@ -373,8 +374,9 @@ Context Path: /bartoo
 WAR or Directory URL: bar.war
 </source>
 
+</subsection>
 
-<h3>Deploy using a Context configuration ".xml" file</h3>
+<subsection name="Deploy using a Context configuration &quot;.xml&quot; file">
 
 <p>If the Host deployXML flag is set to true, you can install a web
 application using a Context configuration ".xml" file and an optional
@@ -416,7 +418,7 @@ XML Configuration file URL: file:/path/to/context.xml
 WAR or Directory URL: jar:file:/path/to/bar.war!/
 </source>
 
-
+</subsection>
 </subsection>
 
 <subsection name="Upload a WAR file to install">
