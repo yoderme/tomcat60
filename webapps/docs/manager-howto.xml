@@ -1202,14 +1202,15 @@ file might look something like this:</p>
   &lt;property name="password" value="mypassword"/&gt;
 
   &lt;!-- Configure the custom Ant tasks for the Manager application --&gt;
-  &lt;taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"/&gt;
   &lt;taskdef name="list"      classname="org.apache.catalina.ant.ListTask"/&gt;
-  &lt;taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask"/&gt;
-  &lt;taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask"/&gt;
-  &lt;taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask"/&gt;
+  &lt;taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"/&gt;
   &lt;taskdef name="start"     classname="org.apache.catalina.ant.StartTask"/&gt;
+  &lt;taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask"/&gt;
   &lt;taskdef name="stop"      classname="org.apache.catalina.ant.StopTask"/&gt;
   &lt;taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"/&gt;
+  &lt;taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask"/&gt;
+  &lt;taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask"/&gt;
+  &lt;typedef name="sessions"  classname="org.apache.catalina.ant.SessionsTask"/&gt;
 
   &lt;!-- Executable Targets --&gt;
   &lt;target name="compile" description="Compile web application"&gt;
