@@ -32,12 +32,12 @@ PATCHES PROPOSED TO BACKPORT:
   Partial backports of r1642564,1642606 (trunk) resp.  r1643513,1643539 (tc8)
   resp. r1643515,1643540 (tc7).
   http://people.apache.org/~rjung/patches/RemoteXXXValve-addConnectorPort.patch
-  +1: rjung, kkolinko, markt
+  +1: rjung, kkolinko, markt, remm
   -1:
 
 * Fix potential issue when running EL under a security manager
   http://people.apache.org/~markt/patches/2014-12-09-el-security-manager-tc6-v1.patch
-  +1: markt, kkolinko
+  +1: markt, kkolinko, remm
   -1:
 
 
