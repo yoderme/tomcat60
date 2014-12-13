@@ -49,6 +49,13 @@
       <fix>
         Correct typo in a message. (kkolinko)
       </fix>
+      <add>
+        Allow to configure RemoteAddrValve and RemoteHostValve to
+        adopt behavior depending on the connector port. Implemented
+        by optionally adding the connector port to the string compared
+        with the patterns <code>allow</code> and <code>deny</code>. Configured
+        using <code>addConnectorPort</code> attribute on valve. (rjung)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Coyote">

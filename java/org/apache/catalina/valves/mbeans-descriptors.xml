@@ -278,10 +278,15 @@
   </mbean>
 
   <mbean name="RemoteAddrValve"
-         description="Concrete implementation of RequestFilterValve that  filters based on the string representation of the remote client's IP address"
+         description="Concrete implementation of RequestFilterValve that filters based on the string representation of the remote client's IP address"
          domain="Catalina"
          group="Valve"
          type="org.apache.catalina.valves.RemoteAddrValve">
+
+    <attribute name="addConnectorPort"
+               description="Append the server connector port to the client IP separated by a semicolon"
+               is="true"
+               type="boolean"/>
 
     <attribute name="allow"
                description="The comma-delimited set of allow expressions"
@@ -297,12 +302,12 @@
                description="Object name of the container"
                type="javax.management.ObjectName"/>
 
-    <attribute   name="className"
+    <attribute name="className"
                description="Fully qualified class name of the managed object"
                type="java.lang.String"
                writeable="false"/>
 
-    <attribute   name="deny"
+    <attribute name="deny"
                description="The comma-delimited set of deny expressions"
                type="java.lang.String"/>
 
@@ -334,7 +339,12 @@
          group="Valve"
          type="org.apache.catalina.valves.RemoteHostValve">
 
-    <attribute   name="allow"
+    <attribute name="addConnectorPort"
+               description="Append the server connector port to the client IP separated by a semicolon"
+               is="true"
+               type="boolean"/>
+
+    <attribute name="allow"
                description="The comma-delimited set of allow expressions"
                type="java.lang.String"/>
 
@@ -348,12 +358,12 @@
                description="Object name of the container"
                type="javax.management.ObjectName"/>
 
-    <attribute   name="className"
+    <attribute name="className"
                description="Fully qualified class name of the managed object"
                type="java.lang.String"
                writeable="false"/>
 
-    <attribute   name="deny"
+    <attribute name="deny"
                description="The comma-delimited set of deny expressions"
                type="java.lang.String"/>
 
