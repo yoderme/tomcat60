@@ -28,10 +28,7 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix potential issue when running EL under a security manager
-  http://people.apache.org/~markt/patches/2014-12-09-el-security-manager-tc6-v1.patch
-  +1: markt, kkolinko, remm
-  -1:
+None
 
 
 PATCHES/ISSUES THAT ARE STALLED:
