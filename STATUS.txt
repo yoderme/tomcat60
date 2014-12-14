@@ -28,7 +28,11 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-None
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57344
+  Provide sha1 checksum files for Tomcat downloads.
+  https://issues.apache.org/bugzilla/attachment.cgi?id=32287
+  +1: kkolinko
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
