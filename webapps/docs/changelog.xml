@@ -101,6 +101,10 @@
         with Tomcat 7/8/9. No visible changes, but may help with future
         updates to the documentation. (kkolinko)
       </update>
+      <fix>
+        <bug>57503</bug>: Make clear that the JULI integration for log4j only
+        works with log4j 1.2.x. (markt)
+      </fix>
     </changelog>
   </subsection>
 </section>
