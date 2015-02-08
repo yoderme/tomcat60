@@ -45,7 +45,13 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
-  
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57544
+  Avoid potential infinite loop. Chances are this is only triggered by code
+  (WebSocket, non-blocking, async) that isn't in 6.0.x but better to clean it up
+  anyway.
+  http://people.apache.org/~markt/patches/2015-02-08-bug57544-tc6-v1.patch
+
+
 PATCHES/ISSUES THAT ARE STALLED:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
