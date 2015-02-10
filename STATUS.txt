@@ -53,6 +53,15 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
+* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57558
+  Add missing JARs in Ant task definition. Expand the pattern in
+  catalina-tasks.xml to incude all jars in ${catalina.home}/lib.
+  This adds catalina.jar required by the validate task, as well as optional
+  i18n jars.
+  http://svn.apache.org/r1658815
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
