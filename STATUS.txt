@@ -62,6 +62,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Simplify code in ProtectedFunctionMapper class of Jasper runtime.
+  https://people.apache.org/~kkolinko/patches/2015-02-12_tc6_ProtectedFunctionMapper.patch
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
