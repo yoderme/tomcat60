@@ -45,6 +45,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
+  Additional change from r1645644 is needed:
+  Otherwise it logs a SEVERE message at startup
+  http://svn.apache.org/viewvc/tomcat/tc7.0.x/trunk/java/org/apache/jasper/security/SecurityClassLoad.java?r1=1645644&r2=1645643&pathrev=1645644
+  +1: kkolinko
+  -1:
+
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57544
   Avoid potential infinite loop. Chances are this is only triggered by code
   (WebSocket, non-blocking, async) that isn't in 6.0.x but better to clean it up
