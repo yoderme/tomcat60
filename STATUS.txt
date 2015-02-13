@@ -31,7 +31,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57344
   Provide sha1 checksum files for Tomcat downloads.
   https://issues.apache.org/bugzilla/attachment.cgi?id=32287
-  +1: kkolinko, remm
+  +1: kkolinko, remm, markt
   -1:
 
 * Add support for maxSwallowSize to Tomcat 6
@@ -48,7 +48,7 @@ PATCHES PROPOSED TO BACKPORT:
   Additional change from r1645644 is needed:
   Otherwise it logs a SEVERE message at startup
   http://svn.apache.org/viewvc/tomcat/tc7.0.x/trunk/java/org/apache/jasper/security/SecurityClassLoad.java?r1=1645644&r2=1645643&pathrev=1645644
-  +1: kkolinko, remm
+  +1: kkolinko, remm, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57544
@@ -61,16 +61,16 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57558
   Add missing JARs in Ant task definition. Expand the pattern in
-  catalina-tasks.xml to incude all jars in ${catalina.home}/lib.
+  catalina-tasks.xml to include all jars in ${catalina.home}/lib.
   This adds catalina.jar required by the validate task, as well as optional
   i18n jars.
   http://svn.apache.org/r1658815
-  +1: kkolinko, remm
+  +1: kkolinko, remm, markt
   -1:
 
 * Simplify code in ProtectedFunctionMapper class of Jasper runtime.
   https://people.apache.org/~kkolinko/patches/2015-02-12_tc6_ProtectedFunctionMapper.patch
-  +1: kkolinko, remm
+  +1: kkolinko, remm, markt
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57581
@@ -78,7 +78,7 @@ PATCHES PROPOSED TO BACKPORT:
   allow values above 2Gb. (RequestInfo.getRequestBytesReceived() already
   exposes it as long to JMX.)
   http://svn.apache.org/r1659523
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 
