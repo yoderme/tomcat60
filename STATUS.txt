@@ -49,7 +49,7 @@ PATCHES PROPOSED TO BACKPORT:
   -1:
   Additional patch:
   http://svn.apache.org/r1659564
-  +1: markt
+  +1: markt, remm
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57581
@@ -57,7 +57,7 @@ PATCHES PROPOSED TO BACKPORT:
   allow values above 2Gb. (RequestInfo.getRequestBytesReceived() already
   exposes it as long to JMX.)
   http://svn.apache.org/r1659523
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 
