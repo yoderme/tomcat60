@@ -70,6 +70,10 @@
         that many bytes first before closing the connection to give the client a
         chance to read the reponse. (markt)
       </fix>
+      <fix>
+        <bug>57544</bug>: Fix a potential infinite loop when preparing a kept
+        alive HTTP connection for the next request. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">

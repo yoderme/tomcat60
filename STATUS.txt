@@ -34,14 +34,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, remm, markt
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57544
-  Avoid potential infinite loop. Chances are this is only triggered by code
-  (WebSocket, non-blocking, async) that isn't in 6.0.x but better to clean it up
-  anyway.
-  http://people.apache.org/~markt/patches/2015-02-08-bug57544-tc6-v1.patch
-  +1: markt, kkolinko, remm
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57558
   Add missing JARs in Ant task definition. Expand the pattern in
   catalina-tasks.xml to include all jars in ${catalina.home}/lib.
