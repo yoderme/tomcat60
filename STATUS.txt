@@ -47,6 +47,10 @@ PATCHES PROPOSED TO BACKPORT:
   https://people.apache.org/~kkolinko/patches/2015-02-12_tc6_ProtectedFunctionMapper.patch
   +1: kkolinko, remm, markt
   -1:
+  Additional patch:
+  http://svn.apache.org/r1659564
+  +1: markt
+  -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57581
   Change statistics byte counter in coyote Request object to be long to
