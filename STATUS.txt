@@ -31,7 +31,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57344
   Provide sha1 checksum files for Tomcat downloads.
   https://issues.apache.org/bugzilla/attachment.cgi?id=32287
-  +1: kkolinko, remm, markt
+  +1: kkolinko, remm, markt, schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57558
@@ -40,16 +40,17 @@ PATCHES PROPOSED TO BACKPORT:
   This adds catalina.jar required by the validate task, as well as optional
   i18n jars.
   http://svn.apache.org/r1658815
-  +1: kkolinko, remm, markt
+  +1: kkolinko, remm, markt, schultz
   -1:
 
 * Simplify code in ProtectedFunctionMapper class of Jasper runtime.
   https://people.apache.org/~kkolinko/patches/2015-02-12_tc6_ProtectedFunctionMapper.patch
-  +1: kkolinko, remm, markt
+  +1: kkolinko, remm, markt, schultz
   -1:
   Additional patch:
   http://svn.apache.org/r1659564
   +1: markt, remm
+  +0: schultz
   -1:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57581
@@ -57,8 +58,12 @@ PATCHES PROPOSED TO BACKPORT:
   allow values above 2Gb. (RequestInfo.getRequestBytesReceived() already
   exposes it as long to JMX.)
   http://svn.apache.org/r1659523
-  +1: kkolinko, markt, remm
+  +1: kkolinko, markt, remm, schultz
   -1:
+
+  schultz: I was curious, so I checked on this related item: if a connector
+  serves 1 TiB per day, a Java long will track its progress without rolling-
+  over for 22966 years. I'd say that should "suffice".
 
 
 PATCHES/ISSUES THAT ARE STALLED:
@@ -72,7 +77,9 @@ PATCHES/ISSUES THAT ARE STALLED:
   2) http://svn.apache.org/r1608653
   3) http://svn.apache.org/r1608833
   4) TestMapper changes from http://svn.apache.org/r1608831
-  +1: kkolinko, remm
+  +1: kkolinko, remm, schultz
   -1:
    kkolinko: Good for occasional review, but as backporting r1608833 won't
    be trivial I'd have to update the patch.
+   schultz: r1608833 is good, but it does not look like it is absolutely
+   required to fix BZ 44312.
