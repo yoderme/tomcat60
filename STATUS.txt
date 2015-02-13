@@ -34,11 +34,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, remm, markt
   -1:
 
-* Add support for maxSwallowSize to Tomcat 6
-  http://people.apache.org/~markt/patches/2015-02-12-maxSwallowSize-tc6-v2.patch
-  +1: markt, kkolinko, remm
-  -1:
-
 * Backport some Jasper clean-up that might provide a marginal performance
   improvement. Even if it doesn't it removes some unnecessary code
   http://people.apache.org/~markt/patches/2015-02-06-jasper-cleanup-tc6-v1.patch

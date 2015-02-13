@@ -440,6 +440,14 @@
       <p>If not specified, the default value of <code>8192</code> will be used.</p>
     </property>
 
+    <property name="org.apache.coyote.MAX_SWALLOW_SIZE">
+      <p>Limits the length of a request body Tomcat will swallow if it is not
+      read during normal request processing. If the value is <code>-1</code>, no
+      limit will be imposed.</p>
+      <p>If not specified, the default value of <code>2097152</code> (2MB) will
+      be used.</p>
+    </property>
+
     <property name="catalina.useNaming">
       <p>If this is <code>false</code> it will override the
       <code>useNaming</code> attribute for all <a href="context.html">
