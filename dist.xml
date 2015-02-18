@@ -738,14 +738,19 @@
     </antcall>
   </target>
 
-  <!-- Helper target, used to create a md5 checksum file  -->
+  <!-- Helper target, used to create checksum files -->
   <!-- Requires 'file' as a parameter. -->
   <target name="md5sum">
     <fail unless="file" />
-    <fail if="filename" />
-    <fail if="value" />
+    <local name="filename" />
+    <local name="md5value" />
+    <local name="sha1value" />
+
     <basename file="${file}" property="filename" />
-    <checksum file="${file}" property="value" />
-    <echo file="${file}.md5" message="${value}${md5sum.binary-prefix}${filename}" />
+    <checksum algorithm="MD5" file="${file}" property="md5value" />
+    <checksum algorithm="SHA-1" file="${file}" property="sha1value" />
+
+    <echo file="${file}.md5" message="${md5value}${md5sum.binary-prefix}${filename}" />
+    <echo file="${file}.sha1" message="${sha1value}${md5sum.binary-prefix}${filename}" />
   </target>
 </project>

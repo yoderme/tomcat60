@@ -28,12 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57344
-  Provide sha1 checksum files for Tomcat downloads.
-  https://issues.apache.org/bugzilla/attachment.cgi?id=32287
-  +1: kkolinko, remm, markt, schultz
-  -1:
-
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57558
   Add missing JARs in Ant task definition. Expand the pattern in
   catalina-tasks.xml to include all jars in ${catalina.home}/lib.

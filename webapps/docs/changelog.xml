@@ -116,6 +116,14 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Other">
+    <changelog>
+      <add>
+        <bug>57344</bug>: Provide sha1 checksum files for Tomcat downloads.
+        (kkolinko)
+      </add>
+    </changelog>
+  </subsection>
 </section>
 <section name="Tomcat 6.0.43 (markt)" rtext="released 2014-11-22">
   <subsection name="Catalina">
