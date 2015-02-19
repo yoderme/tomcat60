@@ -28,15 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57558
-  Add missing JARs in Ant task definition. Expand the pattern in
-  catalina-tasks.xml to include all jars in ${catalina.home}/lib.
-  This adds catalina.jar required by the validate task, as well as optional
-  i18n jars.
-  http://svn.apache.org/r1658815
-  +1: kkolinko, remm, markt, schultz
-  -1:
-
 * Simplify code in ProtectedFunctionMapper class of Jasper runtime.
   https://people.apache.org/~kkolinko/patches/2015-02-12_tc6_ProtectedFunctionMapper.patch
   +1: kkolinko, remm, markt, schultz

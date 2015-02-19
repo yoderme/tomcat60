@@ -122,6 +122,12 @@
         <bug>57344</bug>: Provide sha1 checksum files for Tomcat downloads.
         (kkolinko)
       </add>
+      <fix>
+        <bug>57558</bug>: Change <code>catalina-tasks.xml</code> to use all
+        jars in <code>${catalina.home}/lib</code> to define Tomcat Ant
+        tasks. This fixes a NoClassDefFoundError with <code>validate</code>
+        task. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
 </section>
