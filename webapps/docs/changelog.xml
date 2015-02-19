@@ -87,6 +87,10 @@
         manager. Some classes may not be accessible but may have accessible
         interfaces. (markt)
       </fix>
+      <fix>
+        Simplify code in <code>ProtectedFunctionMapper</code> class of
+        Jasper runtime. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
