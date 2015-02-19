@@ -74,6 +74,10 @@
         <bug>57544</bug>: Fix a potential infinite loop when preparing a kept
         alive HTTP connection for the next request. (markt)
       </fix>
+      <fix>
+        <bug>57581</bug>: Change statistics byte counter in coyote Request
+        object to be long to allow values above 2Gb. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">

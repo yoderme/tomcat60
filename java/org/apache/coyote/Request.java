@@ -139,7 +139,7 @@ public final class Request {
     private Response response;
     private ActionHook hook;
 
-    private int bytesRead=0;
+    private long bytesRead=0;
     // Time of the request - usefull to avoid repeated calls to System.currentTime
     private long startTime = 0L;
     private int available = 0;
@@ -521,11 +521,11 @@ public final class Request {
         return reqProcessorMX;
     }
 
-    public int getBytesRead() {
+    public long getBytesRead() {
         return bytesRead;
     }
 
-    public void setBytesRead(int bytesRead) {
+    public void setBytesRead(long bytesRead) {
         this.bytesRead = bytesRead;
     }
 }

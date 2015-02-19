@@ -38,19 +38,6 @@ PATCHES PROPOSED TO BACKPORT:
   +0: schultz
   -1:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=57581
-  Change statistics byte counter in coyote Request object to be long to
-  allow values above 2Gb. (RequestInfo.getRequestBytesReceived() already
-  exposes it as long to JMX.)
-  http://svn.apache.org/r1659523
-  +1: kkolinko, markt, remm, schultz
-  -1:
-
-  schultz: I was curious, so I checked on this related item: if a connector
-  serves 1 TiB per day, a Java long will track its progress without rolling-
-  over for 22966 years. I'd say that should "suffice".
-
-
 PATCHES/ISSUES THAT ARE STALLED:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
