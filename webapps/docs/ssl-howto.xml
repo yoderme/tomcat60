@@ -265,7 +265,7 @@ Certificate that can be used by your server.</p>
 <p><strong>Note:</strong> your private key password and keystore password
 should be the same.  If they differ, you will get an error along the lines
 of <code>java.io.IOException: Cannot recover key</code>, as documented in 
-<a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=38217">Bugzilla issue 38217</a>, 
+<a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=38217">Bugzilla issue 38217</a>, 
 which contains further references for this issue.</p>
 
 </subsection>
@@ -513,7 +513,7 @@ information, at
   </code>
 <br />
 For additional discussion on this area, please see
-<a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=22679">Bugzilla</a>.
+<a href="http://bz.apache.org/bugzilla/show_bug.cgi?id=22679">Bugzilla</a>.
 </p>
 
 </section>

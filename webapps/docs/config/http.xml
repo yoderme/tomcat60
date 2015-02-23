@@ -87,7 +87,7 @@
       cookie session id if supplied by the client.<br/>
       <a href="http://svn.apache.org/viewvc/tomcat/container/tc5.5.x/catalina/src/share/org/apache/catalina/connector/Request.java?diff_format=h&amp;view=log#rev303682">SVN check in</a><br/>
       <a href="http://tomcat.markmail.org/search/?q=emptysessionpath%20reuse#query:emptysessionpath%20reuse%20date%3A200502%20+page:1+mid:2bocwjhn3cczsoii+state:results">Dev discussion</a><br/>
-      <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=47298">Work around</a>
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=47298">Work around</a>
       </p>
     </attribute>
 

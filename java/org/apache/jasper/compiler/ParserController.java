@@ -145,7 +145,7 @@ class ParserController implements TagConstants {
      *
      * @param inFileName The name of the tag file to be parsed.
      * @deprecated Use {@link #parseTagFileDirectives(String, URL)}
-     *             See https://issues.apache.org/bugzilla/show_bug.cgi?id=46471
+     *             See https://bz.apache.org/bugzilla/show_bug.cgi?id=46471
      */
     public Node.Nodes parseTagFileDirectives(String inFileName)
     throws FileNotFoundException, JasperException, IOException {

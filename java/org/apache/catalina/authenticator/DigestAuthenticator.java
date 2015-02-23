@@ -536,7 +536,7 @@ public class DigestAuthenticator extends AuthenticatorBase {
             }
             authorization = authorization.substring(7).trim();
 
-            // Bugzilla 37132: http://issues.apache.org/bugzilla/show_bug.cgi?id=37132
+            // Bugzilla 37132: http://bz.apache.org/bugzilla/show_bug.cgi?id=37132
             String[] tokens = authorization.split(",(?=(?:[^\"]*\"[^\"]*\")+$)");
 
             method = request.getMethod();

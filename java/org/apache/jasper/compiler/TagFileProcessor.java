@@ -507,7 +507,7 @@ class TagFileProcessor {
      * @return a TagInfo object assembled from the directives in the tag file.
      * @deprecated Use {@link TagFileProcessor#parseTagFileDirectives(
      *                  ParserController, String, String, URL, TagLibraryInfo)}
-     *             See https://issues.apache.org/bugzilla/show_bug.cgi?id=46471
+     *             See https://bz.apache.org/bugzilla/show_bug.cgi?id=46471
      */
     public static TagInfo parseTagFileDirectives(ParserController pc,
             String name, String path, TagLibraryInfo tagLibInfo)

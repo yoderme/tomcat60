@@ -203,7 +203,7 @@ from the latest Ant distribution in the <code>lib</code> folder.</p>
 <section name="Known issues">
 
 <p>As described in
-<a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=39089">
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=39089">
 bug 39089</a>, a known JVM issue,
 <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6294277">
 bug 6294277</a>, may cause a

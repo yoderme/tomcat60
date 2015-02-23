@@ -262,7 +262,7 @@ public class TestArrayELResolver extends TestCase {
 
     /**
      * Tests setting arrays of primitives.
-     * https://issues.apache.org/bugzilla/show_bug.cgi?id=55691
+     * https://bz.apache.org/bugzilla/show_bug.cgi?id=55691
      */
     public void testSetValue08() {
         ArrayELResolver resolver = new ArrayELResolver();

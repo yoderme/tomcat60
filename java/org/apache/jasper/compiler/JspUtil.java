@@ -866,7 +866,7 @@ public class JspUtil {
      * 
      * @deprecated Use {@link #getTagHandlerClassName(String, String,
      *             ErrorDispatcher)}
-     *             See https://issues.apache.org/bugzilla/show_bug.cgi?id=46471
+     *             See https://bz.apache.org/bugzilla/show_bug.cgi?id=46471
      */
     public static String getTagHandlerClassName(String path,
                         ErrorDispatcher err)
