@@ -28,7 +28,9 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-None
+  1) http://svn.apache.org/r1662736
+     Update examples to use Apache Standard Taglibs 1.2.3
+     +1: jboynes
 
 
 PATCHES/ISSUES THAT ARE STALLED:
