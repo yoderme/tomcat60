@@ -28,9 +28,16 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-  1) http://svn.apache.org/r1662736
-     Update examples to use Apache Standard Taglibs 1.2.3
-     +1: jboynes
+* http://svn.apache.org/r1662736
+  Update examples to use Apache Standard Taglibs 1.2.3
+  +1: jboynes
+  -1:
+
+* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57659
+  Restore ability to include javascript files vai the DefaultServlet
+  http://svn.apache.org/viewvc?view=revision&revision=1139280
+  +1: markt
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
