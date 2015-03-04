@@ -626,17 +626,20 @@ public class HostConfig
         }
 
         Context context = null;
+        boolean isExternalWar = false;
+        boolean isExternal = false;
         try {
             synchronized (digester) {
                 try {
                     context = (Context) digester.parse(contextXml);
-                    if (context == null) {
-                        log.error(sm.getString("hostConfig.deployDescriptor.error",
-                                file));
-                        return;
-                    }
+                } catch (Exception e) {
+                    log.error(sm.getString(
+                            "hostConfig.deployDescriptor.error", file), e);
                 } finally {
                     digester.reset();
+                    if (context == null) {
+                        return;
+                    }
                 }
             }
             if (context instanceof Lifecycle) {
@@ -648,8 +651,6 @@ public class HostConfig
             context.setConfigFile(contextXml.getAbsolutePath());
             context.setPath(contextPath);
             // Add the associated docBase to the redeployed list if it's a WAR
-            boolean isExternalWar = false;
-            boolean isExternal = false;
             if (context.getDocBase() != null) {
                 File docBase = new File(context.getDocBase());
                 if (!docBase.isAbsolute()) {
@@ -674,8 +675,13 @@ public class HostConfig
                 }
             }
             host.addChild(context);
+        } catch (Throwable t) {
+            log.error(sm.getString("hostConfig.deployDescriptor.error",
+                                   file), t);
+        } finally {
             // Get paths for WAR and expanded WAR in appBase
             String name = null;
+            @SuppressWarnings("null")
             String path = context.getPath();
             if (path.equals("")) {
                 name = "ROOT";
@@ -726,12 +732,9 @@ public class HostConfig
                         (contextXml.getAbsolutePath(), new Long(contextXml.lastModified()));
                 }
             }
-        } catch (Throwable t) {
-            log.error(sm.getString("hostConfig.deployDescriptor.error",
-                                   file), t);
         }
-
-        if (context != null && host.findChild(context.getName()) != null) {
+        
+        if (host.findChild(context.getName()) != null) {
             deployed.put(contextPath, deployedApp);
         }
     }
