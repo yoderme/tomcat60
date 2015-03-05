@@ -59,6 +59,15 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt, kkolinko
   -1:
 
+* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=56608
+  Watched resources should be tracked if they are expected to exist even if they
+  don't exist when the Context starts
+  Also prevent multiple changes at the same time triggering multiple reloads
+  rather than just one
+  http://people.apache.org/~markt/patches/2015-03-05-bug56608-tc6-v1.patch
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
