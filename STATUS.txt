@@ -56,7 +56,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57659
   Restore ability to include javascript files via the DefaultServlet
   http://svn.apache.org/viewvc?view=revision&revision=1139280
-  +1: markt, kkolinko
+  +1: markt, kkolinko, schultz
   -1:
 
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=56608
