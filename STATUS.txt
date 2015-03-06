@@ -53,12 +53,6 @@ PATCHES PROPOSED TO BACKPORT:
        (e.g. search for "ecj-4.3.1.jar"), and do not skip jstl.jar.)
 
 
-* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57659
-  Restore ability to include javascript files via the DefaultServlet
-  http://svn.apache.org/viewvc?view=revision&revision=1139280
-  +1: markt, kkolinko, schultz
-  -1:
-
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=56608
   Watched resources should be tracked if they are expected to exist even if they
   don't exist when the Context starts

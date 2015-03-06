@@ -887,7 +887,8 @@ public class DefaultServlet
                 // trying to serve a text file
                 if ( (contentType == null)
                         || (contentType.startsWith("text"))
-                        || (contentType.endsWith("xml")) ) {
+                        || (contentType.endsWith("xml"))
+                        || (contentType.contains("/javascript")) ) {
                     writer = response.getWriter();
                 } else {
                     throw e;
