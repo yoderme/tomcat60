@@ -62,6 +62,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57675
+  Correctly quote strings when usined the extended access log
+  http://svn.apache.org/r1665087
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
