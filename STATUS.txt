@@ -75,6 +75,11 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57703
+  Update http-method definition as per Servlet 2.5 MR6
+  http://svn.apache.org/r1666989
+  +1: markt
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
