@@ -59,13 +59,13 @@ PATCHES PROPOSED TO BACKPORT:
   Also prevent multiple changes at the same time triggering multiple reloads
   rather than just one
   http://people.apache.org/~markt/patches/2015-03-05-bug56608-tc6-v1.patch
-  +1: markt
+  +1: markt, schultz
   -1:
 
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57675
   Correctly quote strings when using the extended access log
   http://svn.apache.org/r1665087
-  +1: markt
+  +1: markt, schultz
   -1:
 
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57570
@@ -78,7 +78,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57703
   Update http-method definition as per Servlet 2.5 MR6
   http://svn.apache.org/r1666989
-  +1: markt
+  +1: markt, schultz
   -1:
 
 
