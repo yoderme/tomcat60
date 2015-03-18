@@ -62,6 +62,10 @@
         in the DefaultServlet was broken due to a MIME type change for
         JavaScript. (markt)
       </fix>
+      <fix>
+        <bug>57675</bug>: Correctly quote strings when using the extended
+        access log. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">

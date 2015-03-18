@@ -53,12 +53,6 @@ PATCHES PROPOSED TO BACKPORT:
        (e.g. search for "ecj-4.3.1.jar"), and do not skip jstl.jar.)
 
 
-* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57675
-  Correctly quote strings when using the extended access log
-  http://svn.apache.org/r1665087
-  +1: markt, schultz, violetagg, remm
-  -1:
-
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57570
   Make processing of chunked encoding trailers an opt-in feature
   http://svn.apache.org/r1666396
