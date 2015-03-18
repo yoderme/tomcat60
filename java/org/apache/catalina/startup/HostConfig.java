@@ -712,7 +712,7 @@ public class HostConfig
                                 new Long(warDocBase.lastModified()));
                     }
                 }
-                if (expandedDocBase.exists()) {
+                if (unpackWARs) {
                     deployedApp.redeployResources.put(expandedDocBase.getAbsolutePath(),
                             new Long(expandedDocBase.lastModified()));
                     addWatchedResources(deployedApp,
@@ -1261,36 +1261,41 @@ public class HostConfig
             }
         }
         resources = app.reloadResources.keySet().toArray(new String[0]);
+        boolean update = false;
         for (int i = 0; i < resources.length; i++) {
             File resource = new File(resources[i]);
-            if (log.isDebugEnabled())
+            if (log.isDebugEnabled()) {
                 log.debug("Checking context[" + app.name + "] reload resource " + resource);
-            long lastModified = app.reloadResources.get(resources[i]).longValue();
-            if ((!resource.exists() && lastModified != 0L)
-                || (resource.lastModified() != lastModified)) {
-                // Reload application
-                if(log.isInfoEnabled())
-                    log.info(sm.getString("hostConfig.reload", app.name));
-                Container context = host.findChild(app.name);
-                try {
-                    ((Lifecycle) context).stop();
-                } catch (Exception e) {
-                    log.warn(sm.getString
-                             ("hostConfig.context.restart", app.name), e);
-                }
-                // If the context was not started (for example an error
-                // in web.xml) we'll still get to try to start
-                try {
-                    ((Lifecycle) context).start();
-                } catch (Exception e) {
-                    log.warn(sm.getString
-                             ("hostConfig.context.restart", app.name), e);
-                }
-                // Update times
-                app.reloadResources.put(resources[i], new Long(resource.lastModified()));
-                app.timestamp = System.currentTimeMillis();
-                return;
             }
+            long lastModified = app.reloadResources.get(resources[i]).longValue();
+            if (resource.lastModified() != lastModified || update) {
+                if (!update) {
+                    // Reload application
+                    if(log.isInfoEnabled()) {
+                        log.info(sm.getString("hostConfig.reload", app.name));
+                    }
+                    Container context = host.findChild(app.name);
+                    try {
+                        ((Lifecycle) context).stop();
+                    } catch (Exception e) {
+                        log.warn(sm.getString
+                                 ("hostConfig.context.restart", app.name), e);
+                    }
+                    // If the context was not started (for example an error
+                    // in web.xml) we'll still get to try to start
+                    try {
+                        ((Lifecycle) context).start();
+                    } catch (Exception e) {
+                        log.warn(sm.getString
+                                 ("hostConfig.context.restart", app.name), e);
+                    }
+                    update = true;
+                }
+                // Update times. More than one file may have been updated. We
+                // don't want to trigger a series of reloads.
+                app.reloadResources.put(resources[i], Long.valueOf(resource.lastModified()));
+            }
+            app.timestamp = System.currentTimeMillis();
         }
     }
 
