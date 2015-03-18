@@ -375,8 +375,9 @@
     <attribute name="tomcatAuthentication" required="false">
       <p>If set to <code>true</code>, the authentication will be done in Tomcat. 
       Otherwise, the authenticated principal will be propagated from the native
-      webserver and used for authorization in Tomcat.  
-      The default value is <code>true</code>.</p>
+      webserver and used for authorization in Tomcat. Note that this principal
+      will have no roles associated with it. The default value is
+      <code>true</code>.</p>
     </attribute>
 
   </attributes>

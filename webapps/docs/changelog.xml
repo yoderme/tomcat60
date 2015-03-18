@@ -138,6 +138,12 @@
         <bug>57503</bug>: Make clear that the JULI integration for log4j only
         works with log4j 1.2.x. (markt)
       </fix>
+      <fix>
+        <bug>57706</bug>: Clarify the documentation for the AJP connector to
+        make clearer that when using
+        <code>tomcatAuthentication=&quot;false&quot;</code> the user provided by
+        the reverse proxy will not be associated with any roles. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
