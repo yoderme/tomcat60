@@ -45,7 +45,7 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Update to tc-native 1.1.33 and bump the recommended version to 1.1.33 as well
   http://svn.apache.org/r1668635
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
 
