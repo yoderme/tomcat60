@@ -32,7 +32,7 @@ PATCHES PROPOSED TO BACKPORT:
   Update examples to use Apache Standard Taglibs 1.2.3
   http://svn.apache.org/r1662736
   +1: jboynes
-  +1: kkolinko: For using version 1.2.5 of the library (r1668200)
+  +1: kkolinko, markt: For using version 1.2.5 of the library (r1668200)
   -1:
 
 
