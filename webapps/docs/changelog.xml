@@ -78,7 +78,7 @@
       <fix>
         When applying the <code>maxSwallowSize</code> limit to a connection read
         that many bytes first before closing the connection to give the client a
-        chance to read the reponse. (markt)
+        chance to read the response. (markt)
       </fix>
       <fix>
         <bug>57544</bug>: Fix a potential infinite loop when preparing a kept
@@ -321,7 +321,7 @@
         (kkolinko)
       </scode>
       <fix>
-        Fix a potential resource leak in JDTCompiler when checking wether
+        Fix a potential resource leak in JDTCompiler when checking whether
         a resource is a package. Reported by Coverity Scan. (fschumacher)
       </fix>
     </changelog>
@@ -541,7 +541,7 @@
       </scode>
       <update>
         Improvements to the Windows installer, to align it with installing
-        the sevice with <code>service.bat</code>. Use explicit memory sizes
+        the service with <code>service.bat</code>. Use explicit memory sizes
         (--JvmMs 128 Mb and --JvmMx 256 Mb). Specify log directory path
         when ininstalling, so that the log file is written to the Tomcat logs
         directory, instead of "%SystemRoot%\System32\LogFiles\Apache".
@@ -3857,7 +3857,7 @@
         Sessions get transferred, but node still waits until timeout. (rjung)
       </fix>
       <update>
-        Perform deserializtion events with context class loader. (fhanik)
+        Perform deserialization events with context class loader. (fhanik)
       </update>
       <fix>
         <bug>47515</bug>: Correctly replicate timestamp during startup. (fhanik)
@@ -3908,7 +3908,7 @@
         (markt)
       </fix>
       <fix>
-        <bug>47161</bug>: Report thread count correctly in Manager when exectors
+        <bug>47161</bug>: Report thread count correctly in Manager when executors
         are used and return -1 when it can not easily be determined. (markt)
       </fix>
       <fix>
@@ -3945,7 +3945,7 @@
         application. (kkolinko)
       </update>
       <fix>
-        <bug>47769</bug>: Clarify the JNDI docs with repect to use of
+        <bug>47769</bug>: Clarify the JNDI docs with respect to use of
         &lt;resource-ref&gt; and related elements, specifically when they are
         required and when they may be omitted. (markt)
       </fix>
@@ -4320,7 +4320,7 @@
         (markt)
       </fix>
       <fix>
-        <bug>45628</bug>: When checking MANIFEST dependancies, JARs without
+        <bug>45628</bug>: When checking MANIFEST dependencies, JARs without
         dependencies should allows be considered to be full-filled. (markt)
       </fix>
       <fix>
@@ -5393,7 +5393,7 @@
         <bug>43944</bug>: Fix a missing resource exception. (markt)
       </fix>
       <fix>
-        Improve docs for Jasper configuration. Put options in alphabetcial
+        Improve docs for Jasper configuration. Put options in alphabetical
         order, add some missing options, deprecate an unused one and address
         feedback about the page provided on the users list.
       </fix>
@@ -5652,7 +5652,7 @@
         which lead to errors in the manager webapp JMXProxy output. (rjung)
       </fix>
       <fix>
-        <bug>33774</bug>: Retry JNDI authentiction on ServiceUnavailableException
+        <bug>33774</bug>: Retry JNDI authentication on ServiceUnavailableException
         as at least one provider throws this after an idle connection has been
         closed. (markt)
       </fix>
@@ -6573,7 +6573,7 @@
   <subsection name="Jasper">
     <changelog>
       <update>
-        Many fixes for JSP 2.1 compliance, invloving tag files handling, deferred expressions
+        Many fixes for JSP 2.1 compliance, involving tag files handling, deferred expressions
         validation, bom encoding support (remm)
       </update>
     </changelog>
