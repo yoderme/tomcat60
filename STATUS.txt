@@ -32,32 +32,15 @@ PATCHES PROPOSED TO BACKPORT:
   Update examples to use Apache Standard Taglibs 1.2.3
   http://svn.apache.org/r1662736
   +1: jboynes
+  +1: kkolinko: For using version 1.2.5 of the library (r1668200)
   -1:
-  +0: kkolinko
-    1) When running with Security Manager enabled, it fails at
-       /examples/jsp/jsp2/tagfiles/products.jsp
-       and many subsequent pages with
-        java.security.AccessControlException: access denied (java.util.PropertyPermission org.apache.taglibs.standard.xml.accessExternalEntity read)
-  
-       followed by java.lang.NoClassDefFoundError which result in compilation failure.
-
-       Without Security Manager it runs OK.
-
-    2) Do not forget to update webapps/docs/changelog.xml
-
-    3) OK with scan exclusion lists.
-       Unlike Tomcat 7 and later there is no need to update them.
-
-       (Tomcat 6 does not perform annotation scanning, so exclusion does
-       not save much time. TLD exclusion lists are hard-coded in java code
-       (e.g. search for "ecj-4.3.1.jar"), and do not skip jstl.jar.)
 
 
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57570
   Make processing of chunked encoding trailers an opt-in feature
   http://svn.apache.org/r1666396
   http://svn.apache.org/r1666407
-  +1: markt, remm
+  +1: markt, remm, kkolinko
   -1:
 
 
