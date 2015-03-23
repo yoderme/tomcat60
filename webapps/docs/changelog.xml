@@ -144,6 +144,13 @@
         <code>tomcatAuthentication=&quot;false&quot;</code> the user provided by
         the reverse proxy will not be associated with any roles. (markt)
       </fix>
+      <fix>
+        Correct the documentation for deployOnStartup to make clear that if a
+        WAR file is updated while Tomcat is stopped and unpackWARs is true,
+        Tomcat will not detect the changed WAR file when it starts and will not
+        replace the unpacked WAR file with the contents of the updated WAR.
+        (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
