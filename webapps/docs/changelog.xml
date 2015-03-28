@@ -151,6 +151,11 @@
         replace the unpacked WAR file with the contents of the updated WAR.
         (markt)
       </fix>
+      <add>
+        <bug>57759</bug>: Add information to the keyAlias documentation to make
+        it clear that the order keys are read from the keystore is
+        implementation dependent. (markt)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Other">
