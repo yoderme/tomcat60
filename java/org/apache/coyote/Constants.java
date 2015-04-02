@@ -17,7 +17,10 @@
 
 package org.apache.coyote;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Constants.
@@ -94,4 +97,23 @@ public final class Constants {
         Integer.parseInt(System.getProperty(
                 "org.apache.coyote.MAX_SWALLOW_SIZE",
                 "2097152"));
+    
+    public static final Set<String> ALLOWED_TRAILER_HEADERS;
+    
+    
+    static {
+        String commaSeparatedHeaders =
+                System.getProperty("org.apache.coyote.ALLOWED_TRAILER_HEADERS");
+        Set<String> headerSet = new HashSet<String>();
+        if (commaSeparatedHeaders != null) {
+            String[] headers = commaSeparatedHeaders.split(",");
+            for (String header : headers) {
+                String trimmedHeader = header.trim().toLowerCase(Locale.ENGLISH);
+                if (trimmedHeader.length() > 0) {
+                    headerSet.add(trimmedHeader);
+                }
+            }
+        }
+        ALLOWED_TRAILER_HEADERS = Collections.unmodifiableSet(headerSet);
+    }
 }

@@ -36,14 +36,6 @@ PATCHES PROPOSED TO BACKPORT:
   -1:
 
 
-* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57570
-  Make processing of chunked encoding trailers an opt-in feature
-  http://svn.apache.org/r1666396
-  http://svn.apache.org/r1666407
-  +1: markt, remm, kkolinko
-  -1:
-
-
 PATCHES/ISSUES THAT ARE STALLED:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312

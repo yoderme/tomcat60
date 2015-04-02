@@ -426,6 +426,14 @@
 
   <properties>
 
+    <property name="org.apache.coyote.ALLOWED_TRAILER_HEADERS">
+      <p>Limits the names of trailing headers that will be accepted in the last
+      chunk of a chunked HTTP request. The property should be set to a comma
+      separated list of acceptable headers. Trailing headers not in the list
+      will be ignored.</p>
+      <p>If not specified, the default value of no headers will be used.</p>
+    </property>
+
     <property name="org.apache.coyote.MAX_EXTENSION_SIZE">
       <p>Limits the total length of extension data when using chunked encoding.
       If the value is <code>-1</code>, no limit will be imposed.</p>
