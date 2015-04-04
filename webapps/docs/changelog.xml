@@ -147,6 +147,10 @@
         <bug>57503</bug>: Make clear that the JULI integration for log4j only
         works with log4j 1.2.x. (markt)
       </fix>
+      <update>
+        <bug>57644</bug>: Update examples to use Apache Standard Taglib 1.2.5.
+        (jboynes/kkolinko)
+      </update>
       <fix>
         <bug>57706</bug>: Clarify the documentation for the AJP connector to
         make clearer that when using

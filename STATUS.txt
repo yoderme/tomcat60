@@ -28,12 +28,7 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57644
-  Update examples to use Apache Standard Taglibs 1.2.3
-  http://svn.apache.org/r1662736
-  +1: jboynes
-  +1: kkolinko, markt, violetagg, schultz: For using version 1.2.5 of the library (r1668200)
-  -1:
+None
 
 
 PATCHES/ISSUES THAT ARE STALLED:
