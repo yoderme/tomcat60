@@ -47,7 +47,8 @@
   <subsection name="Catalina">
     <changelog>
       <fix>
-        Correct typo in a message. (kkolinko)
+        Correct typo in the message shown by HttpServlet for unexpected
+        HTTP method. (kkolinko)
       </fix>
       <add>
         Allow to configure RemoteAddrValve and RemoteHostValve to
