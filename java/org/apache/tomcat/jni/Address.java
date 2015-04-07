@@ -21,7 +21,6 @@ package org.apache.tomcat.jni;
  *
  * @author Mladen Turk
  */
-
 public class Address {
 
     static public String APR_ANYADDR = "0.0.0.0";
