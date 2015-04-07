@@ -20,14 +20,13 @@ package org.apache.tomcat.jni;
 /** Time
  *
  * @author Mladen Turk
- *
  */
 
 public class Time {
 
     /** number of microseconds per second */
     public static final long APR_USEC_PER_SEC  = 1000000L;
-    /** number of miliseconds per microsecond */
+    /** number of milliseconds per microsecond */
     public static final long APR_MSEC_PER_USEC = 1000L;
 
     /** @return apr_time_t as a second */
@@ -66,7 +65,7 @@ public class Time {
 
     /**
      * Sleep for the specified number of micro-seconds.
-     * <br /><b>Warning :</b> May sleep for longer than the specified time.
+     * <br><b>Warning :</b> May sleep for longer than the specified time.
      * @param t desired amount of time to sleep.
      */
     public static native void sleep(long t);

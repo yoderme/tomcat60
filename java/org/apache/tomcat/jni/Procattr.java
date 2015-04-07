@@ -20,7 +20,6 @@ package org.apache.tomcat.jni;
 /** Procattr
  *
  * @author Mladen Turk
- *
  */
 
 public class Procattr {
@@ -44,7 +43,7 @@ public class Procattr {
     public static native int ioSet(long attr, int in, int out, int err);
     /**
      * Set the child_in and/or parent_in values to existing apr_file_t values.
-     * <br />
+     * <br>
      * This is NOT a required initializer function. This is
      * useful if you have already opened a pipe (or multiple files)
      * that you wish to use, perhaps persistently across multiple
@@ -59,7 +58,7 @@ public class Procattr {
 
     /**
      * Set the child_out and parent_out values to existing apr_file_t values.
-     * <br />
+     * <br>
      * This is NOT a required initializer function. This is
      * useful if you have already opened a pipe (or multiple files)
      * that you wish to use, perhaps persistently across multiple
@@ -72,7 +71,7 @@ public class Procattr {
 
     /**
      * Set the child_err and parent_err values to existing apr_file_t values.
-     * <br />
+     * <br>
      * This is NOT a required initializer function. This is
      * useful if you have already opened a pipe (or multiple files)
      * that you wish to use, perhaps persistently across multiple
@@ -119,7 +118,7 @@ public class Procattr {
      * @param attr The procattr describing the child process to be created.
      * @param chk Flag to indicate whether or not extra work should be done
      *            to try to report failures to the caller.
-     * <br />
+     * <br>
      * This flag only affects apr_proc_create() on platforms where
      * fork() is used.  This leads to extra overhead in the calling
      * process, but that may help the application handle such
@@ -142,7 +141,7 @@ public class Procattr {
      * @param attr The procattr describing the child process to be created.
      * @param pool The the pool to use.
      * @param o The Object to call in the child process.
-     * <br />
+     * <br>
      * At the present time, it will only be called from apr_proc_create()
      * on platforms where fork() is used.  It will never be called on other
      * platforms, on those platforms apr_proc_create() will return the error

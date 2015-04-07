@@ -20,9 +20,7 @@ package org.apache.tomcat.jni;
 /** Library
  *
  * @author Mladen Turk
- *
  */
-
 public final class Library {
 
     /* Default library names */

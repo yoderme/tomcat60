@@ -20,7 +20,6 @@ package org.apache.tomcat.jni;
 /** Global
  *
  * @author Mladen Turk
- *
  */
 
 public class Global {
@@ -31,7 +30,7 @@ public class Global {
      * this API if only cross-process or cross-thread mutual exclusion is
      * required. See apr_proc_mutex.h and apr_thread_mutex.h for more
      * specialized lock routines.
-     * <br /><b>Warning :</b> Check APR_HAS_foo_SERIALIZE defines to see if the platform supports
+     * <br><b>Warning :</b> Check APR_HAS_foo_SERIALIZE defines to see if the platform supports
      *          APR_LOCK_foo.  Only APR_LOCK_DEFAULT is portable.
      * @param fname A file name to use if the lock mechanism requires one.  This
      *        argument should always be provided.  The lock code itself will

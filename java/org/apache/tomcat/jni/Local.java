@@ -20,7 +20,6 @@ package org.apache.tomcat.jni;
 /** Local socket
  *
  * @author Mladen Turk
- *
  */
 
 public class Local {
@@ -48,7 +47,7 @@ public class Local {
      * @param sock The socket to listen on
      * @param backlog The number of outstanding connections allowed in the sockets
      *                listen queue.  If this value is less than zero, for NT pipes
-     *                the number of instances is unlimite.
+     *                the number of instances is unlimited.
      *
      */
     public static native int listen(long sock, int backlog);

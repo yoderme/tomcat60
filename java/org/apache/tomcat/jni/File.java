@@ -18,12 +18,11 @@
 package org.apache.tomcat.jni;
 /* Import needed classes */
 import java.nio.ByteBuffer;
+
 /** File
  *
  * @author Mladen Turk
- *
  */
-
 public class File {
 
     /** Open the file for reading */
@@ -59,7 +58,7 @@ public class File {
      */
     public static final int APR_FOPEN_SENDFILE_ENABLED = 0x01000;
     /** Platform dependent flag to enable large file support;
-     * <br /><b>Warning :</b> The APR_LARGEFILE flag only has effect on some platforms
+     * <br><b>Warning :</b> The APR_LARGEFILE flag only has effect on some platforms
      * where sizeof(apr_off_t) == 4.  Where implemented, it allows opening
      * and writing to a file which exceeds the size which can be
      * represented by apr_off_t (2 gigabytes).  When a file's size does
@@ -108,7 +107,7 @@ public class File {
 
     /* apr_filetype_e values for the filetype member of the
      * apr_file_info_t structure
-     * <br /><b>Warning :</b>: Not all of the filetypes below can be determined.
+     * <br><b>Warning :</b>: Not all of the filetypes below can be determined.
      * For example, a given platform might not correctly report
      * a socket descriptor as APR_SOCK if that type isn't
      * well-identified on that platform.  In such cases where
@@ -174,7 +173,7 @@ public class File {
     public static final int APR_FINFO_GPROT  = 0x00200000; /** Group protection bits */
     public static final int APR_FINFO_WPROT  = 0x00400000; /** World protection bits */
     public static final int APR_FINFO_ICASE  = 0x01000000; /** if dev is case insensitive */
-    public static final int APR_FINFO_NAME   = 0x02000000; /** ->name in proper case */
+    public static final int APR_FINFO_NAME   = 0x02000000; /** -&gt;name in proper case */
 
     public static final int APR_FINFO_MIN    = 0x00008170; /** type, mtime, ctime, atime, size */
     public static final int APR_FINFO_IDENT  = 0x00003000; /** dev and inode */
@@ -264,7 +263,7 @@ public class File {
 
     /**
      * Rename the specified file.
-     * <br /><b>Warning :</b> If a file exists at the new location, then it will be
+     * <br><b>Warning :</b> If a file exists at the new location, then it will be
      * overwritten.  Moving files or directories across devices may not be
      * possible.
      * @param fromPath The full path to the original file (using / on all systems)
@@ -276,7 +275,7 @@ public class File {
     /**
      * Copy the specified file to another file.
      * The new file does not need to exist, it will be created if required.
-     * <br /><b>Warning :</b> If the new file already exists, its contents will be overwritten.
+     * <br><b>Warning :</b> If the new file already exists, its contents will be overwritten.
      * @param fromPath The full path to the original file (using / on all systems)
      * @param toPath The full path to the new file (using / on all systems)
      * @param perms Access permissions for the new file if it is created.
@@ -419,7 +418,7 @@ public class File {
     public static native int writeFullb(long thefile, ByteBuffer buf, int offset, int nbytes);
 
     /**
-     * Write data from aray of byte arrays to the specified file.
+     * Write data from array of byte arrays to the specified file.
      *
      * It is possible for both bytes to be written and an error to
      * be returned.  APR_EINTR is never returned.
@@ -433,7 +432,7 @@ public class File {
     public static native int writev(long thefile, byte[][] vec);
 
     /**
-     * Write data from aray of byte arrays to the specified file,
+     * Write data from array of byte arrays to the specified file,
      * ensuring that all of the data is written before returning.
      *
      * writevFull is available even if the underlying
@@ -543,7 +542,7 @@ public class File {
     /**
      * Read a character from the specified file.
      * @param thefile The file descriptor to read from
-     * @return The readed character
+     * @return The read character
      */
     public static native int getc(long thefile)
         throws Error;
@@ -563,10 +562,10 @@ public class File {
 
     /**
      * Set the specified file's permission bits.
-     * <br /><b>Warning :</b> Some platforms may not be able to apply all of the
+     * <br><b>Warning :</b> Some platforms may not be able to apply all of the
      * available permission bits; APR_INCOMPLETE will be returned if some
      * permissions are specified which could not be set.
-     * <br /><b>Warning :</b> Platforms which do not implement this feature will return
+     * <br><b>Warning :</b> Platforms which do not implement this feature will return
      * APR_ENOTIMPL.
      * @param fname The file (name) to apply the permissions to.
      * @param perms The permission bits to apply to the file.
@@ -576,11 +575,11 @@ public class File {
 
     /**
      * Set attributes of the specified file.
-     * This function should be used in preference to explict manipulation
+     * This function should be used in preference to explicit manipulation
      *      of the file permissions, because the operations to provide these
      *      attributes are platform specific and may involve more than simply
      *      setting permission bits.
-     * <br /><b>Warning :</b> Platforms which do not implement this feature will return
+     * <br><b>Warning :</b> Platforms which do not implement this feature will return
      *      APR_ENOTIMPL.
      * @param fname The full path to the file (using / on all systems)
      * @param attributes Or'd combination of
@@ -596,7 +595,7 @@ public class File {
 
     /**
      * Set the mtime of the specified file.
-     * <br /><b>Warning :</b> Platforms which do not implement this feature will return
+     * <br><b>Warning :</b> Platforms which do not implement this feature will return
      *      APR_ENOTIMPL.
      * @param fname The full path to the file (using / on all systems)
      * @param mtime The mtime to apply to the file in microseconds
@@ -624,7 +623,7 @@ public class File {
     /**
      * Retrieve the flags that were passed into apr_file_open()
      * when the file was opened.
-     * @param file The file to retrive flags.
+     * @param file The file to retrieve flags.
      * @return the flags
      */
     public static native int flagsGet(long file);
@@ -655,8 +654,8 @@ public class File {
     /**
      * Set the timeout value for a pipe or manipulate the blocking state.
      * @param thepipe The pipe we are setting a timeout on.
-     * @param timeout The timeout value in microseconds.  Values < 0 mean wait
-     *        forever, 0 means do not wait at all.
+     * @param timeout The timeout value in microseconds.  Values &lt; 0 mean
+     *        wait forever, 0 means do not wait at all.
      */
     public static native int pipeTimeoutSet(long thepipe, long timeout);
 

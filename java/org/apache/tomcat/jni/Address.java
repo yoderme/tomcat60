@@ -20,7 +20,6 @@ package org.apache.tomcat.jni;
 /** Address
  *
  * @author Mladen Turk
- *
  */
 
 public class Address {

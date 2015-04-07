@@ -20,20 +20,25 @@ package org.apache.tomcat.jni;
 /** Poll
  *
  * @author Mladen Turk
- *
  */
 
 public class Poll {
 
     /**
-     * Poll options
+     * Poll return values
      */
-    public static final int APR_POLLIN   = 0x001; /** Can read without blocking */
-    public static final int APR_POLLPRI  = 0x002; /** Priority data available */
-    public static final int APR_POLLOUT  = 0x004; /** Can write without blocking */
-    public static final int APR_POLLERR  = 0x010; /** Pending error */
-    public static final int APR_POLLHUP  = 0x020; /** Hangup occurred */
-    public static final int APR_POLLNVAL = 0x040; /** Descriptior invalid */
+    /** Can read without blocking */
+    public static final int APR_POLLIN   = 0x001;
+    /** Priority data available */
+    public static final int APR_POLLPRI  = 0x002;
+    /** Can write without blocking */
+    public static final int APR_POLLOUT  = 0x004;
+    /** Pending error */
+    public static final int APR_POLLERR  = 0x010;
+    /** Hangup occurred */
+    public static final int APR_POLLHUP  = 0x020;
+    /** Descriptor invalid */
+    public static final int APR_POLLNVAL = 0x040;
 
     /**
      * Pollset Flags
@@ -73,11 +78,8 @@ public class Poll {
     public static native int destroy(long pollset);
 
     /**
-     * Add a socket or to a pollset
-     * If you set client_data in the descriptor, that value
-     * will be returned in the client_data field whenever this
-     * descriptor is signalled in apr_pollset_poll().
-     * @param pollset The pollset to which to add the descriptor
+     * Add a socket to a pollset with the default timeout.
+     * @param pollset The pollset to which to add the socket
      * @param sock The sockets to add
      * @param reqevents requested events
      */
@@ -95,15 +97,15 @@ public class Poll {
      * Block for activity on the descriptor(s) in a pollset
      * @param pollset The pollset to use
      * @param timeout Timeout in microseconds
-     * @param descriptors Array of signalled descriptors (output parameter)
-     *        The desctiptor array must be two times the size of pollset.
+     * @param descriptors Array of signaled descriptors (output parameter)
+     *        The descriptor array must be two times the size of pollset.
      *        and are populated as follows:
      * <PRE>
-     * descriptors[n + 0] -> returned events
-     * descriptors[n + 1] -> socket
+     * descriptors[2n + 0] -&gt; returned events
+     * descriptors[2n + 1] -&gt; socket
      * </PRE>
      * @param remove Remove signaled descriptors from pollset
-     * @return Number of signalled descriptors (output parameter)
+     * @return Number of signaled descriptors (output parameter)
      *         or negative APR error code.
      */
     public static native int poll(long pollset, long timeout,
@@ -112,14 +114,14 @@ public class Poll {
     /**
      * Maintain on the descriptor(s) in a pollset
      * @param pollset The pollset to use
-     * @param descriptors Array of signalled descriptors (output parameter)
-     *        The desctiptor array must be the size of pollset.
+     * @param descriptors Array of signaled descriptors (output parameter)
+     *        The descriptor array must be the size of pollset.
      *        and are populated as follows:
      * <PRE>
-     * descriptors[n] -> socket
+     * descriptors[n] -&gt; socket
      * </PRE>
      * @param remove Remove signaled descriptors from pollset
-     * @return Number of signalled descriptors (output parameter)
+     * @return Number of signaled descriptors (output parameter)
      *         or negative APR error code.
      */
     public static native int maintain(long pollset, long [] descriptors,
@@ -143,15 +145,14 @@ public class Poll {
      * Return all descriptor(s) in a pollset
      * @param pollset The pollset to use
      * @param descriptors Array of descriptors (output parameter)
-     *        The desctiptor array must be two times the size of pollset.
+     *        The descriptor array must be two times the size of pollset.
      *        and are populated as follows:
      * <PRE>
-     * descriptors[n + 0] -> returned events
-     * descriptors[n + 1] -> socket
+     * descriptors[2n + 0] -&gt; returned events
+     * descriptors[2n + 1] -&gt; socket
      * </PRE>
      * @return Number of descriptors (output parameter) in the Poll
      *         or negative APR error code.
      */
     public static native int pollset(long pollset, long [] descriptors);
-
 }

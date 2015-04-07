@@ -20,7 +20,6 @@ package org.apache.tomcat.jni;
 /** SSL
  *
  * @author Mladen Turk
- *
  */
 
 public final class SSL {
@@ -115,7 +114,6 @@ public final class SSL {
     /* SSL_OP_ALL: various bug workarounds that should be rather harmless.
      *             This used to be 0x000FFFFFL before 0.9.7. */
     public static final int SSL_OP_ALL                              = 0x00000FFF;
-
     /* As server, disallow session resumption on renegotiation */
     public static final int SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION = 0x00010000;
     /* Don't use compression even if supported */
@@ -225,7 +223,7 @@ public final class SSL {
      * lifetime of JVM. Library.init() has to be called before.
      * @param engine Support for external a Crypto Device ("engine"),
      *                usually
-     * a hardware accellerator card for crypto operations.
+     * a hardware accelerator card for crypto operations.
      * @return APR status code
      */
     public static native int initialize(String engine);
@@ -247,16 +245,10 @@ public final class SSL {
      *
      * @return FIPS_mode_set return code
      * @throws Exception If tcnative was not compiled with FIPS Mode available,
-     *  or if <code>FIPS_mode_set()</code> call returned an error value.
+     *  or if {@code FIPS_mode_set()} call returned an error value.
      * @see <a href="http://wiki.openssl.org/index.php/FIPS_mode_set%28%29">OpenSSL method FIPS_mode_set()</a>
      */
     public static native int fipsModeSet(int mode) throws Exception;
-
-    /**
-      * Set source of entropy to use in SSL
-      *  @param filename Filename containing random data
-      */
-    public static native boolean randSet(String filename);
 
     /**
      * Add content of the file to the PRNG
@@ -287,6 +279,14 @@ public final class SSL {
                                           boolean base64);
 
     /**
+     * Sets global random filename.
+     * @param filename Filename to use.
+     *        If set it will be used for SSL initialization
+     *        and all contexts where explicitly not set.
+     */
+    public static native void randSet(String filename);
+
+    /**
      * Initialize new BIO
      * @param pool The pool to use.
      * @param callback BIOCallback to use
@@ -296,7 +296,7 @@ public final class SSL {
             throws Exception;
 
     /**
-     * Close BIO and derefrence callback object
+     * Close BIO and dereference callback object
      * @param bio BIO to close and destroy.
      * @return APR Status code
      */
@@ -316,7 +316,7 @@ public final class SSL {
 
     /**
      * Generate temporary RSA key.
-     * <br />
+     * <br>
      * Index can be one of:
      * <PRE>
      * SSL_TMP_KEY_RSA_512
@@ -332,7 +332,7 @@ public final class SSL {
 
     /**
      * Load temporary DSA key from file
-     * <br />
+     * <br>
      * Index can be one of:
      * <PRE>
      * SSL_TMP_KEY_DH_512
@@ -354,8 +354,8 @@ public final class SSL {
      * Return true if all the requested SSL_OP_* are supported by OpenSSL.
      * 
      * <i>Note that for versions of tcnative &lt; 1.1.25, this method will
-     * return <code>true</code> if and only if <code>op=0x00040000</code>
-     * (SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION) and tcnative
+     * return <code>true</code> if and only if <code>op</code>=
+     * {@link #SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION} and tcnative
      * supports that flag.</i>
      *
      * @param op Bitwise-OR of all SSL_OP_* to test.

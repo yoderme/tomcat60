@@ -20,7 +20,6 @@ package org.apache.tomcat.jni;
 /** SSL Socket
  *
  * @author Mladen Turk
- *
  */
 
 public class SSLSocket {
@@ -59,10 +58,10 @@ public class SSLSocket {
     /**
      * Set Type of Client Certificate verification and Maximum depth of CA
      * Certificates in Client Certificate verification.
-     * <br />
+     * <br>
      * This is used to change the verification level for a connection prior to
      * starting a re-negotiation.
-     * <br />
+     * <br>
      * The following levels are available for level:
      * <PRE>
      * SSL_CVERIFY_NONE           - No client Certificate is required at all
@@ -73,7 +72,7 @@ public class SSLSocket {
      *                              but it need not to be (successfully)
      *                              verifiable
      * </PRE>
-     * <br />
+     * <br>
      * @param sock  The socket to change.
      * @param level Type of Client Certificate verification.
      */
