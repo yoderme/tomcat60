@@ -28,7 +28,15 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-None
+* Align org.apache.tomcat.jni with 7.0.x and 8.0.x
+  Backport improvements to AprLifecycleListener
+  svn cp the following o.a.t.jni classes from 7.0.x:
+    Buffer
+    LibraryNotFoundError
+    Thread
+  http://people.apache.org/~markt/patches/2015-04-08-jni-align-tc6-v1.patch
+  +1: markt
+  -1:
 
 
 PATCHES/ISSUES THAT ARE STALLED:
