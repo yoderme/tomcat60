@@ -41,8 +41,11 @@ PATCHES PROPOSED TO BACKPORT:
 * Improve catalina.sh error message, the PID read from the PID file during
   startup is already taken by an existing process.
   trunk: http://svn.apache.org/r1672272
+         http://svn.apache.org/r1672284
   tc8  : http://svn.apache.org/r1672273
+         http://svn.apache.org/r1672285
   tc7  : http://svn.apache.org/r1672274
+         http://svn.apache.org/r1672286
   +1: rjung
   -1:
 
