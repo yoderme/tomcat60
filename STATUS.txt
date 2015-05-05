@@ -35,8 +35,28 @@ PATCHES PROPOSED TO BACKPORT:
     LibraryNotFoundError
     Thread
   http://people.apache.org/~markt/patches/2015-04-08-jni-align-tc6-v1.patch
-  +1: markt
+  +1: markt, kkolinko (comment below)
   -1:
+
+   kkolinko:
+    I do not see much benefit in adding classes Buffer and Thread that
+    Tomcat 6 code does not use. But I see no technical issue to really
+    object adding them. If someone sees a benefit, feel free to go on.
+
+    Historical context:
+     1) Initial Tomcat 6 commit (r389146) does not have those classes
+         https://svn.apache.org/viewvc/tomcat/tc6.0.x/trunk/?pathrev=389146
+
+     2) They were added to trunk in r1442914 (2013-02-06)
+         https://svn.apache.org/r1442914
+
+        A thread of that time mentions that those classes originate from
+        Apache Mina. "Again: Java classes in tcnative" (2013-02-05)
+         http://markmail.org/message/pohmyvfznjrpmtr2
+
+     3) "Re: r1672047" thread (2015-04-08)
+         http://markmail.org/message/ey2agr4eg5ws5stc
+
 
 * Improve catalina.sh error message, the PID read from the PID file during
   startup is already taken by an existing process.
@@ -46,7 +66,7 @@ PATCHES PROPOSED TO BACKPORT:
          http://svn.apache.org/r1672285
   tc7  : http://svn.apache.org/r1672274
          http://svn.apache.org/r1672286
-  +1: rjung
+  +1: rjung, kkolinko
   -1:
 
 PATCHES/ISSUES THAT ARE STALLED:
