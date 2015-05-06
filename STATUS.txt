@@ -66,7 +66,7 @@ PATCHES PROPOSED TO BACKPORT:
          http://svn.apache.org/r1672285
   tc7  : http://svn.apache.org/r1672274
          http://svn.apache.org/r1672286
-  +1: rjung, kkolinko
+  +1: rjung, kkolinko, markt
   -1:
 
 
