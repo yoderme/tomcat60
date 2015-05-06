@@ -73,7 +73,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Use the truststoreProvider rather than the keystoreProvider for the trust
   manager
   http://svn.apache.org/r1677971
-  +1: markt, kkolinko
+  +1: markt, kkolinko, jfclere
   -1:
 
 
