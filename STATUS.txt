@@ -69,6 +69,14 @@ PATCHES PROPOSED TO BACKPORT:
   +1: rjung, kkolinko
   -1:
 
+
+* Use the truststoreProvider rather than the keystoreProvider for the trust
+  manager
+  http://svn.apache.org/r1677971
+  +1: markt
+  -1:
+
+
 PATCHES/ISSUES THAT ARE STALLED:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
