@@ -69,6 +69,22 @@ PATCHES PROPOSED TO BACKPORT:
   +1: rjung, kkolinko, markt
   -1:
 
+* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57896
+  Backport org.apache.tomcat.util.http.ServerCookie.PRESERVE_COOKIE_HEADER option
+
+  Like in Tomcat 7, the fix is to be applied to the call to
+  Cookies.processCookieHeader(byte[], int, int)
+
+  In Tomcat 6 there is also a call to Cookies.processCookieHeader(String) when
+  header value is already a String, but that call does not need this fix, as
+  String is immutable, and that method does not perform decoding of embedded '\"'.
+  It only strips surrounding '"'s in a value.
+
+  http://svn.apache.org/r1675821  (fix)
+  http://svn.apache.org/r1678180  (documentation)
+  +1: kkolinko
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
