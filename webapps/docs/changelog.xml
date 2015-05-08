@@ -110,10 +110,6 @@
         Simplify code in <code>ProtectedFunctionMapper</code> class of
         Jasper runtime. (kkolinko)
       </fix>
-      <fix>
-        <bug>57801</bug>: Improve the error message in the start script in case
-        the PID read from the PID file is already owned by a process. (rjung)
-      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
@@ -196,6 +192,10 @@
         Update to Tomcat Native Library version 1.1.33 to pick up the Windows
         binaries that are based on OpenSSL 1.0.1m and APR 1.5.1. (markt)
       </update>
+      <fix>
+        <bug>57801</bug>: Improve the error message in the start script in case
+        the PID read from the PID file is already owned by a process. (rjung)
+      </fix>
     </changelog>
   </subsection>
 </section>
