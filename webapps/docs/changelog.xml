@@ -79,9 +79,16 @@
         filterInsecureProtocols method. (kkolinko/schultz)
       </fix>
       <fix>
-        When applying the <code>maxSwallowSize</code> limit to a connection read
-        that many bytes first before closing the connection to give the client a
-        chance to read the response. (markt)
+        CVE-2014-0230: Add a new system property
+        <code>org.apache.coyote.MAX_SWALLOW_SIZE</code> (defaults to 2MB)
+        that limits amount of data Tomcat will swallow if request body
+        has not been fully read during normal request processing, e.g.
+        for an aborted upload. (Note: in Tomcat 7 and later this feature is
+        configured by <code>maxSwallowSize</code> attribute on a connector).
+        When applying the limit to a connection try to read that many bytes
+        first before closing the connection to give the client a chance to
+        read the response.
+        (markt)
       </fix>
       <fix>
         <bug>57544</bug>: Fix a potential infinite loop when preparing a kept
