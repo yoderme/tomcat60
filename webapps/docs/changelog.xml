@@ -45,7 +45,7 @@
 -->
 <section name="Tomcat 6.0.45 (jfclere)">
 </section>
-<section name="Tomcat 6.0.44 (jfclere)">
+<section name="Tomcat 6.0.44 (jfclere)" rtext="released 2015-05-12">
   <subsection name="Catalina">
     <changelog>
       <fix>
