@@ -74,6 +74,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1:
 
+* Remove obsolete code supporting old tcnative <= 1.1.20.
+  We currently require tcnative 1.1.30.
+  http://people.apache.org/~rjung/patches/tc6-remove-obsolete-tcn-code.patch
+  +1: rjung
+  -1: 
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
