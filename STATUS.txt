@@ -71,7 +71,7 @@ PATCHES PROPOSED TO BACKPORT:
 
   http://svn.apache.org/r1675821  (fix)
   http://svn.apache.org/r1678180  (documentation)
-  +1: kkolinko
+  +1: kkolinko, markt
   -1:
 
 * Remove obsolete code supporting old tcnative <= 1.1.20.
