@@ -183,6 +183,10 @@
         clearer that hex values are not valid for cluster send options. Based on
         a patch by Kyohei Nakamura. (markt)
       </fix>
+      <fix>
+        <bug>57971</bug>: Correct the documentation for the cluster
+        configuration setting <code>recoverySleepTime</code>. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
