@@ -35,7 +35,7 @@ PATCHES PROPOSED TO BACKPORT:
     LibraryNotFoundError
     Thread
   http://people.apache.org/~markt/patches/2015-04-08-jni-align-tc6-v1.patch
-  +1: markt, kkolinko (comment below)
+  +1: markt, kkolinko (comment below), remm
   -1:
 
    kkolinko:
@@ -71,13 +71,13 @@ PATCHES PROPOSED TO BACKPORT:
 
   http://svn.apache.org/r1675821  (fix)
   http://svn.apache.org/r1678180  (documentation)
-  +1: kkolinko, markt
+  +1: kkolinko, markt, remm
   -1:
 
 * Remove obsolete code supporting old tcnative <= 1.1.20.
   We currently require tcnative 1.1.30.
   http://people.apache.org/~rjung/patches/tc6-remove-obsolete-tcn-code.patch
-  +1: rjung, markt
+  +1: rjung, markt, remm
   -1: 
 
 
