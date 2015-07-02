@@ -80,6 +80,14 @@ PATCHES PROPOSED TO BACKPORT:
   +1: rjung, markt, remm
   -1: 
 
+* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57943
+  Prevent the same socket being added to the cache twice. Patch based on
+  analysis by Ian Luo / Sun Qi.
+  http://svn.apache.org/r1688909
+  http://svn.apache.org/r1688911
+  +1: markt
+  -1:
+
 
 PATCHES/ISSUES THAT ARE STALLED:
 
