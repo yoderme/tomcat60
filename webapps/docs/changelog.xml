@@ -1790,7 +1790,13 @@
       </fix>
       <fix>
         Improve handling of URLs with path parameters and prevent incorrect 404
-        responses that could occur when path parameters were present. (kkolinko)
+        responses that could occur when path parameters were present.
+        The method <code>getRequestURI()</code> was fixed to comply with
+        specification (chapter SRV.3.1 of Servlet Spec. 2.5, javadoc) and now
+        returns original request URI line from a HTTP request including any
+        path parameters (such as jsessionid). See issues <bug>51833</bug> and
+        <bug>53584</bug>.
+        (kkolinko/markt)
       </fix>
       <fix>
         <bug>51473</bug>: Fix concatenation of values in
