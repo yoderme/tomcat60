@@ -50,6 +50,10 @@
         <bug>57971</bug>: Correct the documentation for the cluster
         configuration setting <code>recoverySleepTime</code>. (markt)
       </fix>
+      <fix>
+        <bug>58112</bug>: Update the documentation for using the Catalina tasks
+        in an Apache Ant build file. (markt) 
+      </fix>
     </changelog>
   </subsection>
 </section>
