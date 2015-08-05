@@ -28,6 +28,7 @@ import org.apache.catalina.util.StringManager;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.jni.Library;
+import org.apache.tomcat.jni.LibraryNotFoundError;
 import org.apache.tomcat.jni.SSL;
 import org.apache.tomcat.util.ExceptionUtils;
 
@@ -39,20 +40,17 @@ import org.apache.tomcat.util.ExceptionUtils;
  *
  * @author Remy Maucherat
  * @author Filip Hanik
- *
  * @since 4.1
  */
-
 public class AprLifecycleListener
     implements LifecycleListener {
 
-    private static Log log = LogFactory.getLog(AprLifecycleListener.class);
-
+    private static final Log log = LogFactory.getLog(AprLifecycleListener.class);
     private static boolean instanceCreated = false;
     /**
      * The string manager for this package.
      */
-    protected static StringManager sm =
+    protected static final StringManager sm =
         StringManager.getManager(Constants.Package);
 
 
@@ -62,6 +60,7 @@ public class AprLifecycleListener
     protected static final int TCN_REQUIRED_MAJOR = 1;
     protected static final int TCN_REQUIRED_MINOR = 1;
     protected static final int TCN_REQUIRED_PATCH = 30;
+    protected static final int TCN_RECOMMENDED_MINOR = 1;
     protected static final int TCN_RECOMMENDED_PV = 33;
 
 
@@ -71,6 +70,7 @@ public class AprLifecycleListener
     protected static String SSLRandomSeed = "builtin";
     protected static boolean sslInitialized = false;
     protected static boolean aprInitialized = false;
+    @Deprecated
     protected static boolean sslAvailable = false;
     protected static boolean aprAvailable = false;
     protected static boolean fipsModeActive = false;
@@ -145,11 +145,7 @@ public class AprLifecycleListener
                     terminateAPR();
                 } catch (Throwable t) {
                     ExceptionUtils.handleThrowable(t);
-                    if (!log.isDebugEnabled()) {
                         log.info(sm.getString("aprListener.aprDestroy"));
-                    } else {
-                        log.debug(sm.getString("aprListener.aprDestroy"), t);
-                    }
                 }
             }
         }
@@ -178,34 +174,33 @@ public class AprLifecycleListener
         int patch = 0;
         int apver = 0;
         int rqver = TCN_REQUIRED_MAJOR * 1000 + TCN_REQUIRED_MINOR * 100 + TCN_REQUIRED_PATCH;
-        int rcver = TCN_REQUIRED_MAJOR * 1000 + TCN_REQUIRED_MINOR * 100 + TCN_RECOMMENDED_PV;
+        int rcver = TCN_REQUIRED_MAJOR * 1000 + TCN_RECOMMENDED_MINOR * 100 + TCN_RECOMMENDED_PV;
+
         if (aprInitialized) {
             return;
         }
         aprInitialized = true;
 
         try {
-            String methodName = "initialize";
-            Class<?> paramTypes[] = new Class[1];
-            paramTypes[0] = String.class;
-            Object paramValues[] = new Object[1];
-            paramValues[0] = null;
-            Class<?> clazz = Class.forName("org.apache.tomcat.jni.Library");
-            Method method = clazz.getMethod(methodName, paramTypes);
-            method.invoke(null, paramValues);
-            major = clazz.getField("TCN_MAJOR_VERSION").getInt(null);
-            minor = clazz.getField("TCN_MINOR_VERSION").getInt(null);
-            patch = clazz.getField("TCN_PATCH_VERSION").getInt(null);
+            Library.initialize(null);
+            major = Library.TCN_MAJOR_VERSION;
+            minor = Library.TCN_MINOR_VERSION;
+            patch = Library.TCN_PATCH_VERSION;
             apver = major * 1000 + minor * 100 + patch;
-        } catch (Throwable t) {
-            ExceptionUtils.handleThrowable(t);
-            if (!log.isDebugEnabled()) {
-                log.info(sm.getString("aprListener.aprInit",
-                        System.getProperty("java.library.path")));
-            } else {
-                log.debug(sm.getString("aprListener.aprInit",
-                        System.getProperty("java.library.path")), t);
+        } catch (LibraryNotFoundError lnfe) {
+            // Library not on path
+            if (log.isDebugEnabled()) {
+                log.debug(sm.getString("aprListener.aprInitDebug",
+                        lnfe.getLibraryNames(), System.getProperty("java.library.path"),
+                        lnfe.getMessage()), lnfe);
             }
+            log.info(sm.getString("aprListener.aprInit",
+                    System.getProperty("java.library.path")));
+            return;
+        } catch (Throwable t) {
+            // Library present but failed to load
+            ExceptionUtils.handleThrowable(t);
+            log.warn(sm.getString("aprListener.aprInitError", t.getMessage()), t);
             return;
         }
         if (apver < rqver) {
@@ -224,31 +219,19 @@ public class AprLifecycleListener
             return;
         }
         if (apver <  rcver) {
-            if (!log.isDebugEnabled()) {
-                log.info(sm.getString("aprListener.tcnVersion", major + "."
-                        + minor + "." + patch,
+            log.info(sm.getString("aprListener.tcnVersion",
+                    major + "." + minor + "." + patch,
                         TCN_REQUIRED_MAJOR + "." +
-                        TCN_REQUIRED_MINOR + "." +
+                    TCN_RECOMMENDED_MINOR + "." +
                         TCN_RECOMMENDED_PV));
-            } else {
-                log.debug(sm.getString("aprListener.tcnVersion", major + "."
-                        + minor + "." + patch,
-                        TCN_REQUIRED_MAJOR + "." +
-                        TCN_REQUIRED_MINOR + "." +
-                        TCN_RECOMMENDED_PV));
-            }
         }
-        if (!log.isDebugEnabled()) {
-           log.info(sm.getString("aprListener.tcnValid", major + "."
-                    + minor + "." + patch,
-                    Library.APR_MAJOR_VERSION + "."
-                    + Library.APR_MINOR_VERSION + "."
-                    + Library.APR_PATCH_VERSION));
-        }
-        else {
-           log.debug(sm.getString("aprListener.tcnValid", major + "."
-                     + minor + "." + patch));
-        }
+
+        log.info(sm.getString("aprListener.tcnValid",
+                major + "." + minor + "." + patch,
+                Library.APR_MAJOR_VERSION + "." +
+                Library.APR_MINOR_VERSION + "." +
+                Library.APR_PATCH_VERSION));
+
         // Log APR flags
         log.info(sm.getString("aprListener.flags",
                 Boolean.valueOf(Library.APR_HAVE_IPV6),

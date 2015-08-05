@@ -17,6 +17,8 @@
 
 package org.apache.tomcat.jni;
 
+import java.io.File;
+
 /** Library
  *
  * @author Mladen Turk
@@ -24,34 +26,52 @@ package org.apache.tomcat.jni;
 public final class Library {
 
     /* Default library names */
-    private static String [] NAMES = {"tcnative-1", "libtcnative-1"};
+    private static final String [] NAMES = {"tcnative-1", "libtcnative-1"};
     /*
      * A handle to the unique Library singleton instance.
      */
     private static Library _instance = null;
 
-    private Library()
-    {
+    private Library() throws Throwable {
         boolean loaded = false;
-        String err = "";
+        String path = System.getProperty("java.library.path");
+        String [] paths = path.split(File.pathSeparator);
+        StringBuilder err = new StringBuilder();
         for (int i = 0; i < NAMES.length; i++) {
             try {
                 System.loadLibrary(NAMES[i]);
                 loaded = true;
+            } catch (ThreadDeath t) {
+                throw t;
+            } catch (VirtualMachineError t) {
+                // Don't use a Java 7 multiple exception catch so we can keep
+                // the JNI code identical between Tomcat 6/7/8
+                throw t;
+            } catch (Throwable t) {
+                String name = System.mapLibraryName(NAMES[i]);
+                for (int j = 0; j < paths.length; j++) {
+                    java.io.File fd = new java.io.File(paths[j] , name);
+                    if (fd.exists()) {
+                        // File exists but failed to load
+                        throw t;
+                    }
+                }
+                if (i > 0) {
+                    err.append(", ");
+                }
+                err.append(t.getMessage());
             }
-            catch (Throwable e) {
-                if ( i > 0)
-                    err += ", ";
-                err +=  e.getMessage();
-            }
-            if (loaded)
+            if (loaded) {
                 break;
+            }
         }
         if (!loaded) {
-            err += "(";
-            err += System.getProperty("java.library.path");
-            err += ")";
-            throw new UnsatisfiedLinkError(err);
+            StringBuilder names = new StringBuilder();
+            for (String name : NAMES) {
+                names.append(name);
+                names.append(", ");
+            }
+            throw new LibraryNotFoundError(names.substring(0, names.length() -2), err.toString());
         }
     }
 
@@ -83,8 +103,6 @@ public final class Library {
     public static int TCN_PATCH_VERSION  = 0;
     /* TCN_IS_DEV_VERSION */
     public static int TCN_IS_DEV_VERSION = 0;
-    /* TCN_FULL_VERSION */
-    public static int TCN_FULL_VERSION   = 0;
     /* APR_MAJOR_VERSION */
     public static int APR_MAJOR_VERSION  = 0;
     /* APR_MINOR_VERSION */
@@ -150,7 +168,7 @@ public final class Library {
      * @param libraryName the name of the library to load
      */
     public static boolean initialize(String libraryName)
-        throws Exception
+        throws Throwable
     {
         if (_instance == null) {
             if (libraryName == null)
@@ -161,9 +179,6 @@ public final class Library {
             TCN_MINOR_VERSION  = version(0x02);
             TCN_PATCH_VERSION  = version(0x03);
             TCN_IS_DEV_VERSION = version(0x04);
-            TCN_FULL_VERSION   = TCN_MAJOR_VERSION * 1000 +
-                                 TCN_MINOR_VERSION * 100 +
-                                 TCN_PATCH_VERSION;
             APR_MAJOR_VERSION  = version(0x11);
             APR_MINOR_VERSION  = version(0x12);
             APR_PATCH_VERSION  = version(0x13);

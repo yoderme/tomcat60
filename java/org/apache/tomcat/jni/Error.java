@@ -23,15 +23,17 @@ package org.apache.tomcat.jni;
  */
 public class Error extends Exception {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * APR error type.
      */
-    private int error;
+    private final int error;
 
     /**
      * A description of the problem.
      */
-    private String description;
+    private final String description;
 
     /**
      * Construct an APRException.

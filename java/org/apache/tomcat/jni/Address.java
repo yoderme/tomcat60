@@ -23,7 +23,7 @@ package org.apache.tomcat.jni;
  */
 public class Address {
 
-    static public String APR_ANYADDR = "0.0.0.0";
+    public static final String APR_ANYADDR = "0.0.0.0";
     /**
      * Fill the Sockaddr class from apr_sockaddr_t
      * @param info Sockaddr class to fill

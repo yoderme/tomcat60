@@ -44,6 +44,23 @@
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
 <section name="Tomcat 6.0.45 (jfclere)">
+  <subsection name="Catalina">
+    <changelog>
+      <fix>
+        Back-port various improvements to the <code>AprLifecycleListener</code>
+        including the fix for <bug>57021</bug> that improves logging when the
+        Tomcat-Native DLL fails to load. (markt)
+      </fix>
+    </changelog>
+  </subsection>
+  <subsection name="Coyote">
+    <changelog>
+      <add>
+        Align the Java side of the tc-native connector with the Tomcat 7
+        implementation to ease future maintenance. (markt)
+      </add>
+    </changelog>
+  </subsection>
   <subsection name="Web applications">
     <changelog>
       <fix>

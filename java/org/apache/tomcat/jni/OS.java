@@ -31,6 +31,7 @@ public class OS {
     private static final int LINUX     = 5;
     private static final int SOLARIS   = 6;
     private static final int BSD       = 7;
+    private static final int MACOSX    = 8;
 
     public static final int LOG_EMERG  = 1;
     public static final int LOG_ERROR  = 2;
@@ -52,6 +53,7 @@ public class OS {
     public static final boolean IS_LINUX   = is(LINUX);
     public static final boolean IS_SOLARIS = is(SOLARIS);
     public static final boolean IS_BSD     = is(BSD);
+    public static final boolean IS_MACOSX  = is(MACOSX);
 
     /**
      * Get the name of the system default character set.

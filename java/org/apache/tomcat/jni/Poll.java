@@ -87,6 +87,16 @@ public class Poll {
                                  int reqevents);
 
     /**
+     * Add a socket to a pollset with a specific timeout.
+     * @param pollset The pollset to which to add the socket
+     * @param sock The sockets to add
+     * @param reqevents requested events
+     * @param timeout requested timeout in microseconds (-1 for infinite)
+     */
+    public static native int addWithTimeout(long pollset, long sock,
+                                            int reqevents, long timeout);
+
+    /**
      * Remove a descriptor from a pollset
      * @param pollset The pollset from which to remove the descriptor
      * @param sock The socket to remove
