@@ -58,7 +58,15 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=58031
+  Provide a mechanism to enable a 413 response if maxPostSize is exceeded while
+  processing parameters
+  http://svn.apache.org/r1694433
+  http://svn.apache.org/r1694437
+  +1: markt
+  -1:
 
+  
 PATCHES/ISSUES THAT ARE STALLED:
 
 * Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
