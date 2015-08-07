@@ -44,12 +44,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko, markt, remm
   -1:
 
-* Remove obsolete code supporting old tcnative <= 1.1.20.
-  We currently require tcnative 1.1.30.
-  http://people.apache.org/~rjung/patches/tc6-remove-obsolete-tcn-code.patch
-  +1: rjung, markt, remm
-  -1: 
-
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57943
   Prevent the same socket being added to the cache twice. Patch based on
   analysis by Ian Luo / Sun Qi.
