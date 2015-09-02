@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -91,10 +91,14 @@ public final class RequestUtil {
      * try to perform security checks for malicious input.
      *
      * @param path Relative path to be normalized
+     *
+     * @return The normalized path or <code>null</code> if the path cannot be
+     *         normalized
      */
     public static String normalize(String path) {
         return normalize(path, true);
     }
+
 
     /**
      * Normalize a relative URI path that may have relative values ("/./",
@@ -104,20 +108,21 @@ public final class RequestUtil {
      *
      * @param path Relative path to be normalized
      * @param replaceBackSlash Should '\\' be replaced with '/'
+     *
+     * @return The normalized path or <code>null</code> if the path cannot be
+     *         normalized
      */
     public static String normalize(String path, boolean replaceBackSlash) {
 
-        if (path == null)
+        if (path == null) {
             return null;
+        }
 
         // Create a place for the normalized path
         String normalized = path;
 
         if (replaceBackSlash && normalized.indexOf('\\') >= 0)
             normalized = normalized.replace('\\', '/');
-
-        if (normalized.equals("/."))
-            return "/";
 
         // Add a leading "/" if necessary
         if (!normalized.startsWith("/"))
@@ -126,36 +131,44 @@ public final class RequestUtil {
         // Resolve occurrences of "//" in the normalized path
         while (true) {
             int index = normalized.indexOf("//");
-            if (index < 0)
+            if (index < 0) {
                 break;
-            normalized = normalized.substring(0, index) +
-                normalized.substring(index + 1);
+            }
+            normalized = normalized.substring(0, index) + normalized.substring(index + 1);
         }
 
         // Resolve occurrences of "/./" in the normalized path
         while (true) {
             int index = normalized.indexOf("/./");
-            if (index < 0)
+            if (index < 0) {
                 break;
-            normalized = normalized.substring(0, index) +
-                normalized.substring(index + 2);
+            }
+            normalized = normalized.substring(0, index) + normalized.substring(index + 2);
         }
 
         // Resolve occurrences of "/../" in the normalized path
         while (true) {
             int index = normalized.indexOf("/../");
-            if (index < 0)
+            if (index < 0) {
                 break;
-            if (index == 0)
-                return (null);  // Trying to go outside our context
+            }
+            if (index == 0) {
+                return null;  // Trying to go outside our context
+            }
             int index2 = normalized.lastIndexOf('/', index - 1);
-            normalized = normalized.substring(0, index2) +
-                normalized.substring(index + 3);
+            normalized = normalized.substring(0, index2) + normalized.substring(index + 3);
+        }
+
+        if (normalized.equals("/.")) {
+            return "/";
+        }
+
+        if (normalized.equals("/..")) {
+            return null;  // Trying to go outside our context
         }
 
         // Return the normalized path that we have completed
-        return (normalized);
-
+        return normalized;
     }
 
 
@@ -213,8 +226,8 @@ public final class RequestUtil {
     public static String URLDecode(String str) {
         return URLDecode(str, null);
     }
-    
-    
+
+
     /**
      * Decode and return the specified URL-encoded String. It is assumed the
      * string is not a query string.
@@ -227,7 +240,7 @@ public final class RequestUtil {
     public static String URLDecode(String str, String enc) {
         return URLDecode(str, enc, false);
     }
-    
+
     /**
      * Decode and return the specified URL-encoded String.
      *
@@ -294,7 +307,7 @@ public final class RequestUtil {
      * by a valid 2-digit hexadecimal number
      */
     public static String URLDecode(byte[] bytes, String enc, boolean isQuery) {
-    
+
         if (bytes == null)
             return (null);
 
@@ -403,8 +416,8 @@ public final class RequestUtil {
                         ox = 0;
                     } else {
                         data[ox++] = c;
-                    }                   
-                    break;  
+                    }
+                    break;
                 case '+':
                     data[ox++] = (byte)' ';
                     break;
