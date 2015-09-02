@@ -66,6 +66,12 @@ PATCHES PROPOSED TO BACKPORT:
   +1: markt
   -1:
 
+* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=58313
+  http://svn.apache.org/r1700872
+  NNot required for async but still required because of Comet
+  +1: markt
+  -1:
+
   
 PATCHES/ISSUES THAT ARE STALLED:
 
