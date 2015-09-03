@@ -62,6 +62,7 @@ PATCHES PROPOSED TO BACKPORT:
 
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=58313
   http://svn.apache.org/r1700872
+  http://svn.apache.org/r1701095
   Not required for async but still required because of Comet
   +1: markt
   -1:
