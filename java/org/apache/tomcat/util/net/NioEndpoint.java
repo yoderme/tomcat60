@@ -1555,9 +1555,24 @@ public class NioEndpoint extends AbstractEndpoint {
                 key.attach(null);
                 if (ka!=null) handler.release(ka.getChannel());
                 if (key.isValid()) key.cancel();
-                if (key.channel().isOpen()) try {key.channel().close();}catch (Exception ignore){}
-                try {if (ka!=null) ka.channel.close(true);}catch (Exception ignore){}
-                try {if (ka!=null && ka.getSendfileData()!=null && ka.getSendfileData().fchannel!=null && ka.getSendfileData().fchannel.isOpen()) ka.getSendfileData().fchannel.close();}catch (Exception ignore){}
+                if (key.channel().isOpen()) {
+                    try {
+                        key.channel().close();
+                    } catch (Exception ignore) {
+                    }
+                }
+                try {
+                    if (ka != null)
+                        ka.channel.close(true);
+                } catch (Exception ignore) {
+                }
+                try {
+                    if (ka != null && ka.getSendfileData() != null
+                            && ka.getSendfileData().fchannel != null
+                            && ka.getSendfileData().fchannel.isOpen())
+                        ka.getSendfileData().fchannel.close();
+                } catch (Exception ignore) {
+                }
                 if (ka!=null) ka.reset();
             } catch (Throwable e) {
                 if ( log.isDebugEnabled() ) log.error("",e);
