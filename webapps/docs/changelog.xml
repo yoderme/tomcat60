@@ -59,6 +59,10 @@
         or <code>org.apache.catalina.STRICT_SERVLET_COMPLIANCE</code>
         system property. (kkolinko)
       </fix>
+      <fix>
+        <bug>58313</bug>: Fix concurrent access of encoders map when clearing
+        encoders during Comet processing. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">

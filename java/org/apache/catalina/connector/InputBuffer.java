@@ -22,7 +22,8 @@ import java.io.Reader;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.catalina.security.SecurityUtil;
 import org.apache.catalina.util.StringManager;
@@ -125,7 +126,7 @@ public class InputBuffer extends Reader
     /**
      * List of encoders.
      */
-    protected HashMap encoders = new HashMap();
+    protected final Map encoders = new ConcurrentHashMap();
 
 
     /**
