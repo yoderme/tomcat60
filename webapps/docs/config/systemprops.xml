@@ -298,6 +298,7 @@
       <p>If this is <code>true</code> the default value will be changed for:
       <ul>
       <li><code>org.apache.catalina.connector.Request. ALLOW_EMPTY_QUERY_STRING</code> property</li>
+      <li><code>org.apache.tomcat.util.http.ServerCookie. PRESERVE_COOKIE_HEADER</code> property</li>
       <li>The <code>webXmlValidation</code> attribute of any
           <a href="context.html">Context</a> element.</li>
       <li>The <code>webXmlNamespaceAware</code> attribute of any
@@ -347,6 +348,16 @@
       zero. This is to work around a known IE6 and IE7 bug that causes IE to
       ignore the Max-Age parameter in a SetCookie header.</p>
       <p>If not specified, the default value of <code>true</code> will be used.</p>
+    </property>
+
+    <property
+    name="org.apache.tomcat.util.http. ServerCookie.PRESERVE_COOKIE_HEADER">
+      <p>If this is <code>true</code> Tomcat will ensure that cookie
+      processing does not modify cookie header returned by
+      <code>HttpServletRequest.getHeader()</code>.</p>
+      <p>If <code>org.apache.catalina.STRICT_SERVLET_COMPLIANCE</code> is set to
+      <code>true</code>, the default of this setting will be <code>true</code>,
+      else the default value will be <code>false</code>.</p>
     </property>
 
   </properties>

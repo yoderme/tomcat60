@@ -28,22 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57896
-  Backport org.apache.tomcat.util.http.ServerCookie.PRESERVE_COOKIE_HEADER option
-
-  Like in Tomcat 7, the fix is to be applied to the call to
-  Cookies.processCookieHeader(byte[], int, int)
-
-  In Tomcat 6 there is also a call to Cookies.processCookieHeader(String) when
-  header value is already a String, but that call does not need this fix, as
-  String is immutable, and that method does not perform decoding of embedded '\"'.
-  It only strips surrounding '"'s in a value.
-
-  http://svn.apache.org/r1675821  (fix)
-  http://svn.apache.org/r1678180  (documentation)
-  +1: kkolinko, markt, remm
-  -1:
-
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57943
   Prevent the same socket being added to the cache twice. Patch based on
   analysis by Ian Luo / Sun Qi.

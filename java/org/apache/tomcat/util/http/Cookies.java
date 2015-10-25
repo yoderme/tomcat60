@@ -52,6 +52,12 @@ public final class Cookies { // extends MultiMap {
      */
     public static final boolean ALLOW_EQUALS_IN_VALUE;
 
+    /**
+     * If set to true, the cookie header will be preserved. In most cases 
+     * except debugging, this is not useful.
+     */
+    public static final boolean PRESERVE_COOKIE_HEADER;
+
     /*
     List of Separator Characters (see isSeparator())
     Excluding the '/' char violates the RFC, but
@@ -75,6 +81,15 @@ public final class Cookies { // extends MultiMap {
         ALLOW_EQUALS_IN_VALUE = Boolean.valueOf(System.getProperty(
                 "org.apache.tomcat.util.http.ServerCookie.ALLOW_EQUALS_IN_VALUE",
                 "false")).booleanValue();
+
+        String preserveCookieHeader = System.getProperty(
+                "org.apache.tomcat.util.http.ServerCookie.PRESERVE_COOKIE_HEADER");
+        if (preserveCookieHeader == null) {
+            PRESERVE_COOKIE_HEADER = ServerCookie.STRICT_SERVLET_COMPLIANCE;
+        } else {
+            PRESERVE_COOKIE_HEADER =
+                Boolean.valueOf(preserveCookieHeader).booleanValue();
+        }
     }
 
     /**
@@ -201,10 +216,18 @@ public final class Cookies { // extends MultiMap {
             // Uncomment to test the new parsing code
             if( cookieValue.getType() == MessageBytes.T_BYTES ) {
                 if( dbg>0 ) log( "Parsing b[]: " + cookieValue.toString());
-                ByteChunk bc=cookieValue.getByteChunk();
-                processCookieHeader( bc.getBytes(),
-                                     bc.getOffset(),
-                                     bc.getLength());
+                ByteChunk bc = cookieValue.getByteChunk();
+                if (PRESERVE_COOKIE_HEADER) {
+                    int len = bc.getLength();
+                    if (len > 0) {
+                        byte[] buf = new byte[len];
+                        System.arraycopy(bc.getBytes(), bc.getOffset(), buf, 0, len);
+                        processCookieHeader(buf, 0, len);
+                    }
+                } else {
+                    processCookieHeader(bc.getBytes(), bc.getOffset(),
+                            bc.getLength());
+                }
             } else {
                 if( dbg>0 ) log( "Parsing S: " + cookieValue.toString());
                 processCookieHeader( cookieValue.toString() );
