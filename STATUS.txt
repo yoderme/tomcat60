@@ -40,7 +40,7 @@ PATCHES PROPOSED TO BACKPORT:
   http://svn.apache.org/r1700872
   http://svn.apache.org/r1701095
   Not required for async but still required because of Comet
-  +1: markt, remm
+  +1: markt, remm, kkolinko
   -1:
 
 * Ensure LogFactoryImpl is excluded from extras/tomcat-juli-adapters jar.
@@ -54,7 +54,7 @@ PATCHES PROPOSED TO BACKPORT:
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=58508
   http://svn.apache.org/viewvc?rev=1710353&view=rev
   Escape role name for MBeans
-  +1: markt
+  +1: markt, kkolinko
   -1:
 
   
