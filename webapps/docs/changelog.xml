@@ -67,6 +67,15 @@
         Align the Java side of the tc-native connector with the Tomcat 7
         implementation to ease future maintenance. (markt)
       </add>
+      <fix>
+        <bug>52926</bug>: Avoid NPE when an NIO Comet connection times out on
+        one thread at the same time as it is closed on another thread.
+        (markt/kkolinko)
+      </fix>
+      <fix>
+        <bug>57943</bug>: Prevent the same socket being added to the cache
+        twice. Patch based on analysis by Ian Luo / Sun Qi. (markt/kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">

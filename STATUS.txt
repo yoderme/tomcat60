@@ -28,16 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=57943
-  Prevent the same socket being added to the cache twice. Patch based on
-  analysis by Ian Luo / Sun Qi.
-  http://svn.apache.org/r1688909
-  http://svn.apache.org/r1688911
-  +1: markt, remm, kkolinko
-  -1:
-   kkolinko: Technically, this also includes http://svn.apache.org/r1646468
-   (adding return value to cancelledKey() method, the rest is superseded by r1688909)
-
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=58031
   Provide a mechanism to enable a 413 response if maxPostSize is exceeded while
   processing parameters
