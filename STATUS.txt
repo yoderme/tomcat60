@@ -42,7 +42,7 @@ PATCHES PROPOSED TO BACKPORT:
   https://svn.apache.org/r1707054
   - to be applied to extras.xml line 220
   +1: kkolinko
-  -1:
+  -1: markt - This appears to be unnecessary
 
 * Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=58508
   http://svn.apache.org/viewvc?rev=1710353&view=rev
