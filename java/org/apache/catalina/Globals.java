@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,9 +30,9 @@ public final class Globals {
 
     /**
      * The servlet context attribute under which we store the alternate
-     * deployment descriptor for this web application 
+     * deployment descriptor for this web application
      */
-    public static final String ALT_DD_ATTR = 
+    public static final String ALT_DD_ATTR =
         "org.apache.catalina.deploy.alt_dd";
 
     /**
@@ -62,13 +62,13 @@ public final class Globals {
     /**
      * Request dispatcher state.
      */
-    public static final String DISPATCHER_TYPE_ATTR = 
+    public static final String DISPATCHER_TYPE_ATTR =
         "org.apache.catalina.core.DISPATCHER_TYPE";
 
     /**
      * Request dispatcher path.
      */
-    public static final String DISPATCHER_REQUEST_PATH_ATTR = 
+    public static final String DISPATCHER_REQUEST_PATH_ATTR =
         "org.apache.catalina.core.DISPATCHER_REQUEST_PATH";
 
     /**
@@ -223,8 +223,8 @@ public final class Globals {
      */
     public static final String FORWARD_REQUEST_URI_ATTR =
         "javax.servlet.forward.request_uri";
-    
-    
+
+
     /**
      * The request attribute under which the original context path is stored
      * on an forwarded dispatcher request.
@@ -264,7 +264,7 @@ public final class Globals {
     public static final String SERVLET_NAME_ATTR =
         "javax.servlet.error.servlet_name";
 
-    
+
     /**
      * The name of the cookie used to pass the session identifier back
      * and forth with the client.
@@ -308,7 +308,7 @@ public final class Globals {
     public static final String SUBJECT_ATTR =
         "javax.security.auth.subject";
 
-    
+
     /**
      * The servlet context attribute under which we record the set of
      * welcome files (as an object of type String[]) for this application.
@@ -338,7 +338,14 @@ public final class Globals {
 
 
     /**
-     * The master flag which controls strict servlet specification 
+     * The reason that the parameter parsing failed.
+     */
+    public static final String PARAMETER_PARSE_FAILED_REASON_ATTR =
+            "org.apache.catalina.parameter_parse_failed_reason";
+
+
+    /**
+     * The master flag which controls strict servlet specification
      * compliance.
      */
     public static final boolean STRICT_SERVLET_COMPLIANCE =

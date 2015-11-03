@@ -34,7 +34,7 @@ import org.apache.tomcat.util.log.UserDataHelper;
 import org.apache.tomcat.util.res.StringManager;
 
 /**
- * 
+ *
  * @author Costin Manolache
  */
 public final class Parameters {
@@ -53,7 +53,7 @@ public final class Parameters {
         new HashMap<String,ArrayList<String>>();
 
     private boolean didQueryParameters=false;
-    
+
     MessageBytes queryMB;
 
     UDecoder urlDec;
@@ -61,15 +61,15 @@ public final class Parameters {
 
     String encoding=null;
     String queryStringEncoding=null;
-    
+
     private int limit = -1;
     private int parameterCount = 0;
 
     /**
-     * Is set to <code>true</code> if there were failures during parameter
-     * parsing.
+     * Set to the reason for the failure (the first failure if there is more
+     * than one) if there were failures during parameter parsing.
      */
-    private boolean parseFailed = false;
+    private FailReason parseFailedReason = null;
 
     public Parameters() {
         // NO-OP
@@ -102,11 +102,17 @@ public final class Parameters {
     }
 
     public boolean isParseFailed() {
-        return parseFailed;
+        return parseFailedReason != null;
     }
 
-    public void setParseFailed(boolean parseFailed) {
-        this.parseFailed = parseFailed;
+    public FailReason getParseFailedReason() {
+        return parseFailedReason;
+    }
+
+    public void setParseFailedReason(FailReason failReason) {
+        if (this.parseFailedReason == null) {
+            this.parseFailedReason = failReason;
+        }
     }
 
     public void recycle() {
@@ -115,13 +121,13 @@ public final class Parameters {
         didQueryParameters=false;
         encoding=null;
         decodedQuery.recycle();
-        parseFailed = false;
+        parseFailedReason = null;
     }
 
     // -------------------- Data access --------------------
     // Access to the current name/values, no side effect ( processing ).
     // You must explicitly call handleQueryParameters and the post methods.
-    
+
     public void addParameterValues(String key, String[] newValues) {
         if (key == null) {
             return;
@@ -147,7 +153,7 @@ public final class Parameters {
         }
         return values.toArray(new String[values.size()]);
     }
- 
+
     public Enumeration<String> getParameterNames() {
         handleQueryParameters();
         return Collections.enumeration(paramHashValues.keySet());
@@ -176,7 +182,7 @@ public final class Parameters {
 
         if( queryMB==null || queryMB.isNull() )
             return;
-        
+
         if(log.isDebugEnabled()) {
             log.debug("Decoding query " + decodedQuery + " " +
                     queryStringEncoding);
@@ -216,15 +222,15 @@ public final class Parameters {
     private static final String DEFAULT_ENCODING = "ISO-8859-1";
     private static final Charset DEFAULT_CHARSET =
         Charset.forName(DEFAULT_ENCODING);
-    
-    
+
+
     public void processParameters( byte bytes[], int start, int len ) {
         processParameters(bytes, start, len, getCharset(encoding));
     }
 
     private void processParameters(byte bytes[], int start, int len,
                                   Charset charset) {
-        
+
         if(log.isDebugEnabled()) {
             try {
                 log.debug(sm.getString("parameters.bytes",
@@ -235,7 +241,7 @@ public final class Parameters {
         }
 
         int decodeFailCount = 0;
-            
+
         int pos = start;
         int end = start + len;
 
@@ -243,7 +249,7 @@ public final class Parameters {
             parameterCount ++;
 
             if (limit > -1 && parameterCount > limit) {
-                parseFailed = true;
+                setParseFailedReason(FailReason.TOO_MANY_PARAMETERS);
                 UserDataHelper.Mode logMode = maxParamCountLog.getNextMode();
                 if (logMode != null) {
                     String message = sm.getString("parameters.maxCountFail",
@@ -319,7 +325,7 @@ public final class Parameters {
                     valueEnd = pos;
                 }
             }
-            
+
             if (log.isDebugEnabled() && valueStart == -1) {
                 try {
                     log.debug(sm.getString("parameters.noequal",
@@ -331,7 +337,7 @@ public final class Parameters {
                     // Not possible. All JVMs must support ISO-8859-1
                 }
             }
-            
+
             if (nameEnd <= nameStart ) {
                 if (valueStart == -1) {
                     // &&
@@ -370,11 +376,11 @@ public final class Parameters {
                             log.debug(message);
                     }
                 }
-                parseFailed = true;
+                setParseFailedReason(FailReason.NO_NAME);
                 continue;
                 // invalid chunk - it's better to ignore
             }
-            
+
             tmpName.setBytes(bytes, nameStart, nameEnd - nameStart);
             if (valueStart >= 0) {
                 tmpValue.setBytes(bytes, valueStart, valueEnd - valueStart);
@@ -398,7 +404,7 @@ public final class Parameters {
                     log.error(sm.getString("parameters.copyFail"), ioe);
                 }
             }
-            
+
             try {
                 String name;
                 String value;
@@ -421,7 +427,7 @@ public final class Parameters {
 
                 addParam(name, value);
             } catch (IOException e) {
-                parseFailed = true;
+                setParseFailedReason(FailReason.URL_DECODING);
                 decodeFailCount++;
                 if (decodeFailCount == 1 || log.isDebugEnabled()) {
                     if (log.isDebugEnabled()) {
@@ -480,7 +486,7 @@ public final class Parameters {
     private void urlDecode(ByteChunk bc)
         throws IOException {
         if( urlDec==null ) {
-            urlDec=new UDecoder();   
+            urlDec=new UDecoder();
         }
         urlDec.convert(bc);
     }
@@ -507,7 +513,7 @@ public final class Parameters {
         }
     }
 
-    /** 
+    /**
      * Debug purpose
      */
     public String paramsAsString() {
@@ -523,4 +529,17 @@ public final class Parameters {
         return sb.toString();
     }
 
+
+    public enum FailReason {
+        CLIENT_DISCONNECT,
+        MULTIPART_CONFIG_INVALID,
+        INVALID_CONTENT_TYPE,
+        IO_ERROR,
+        NO_NAME,
+        POST_TOO_LARGE,
+        REQUEST_BODY_INCOMPLETE,
+        TOO_MANY_PARAMETERS,
+        UNKNOWN,
+        URL_DECODING
+    }
 }

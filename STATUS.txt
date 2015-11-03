@@ -28,14 +28,6 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=58031
-  Provide a mechanism to enable a 413 response if maxPostSize is exceeded while
-  processing parameters
-  http://svn.apache.org/r1694433
-  http://svn.apache.org/r1694437
-  +1: markt, remm
-  -1:
-
 * Ensure LogFactoryImpl is excluded from extras/tomcat-juli-adapters jar.
   Reported by Benjamin Gandon on the dev list
   Mail thread: http://tomcat.markmail.org/thread/7iygcau3vja4cbui

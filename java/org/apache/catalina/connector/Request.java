@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -53,6 +53,7 @@ import org.apache.tomcat.util.buf.StringCache;
 import org.apache.tomcat.util.http.Cookies;
 import org.apache.tomcat.util.http.FastHttpDateFormat;
 import org.apache.tomcat.util.http.Parameters;
+import org.apache.tomcat.util.http.Parameters.FailReason;
 import org.apache.tomcat.util.http.ServerCookie;
 import org.apache.tomcat.util.http.mapper.MappingData;
 
@@ -90,18 +91,18 @@ public class Request
     private final static boolean ALLOW_EMPTY_QUERY_STRING;
 
     private static final Log log = LogFactory.getLog(Request.class);
-    
+
     static {
         // Ensure that classes are loaded for SM
         new StringCache.ByteEntry();
         new StringCache.CharEntry();
-        
+
         ALLOW_EMPTY_QUERY_STRING = Boolean.parseBoolean(System.getProperty(
                 "org.apache.catalina.connector.Request.ALLOW_EMPTY_QUERY_STRING",
                 Boolean.toString(Globals.STRICT_SERVLET_COMPLIANCE)));
     }
 
-    
+
     // ----------------------------------------------------------- Constructors
     public Request() {
 
@@ -122,7 +123,7 @@ public class Request
 
     /**
      * Set the Coyote request.
-     * 
+     *
      * @param coyoteRequest The Coyote request
      */
     public void setCoyoteRequest(org.apache.coyote.Request coyoteRequest) {
@@ -213,19 +214,19 @@ public class Request
      */
     protected String authType = null;
 
-    
+
     /**
      * Associated event.
      */
     protected CometEventImpl event = null;
-    
+
 
     /**
      * Comet state
      */
     protected boolean comet = false;
-    
-    
+
+
     /**
      * The current dispatcher type.
      */
@@ -241,7 +242,7 @@ public class Request
     /**
      * ServletInputStream.
      */
-    protected CoyoteInputStream inputStream = 
+    protected CoyoteInputStream inputStream =
         new CoyoteInputStream(inputBuffer);
 
 
@@ -292,7 +293,7 @@ public class Request
      */
     protected boolean secure = false;
 
-    
+
     /**
      * The Subject associated with the current AccessControllerContext
      */
@@ -370,18 +371,18 @@ public class Request
      */
     protected String remoteHost = null;
 
-    
+
     /**
      * Remote port
      */
     protected int remotePort = -1;
-    
+
     /**
      * Local address
      */
     protected String localAddr = null;
 
-    
+
     /**
      * Local address
      */
@@ -422,7 +423,7 @@ public class Request
             event.clear();
             event = null;
         }
-        
+
         authType = null;
         inputBuffer.recycle();
         usingInputStream = false;
@@ -494,7 +495,7 @@ public class Request
     public void clearEncoders() {
         inputBuffer.clearEncoders();
     }
-    
+
 
     /**
      * Clear cached encoders (to save memory for Comet requests).
@@ -503,7 +504,7 @@ public class Request
         throws IOException {
         return (inputBuffer.realReadBytes(null, 0, 0) > 0);
     }
-    
+
 
     // -------------------------------------------------------- Request Methods
 
@@ -570,7 +571,7 @@ public class Request
 
     /**
      * Set filter chain associated with the request.
-     * 
+     *
      * @param filterChain new filter chain
      */
     public void setFilterChain(FilterChain filterChain) {
@@ -642,7 +643,7 @@ public class Request
     public HttpServletRequest getRequest() {
         if (facade == null) {
             facade = new RequestFacade(this);
-        } 
+        }
         return (facade);
     }
 
@@ -702,7 +703,7 @@ public class Request
 
     /**
      * Set the URI converter.
-     * 
+     *
      * @param URIConverter the new URI connverter
      */
     protected void setURIConverter(B2CConverter URIConverter) {
@@ -743,7 +744,7 @@ public class Request
      *
      * @exception IOException if an input/output error occurs
      */
-    public ServletInputStream createInputStream() 
+    public ServletInputStream createInputStream()
         throws IOException {
         if (inputStream == null) {
             inputStream = new CoyoteInputStream(inputBuffer);
@@ -913,11 +914,11 @@ public class Request
     public Object getAttribute(String name) {
 
         if (name.equals(Globals.DISPATCHER_TYPE_ATTR)) {
-            return (dispatcherType == null) 
+            return (dispatcherType == null)
                 ? ApplicationFilterFactory.REQUEST_INTEGER
                 : dispatcherType;
         } else if (name.equals(Globals.DISPATCHER_REQUEST_PATH_ATTR)) {
-            return (requestDispatcherPath == null) 
+            return (requestDispatcherPath == null)
                 ? getRequestPathMB().toString()
                 : requestDispatcherPath.toString();
         } else if (name.equals(Globals.PARAMETER_PARSE_FAILED_ATTR)) {
@@ -936,7 +937,7 @@ public class Request
         if(attr != null)
             return attr;
         if( isSSLAttribute(name) ) {
-            coyoteRequest.action(ActionCode.ACTION_REQ_SSL_ATTRIBUTE, 
+            coyoteRequest.action(ActionCode.ACTION_REQ_SSL_ATTRIBUTE,
                                  coyoteRequest);
             attr = coyoteRequest.getAttribute(Globals.CERTIFICATES_ATTR);
             if( attr != null) {
@@ -1259,14 +1260,14 @@ public class Request
     /**
      * Returns the Internet Protocol (IP) source port of the client
      * or last proxy that sent the request.
-     */    
+     */
     public int getRemotePort(){
         if (remotePort == -1) {
             coyoteRequest.action
                 (ActionCode.ACTION_REQ_REMOTEPORT_ATTRIBUTE, coyoteRequest);
             remotePort = coyoteRequest.getRemotePort();
         }
-        return remotePort;    
+        return remotePort;
     }
 
     /**
@@ -1285,14 +1286,14 @@ public class Request
     /**
      * Returns the Internet Protocol (IP) address of the interface on
      * which the request  was received.
-     */       
+     */
     public String getLocalAddr(){
         if (localAddr == null) {
             coyoteRequest.action
                 (ActionCode.ACTION_REQ_LOCAL_ADDR_ATTRIBUTE, coyoteRequest);
             localAddr = coyoteRequest.localAddr().toString();
         }
-        return localAddr;    
+        return localAddr;
     }
 
 
@@ -1308,7 +1309,7 @@ public class Request
         }
         return localPort;
     }
-    
+
     /**
      * Return a RequestDispatcher that wraps the resource at the specified
      * path, which may be interpreted as relative to the current request path.
@@ -1414,7 +1415,7 @@ public class Request
         } else {
             return;
         }
-        
+
         // Notify interested application event listeners
         Object listeners[] = context.getApplicationEventListeners();
         if ((listeners == null) || (listeners.length == 0))
@@ -1445,7 +1446,7 @@ public class Request
      * @param value The associated value
      */
     public void setAttribute(String name, Object value) {
-	
+
         // Name cannot be null
         if (name == null)
             throw new IllegalArgumentException
@@ -1504,7 +1505,7 @@ public class Request
         if (name.startsWith("org.apache.tomcat.")) {
             coyoteRequest.setAttribute(name, value);
         }
-        
+
         // Notify interested application event listeners
         Object listeners[] = context.getApplicationEventListeners();
         if ((listeners == null) || (listeners.length == 0))
@@ -1779,7 +1780,7 @@ public class Request
 
     /**
      * Set the decoded request URI.
-     * 
+     *
      * @param uri The decoded request URI
      */
     public void setDecodedRequestURI(String uri) {
@@ -1789,7 +1790,7 @@ public class Request
 
     /**
      * Get the decoded request URI.
-     * 
+     *
      * @return the URL decoded request URI
      */
     public String getDecodedRequestURI() {
@@ -1799,7 +1800,7 @@ public class Request
 
     /**
      * Get the decoded request URI.
-     * 
+     *
      * @return the URL decoded request URI
      */
     public MessageBytes getDecodedRequestURIMB() {
@@ -1831,18 +1832,18 @@ public class Request
 
         if (Globals.IS_SECURITY_ENABLED){
             HttpSession session = getSession(false);
-            if ( (subject != null) && 
+            if ( (subject != null) &&
                  (!subject.getPrincipals().contains(principal)) ){
-                subject.getPrincipals().add(principal);         
+                subject.getPrincipals().add(principal);
             } else if (session != null &&
                         session.getAttribute(Globals.SUBJECT_ATTR) == null) {
                 subject = new Subject();
-                subject.getPrincipals().add(principal);         
+                subject.getPrincipals().add(principal);
             }
             if (session != null){
                 session.setAttribute(Globals.SUBJECT_ATTR, subject);
             }
-        } 
+        }
 
         this.userPrincipal = principal;
     }
@@ -1870,7 +1871,7 @@ public class Request
 
     /**
      * Get the context path.
-     * 
+     *
      * @return the context path
      */
     public MessageBytes getContextPathMB() {
@@ -1995,7 +1996,7 @@ public class Request
 
     /**
      * Get the path info.
-     * 
+     *
      * @return the path info
      */
     public MessageBytes getPathInfoMB() {
@@ -2029,7 +2030,7 @@ public class Request
         if (!ALLOW_EMPTY_QUERY_STRING && "".equals(queryString)) {
             return null;
         }
-        
+
         return queryString;
     }
 
@@ -2051,7 +2052,7 @@ public class Request
 
     /**
      * Get the request path.
-     * 
+     *
      * @return the request path
      */
     public MessageBytes getRequestPathMB() {
@@ -2125,7 +2126,7 @@ public class Request
 
     /**
      * Get the servlet path.
-     * 
+     *
      * @return the servlet path
      */
     public MessageBytes getServletPathMB() {
@@ -2297,7 +2298,7 @@ public class Request
      * are several things that may trigger an ID change. These include moving
      * between nodes in a cluster and session fixation prevention during the
      * authentication process.
-     * 
+     *
      * @param newSessionId   The new session ID to use
      */
     public void changeSessionId(String newSessionId) {
@@ -2306,10 +2307,10 @@ public class Request
         if (requestedSessionId != null && requestedSessionId.length() > 0) {
             requestedSessionId = newSessionId;
         }
-        
+
         if (context != null && !context.getCookies())
             return;
-        
+
         if (response != null) {
             String scName = null;
             if (context != null) {
@@ -2318,7 +2319,7 @@ public class Request
             if (scName == null) {
                 scName = Globals.SESSION_COOKIE_NAME;
             }
-            
+
             Cookie newCookie = new Cookie(scName, newSessionId);
 
             configureSessionCookie(newCookie);
@@ -2332,7 +2333,7 @@ public class Request
         }
     }
 
-    
+
     /**
      * Return the session associated with this Request, creating one
      * if necessary and requested.
@@ -2354,8 +2355,8 @@ public class Request
         }
         return event;
     }
-    
-    
+
+
     /**
      * Return true if the current request is handling Comet traffic.
      */
@@ -2363,7 +2364,7 @@ public class Request
         return comet;
     }
 
-    
+
     /**
      * Set comet state.
      */
@@ -2376,8 +2377,8 @@ public class Request
      */
     public boolean isParametersParsed() {
         return parametersParsed;
-    }    
-    
+    }
+
     /**
      * Return true if bytes are available.
      */
@@ -2388,11 +2389,11 @@ public class Request
     public void cometClose() {
         coyoteRequest.action(ActionCode.ACTION_COMET_CLOSE,getEvent());
     }
-    
+
     public void setCometTimeout(long timeout) {
         coyoteRequest.action(ActionCode.ACTION_COMET_SETTIMEOUT,new Long(timeout));
     }
-    
+
     // ------------------------------------------------------ Protected Methods
 
 
@@ -2441,7 +2442,7 @@ public class Request
         // Attempt to reuse session id if one was submitted in a cookie
         // Do not reuse the session id if it is from a URL, to prevent possible
         // phishing attacks
-        if (connector.getEmptySessionPath() 
+        if (connector.getEmptySessionPath()
                 && isRequestedSessionIdFromCookie()) {
             session = manager.createSession(getRequestedSessionId());
         } else {
@@ -2476,9 +2477,9 @@ public class Request
      */
     protected void configureSessionCookie(Cookie cookie) {
         cookie.setMaxAge(-1);
-        
+
         Context ctxt = getContext();
-        
+
         String contextPath = null;
         if (ctxt != null && !getConnector().getEmptySessionPath()) {
             if (ctxt.getSessionCookiePath() != null) {
@@ -2492,7 +2493,7 @@ public class Request
         } else {
             cookie.setPath("/");
         }
-        
+
         if (ctxt != null && ctxt.getSessionCookieDomain() != null) {
             cookie.setDomain(ctxt.getSessionCookieDomain());
         }
@@ -2501,7 +2502,7 @@ public class Request
             cookie.setSecure(true);
         }
     }
-    
+
     protected String unescape(String s) {
         if (s==null) return null;
         if (s.indexOf('\\') == -1) return s;
@@ -2622,6 +2623,7 @@ public class Request
                         context.getLogger().debug(
                                 sm.getString("coyoteRequest.postTooLarge"));
                     }
+                    parameters.setParseFailedReason(FailReason.POST_TOO_LARGE);
                     return;
                 }
                 byte[] formData = null;
@@ -2634,6 +2636,7 @@ public class Request
                 }
                 try {
                     if (readPostBody(formData, len) != len) {
+                        parameters.setParseFailedReason(FailReason.REQUEST_BODY_INCOMPLETE);
                         return;
                     }
                 } catch (IOException e) {
@@ -2642,6 +2645,7 @@ public class Request
                         context.getLogger().debug(
                                 sm.getString("coyoteRequest.parseParameters"), e);
                     }
+                    parameters.setParseFailedReason(FailReason.CLIENT_DISCONNECT);
                     return;
                 }
                 parameters.processParameters(formData, 0, len);
@@ -2652,6 +2656,7 @@ public class Request
                     formData = readChunkedPostBody();
                 } catch (IllegalStateException ise) {
                     // chunkedPostTooLarge error
+                    parameters.setParseFailedReason(FailReason.POST_TOO_LARGE);
                     Context context = getContext();
                     if (context != null && context.getLogger().isDebugEnabled()) {
                         context.getLogger().debug(
@@ -2661,6 +2666,7 @@ public class Request
                     return;
                 } catch (IOException e) {
                     // Client disconnect
+                    parameters.setParseFailedReason(FailReason.CLIENT_DISCONNECT);
                     if (context.getLogger().isDebugEnabled()) {
                         context.getLogger().debug(
                                 sm.getString("coyoteRequest.parseParameters"), e);
@@ -2674,7 +2680,7 @@ public class Request
             success = true;
         } finally {
             if (!success) {
-                parameters.setParseFailed(true);
+                parameters.setParseFailedReason(FailReason.UNKNOWN);
             }
         }
 
@@ -2705,9 +2711,9 @@ public class Request
      */
     protected byte[] readChunkedPostBody() throws IOException {
         ByteChunk body = new ByteChunk();
-        
+
         byte[] buffer = new byte[CACHED_POST_LEN];
-        
+
         int len = 0;
         while (len > -1) {
             len = getStream().read(buffer, 0, CACHED_POST_LEN);
@@ -2733,8 +2739,8 @@ public class Request
             return body.getBuffer();
         }
     }
-    
-    
+
+
     /**
      * Parse request locales.
      */
@@ -2866,7 +2872,7 @@ public class Request
 
     }
 
-    
+
     protected static final boolean isAlpha(String value) {
         for (int i = 0; i < value.length(); i++) {
             char c = value.charAt(i);
@@ -2876,5 +2882,5 @@ public class Request
         }
         return true;
     }
-    
+
 }

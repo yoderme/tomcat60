@@ -60,6 +60,11 @@
         system property. (kkolinko)
       </fix>
       <fix>
+        <bug>58031</bug>: Make the (first) reason parameter parsing failed
+        available as a request attribute and then use it to provide a better
+        status code via the FailedRequstFilter (if configured). (markt)
+      </fix>
+      <fix>
         <bug>58313</bug>: Fix concurrent access of encoders map when clearing
         encoders during Comet processing. (markt)
       </fix>
