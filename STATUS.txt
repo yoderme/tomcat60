@@ -41,8 +41,8 @@ PATCHES PROPOSED TO BACKPORT:
   Mail thread: http://tomcat.markmail.org/thread/7iygcau3vja4cbui
   https://svn.apache.org/r1707054
   - to be applied to extras.xml line 220
-  +1: kkolinko
-  -1: markt - This appears to be unnecessary
+  +1: kkolinko, markt
+  -1:
 
   
 PATCHES/ISSUES THAT ARE STALLED:
