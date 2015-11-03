@@ -63,6 +63,11 @@
         <bug>58313</bug>: Fix concurrent access of encoders map when clearing
         encoders during Comet processing. (markt)
       </fix>
+      <fix>
+        <bug>58508</bug>: Escape role names when generating associated MBeans in
+        case the role name contains characters not permitted in an MBean name.
+        (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">

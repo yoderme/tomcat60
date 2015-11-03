@@ -44,12 +44,6 @@ PATCHES PROPOSED TO BACKPORT:
   +1: kkolinko
   -1: markt - This appears to be unnecessary
 
-* Fix https://bz.apache.org/bugzilla/show_bug.cgi?id=58508
-  http://svn.apache.org/viewvc?rev=1710353&view=rev
-  Escape role name for MBeans
-  +1: markt, kkolinko
-  -1:
-
   
 PATCHES/ISSUES THAT ARE STALLED:
 
