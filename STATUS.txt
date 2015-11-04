@@ -28,14 +28,7 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-* Ensure LogFactoryImpl is excluded from extras/tomcat-juli-adapters jar.
-  Reported by Benjamin Gandon on the dev list
-  Mail thread: http://tomcat.markmail.org/thread/7iygcau3vja4cbui
-  https://svn.apache.org/r1707054
-  - to be applied to extras.xml line 220
-  +1: kkolinko, markt
-  -1:
-
+None. Tomcat 6 is Commit-Than-Review since 2015-11-02.
   
 PATCHES/ISSUES THAT ARE STALLED:
 

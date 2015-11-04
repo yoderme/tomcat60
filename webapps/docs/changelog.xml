@@ -112,6 +112,15 @@
       </add>
     </changelog>
   </subsection>
+  <subsection name="Other">
+    <changelog>
+      <fix>
+        Ensure JULI adapters JAR in Tomcat extras package does not include
+        the LogFactoryImpl[$*] classes. Based on patch provided by
+        Benjamin Gandon. (kkolinko)
+      </fix>
+    </changelog>
+  </subsection>
 </section>
 <section name="Tomcat 6.0.44 (jfclere)" rtext="released 2015-05-12">
   <subsection name="Catalina">

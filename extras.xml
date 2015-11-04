@@ -215,9 +215,9 @@
     <jar jarfile="${tomcat-juli-adapters.jar}"
       manifest="${tomcat.manifests}/default.manifest" >
       <fileset dir="${tomcat.extras}/logging/commons-logging-${commons-logging.version}-src/target/classes">
-        <include name="org/apache/juli/logging/impl/**.class" />
-        <exclude name="org/apache/juli/logging/impl/WeakHashtable*.class" />
-        <exclude name="org/apache/juli/logging/impl/LogFactoryImpl.class" />
+        <include name="org/apache/juli/logging/impl/**" />
+        <exclude name="org/apache/juli/logging/impl/WeakHashtable*" />
+        <exclude name="org/apache/juli/logging/impl/LogFactoryImpl*" />
         <!-- Javadoc and i18n exclusions -->
         <exclude name="**/package.html" />
         <exclude name="**/LocalStrings_*" />
