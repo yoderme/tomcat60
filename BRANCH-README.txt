@@ -9,6 +9,9 @@ Last catch-up merge: 2013-02-09, merged up to r1444297
 Revisions in 6.0.x/trunk that are merges from this branch:
 r1417826,1444292
 
+Diff file after the last catch-up merge:
+svn diff "^/tomcat/tc6.0.x/trunk@1444299" "^/tomcat/tc6.0.x/branches/tomcat6-testing@1444299" >BRANCH-diff.diff
+
 
 TODO:
 
