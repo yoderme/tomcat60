@@ -28,7 +28,7 @@ None
 PATCHES PROPOSED TO BACKPORT:
   [ New proposals should be added at the end of the list ]
 
-None. Tomcat 6 is Commit-Than-Review since 2015-11-02.
+None. Tomcat 6 is CTR (Commit-Then-Review) since 2015-11-02.
   
 PATCHES/ISSUES THAT ARE STALLED:
 
