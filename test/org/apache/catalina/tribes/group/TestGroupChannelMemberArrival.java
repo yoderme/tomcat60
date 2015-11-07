@@ -28,6 +28,7 @@ import org.apache.catalina.tribes.Channel;
 import org.apache.catalina.tribes.ManagedChannel;
 import org.apache.catalina.tribes.Member;
 import org.apache.catalina.tribes.MembershipListener;
+import org.apache.catalina.tribes.TesterUtil;
 
 public class TestGroupChannelMemberArrival {
     private static int count = 10;
@@ -42,12 +43,7 @@ public class TestGroupChannelMemberArrival {
             listeners[i] = new TestMbrListener( ("Listener-" + (i + 1)));
             channels[i].addMembershipListener(listeners[i]);
         }
-    }
-
-    public void clear() {
-        for (int i = 0; i < channels.length; i++) {
-            listeners[i].members.clear();
-        }
+        TesterUtil.addRandomDomain(channels);
     }
 
     @Test
@@ -69,11 +65,18 @@ public class TestGroupChannelMemberArrival {
             };
             threads[i] = t;
         }
-        for (int i=0; i<threads.length; i++ ) threads[i].start();
-        for (int i=0; i<threads.length; i++ ) threads[i].join();
+        for (int i = 0; i < threads.length; i++) {
+            threads[i].start();
+        }
+        for (int i = 0; i < threads.length; i++) {
+            threads[i].join();
+        }
         Thread.sleep(2000);
         System.out.println("All channels started.");
-        for (int i=listeners.length-1; i>=0; i-- ) assertEquals("Checking member arrival length",channels.length-1,listeners[i].members.size());
+        for (int i = listeners.length - 1; i >= 0; i--) {
+            assertEquals("Checking member arrival length", channels.length - 1,
+                    listeners[i].members.size());
+        }
     }
 
     @After

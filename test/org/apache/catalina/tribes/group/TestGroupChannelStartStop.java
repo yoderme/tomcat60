@@ -91,7 +91,7 @@ public class TestGroupChannelStartStop {
         } catch ( Exception x){/*expected*/}
         assertEquals(count,1);
         channel.stop(Channel.DEFAULT);
-        
+
         count = 0;
         try {
             channel.start(Channel.SND_RX_SEQ);

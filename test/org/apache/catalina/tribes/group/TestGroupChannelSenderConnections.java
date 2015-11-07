@@ -29,6 +29,7 @@ import org.apache.catalina.tribes.Channel;
 import org.apache.catalina.tribes.ChannelListener;
 import org.apache.catalina.tribes.ManagedChannel;
 import org.apache.catalina.tribes.Member;
+import org.apache.catalina.tribes.TesterUtil;
 import org.apache.catalina.tribes.transport.ReplicationTransmitter;
 
 public class TestGroupChannelSenderConnections {
@@ -43,12 +44,11 @@ public class TestGroupChannelSenderConnections {
             channels[i].getMembershipService().setPayload( ("Channel-" + (i + 1)).getBytes("ASCII"));
             listeners[i] = new TestMsgListener( ("Listener-" + (i + 1)));
             channels[i].addChannelListener(listeners[i]);
-            channels[i].start(Channel.SND_RX_SEQ|Channel.SND_TX_SEQ);
-
         }
-    }
-
-    public void clear() {
+        TesterUtil.addRandomDomain(channels);
+        for (int i = 0; i < channels.length; i++) {
+            channels[i].start(Channel.SND_RX_SEQ|Channel.SND_TX_SEQ);
+        }
     }
 
     public void sendMessages(long delay, long sleep) throws Exception {
