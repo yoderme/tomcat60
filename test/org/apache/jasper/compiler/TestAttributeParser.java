@@ -22,23 +22,25 @@ import java.lang.reflect.Method;
 import javax.el.FunctionMapper;
 import javax.el.ValueExpression;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import org.apache.el.ExpressionFactoryImpl;
-import org.apache.el.TestELEvaluation;
 import org.apache.el.TesterFunctions;
 import org.apache.jasper.el.ELContextImpl;
 
-import junit.framework.TestCase;
-
 /**
  * Test the EL processing from JSP attributes. Similar tests may be found in
- * {@link TestELEvaluation}.
+ * {@link org.apache.el.TestELEvaluation} and {@link org.apache.el.TestELInJsp}.
  */
-public class TestAttributeParser extends TestCase {
+public class TestAttributeParser {
 
     /**
      * Test use of spaces in ternary expressions. This was primarily an EL
      * parser bug.
      */
+    @Test
     public void testBug42565() {
         assertEquals("false", evalAttr("${false?true:false}", '\"'));
         assertEquals("false", evalAttr("${false?true: false}", '\"'));
@@ -61,9 +63,10 @@ public class TestAttributeParser extends TestCase {
 
     /**
      * Test use nested ternary expressions. Full tests in
-     * {@link TestELEvaluation}. This is just a smoke test to ensure JSP
-     * attribute processing doesn't cause any additional issues.
+     * {@link org.apache.el.TestELEvaluation}. This is just a smoke test to
+     * ensure JSP attribute processing doesn't cause any additional issues.
      */
+    @Test
     public void testBug44994() {
         assertEquals("none",
                 evalAttr("${0 lt 0 ? 1 lt 0 ? 'many': 'one': 'none'}", '\"'));
@@ -73,12 +76,13 @@ public class TestAttributeParser extends TestCase {
                 evalAttr("${0 lt 2 ? 1 lt 2 ? 'many': 'one': 'none'}", '\"'));
     }
 
-    
+
     /**
      * Test the quoting requirements of JSP attributes. This doesn't make use of
      * EL. See {@link #testBug45451()} for a test that combines JSP attribute
      * quoting and EL quoting.
      */
+    @Test
     public void testBug45015() {
         // Warning: Java String quoting vs. JSP attribute quoting
         assertEquals("hello 'world'", evalAttr("hello 'world'", '\"'));
@@ -91,7 +95,7 @@ public class TestAttributeParser extends TestCase {
         assertEquals("hello world\"", evalAttr("hello world\"", '\"'));
         assertEquals("hello world'", evalAttr("hello world\\'", '\"'));
         assertEquals("hello world\"", evalAttr("hello world\\\"", '\"'));
-        
+
         assertEquals("hello 'world'", evalAttr("hello 'world'", '\''));
         assertEquals("hello 'world", evalAttr("hello 'world", '\''));
         assertEquals("hello world'", evalAttr("hello world'", '\''));
@@ -104,14 +108,20 @@ public class TestAttributeParser extends TestCase {
         assertEquals("hello world\"", evalAttr("hello world\\\"", '\''));
 
     }
-    
 
+    @Test
     public void testBug45451() {
         assertEquals("2", evalAttr("${1+1}", '\"'));
         assertEquals("${1+1}", evalAttr("\\${1+1}", '\"'));
         assertEquals("\\2", evalAttr("\\\\${1+1}", '\"'));
     }
-    
+
+    @Test
+    public void testBug49081() {
+        assertEquals("#2", evalAttr("#${1+1}", '\"'));
+    }
+
+    @Test
     public void testLiteral() {
         // Inspired by work on bug 45451, comments from kkolinko on the dev
         // list and looking at the spec to find some edge cases
@@ -151,6 +161,7 @@ public class TestAttributeParser extends TestCase {
         assertEquals("foo\\bar\\baz", evalAttr("${\"foo\"}\\\\${\\\'bar\\\'}\\\\${\"baz\"}", '\''));
     }
 
+    @Test
     public void testScriptExpressionLiterals() {
         assertEquals(" \"hello world\" ", parseScriptExpression(
                 " \"hello world\" ", (char) 0));
@@ -159,7 +170,7 @@ public class TestAttributeParser extends TestCase {
     }
 
     private String evalAttr(String expression, char quote) {
-        
+
         ELContextImpl ctx = new ELContextImpl();
         ctx.setFunctionMapper(new FMapper());
         ExpressionFactoryImpl exprFactory = new ExpressionFactoryImpl();
@@ -169,7 +180,7 @@ public class TestAttributeParser extends TestCase {
                 String.class);
         return (String) ve.getValue(ctx);
     }
-    
+
     private String parseScriptExpression(String expression, char quote) {
         return AttributeParser.getUnquoted(expression, quote, false, false,
                 false);
@@ -188,7 +199,7 @@ public class TestAttributeParser extends TestCase {
                     // Ignore
                 } catch (NoSuchMethodException e) {
                     // Ignore
-                } 
+                }
             }
             return null;
         }
