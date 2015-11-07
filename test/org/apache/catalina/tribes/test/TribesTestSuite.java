@@ -31,9 +31,9 @@ public class TribesTestSuite
         TestSuite suite = new TestSuite();
         suite.addTestSuite(org.apache.catalina.tribes.group.TestGroupChannelStartStop.class);
         suite.addTestSuite(org.apache.catalina.tribes.group.TestGroupChannelOptionFlag.class);
-        suite.addTestSuite(org.apache.catalina.tribes.test.membership.MemberSerialization.class);
+        suite.addTestSuite(org.apache.catalina.tribes.membership.TestMemberImplSerialization.class);
         suite.addTestSuite(org.apache.catalina.tribes.group.TestGroupChannelMemberArrival.class);
-        suite.addTestSuite(org.apache.catalina.tribes.test.membership.TestTcpFailureDetector.class);
+        suite.addTestSuite(org.apache.catalina.tribes.group.interceptors.TestTcpFailureDetector.class);
         suite.addTestSuite(org.apache.catalina.tribes.test.channel.TestDataIntegrity.class);
         suite.addTestSuite(org.apache.catalina.tribes.group.interceptors.TestOrderInterceptor.class);
         return suite;

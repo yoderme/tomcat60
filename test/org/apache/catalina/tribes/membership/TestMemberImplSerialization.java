@@ -13,10 +13,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  */
-package org.apache.catalina.tribes.test.membership;
+package org.apache.catalina.tribes.membership;
 
 import junit.framework.TestCase;
-import org.apache.catalina.tribes.membership.MemberImpl;
 import java.util.Arrays;
 
 /**
@@ -29,7 +28,7 @@ import java.util.Arrays;
  * @author not attributable
  * @version 1.0
  */
-public class MemberSerialization extends TestCase {
+public class TestMemberImplSerialization extends TestCase {
     MemberImpl m1, m2, p1,p2;
     byte[] payload = null;
     protected void setUp() throws Exception {

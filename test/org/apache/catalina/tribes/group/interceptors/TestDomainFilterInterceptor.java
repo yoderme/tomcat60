@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.catalina.tribes.test.membership;
+package org.apache.catalina.tribes.group.interceptors;
 
 import java.util.ArrayList;
 
@@ -24,10 +24,9 @@ import org.apache.catalina.tribes.Member;
 import org.apache.catalina.tribes.MembershipListener;
 import org.apache.catalina.tribes.group.GroupChannel;
 import junit.framework.TestCase;
-import org.apache.catalina.tribes.group.interceptors.DomainFilterInterceptor;
 import org.apache.catalina.tribes.util.UUIDGenerator;
 
-public class TestDomainFilter
+public class TestDomainFilterInterceptor
     extends TestCase {
     private static int count = 10;
     private ManagedChannel[] channels = new ManagedChannel[count];

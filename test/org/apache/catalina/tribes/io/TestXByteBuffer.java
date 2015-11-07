@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.catalina.tribes.test.io;
+package org.apache.catalina.tribes.io;
 
-import org.apache.catalina.tribes.io.XByteBuffer;
 import junit.framework.TestCase;
 
-public class TestSerialization extends TestCase {
+public class TestXByteBuffer extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
     }
