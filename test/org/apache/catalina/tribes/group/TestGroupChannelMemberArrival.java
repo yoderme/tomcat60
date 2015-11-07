@@ -18,26 +18,29 @@ package org.apache.catalina.tribes.group;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import org.apache.catalina.tribes.Channel;
 import org.apache.catalina.tribes.ManagedChannel;
 import org.apache.catalina.tribes.Member;
 import org.apache.catalina.tribes.MembershipListener;
-import junit.framework.TestCase;
 
-public class TestGroupChannelMemberArrival
-    extends TestCase {
+public class TestGroupChannelMemberArrival {
     private static int count = 10;
     private ManagedChannel[] channels = new ManagedChannel[count];
     private TestMbrListener[] listeners = new TestMbrListener[count];
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         for (int i = 0; i < channels.length; i++) {
             channels[i] = new GroupChannel();
             channels[i].getMembershipService().setPayload( ("Channel-" + (i + 1)).getBytes("ASCII"));
             listeners[i] = new TestMbrListener( ("Listener-" + (i + 1)));
             channels[i].addMembershipListener(listeners[i]);
-
         }
     }
 
@@ -47,6 +50,7 @@ public class TestGroupChannelMemberArrival
         }
     }
 
+    @Test
     public void testMemberArrival() throws Exception {
         //purpose of this test is to make sure that we have received all the members
         //that we can expect before the start method returns
@@ -54,6 +58,7 @@ public class TestGroupChannelMemberArrival
         for (int i=0; i<channels.length; i++ ) {
             final Channel channel = channels[i];
             Thread t = new Thread() {
+                @Override
                 public void run() {
                     try {
                         channel.start(Channel.DEFAULT);
@@ -71,24 +76,27 @@ public class TestGroupChannelMemberArrival
         for (int i=listeners.length-1; i>=0; i-- ) assertEquals("Checking member arrival length",channels.length-1,listeners[i].members.size());
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
 
         for (int i = 0; i < channels.length; i++) {
             try {
                 channels[i].stop(Channel.DEFAULT);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+                // Ignore
+            }
         }
-        super.tearDown();
     }
 
-    public class TestMbrListener
+    public static class TestMbrListener
         implements MembershipListener {
         public String name = null;
         public TestMbrListener(String name) {
             this.name = name;
         }
 
-        public ArrayList members = new ArrayList();
+        public ArrayList<Member> members = new ArrayList<Member>();
+
         public void memberAdded(Member member) {
             if (!members.contains(member)) {
                 members.add(member);
