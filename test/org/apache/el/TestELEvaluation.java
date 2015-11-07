@@ -22,26 +22,31 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 import javax.el.ELException;
-import javax.el.ValueExpression;
 import javax.el.FunctionMapper;
+import javax.el.ValueExpression;
 
-import org.apache.el.ExpressionFactoryImpl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.junit.Test;
+
 import org.apache.el.lang.ELSupport;
-import org.apache.jasper.compiler.TestAttributeParser;
 import org.apache.jasper.el.ELContextImpl;
-
-import junit.framework.TestCase;
 
 /**
  * Tests the EL engine directly. Similar tests may be found in
- * {@link TestAttributeParser} and {@link TestELInJsp}.
+ * {@link org.apache.jasper.compiler.TestAttributeParser} and
+ * {@link TestELInJsp}.
  */
-public class TestELEvaluation extends TestCase {
+public class TestELEvaluation {
 
     /**
      * Test use of spaces in ternary expressions. This was primarily an EL
      * parser bug.
      */
+    @Test
     public void testBug42565() {
         assertEquals("false", evaluateExpression("${false?true:false}"));
         assertEquals("false", evaluateExpression("${false?true: false}"));
@@ -63,8 +68,9 @@ public class TestELEvaluation extends TestCase {
 
 
     /**
-     * Test use nested ternary expressions. This was primarily an EL parser bug. 
+     * Test use nested ternary expressions. This was primarily an EL parser bug.
      */
+    @Test
     public void testBug44994() {
         assertEquals("none", evaluateExpression(
                 "${0 lt 0 ? 1 lt 0 ? 'many': 'one': 'none'}"));
@@ -74,7 +80,7 @@ public class TestELEvaluation extends TestCase {
                 "${0 lt 2 ? 1 lt 2 ? 'many': 'one': 'none'}"));
     }
 
-
+    @Test
     public void testParserBug45511() {
         // Test cases provided by OP
         assertEquals("true", evaluateExpression("${empty ('')}"));
@@ -83,18 +89,20 @@ public class TestELEvaluation extends TestCase {
         assertEquals("false", evaluateExpression("${(true)and(false)}"));
     }
 
+    @Test
     public void testBug48112() {
         // bug 48112
         assertEquals("{world}", evaluateExpression("${fn:trim('{world}')}"));
     }
 
+    @Test
     public void testParserLiteralExpression() {
         // Inspired by work on bug 45451, comments from kkolinko on the dev
         // list and looking at the spec to find some edge cases
 
         // '\' is only an escape character inside a StringLiteral
         assertEquals("\\\\", evaluateExpression("\\\\"));
-        
+
         /*
          * LiteralExpresions can only contain ${ or #{ if escaped with \
          * \ is not an escape character in any other circumstances including \\
@@ -119,10 +127,11 @@ public class TestELEvaluation extends TestCase {
         assertEquals("\\\\", evaluateExpression("\\\\"));
     }
 
+    @Test
     public void testParserStringLiteral() {
         // Inspired by work on bug 45451, comments from kkolinko on the dev
         // list and looking at the spec to find some edge cases
-        
+
         // The only characters that can be escaped inside a String literal
         // are \ " and '. # and $ are not escaped inside a String literal.
         assertEquals("\\", evaluateExpression("${'\\\\'}"));
@@ -141,9 +150,8 @@ public class TestELEvaluation extends TestCase {
 
         assertEquals("\\$", evaluateExpression("${'\\\\$'}"));
         assertEquals("\\\\$", evaluateExpression("${'\\\\\\\\$'}"));
-        
-        
-        
+
+
         // Can use ''' inside '"' when quoting with '"' and vice versa without
         // escaping
         assertEquals("\\\"", evaluateExpression("${'\\\\\"'}"));
@@ -163,12 +171,13 @@ public class TestELEvaluation extends TestCase {
         assertEquals(msg,expected, -i2);
     }
 
+    @Test
     public void testElSupportCompare(){
         compareBoth("Nulls should compare equal", 0, null, null);
         compareBoth("Null should compare equal to \"\"", 0, "", null);
         compareBoth("Null should be less than File()",-1, null, new File(""));
         compareBoth("Null should be less than Date()",-1, null, new Date());
-        compareBoth("Date(0) should be less than Date(1)",-1, new Date(0), new Date(1));        
+        compareBoth("Date(0) should be less than Date(1)",-1, new Date(0), new Date(1));
         try {
             compareBoth("Should not compare",0, new Date(), new File(""));
             fail("Expecting ClassCastException");
@@ -181,6 +190,7 @@ public class TestELEvaluation extends TestCase {
     /**
      * Test mixing ${...} and #{...} in the same expression.
      */
+    @Test
     public void testMixedTypes() {
         // Mixing types should throw an error
         Exception e = null;
@@ -202,7 +212,7 @@ public class TestELEvaluation extends TestCase {
                 String.class);
         return (String) ve.getValue(ctx);
     }
-    
+
     public static class FMapper extends FunctionMapper {
 
         @Override
@@ -216,7 +226,7 @@ public class TestELEvaluation extends TestCase {
                     // Ignore
                 } catch (NoSuchMethodException e) {
                     // Ignore
-                } 
+                }
             }
             return null;
         }
