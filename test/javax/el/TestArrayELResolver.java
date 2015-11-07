@@ -16,30 +16,26 @@
  */
 package javax.el;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 import org.apache.jasper.el.ELContextImpl;
 
-public class TestArrayELResolver extends TestCase {
+public class TestArrayELResolver {
 
     /**
      * Tests that a null context results in an NPE as per EL Javadoc.
      */
-    public void testGetType01() throws Exception {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            resolver.getType(null, new Object(), new Object());
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof NullPointerException);
+    @Test(expected = NullPointerException.class)
+    public void testGetType01() {
+        ArrayELResolver resolver = new ArrayELResolver();
+        resolver.getType(null, new Object(), new Object());
     }
 
     /**
      * Tests that a valid property is not resolved if base is not an array.
      */
+    @Test
     public void testGetType02() {
         doNegativeTest(new Object(), new Object(), MethodUnderTest.GET_TYPE,
                 true);
@@ -48,6 +44,7 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests that a valid property is resolved.
      */
+    @Test
     public void testGetType03() {
         ArrayELResolver resolver = new ArrayELResolver();
         ELContext context = new ELContextImpl();
@@ -62,37 +59,28 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests that the key is out of bounds and exception will be thrown.
      */
+    @Test(expected = PropertyNotFoundException.class)
     public void testGetType04() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            ELContext context = new ELContextImpl();
+        ArrayELResolver resolver = new ArrayELResolver();
+        ELContext context = new ELContextImpl();
 
-            String[] base = new String[] { "element" };
-            resolver.getType(context, base, new Integer(1));
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof PropertyNotFoundException);
+        String[] base = new String[] { "element" };
+        resolver.getType(context, base, new Integer(1));
     }
 
     /**
      * Tests that a null context results in an NPE as per EL Javadoc.
      */
+    @Test(expected = NullPointerException.class)
     public void testGetValue01() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            resolver.getValue(null, new Object(), new Object());
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof NullPointerException);
+        ArrayELResolver resolver = new ArrayELResolver();
+        resolver.getValue(null, new Object(), new Object());
     }
 
     /**
      * Tests that a valid property is not resolved if base is not an array.
      */
+    @Test
     public void testGetValue02() {
         doNegativeTest(new Object(), new Object(), MethodUnderTest.GET_VALUE,
                 true);
@@ -101,6 +89,7 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests that a valid property is resolved.
      */
+    @Test
     public void testGetValue03() {
         ArrayELResolver resolver = new ArrayELResolver();
         ELContext context = new ELContextImpl();
@@ -115,23 +104,19 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests a coercion cannot be performed as the key is not integer.
      */
+    @Test(expected = IllegalArgumentException.class)
     public void testGetValue04() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            ELContext context = new ELContextImpl();
+        ArrayELResolver resolver = new ArrayELResolver();
+        ELContext context = new ELContextImpl();
 
-            String[] base = new String[] { "element" };
-            resolver.getValue(context, base, "key");
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof IllegalArgumentException);
+        String[] base = new String[] { "element" };
+        resolver.getValue(context, base, "key");
     }
 
     /**
      * Tests that the key is out of bounds and null will be returned.
      */
+    @Test
     public void testGetValue05() {
         ArrayELResolver resolver = new ArrayELResolver();
         ELContext context = new ELContextImpl();
@@ -151,20 +136,16 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests that a null context results in an NPE as per EL Javadoc.
      */
+    @Test(expected = NullPointerException.class)
     public void testSetValue01() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            resolver.setValue(null, new Object(), new Object(), new Object());
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof NullPointerException);
+        ArrayELResolver resolver = new ArrayELResolver();
+        resolver.setValue(null, new Object(), new Object(), new Object());
     }
 
     /**
      * Tests that a valid property is not set if base is not an array.
      */
+    @Test
     public void testSetValue02() {
         doNegativeTest(new Object(), new Object(), MethodUnderTest.SET_VALUE,
                 false);
@@ -173,23 +154,18 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests that an exception is thrown when readOnly is true.
      */
+    @Test(expected = PropertyNotWritableException.class)
     public void testSetValue03() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver(true);
-            ELContext context = new ELContextImpl();
+        ArrayELResolver resolver = new ArrayELResolver(true);
+        ELContext context = new ELContextImpl();
 
-            resolver.setValue(context, new String[] {}, new Object(), new Object());
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof PropertyNotWritableException);
+        resolver.setValue(context, new String[] {}, new Object(), new Object());
     }
 
     /**
      * Tests that a valid property is set.
      */
-    //@Test
+    @Test
     public void testSetValue04() {
         ArrayELResolver resolver = new ArrayELResolver();
         ELContext context = new ELContextImpl();
@@ -211,59 +187,45 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests a coercion cannot be performed as the key is not integer.
      */
+    @Test(expected = IllegalArgumentException.class)
     public void testSetValue05() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            ELContext context = new ELContextImpl();
+        ArrayELResolver resolver = new ArrayELResolver();
+        ELContext context = new ELContextImpl();
 
-            String[] base = new String[] { "element" };
-            resolver.setValue(context, base, "key", "new-element");
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof IllegalArgumentException);
+        String[] base = new String[] { "element" };
+        resolver.setValue(context, base, "key", "new-element");
     }
 
     /**
      * Tests that the key is out of bounds and exception will be thrown.
      */
+    @Test(expected = PropertyNotFoundException.class)
     public void testSetValue06() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            ELContext context = new ELContextImpl();
+        ArrayELResolver resolver = new ArrayELResolver();
+        ELContext context = new ELContextImpl();
 
-            String[] base = new String[] { "element" };
-            resolver.setValue(context, base, new Integer(1), "new-element");
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof PropertyNotFoundException);
+        String[] base = new String[] { "element" };
+        resolver.setValue(context, base, new Integer(1), "new-element");
     }
 
     /**
      * Tests that an exception will be thrown if the value is not from the
      * corresponding type.
      */
+    @Test(expected = ClassCastException.class)
     public void testSetValue07() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            ELContext context = new ELContextImpl();
+        ArrayELResolver resolver = new ArrayELResolver();
+        ELContext context = new ELContextImpl();
 
-            String[] base = new String[] { "element" };
-            resolver.setValue(context, base, new Integer(0), new Integer(1));
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof ClassCastException);
+        String[] base = new String[] { "element" };
+        resolver.setValue(context, base, new Integer(0), new Integer(1));
     }
 
     /**
      * Tests setting arrays of primitives.
      * https://bz.apache.org/bugzilla/show_bug.cgi?id=55691
      */
+    @Test
     public void testSetValue08() {
         ArrayELResolver resolver = new ArrayELResolver();
         ELContext context = new ELContextImpl();
@@ -277,20 +239,16 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests that a null context results in an NPE as per EL Javadoc.
      */
+    @Test(expected = NullPointerException.class)
     public void testIsReadOnly01() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            resolver.isReadOnly(null, new Object(), new Object());
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof NullPointerException);
+        ArrayELResolver resolver = new ArrayELResolver();
+        resolver.isReadOnly(null, new Object(), new Object());
     }
 
     /**
      * Tests that the propertyResolved is false if base is not an array.
      */
+    @Test
     public void testIsReadOnly02() {
         ArrayELResolver resolver = new ArrayELResolver();
         ELContext context = new ELContextImpl();
@@ -313,6 +271,7 @@ public class TestArrayELResolver extends TestCase {
      * Tests that if the ArrayELResolver is constructed with readOnly the method
      * will return always true, otherwise false.
      */
+    @Test
     public void testIsReadOnly03() {
         ArrayELResolver resolver = new ArrayELResolver();
         ELContext context = new ELContextImpl();
@@ -334,18 +293,13 @@ public class TestArrayELResolver extends TestCase {
     /**
      * Tests that the key is out of bounds and exception will be thrown.
      */
+    @Test(expected = PropertyNotFoundException.class)
     public void testIsReadOnly04() {
-        Exception expected = null;
-        try {
-            ArrayELResolver resolver = new ArrayELResolver();
-            ELContext context = new ELContextImpl();
+        ArrayELResolver resolver = new ArrayELResolver();
+        ELContext context = new ELContextImpl();
 
-            String[] base = new String[] { "element" };
-            resolver.isReadOnly(context, base, new Integer(1));
-        } catch (Exception e) {
-            expected = e;
-        }
-        Assert.assertTrue(expected instanceof PropertyNotFoundException);
+        String[] base = new String[] { "element" };
+        resolver.isReadOnly(context, base, new Integer(1));
     }
 
     private void doNegativeTest(Object base, Object trigger,
