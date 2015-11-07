@@ -15,38 +15,13 @@
  *  limitations under the License.
  */
 
-package org.apache.tomcat.util.http; 
+package org.apache.tomcat.util.http;
 
-import org.apache.tomcat.util.http.Cookies;
-import org.apache.tomcat.util.http.ServerCookie;
+import org.junit.Test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
+public class TestCookies {
 
-import java.lang.Exception;
-
-
-public class TestCookies extends TestCase {
-    public static void main( String args[] ) {
-       TestRunner.run(suite());
-    }
-    public static Test suite() {
-       TestSuite suite = new TestSuite();
-       suite.addTest(new TestSuite(TestCookies.class));
-       return suite;
-    }
-/*
-       int i = 10000000;
-          // These tests are not really representative 
-         while (i-- > 0) { 
-             test("session=1234567890;name=\"John Q. Public\";");
-        }
-//        runtests();
-    } 
- */
-    
+    @Test
     public void testCookies() throws Exception {
         test("foo=bar; a=b", "foo", "bar", "a", "b");
         test("foo=bar;a=b", "foo", "bar", "a", "b");
@@ -84,10 +59,10 @@ public class TestCookies extends TestCase {
         // Last character is an escape character
         test("$Version=1;foo=b'ar;$Domain=\"apache.org\";$Port=8080;a=\"b\\\"", "foo", "b'ar");
         test("$Version=1;foo=b'ar;$Domain=\"apache.org\";$Port=8080;a=\"b\\",  "foo", "b'ar");
-        
+
         // A token cannot be quoted with ' chars - they should be treated as part of the value
         test("$Version=\"1\"; foo='bar'; $Path=/path; $Domain=\"localhost\"", "foo", "'bar'");
-    
+
         // wrong, path should not have '/' JVK
         test("$Version=1;foo=\"bar\";$Path=/examples;a=b; ; ", "foo", "bar", "a", "b");
 
