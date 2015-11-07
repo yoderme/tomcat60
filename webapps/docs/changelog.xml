@@ -123,6 +123,9 @@
         the LogFactoryImpl[$*] classes. Based on patch provided by
         Benjamin Gandon. (kkolinko)
       </fix>
+      <scode>
+        Convert some test classes to JUnit 4. (kkolinko)
+      </scode>
     </changelog>
   </subsection>
 </section>
