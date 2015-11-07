@@ -71,12 +71,18 @@ public class TestGroupChannelMemberArrival {
         for (int i = 0; i < threads.length; i++) {
             threads[i].join();
         }
-        Thread.sleep(2000);
-        System.out.println("All channels started.");
+        Thread.sleep(5000);
+        System.out.println(System.currentTimeMillis()
+                + " All channels started.");
         for (int i = listeners.length - 1; i >= 0; i--) {
-            assertEquals("Checking member arrival length", channels.length - 1,
-                    listeners[i].members.size());
+            TestMbrListener listener = listeners[i];
+            synchronized (listener.members) {
+                assertEquals("Checking member arrival length (" + listener.name
+                        + ")", channels.length - 1, listener.members.size());
+            }
         }
+        System.out.println(System.currentTimeMillis()
+                + " Members arrival counts checked.");
     }
 
     @After
@@ -101,27 +107,75 @@ public class TestGroupChannelMemberArrival {
         public ArrayList<Member> members = new ArrayList<Member>();
 
         public void memberAdded(Member member) {
-            if (!members.contains(member)) {
-                members.add(member);
-                try {
-                    System.out.println(name + ":member added[" + new String(member.getPayload(), "ASCII") + "; Thread:"+Thread.currentThread().getName()+"]");
-                } catch (Exception x) {
-                    System.out.println(name + ":member added[unknown]");
+            String msg;
+            int count;
+            synchronized (members) {
+                if (!members.contains(member)) {
+                    members.add(member);
+                    msg = "member added";
+                } else {
+                    msg = "member added called, but member is already in the list";
                 }
+                count = members.size();
             }
+            report(msg, member, count);
         }
 
         public void memberDisappeared(Member member) {
-            if (members.contains(member)) {
-                members.remove(member);
-                try {
-                    System.out.println(name + ":member disappeared[" + new String(member.getPayload(), "ASCII") + "; Thread:"+Thread.currentThread().getName()+"]");
-                } catch (Exception x) {
-                    System.out.println(name + ":member disappeared[unknown]");
+            String msg;
+            int count;
+            synchronized (members) {
+                if (members.contains(member)) {
+                    members.remove(member);
+                    msg = "member disappeared";
+                } else {
+                    msg = "member disappeared called, but there is no such member in the list";
                 }
+                count = members.size();
             }
+            report(msg, member, count);
         }
 
+        private void report(String event, Member member, int count) {
+            StringBuilder message = new StringBuilder(100);
+            message.append(System.currentTimeMillis());
+            message.append(' ');
+            message.append(name);
+            message.append(':');
+            message.append(event);
+            message.append(", has ");
+            message.append(count);
+            message.append(" members now. Member:[");
+            message.append("host: ");
+            appendByteArrayToString(message, member.getHost());
+            message.append(", port: ");
+            message.append(member.getPort());
+            message.append(", id: ");
+            appendByteArrayToString(message, member.getUniqueId());
+            message.append(", payload: ");
+            try {
+                message.append(new String(member.getPayload(), "ASCII"));
+            } catch (Exception x) {
+                message.append("unknown");
+            }
+            Thread t = Thread.currentThread();
+            message.append("]; Thread:").append(t.getName()).append(", hash:")
+                    .append(t.hashCode());
+            System.out.println(message);
+        }
+
+        private void appendByteArrayToString(StringBuilder sb, byte[] input) {
+            if (input == null) {
+                sb.append("null");
+                return;
+            }
+            for (int i = 0; i < input.length; i++) {
+                if (i > 0) {
+                    sb.append('.');
+                }
+                sb.append(input[i] & 0xFF);
+            }
+        }
     }
 
 }
