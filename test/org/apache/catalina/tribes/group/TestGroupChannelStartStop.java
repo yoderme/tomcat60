@@ -22,6 +22,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.apache.catalina.tribes.Channel;
 import org.apache.catalina.tribes.transport.ReceiverBase;
 
 /**
@@ -38,22 +39,22 @@ public class TestGroupChannelStartStop {
 
     @After
     public void tearDown() throws Exception {
-        try {channel.stop(channel.DEFAULT);}catch (Exception ignore){ /* Ignore */ }
+        try {channel.stop(Channel.DEFAULT);}catch (Exception ignore){ /* Ignore */ }
     }
 
     @Test
     public void testDoubleFullStart() throws Exception {
         int count = 0;
         try {
-            channel.start(channel.DEFAULT);
+            channel.start(Channel.DEFAULT);
             count++;
         } catch ( Exception x){x.printStackTrace();}
         try {
-            channel.start(channel.DEFAULT);
+            channel.start(Channel.DEFAULT);
             count++;
         } catch ( Exception x){x.printStackTrace();}
         assertEquals(count,2);
-        channel.stop(channel.DEFAULT);
+        channel.stop(Channel.DEFAULT);
     }
 
     @Test
@@ -67,53 +68,53 @@ public class TestGroupChannelStartStop {
         //try to double start the RX
         int count = 0;
         try {
-            channel.start(channel.SND_RX_SEQ);
-            channel.start(channel.MBR_RX_SEQ);
+            channel.start(Channel.SND_RX_SEQ);
+            channel.start(Channel.MBR_RX_SEQ);
             count++;
         } catch ( Exception x){x.printStackTrace();}
         try {
-            channel.start(channel.MBR_RX_SEQ);
+            channel.start(Channel.MBR_RX_SEQ);
             count++;
         } catch ( Exception x){/*expected*/}
         assertEquals(count,1);
-        channel.stop(channel.DEFAULT);
+        channel.stop(Channel.DEFAULT);
         //double the membership sender
         count = 0;
         try {
-            channel.start(channel.SND_RX_SEQ);
-            channel.start(channel.MBR_TX_SEQ);
+            channel.start(Channel.SND_RX_SEQ);
+            channel.start(Channel.MBR_TX_SEQ);
             count++;
         } catch ( Exception x){x.printStackTrace();}
         try {
-            channel.start(channel.MBR_TX_SEQ);
+            channel.start(Channel.MBR_TX_SEQ);
             count++;
         } catch ( Exception x){/*expected*/}
         assertEquals(count,1);
-        channel.stop(channel.DEFAULT);
+        channel.stop(Channel.DEFAULT);
         
         count = 0;
         try {
-            channel.start(channel.SND_RX_SEQ);
+            channel.start(Channel.SND_RX_SEQ);
             count++;
         } catch ( Exception x){x.printStackTrace();}
         try {
-            channel.start(channel.SND_RX_SEQ);
+            channel.start(Channel.SND_RX_SEQ);
             count++;
         } catch ( Exception x){/*expected*/}
         assertEquals(count,1);
-        channel.stop(channel.DEFAULT);
+        channel.stop(Channel.DEFAULT);
 
         count = 0;
         try {
-            channel.start(channel.SND_TX_SEQ);
+            channel.start(Channel.SND_TX_SEQ);
             count++;
         } catch ( Exception x){x.printStackTrace();}
         try {
-            channel.start(channel.SND_TX_SEQ);
+            channel.start(Channel.SND_TX_SEQ);
             count++;
         } catch ( Exception x){/*expected*/}
         assertEquals(count,1);
-        channel.stop(channel.DEFAULT);
+        channel.stop(Channel.DEFAULT);
     }
 
     @Test
@@ -129,7 +130,7 @@ public class TestGroupChannelStartStop {
             count++;
         } catch ( Exception x){/*expected*/}
         assertEquals(count,2);
-        channel.stop(channel.DEFAULT);
+        channel.stop(Channel.DEFAULT);
     }
 
 }
