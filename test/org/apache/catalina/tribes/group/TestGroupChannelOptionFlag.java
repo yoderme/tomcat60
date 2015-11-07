@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.catalina.tribes.test.channel;
+package org.apache.catalina.tribes.group;
 
 import junit.framework.*;
-import org.apache.catalina.tribes.group.*;
 import org.apache.catalina.tribes.ChannelInterceptor;
 import org.apache.catalina.tribes.ChannelException;
 
@@ -31,7 +30,7 @@ import org.apache.catalina.tribes.ChannelException;
  * @author not attributable
  * @version 1.0
  */
-public class TestChannelOptionFlag extends TestCase {
+public class TestGroupChannelOptionFlag extends TestCase {
     GroupChannel channel = null;
     protected void setUp() throws Exception {
         super.setUp();

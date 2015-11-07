@@ -14,15 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.catalina.tribes.test.io;
+package org.apache.catalina.tribes.group;
 
 import java.util.ArrayList;
 
 import org.apache.catalina.tribes.Channel;
 import org.apache.catalina.tribes.ManagedChannel;
 import org.apache.catalina.tribes.Member;
-import org.apache.catalina.tribes.MembershipListener;
-import org.apache.catalina.tribes.group.GroupChannel;
 import junit.framework.TestCase;
 import org.apache.catalina.tribes.ChannelListener;
 import java.io.Serializable;
@@ -30,7 +28,7 @@ import java.util.Random;
 import java.util.HashMap;
 import org.apache.catalina.tribes.transport.ReplicationTransmitter;
 
-public class TestSenderConnections extends TestCase {
+public class TestGroupChannelSenderConnections extends TestCase {
     private static int count = 2;
     private ManagedChannel[] channels = new ManagedChannel[count];
     private TestMsgListener[] listeners = new TestMsgListener[count];

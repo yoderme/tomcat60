@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.catalina.tribes.test.membership;
+package org.apache.catalina.tribes.group;
 
 import java.util.ArrayList;
 
@@ -22,10 +22,9 @@ import org.apache.catalina.tribes.Channel;
 import org.apache.catalina.tribes.ManagedChannel;
 import org.apache.catalina.tribes.Member;
 import org.apache.catalina.tribes.MembershipListener;
-import org.apache.catalina.tribes.group.GroupChannel;
 import junit.framework.TestCase;
 
-public class TestMemberArrival
+public class TestGroupChannelMemberArrival
     extends TestCase {
     private static int count = 10;
     private ManagedChannel[] channels = new ManagedChannel[count];

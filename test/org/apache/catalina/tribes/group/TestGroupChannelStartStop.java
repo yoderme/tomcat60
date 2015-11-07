@@ -13,9 +13,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  */
-package org.apache.catalina.tribes.test.channel;
+package org.apache.catalina.tribes.group;
 
-import org.apache.catalina.tribes.group.GroupChannel;
 import junit.framework.TestCase;
 import org.apache.catalina.tribes.transport.ReceiverBase;
 
@@ -23,7 +22,7 @@ import org.apache.catalina.tribes.transport.ReceiverBase;
  * @author Filip Hanik
  * @version 1.0
  */
-public class ChannelStartStop extends TestCase {
+public class TestGroupChannelStartStop extends TestCase {
     GroupChannel channel = null;
     protected void setUp() throws Exception {
         super.setUp();
