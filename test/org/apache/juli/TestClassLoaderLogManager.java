@@ -16,51 +16,44 @@
  */
 package org.apache.juli;
 
-import junit.framework.TestCase;
-
+import java.io.File;
 import java.util.Collections;
 import java.util.Random;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for {@link ClassLoaderLogManager}.
  */
-public class TestClassLoaderLogManager extends TestCase {
+public class TestClassLoaderLogManager {
 
+    @Test
     public void testReplace() {
         ClassLoaderLogManager logManager = new ClassLoaderLogManager();
         Assert.assertEquals("", logManager.replace(""));
         Assert.assertEquals("${", logManager.replace("${"));
-        Assert.assertEquals("${undefinedproperty}",
-                logManager.replace("${undefinedproperty}"));
+        Assert.assertEquals("${undefinedproperty}", logManager.replace("${undefinedproperty}"));
         Assert.assertEquals(
-                System.getProperty("line.separator")
-                        + System.getProperty("path.separator")
-                        + System.getProperty("file.separator"),
-                logManager
-                        .replace("${line.separator}${path.separator}${file.separator}"));
+                System.getProperty("line.separator") + File.pathSeparator + File.separator,
+                logManager.replace("${line.separator}${path.separator}${file.separator}"));
         Assert.assertEquals(
-                "foo" + System.getProperty("file.separator") + "bar"
-                        + System.getProperty("line.separator")
-                        + System.getProperty("path.separator") + "baz",
-                logManager
-                        .replace("foo${file.separator}bar${line.separator}${path.separator}baz"));
+                "foo" + File.separator + "bar" + System.getProperty("line.separator")
+                        + File.pathSeparator + "baz",
+                logManager.replace("foo${file.separator}bar${line.separator}${path.separator}baz"));
         // BZ 51249
         Assert.assertEquals(
-                "%{file.separator}" + System.getProperty("file.separator"),
+                "%{file.separator}" + File.separator,
                 logManager.replace("%{file.separator}${file.separator}"));
         Assert.assertEquals(
-                System.getProperty("file.separator") + "${undefinedproperty}"
-                        + System.getProperty("file.separator"),
-                logManager
-                        .replace("${file.separator}${undefinedproperty}${file.separator}"));
-        Assert.assertEquals("${}" + System.getProperty("path.separator"),
-                logManager.replace("${}${path.separator}"));
+                File.separator + "${undefinedproperty}" + File.separator,
+                logManager.replace("${file.separator}${undefinedproperty}${file.separator}"));
+        Assert.assertEquals("${}" + File.pathSeparator, logManager.replace("${}${path.separator}"));
     }
 
+    @Test
     public void testBug56082() {
         ClassLoaderLogManager logManager = new ClassLoaderLogManager();
 
@@ -75,14 +68,10 @@ public class TestClassLoaderLogManager extends TestCase {
         listThread.setName("LoggerList");
         listThread.start();
 
-        int count = 0;
-        while (count < 4 && listThread.isAlive()) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                // Ignore
-            }
-            count++;
+        try {
+            listThread.join(2000);
+        } catch (InterruptedException e) {
+            // Ignore
         }
 
         for (int i = 0; i < createThreads.length; i ++) {
