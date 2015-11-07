@@ -16,10 +16,10 @@
  */
 package org.apache.catalina.tribes.test;
 
-import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.util.Iterator;
 import java.nio.channels.Selector;
+
 import org.apache.catalina.tribes.transport.nio.NioSender;
 import org.apache.catalina.tribes.membership.MemberImpl;
 import org.apache.catalina.tribes.io.ChannelData;
@@ -37,13 +37,13 @@ import org.apache.catalina.tribes.Channel;
  * @author not attributable
  * @version 1.0
  */
-public class TestNioSender {
+public class NioSenderTest {
     private Selector selector = null;
     private int counter = 0;
     MemberImpl mbr;
     private static int testOptions = Channel.SEND_OPTIONS_DEFAULT;
-    public TestNioSender()  {
-        
+    public NioSenderTest()  {
+        // Default constructor
     }
     
     public synchronized int inc() {
@@ -113,7 +113,7 @@ public class TestNioSender {
     }
 
     public static void main(String[] args) throws Exception {
-        TestNioSender sender = new TestNioSender();
+        NioSenderTest sender = new NioSenderTest();
         sender.init();
         sender.run();
     }
