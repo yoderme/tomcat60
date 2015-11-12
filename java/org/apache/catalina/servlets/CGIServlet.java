@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -246,7 +246,15 @@ public final class CGIServlet extends HttpServlet {
 
     /* some vars below copied from Craig R. McClanahan's InvokerServlet */
 
-    /** the debugging detail level for this servlet. */
+    /**
+     * The debugging detail level for this servlet. Useful values range from 0
+     * to 5 where 0 means no logging and 5 means maximum logging. Values of 10
+     * or more mean maximum logging and debug info added to the HTTP response.
+     * If an error occurs and debug is 10 or more the standard error page
+     * mechanism will be disabled and a response body with debug information
+     * will be produced. Note that any value of 10 or more has the same effect
+     * as a value of 10.
+     */
     private int debug = 0;
 
     /**
@@ -305,12 +313,12 @@ public final class CGIServlet extends HttpServlet {
         if (servletName.startsWith("org.apache.catalina.INVOKER."))
             throw new UnavailableException
                 ("Cannot invoke CGIServlet through the invoker");
-        
+
         // Set our properties from the initialization parameters
         if (getServletConfig().getInitParameter("debug") != null)
             debug = Integer.parseInt(getServletConfig().getInitParameter("debug"));
         cgiPathPrefix = getServletConfig().getInitParameter("cgiPathPrefix");
-        boolean passShellEnvironment = 
+        boolean passShellEnvironment =
             Boolean.valueOf(getServletConfig().getInitParameter("passShellEnvironment")).booleanValue();
 
         if (passShellEnvironment) {
@@ -610,9 +618,11 @@ public final class CGIServlet extends HttpServlet {
         }
 
         if (!cgiEnv.isValid()) {
-            res.setStatus(404);
+            if (setStatus(res, 404)) {
+                return;
+            }
         }
- 
+
         if (debug >= 10) {
 
             ServletOutputStream out = res.getOutputStream();
@@ -653,10 +663,26 @@ public final class CGIServlet extends HttpServlet {
     } //doGet
 
 
+    /*
+     * Behaviour depends on the status code and the value of debug.
+     *
+     * Status < 400  - Always calls setStatus. Returns false. CGI servlet will
+     *                 provide the response body.
+     * Status >= 400 - Depends on debug
+     *   debug < 10    - Calls sendError(status), returns true. Standard error
+     *                   page mechanism will provide the response body.
+     *   debug >= 10   - Calls setStatus(status), return false. CGI servlet will
+     *                   provide the response body.
+     */
+    private boolean setStatus(HttpServletResponse response, int status) throws IOException {
 
-    /** For future testing use only; does nothing right now */
-    public static void main(String[] args) {
-        System.out.println("$Header$");
+        if (status >= HttpServletResponse.SC_BAD_REQUEST && debug < 10) {
+            response.sendError(status);
+            return true;
+        } else {
+            response.setStatus(status);
+            return false;
+        }
     }
 
 
@@ -753,7 +779,7 @@ public final class CGIServlet extends HttpServlet {
          *
          * @param  req   HttpServletRequest for information provided by
          *               the Servlet API
-         * @throws UnsupportedEncodingException 
+         * @throws UnsupportedEncodingException
          */
         protected void setupFromRequest(HttpServletRequest req)
                 throws UnsupportedEncodingException {
@@ -983,8 +1009,8 @@ public final class CGIServlet extends HttpServlet {
                 // The app has not been deployed in exploded form
                 webAppRootDir = tmpDir.toString();
                 expandCGIScript();
-            } 
-            
+            }
+
             sCGINames = findCGI(sPathInfoOrig,
                                 webAppRootDir,
                                 contextPath,
@@ -1129,7 +1155,7 @@ public final class CGIServlet extends HttpServlet {
         }
 
         /**
-         * Extracts requested resource from web app archive to context work 
+         * Extracts requested resource from web app archive to context work
          * directory to enable CGI script to be executed.
          */
         protected void expandCGIScript() {
@@ -1171,7 +1197,7 @@ public final class CGIServlet extends HttpServlet {
             if (f.exists()) {
                 // Don't need to expand if it already exists
                 return;
-            } 
+            }
 
             // create directories
             String dirPath = new String (destPath.toString().substring(
@@ -1201,7 +1227,7 @@ public final class CGIServlet extends HttpServlet {
                     }
                 }
             } catch (IOException ioe) {
-                // delete in case file is corrupted 
+                // delete in case file is corrupted
                 if (f.exists()) {
                     f.delete();
                 }
@@ -1647,7 +1673,7 @@ public final class CGIServlet extends HttpServlet {
                 proc = rt.exec(
                         cmdAndArgs.toArray(new String[cmdAndArgs.size()]),
                         hashToStringArray(env), wd);
-    
+
                 String sContentLength = (String) env.get("CONTENT_LENGTH");
 
                 if(!"".equals(sContentLength)) {
@@ -1679,7 +1705,13 @@ public final class CGIServlet extends HttpServlet {
                     new HTTPHeaderInputStream(proc.getInputStream());
                 BufferedReader cgiHeaderReader =
                     new BufferedReader(new InputStreamReader(cgiHeaderStream));
-            
+
+                // Need to be careful here. If sendError() is called the
+                // response body should be provided by the standard error page
+                // process. But, if the output of the CGI process isn't read
+                // then that process can hang.
+                boolean skipBody = false;
+
                 while (isRunning) {
                     try {
                         //set headers
@@ -1690,14 +1722,14 @@ public final class CGIServlet extends HttpServlet {
                                 log("runCGI: addHeader(\"" + line + "\")");
                             }
                             if (line.startsWith("HTTP")) {
-                                response.setStatus(getSCFromHttpStatusLine(line));
+                                skipBody = setStatus(response, getSCFromHttpStatusLine(line));
                             } else if (line.indexOf(":") >= 0) {
                                 String header =
                                     line.substring(0, line.indexOf(":")).trim();
                                 String value =
-                                    line.substring(line.indexOf(":") + 1).trim(); 
+                                    line.substring(line.indexOf(":") + 1).trim();
                                 if (header.equalsIgnoreCase("status")) {
-                                    response.setStatus(getSCFromCGIStatusHeader(value));
+                                    skipBody = setStatus(response, getSCFromCGIStatusHeader(value));
                                 } else {
                                     response.addHeader(header , value);
                                 }
@@ -1705,15 +1737,15 @@ public final class CGIServlet extends HttpServlet {
                                 log("runCGI: bad header line \"" + line + "\"");
                             }
                         }
-    
+
                         //write output
                         byte[] bBuf = new byte[2048];
-    
+
                         OutputStream out = response.getOutputStream();
                         cgiOutput = proc.getInputStream();
-    
+
                         try {
-                            while ((bufRead = cgiOutput.read(bBuf)) != -1) {
+                            while (!skipBody && (bufRead = cgiOutput.read(bBuf)) != -1) {
                                 if (debug >= 4) {
                                     log("runCGI: output " + bufRead +
                                         " bytes of data");
@@ -1728,11 +1760,11 @@ public final class CGIServlet extends HttpServlet {
                                 while ((bufRead = cgiOutput.read(bBuf)) != -1) {}
                             }
                         }
-        
+
                         proc.exitValue(); // Throws exception if alive
-    
+
                         isRunning = false;
-    
+
                     } catch (IllegalThreadStateException e) {
                         try {
                             Thread.sleep(500);
@@ -1774,22 +1806,22 @@ public final class CGIServlet extends HttpServlet {
 
         /**
          * Parses the Status-Line and extracts the status code.
-         * 
+         *
          * @param line The HTTP Status-Line (RFC2616, section 6.1)
          * @return The extracted status code or the code representing an
-         * internal error if a valid status code cannot be extracted. 
+         * internal error if a valid status code cannot be extracted.
          */
         private int getSCFromHttpStatusLine(String line) {
             int statusStart = line.indexOf(' ') + 1;
-            
+
             if (statusStart < 1 || line.length() < statusStart + 3) {
                 // Not a valid HTTP Status-Line
                 log ("runCGI: invalid HTTP Status-Line:" + line);
                 return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             }
-            
+
             String status = line.substring(statusStart, statusStart + 3);
-            
+
             int statusCode;
             try {
                 statusCode = Integer.parseInt(status);
@@ -1798,17 +1830,17 @@ public final class CGIServlet extends HttpServlet {
                 log ("runCGI: invalid status code:" + status);
                 return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             }
-            
+
             return statusCode;
         }
 
         /**
          * Parses the CGI Status Header value and extracts the status code.
-         * 
+         *
          * @param value The CGI Status value of the form <code>
          *             digit digit digit SP reason-phrase</code>
          * @return The extracted status code or the code representing an
-         * internal error if a valid status code cannot be extracted. 
+         * internal error if a valid status code cannot be extracted.
          */
         private int getSCFromCGIStatusHeader(String value) {
             if (value.length() < 3) {
@@ -1816,9 +1848,9 @@ public final class CGIServlet extends HttpServlet {
                 log ("runCGI: invalid status value:" + value);
                 return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             }
-            
+
             String status = value.substring(0, 3);
-            
+
             int statusCode;
             try {
                 statusCode = Integer.parseInt(status);
@@ -1827,10 +1859,10 @@ public final class CGIServlet extends HttpServlet {
                 log ("runCGI: invalid status code:" + status);
                 return HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             }
-            
+
             return statusCode;
         }
-        
+
         private void sendToLog(BufferedReader rdr) {
             String line = null;
             int lineCount = 0 ;
@@ -1865,10 +1897,10 @@ public final class CGIServlet extends HttpServlet {
         private static final int STATE_FIRST_LF = 2;
         private static final int STATE_SECOND_CR = 3;
         private static final int STATE_HEADER_END = 4;
-        
+
         private InputStream input;
         private int state;
-        
+
         HTTPHeaderInputStream(InputStream theInput) {
             input = theInput;
             state = STATE_CHARACTER;
@@ -1899,7 +1931,7 @@ public final class CGIServlet extends HttpServlet {
             //            |(CR)    ^(LF)
             //            |        |
             //          (CR2)-->---
-            
+
             if (i == 10) {
                 // LF
                 switch(state) {
@@ -1932,8 +1964,8 @@ public final class CGIServlet extends HttpServlet {
             } else {
                 state = STATE_CHARACTER;
             }
-            
-            return i;            
+
+            return i;
         }
     }  // class HTTPHeaderInputStream
 
