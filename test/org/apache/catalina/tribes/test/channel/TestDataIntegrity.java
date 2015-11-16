@@ -16,15 +16,19 @@
  */
 package org.apache.catalina.tribes.test.channel;
 
-import junit.framework.TestCase;
 import java.io.Serializable;
-import java.util.Random;
 import java.util.Arrays;
+import java.util.Random;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 import org.apache.catalina.tribes.ChannelListener;
 import org.apache.catalina.tribes.Member;
 import org.apache.catalina.tribes.group.GroupChannel;
-import org.apache.catalina.tribes.test.channel.TestDataIntegrity.Listener;
-import org.apache.catalina.tribes.group.interceptors.MessageDispatchInterceptor;
 import org.apache.catalina.tribes.group.interceptors.MessageDispatch15Interceptor;
 
 /**
@@ -37,15 +41,16 @@ import org.apache.catalina.tribes.group.interceptors.MessageDispatch15Intercepto
  * @author not attributable
  * @version 1.0
  */
-public class TestDataIntegrity extends TestCase {
+public class TestDataIntegrity {
     int msgCount = 500;
     int threadCount = 20;
     GroupChannel channel1;
     GroupChannel channel2;
     Listener listener1;
     int threadCounter = 0;
-    protected void setUp() throws Exception {
-        super.setUp();
+
+    @Before
+    public void setUp() throws Exception {
         channel1 = new GroupChannel();
         channel1.addInterceptor(new MessageDispatch15Interceptor());
         channel2 = new GroupChannel();
@@ -56,17 +61,19 @@ public class TestDataIntegrity extends TestCase {
         channel2.start(GroupChannel.DEFAULT);
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         channel1.stop(GroupChannel.DEFAULT);
         channel2.stop(GroupChannel.DEFAULT);
     }
-    
+
+    @Test
     public void testDataSendNO_ACK() throws Exception {
         System.err.println("Starting NO_ACK");
         Thread[] threads = new Thread[threadCount];
         for (int x=0; x<threads.length; x++ ) {
             threads[x] = new Thread() {
+                @Override
                 public void run() {
                     try {
                         long start = System.currentTimeMillis();
@@ -89,12 +96,14 @@ public class TestDataIntegrity extends TestCase {
         System.err.println("Finished NO_ACK ["+listener1.count+"]");
         assertEquals("Checking success messages.",msgCount*threadCount,listener1.count);
     }
-    
+
+    @Test
     public void testDataSendASYNCM() throws Exception {
             System.err.println("Starting ASYNC MULTI THREAD");
             Thread[] threads = new Thread[threadCount];
             for (int x=0; x<threads.length; x++ ) {
                 threads[x] = new Thread() {
+                    @Override
                     public void run() {
                         try {
                             long start = System.currentTimeMillis();
@@ -117,6 +126,8 @@ public class TestDataIntegrity extends TestCase {
             System.err.println("Finished ASYNC MULTI THREAD ["+listener1.count+"]");
             assertEquals("Checking success messages.",msgCount*threadCount,listener1.count);
     }
+
+    @Test
     public void testDataSendASYNC() throws Exception {
         System.err.println("Starting ASYNC");
         for (int i=0; i<msgCount; i++) channel1.send(new Member[] {channel2.getLocalMember(false)},Data.createRandomData(),GroupChannel.SEND_OPTIONS_ASYNCHRONOUS);
@@ -127,6 +138,7 @@ public class TestDataIntegrity extends TestCase {
         assertEquals("Checking success messages.",msgCount,listener1.count);
     }
 
+    @Test
     public void testDataSendACK() throws Exception {
         System.err.println("Starting ACK");
         for (int i=0; i<msgCount; i++) channel1.send(new Member[] {channel2.getLocalMember(false)},Data.createRandomData(),GroupChannel.SEND_OPTIONS_USE_ACK);
@@ -135,6 +147,7 @@ public class TestDataIntegrity extends TestCase {
         assertEquals("Checking success messages.",msgCount,listener1.count);
     }
 
+    @Test
     public void testDataSendSYNCACK() throws Exception {
         System.err.println("Starting SYNC_ACK");
         for (int i=0; i<msgCount; i++) channel1.send(new Member[] {channel2.getLocalMember(false)},Data.createRandomData(),GroupChannel.SEND_OPTIONS_SYNCHRONIZED_ACK|GroupChannel.SEND_OPTIONS_USE_ACK);
@@ -161,8 +174,9 @@ public class TestDataIntegrity extends TestCase {
             }
         }
     }
-    
+
     public static class Data implements Serializable {
+        private static final long serialVersionUID = 1L;
         public int length;
         public byte[] data;
         public byte key;
