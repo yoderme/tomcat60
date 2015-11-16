@@ -133,6 +133,10 @@
       <scode>
         Convert some test classes to JUnit 4. (kkolinko)
       </scode>
+      <update>
+        <bug>58596</bug>: Clarify the description in RUNNING.txt of how
+        environment variables are used. (markt)
+      </update>
     </changelog>
   </subsection>
 </section>
