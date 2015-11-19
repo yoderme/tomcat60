@@ -28,6 +28,7 @@ import javax.management.ObjectName;
 
 import org.apache.catalina.ContainerEvent;
 import org.apache.catalina.ContainerListener;
+import org.apache.catalina.Context;
 import org.apache.catalina.Host;
 import org.apache.catalina.core.StandardContext;
 import org.apache.juli.logging.Log;
@@ -415,8 +416,7 @@ public class MapperListener
              log.debug(sm.getString
                   ("mapperListener.registerContext", contextName));
 
-        Object context = 
-            mBeanServer.invoke(objectName, "findMappingObject", null, null);
+        Context context = (Context) mBeanServer.invoke(objectName, "findMappingObject", null, null);
             //mBeanServer.getAttribute(objectName, "mappingObject");
         javax.naming.Context resources = (javax.naming.Context)
             mBeanServer.invoke(objectName, "findStaticResources", null, null);
@@ -424,8 +424,9 @@ public class MapperListener
         String[] welcomeFiles = (String[])
             mBeanServer.getAttribute(objectName, "welcomeFiles");
 
-        mapper.addContext(hostName, contextName, context, 
-                          welcomeFiles, resources);
+        mapper.addContext(hostName, contextName, context, welcomeFiles, resources,
+                context.getMapperContextRootRedirectEnabled(),
+                context.getMapperDirectoryRedirectEnabled());
 
     }
 

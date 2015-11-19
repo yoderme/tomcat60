@@ -779,9 +779,43 @@ public class StandardContext
      */
     private boolean clearReferencesThreadLocals = false;
 
+    boolean mapperContextRootRedirectEnabled = false;
+
+    boolean mapperDirectoryRedirectEnabled = false;
+
+
     // ----------------------------------------------------- Context Properties
+    
+    public void setMapperContextRootRedirectEnabled(boolean mapperContextRootRedirectEnabled) {
+        this.mapperContextRootRedirectEnabled = mapperContextRootRedirectEnabled;
+    }
 
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * The default value for this implementation is {@code false}.
+     */
+    public boolean getMapperContextRootRedirectEnabled() {
+        return mapperContextRootRedirectEnabled;
+    }
+
+
+    public void setMapperDirectoryRedirectEnabled(boolean mapperDirectoryRedirectEnabled) {
+        this.mapperDirectoryRedirectEnabled = mapperDirectoryRedirectEnabled;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * The default value for this implementation is {@code false}.
+     */
+    public boolean getMapperDirectoryRedirectEnabled() {
+        return mapperDirectoryRedirectEnabled;
+    }
+
+    
     public AnnotationProcessor getAnnotationProcessor() {
        return annotationProcessor;
     }

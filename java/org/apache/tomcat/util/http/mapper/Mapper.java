@@ -208,10 +208,29 @@ public final class Mapper {
      * @param context Context object
      * @param welcomeResources Welcome files defined for this context
      * @param resources Static resources of the context
+     * @deprecated Use {@link #addContext(String, String, Object, String[],
+     *             javax.naming.Context, boolean, boolean)}
      */
-    public void addContext
-        (String hostName, String path, Object context,
-         String[] welcomeResources, javax.naming.Context resources) {
+    @Deprecated
+    public void addContext(String hostName, String path, Object context,
+            String[] welcomeResources, javax.naming.Context resources) {
+        addContext(hostName, path, context, welcomeResources, resources, false, false);
+    }
+    
+    /**
+     * Add a new Context to an existing Host.
+     *
+     * @param hostName Virtual host name this context belongs to
+     * @param path Context path
+     * @param context Context object
+     * @param welcomeResources Welcome files defined for this context
+     * @param resources Static resources of the context
+     * @param mapperContextRootRedirectEnabled Mapper does context root redirects
+     * @param mapperDirectoryRedirectEnabled Mapper does directory redirects
+     */
+    public void addContext(String hostName, String path, Object context, String[] welcomeResources,
+            javax.naming.Context resources, boolean mapperContextRootRedirectEnabled,
+            boolean mapperDirectoryRedirectEnabled) {
 
         Host[] hosts = this.hosts;
         int pos = find(hosts, hostName);
@@ -241,9 +260,10 @@ public final class Mapper {
                 if (insertMap(contexts, newContexts, newContext)) {
                     host.contextList.contexts = newContexts;
                 }
+                newContext.mapperContextRootRedirectEnabled = mapperContextRootRedirectEnabled;
+                newContext.mapperDirectoryRedirectEnabled = mapperDirectoryRedirectEnabled;
             }
         }
-
     }
 
 
@@ -731,7 +751,8 @@ public final class Mapper {
             }
         }
 
-        if(mappingData.wrapper == null && noServletPath) {
+        if(mappingData.wrapper == null && noServletPath &&
+                context.mapperContextRootRedirectEnabled) {
             // The path is empty, redirect to "/"
             mappingData.redirectPath.setChars
                 (path.getBuffer(), pathOffset, pathEnd-pathOffset);
@@ -828,7 +849,8 @@ public final class Mapper {
                 } catch(NamingException nex) {
                     // Swallow, since someone else handles the 404
                 }
-                if (file != null && file instanceof DirContext) {
+                if (file != null && file instanceof DirContext &&
+                        context.mapperDirectoryRedirectEnabled) {
                     // Note: this mutates the path: do not do any processing 
                     // after this (since we set the redirectPath, there 
                     // shouldn't be any)
@@ -845,7 +867,6 @@ public final class Mapper {
 
         path.setOffset(pathOffset);
         path.setEnd(pathEnd);
-
     }
 
 
@@ -1313,7 +1334,8 @@ public final class Mapper {
         public Wrapper[] wildcardWrappers = new Wrapper[0];
         public Wrapper[] extensionWrappers = new Wrapper[0];
         public int nesting = 0;
-
+        public boolean mapperContextRootRedirectEnabled = false;
+        public boolean mapperDirectoryRedirectEnabled = false;
     }
 
 
@@ -1326,117 +1348,4 @@ public final class Mapper {
         public String path = null;
         public boolean jspWildCard = false;
     }
-
-
-    // -------------------------------------------------------- Testing Methods
-
-    // FIXME: Externalize this
-    /*
-    public static void main(String args[]) {
-
-        try {
-
-        Mapper mapper = new Mapper();
-        System.out.println("Start");
-
-        mapper.addHost("sjbjdvwsbvhrb", new String[0], "blah1");
-        mapper.addHost("sjbjdvwsbvhr/", new String[0], "blah1");
-        mapper.addHost("wekhfewuifweuibf", new String[0], "blah2");
-        mapper.addHost("ylwrehirkuewh", new String[0], "blah3");
-        mapper.addHost("iohgeoihro", new String[0], "blah4");
-        mapper.addHost("fwehoihoihwfeo", new String[0], "blah5");
-        mapper.addHost("owefojiwefoi", new String[0], "blah6");
-        mapper.addHost("iowejoiejfoiew", new String[0], "blah7");
-        mapper.addHost("iowejoiejfoiew", new String[0], "blah17");
-        mapper.addHost("ohewoihfewoih", new String[0], "blah8");
-        mapper.addHost("fewohfoweoih", new String[0], "blah9");
-        mapper.addHost("ttthtiuhwoih", new String[0], "blah10");
-        mapper.addHost("lkwefjwojweffewoih", new String[0], "blah11");
-        mapper.addHost("zzzuyopjvewpovewjhfewoih", new String[0], "blah12");
-        mapper.addHost("xxxxgqwiwoih", new String[0], "blah13");
-        mapper.addHost("qwigqwiwoih", new String[0], "blah14");
-
-        System.out.println("Map:");
-        for (int i = 0; i < mapper.hosts.length; i++) {
-            System.out.println(mapper.hosts[i].name);
-        }
-
-        mapper.setDefaultHostName("ylwrehirkuewh");
-
-        String[] welcomes = new String[2];
-        welcomes[0] = "boo/baba";
-        welcomes[1] = "bobou";
-
-        mapper.addContext("iowejoiejfoiew", "", "context0", new String[0], null);
-        mapper.addContext("iowejoiejfoiew", "/foo", "context1", new String[0], null);
-        mapper.addContext("iowejoiejfoiew", "/foo/bar", "context2", welcomes, null);
-        mapper.addContext("iowejoiejfoiew", "/foo/bar/bla", "context3", new String[0], null);
-
-        mapper.addWrapper("iowejoiejfoiew", "/foo/bar", "/fo/*", "wrapper0");
-        mapper.addWrapper("iowejoiejfoiew", "/foo/bar", "/", "wrapper1");
-        mapper.addWrapper("iowejoiejfoiew", "/foo/bar", "/blh", "wrapper2");
-        mapper.addWrapper("iowejoiejfoiew", "/foo/bar", "*.jsp", "wrapper3");
-        mapper.addWrapper("iowejoiejfoiew", "/foo/bar", "/blah/bou/*", "wrapper4");
-        mapper.addWrapper("iowejoiejfoiew", "/foo/bar", "/blah/bobou/*", "wrapper5");
-        mapper.addWrapper("iowejoiejfoiew", "/foo/bar", "*.htm", "wrapper6");
-
-        MappingData mappingData = new MappingData();
-        MessageBytes host = MessageBytes.newInstance();
-        host.setString("iowejoiejfoiew");
-        MessageBytes uri = MessageBytes.newInstance();
-        uri.setString("/foo/bar/blah/bobou/foo");
-        uri.toChars();
-        uri.getCharChunk().setLimit(-1);
-
-        mapper.map(host, uri, mappingData);
-        System.out.println("MD Host:" + mappingData.host);
-        System.out.println("MD Context:" + mappingData.context);
-        System.out.println("MD Wrapper:" + mappingData.wrapper);
-
-        System.out.println("contextPath:" + mappingData.contextPath);
-        System.out.println("wrapperPath:" + mappingData.wrapperPath);
-        System.out.println("pathInfo:" + mappingData.pathInfo);
-        System.out.println("redirectPath:" + mappingData.redirectPath);
-
-        mappingData.recycle();
-        mapper.map(host, uri, mappingData);
-        System.out.println("MD Host:" + mappingData.host);
-        System.out.println("MD Context:" + mappingData.context);
-        System.out.println("MD Wrapper:" + mappingData.wrapper);
-
-        System.out.println("contextPath:" + mappingData.contextPath);
-        System.out.println("wrapperPath:" + mappingData.wrapperPath);
-        System.out.println("pathInfo:" + mappingData.pathInfo);
-        System.out.println("redirectPath:" + mappingData.redirectPath);
-
-        for (int i = 0; i < 1000000; i++) {
-            mappingData.recycle();
-            mapper.map(host, uri, mappingData);
-        }
-
-        long time = System.currentTimeMillis();
-        for (int i = 0; i < 1000000; i++) {
-            mappingData.recycle();
-            mapper.map(host, uri, mappingData);
-        }
-        System.out.println("Elapsed:" + (System.currentTimeMillis() - time));
-
-        System.out.println("MD Host:" + mappingData.host);
-        System.out.println("MD Context:" + mappingData.context);
-        System.out.println("MD Wrapper:" + mappingData.wrapper);
-
-        System.out.println("contextPath:" + mappingData.contextPath);
-        System.out.println("wrapperPath:" + mappingData.wrapperPath);
-        System.out.println("requestPath:" + mappingData.requestPath);
-        System.out.println("pathInfo:" + mappingData.pathInfo);
-        System.out.println("redirectPath:" + mappingData.redirectPath);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-    */
-
-
 }
