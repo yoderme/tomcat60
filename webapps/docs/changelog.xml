@@ -131,6 +131,10 @@
         <bug>58255</bug>: Document the Semaphore valve. Patch provided by
         Kyohei Nakamura. (markt)
       </add>
+      <fix>
+        <bug>58631</bug>: Correct the continuation character use in the Windows
+        Service How-To page of the documenation web application. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
