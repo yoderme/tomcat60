@@ -360,36 +360,30 @@ public class DefaultServlet
         // i.e. it can not be used to mount the web app root under a sub-path
         // This method must construct a complete context rooted path, although
         // subclasses can change this behaviour.
+        String servletPath;
+        String pathInfo;
 
-        // Are we being processed by a RequestDispatcher.include()?
         if (request.getAttribute(Globals.INCLUDE_REQUEST_URI_ATTR) != null) {
-            String result = (String) request.getAttribute(
-                                            Globals.INCLUDE_PATH_INFO_ATTR);
-            if (result == null) {
-                result = (String) request.getAttribute(
-                                            Globals.INCLUDE_SERVLET_PATH_ATTR);
-            } else {
-                result = (String) request.getAttribute(
-                                  Globals.INCLUDE_SERVLET_PATH_ATTR) + result;
-            }
-            if ((result == null) || (result.equals(""))) {
-                result = "/";
-            }
-            return (result);
-        }
-
-        // No, extract the desired path directly from the request
-        String result = request.getPathInfo();
-        if (result == null) {
-            result = request.getServletPath();
+            // For includes, get the info from the attributes
+            pathInfo = (String) request.getAttribute(Globals.INCLUDE_PATH_INFO_ATTR);
+            servletPath = (String) request.getAttribute(Globals.INCLUDE_SERVLET_PATH_ATTR);
         } else {
-            result = request.getServletPath() + result;
+            pathInfo = request.getPathInfo();
+            servletPath = request.getServletPath();
         }
-        if ((result == null) || (result.equals(""))) {
-            result = "/";
-        }
-        return (result);
 
+        StringBuilder result = new StringBuilder();
+        if (servletPath.length() > 0) {
+            result.append(servletPath);
+        }
+        if (pathInfo != null) {
+            result.append(pathInfo);
+        }
+        if (result.length() == 0) {
+            result.append('/');
+        }
+
+        return result.toString();
     }
 
 
