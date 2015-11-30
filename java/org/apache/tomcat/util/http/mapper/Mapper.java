@@ -703,20 +703,13 @@ public final class Mapper {
 
         int pathOffset = path.getOffset();
         int pathEnd = path.getEnd();
-        int servletPath = pathOffset;
         boolean noServletPath = false;
 
         int length = context.name.length();
-        if (length != (pathEnd - pathOffset)) {
-            servletPath = pathOffset + length;
-        } else {
+        if (length == (pathEnd - pathOffset)) {
             noServletPath = true;
-            path.append('/');
-            pathOffset = path.getOffset();
-            pathEnd = path.getEnd();
-            servletPath = pathOffset+length;
         }
-
+        int servletPath = pathOffset + length;
         path.setOffset(servletPath);
 
         // Rule 1 -- Exact Match
@@ -754,8 +747,10 @@ public final class Mapper {
         if(mappingData.wrapper == null && noServletPath &&
                 context.mapperContextRootRedirectEnabled) {
             // The path is empty, redirect to "/"
+            path.append('/');
+            pathEnd = path.getEnd();
             mappingData.redirectPath.setChars
-                (path.getBuffer(), pathOffset, pathEnd-pathOffset);
+                (path.getBuffer(), pathOffset, pathEnd - pathOffset);
             path.setEnd(pathEnd - 1);
             return;
         }
@@ -845,7 +840,11 @@ public final class Mapper {
                 Object file = null;
                 String pathStr = path.toString();
                 try {
-                    file = context.resources.lookup(pathStr);
+                    if (pathStr.length() == 0) {
+                        file = context.resources.lookup("/");
+                    } else {
+                        file = context.resources.lookup(pathStr);
+                    }
                 } catch(NamingException nex) {
                     // Swallow, since someone else handles the 404
                 }

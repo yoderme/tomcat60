@@ -424,6 +424,11 @@ public class WebdavServlet
      * @param request The servlet request we are processing
      */
     protected String getRelativePath(HttpServletRequest request) {
+        return getRelativePath(request, false);
+    }
+
+    @Override
+    protected String getRelativePath(HttpServletRequest request, boolean allowEmptyPath) {
         String pathInfo;
 
         if (request.getAttribute(Globals.INCLUDE_REQUEST_URI_ATTR) != null) {
