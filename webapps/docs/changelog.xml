@@ -156,6 +156,10 @@
         <bug>58596</bug>: Clarify the description in RUNNING.txt of how
         environment variables are used. (markt)
       </update>
+      <update>
+        Update the NSIS Installer used to build the Windows Installers to
+        version 2.47. (markt)
+      </update>
     </changelog>
   </subsection>
 </section>
