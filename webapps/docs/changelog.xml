@@ -116,6 +116,9 @@
         <bug>57943</bug>: Prevent the same socket being added to the cache
         twice. Patch based on analysis by Ian Luo / Sun Qi. (markt/kkolinko)
       </fix>
+      <fix>
+        Improve HTTP header validation. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
