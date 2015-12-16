@@ -573,9 +573,8 @@ public class ChunkedInputFilter implements InputFilter {
     
         String headerName = new String(trailingHeaders.getBytes(), startPos,
                 colonPos - startPos, "ISO_8859_1");
-        
         if (org.apache.coyote.Constants.ALLOWED_TRAILER_HEADERS.contains(
-                headerName.trim().toLowerCase(Locale.ENGLISH))) {
+                headerName.toLowerCase(Locale.ENGLISH))) {
             MessageBytes headerValue = headers.addValue(headerName);
             
             // Set the header value
