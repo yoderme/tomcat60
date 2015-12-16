@@ -143,6 +143,9 @@
         <bug>58631</bug>: Correct the continuation character use in the Windows
         Service How-To page of the documenation web application. (markt)
       </fix>
+      <fix>
+        Correct some typos in the JNDI resources How-To. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
