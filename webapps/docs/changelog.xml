@@ -150,6 +150,9 @@
         Add a redirect to the web interface to the root of the Manager web
         application. (markt)
       </fix>
+      <fix>
+        Don't create sessions unnecessarily in the Manager application. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
