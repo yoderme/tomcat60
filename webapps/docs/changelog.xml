@@ -146,6 +146,10 @@
       <fix>
         Correct some typos in the JNDI resources How-To. (markt)
       </fix>
+      <fix>
+        Add a redirect to the web interface to the root of the Manager web
+        application. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
