@@ -913,7 +913,6 @@ public class MyBeanFactory implements ObjectFactory {
   &lt;/resource-env-ref-type&gt;
 &lt;/resource-env-ref&gt;
 </source>
-=======
 
     <p><strong>WARNING</strong> - Be sure you respect the element ordering
     that is required by the DTD for web application deployment descriptors!
