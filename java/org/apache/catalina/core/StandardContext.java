@@ -779,7 +779,7 @@ public class StandardContext
      */
     private boolean clearReferencesThreadLocals = false;
 
-    boolean mapperContextRootRedirectEnabled = false;
+    boolean mapperContextRootRedirectEnabled = true;
 
     boolean mapperDirectoryRedirectEnabled = false;
 
