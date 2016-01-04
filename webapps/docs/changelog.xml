@@ -99,6 +99,10 @@
         running Tomcat with a Java agent. Based on a patch by Huxing Zhang.
         (markt) 
       </fix>
+      <fix>
+        Add the <code>StatusManagerServlet</code> to the list of Servlets that
+        can only be loaded by privileged applications. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
