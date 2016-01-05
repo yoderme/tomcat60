@@ -175,7 +175,7 @@
         Benjamin Gandon. (kkolinko)
       </fix>
       <scode>
-        Convert some test classes to JUnit 4. (kkolinko)
+        Convert test classes to JUnit 4. (kkolinko)
       </scode>
       <update>
         <bug>58596</bug>: Clarify the description in RUNNING.txt of how
