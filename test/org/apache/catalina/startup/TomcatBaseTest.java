@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
@@ -37,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
@@ -44,10 +46,12 @@ import org.junit.Assert;
 import org.junit.Before;
 
 import org.apache.catalina.Container;
+import org.apache.catalina.Engine;
+import org.apache.catalina.Host;
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.LifecycleState;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Server;
+import org.apache.catalina.ServerFactory;
 import org.apache.catalina.Service;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.AprLifecycleListener;
@@ -62,7 +66,7 @@ import org.apache.tomcat.util.buf.ByteChunk;
  * don't have to keep writing the cleanup code.
  */
 public abstract class TomcatBaseTest extends LoggingBaseTest {
-    private Tomcat tomcat;
+    private Embedded tomcat;
     private boolean accessLogEnabled = false;
 
     public static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
@@ -70,7 +74,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
     /**
      * Make Tomcat instance accessible to sub-classes.
      */
-    public Tomcat getTomcatInstance() {
+    public Embedded getTomcatInstance() {
         return tomcat;
     }
 
@@ -78,7 +82,9 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
      * Sub-classes need to know port so they can connect
      */
     public int getPort() {
-        return tomcat.getConnector().getLocalPort();
+//FIXME: Implement support for port number "0" and getLocalPort() method.
+        // return tomcat.getConnector().getLocalPort();
+        return tomcat.findConnectors()[0].getPort();
     }
 
     /**
@@ -87,6 +93,9 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
     public boolean isAccessLogEnabled() {
         return accessLogEnabled;
     }
+
+  //FIXME: implement support for post number 0.
+    private static volatile int portIncrement = 0;
 
     @Before
     @Override
@@ -101,7 +110,16 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
             fail("Unable to create appBase for test");
         }
 
+        // FIXME. This is an ugly sanity check that the Server reference has been cleared after the previous test run
+        Field f = ServerFactory.class.getDeclaredField("server");
+        f.setAccessible(true);
+        assertNull("ServerFactory.server field is not null", f.get(null));
+
         tomcat = new TomcatWithFastSessionIDs();
+        tomcat.setServer(ServerFactory.getServer());
+
+        Engine engine = tomcat.createEngine();
+        tomcat.addEngine(engine);
 
         String protocol = getProtocol();
         Connector connector = new Connector(protocol);
@@ -109,11 +127,13 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
         connector.setAttribute("address",
                 InetAddress.getByName("localhost").getHostAddress());
         // Use random free port
-        connector.setPort(0);
+//FIXME
+//      connector.setPort(0);
+        connector.setPort(8080 + portIncrement);
+        portIncrement++;
         // Mainly set to reduce timeouts during async tests
         connector.setAttribute("connectionTimeout", "3000");
-        tomcat.getService().addConnector(connector);
-        tomcat.setConnector(connector);
+        tomcat.addConnector(connector);
 
         // Add AprLifecycleListener if we are using the Apr connector
         if (protocol.contains("Apr")) {
@@ -125,23 +145,26 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
         }
 
         File catalinaBase = getTemporaryDirectory();
-        tomcat.setBaseDir(catalinaBase.getAbsolutePath());
-        tomcat.getHost().setAppBase(appBase.getAbsolutePath());
+        tomcat.setCatalinaBase(catalinaBase.getAbsolutePath());
 
-        accessLogEnabled = Boolean.parseBoolean(
-            System.getProperty("tomcat.test.accesslog", "false"));
-        if (accessLogEnabled) {
-            String accessLogDirectory = System
-                    .getProperty("tomcat.test.reports");
-            if (accessLogDirectory == null) {
-                accessLogDirectory = new File(getBuildDirectory(), "logs")
-                        .toString();
-            }
-            AccessLogValve alv = new AccessLogValve();
-            alv.setDirectory(accessLogDirectory);
-            alv.setPattern("%h %l %u %t \"%r\" %s %b %I %D");
-            tomcat.getHost().getPipeline().addValve(alv);
-        }
+        Host host = tomcat.createHost("localhost", appBase.getAbsolutePath());
+        engine.addChild(host);
+
+//FIXME
+//        accessLogEnabled = Boolean.parseBoolean(
+//            System.getProperty("tomcat.test.accesslog", "false"));
+//        if (accessLogEnabled) {
+//            String accessLogDirectory = System
+//                    .getProperty("tomcat.test.reports");
+//            if (accessLogDirectory == null) {
+//                accessLogDirectory = new File(getBuildDirectory(), "logs")
+//                        .toString();
+//            }
+//            AccessLogValve alv = new AccessLogValve();
+//            alv.setDirectory(accessLogDirectory);
+//            alv.setPattern("%h %l %u %t \"%r\" %s %b %I %D");
+//            tomcat.getHost().getPipeline().addValve(alv);
+//        }
 
         // Cannot delete the whole tempDir, because logs are there,
         // but delete known subdirectories of it.
@@ -165,17 +188,23 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
     @Override
     public void tearDown() throws Exception {
         try {
-            // Some tests may call tomcat.destroy(), some tests may just call
-            // tomcat.stop(), some not call either method. Make sure that stop()
-            // & destroy() are called as necessary.
-            if (tomcat.server != null
-                    && tomcat.server.getState() != LifecycleState.DESTROYED) {
-                if (tomcat.server.getState() != LifecycleState.STOPPED) {
-                    tomcat.stop();
-                }
+            if (tomcat.started) {
+                tomcat.stop();
                 tomcat.destroy();
             }
         } finally {
+            // ServerFactory.setServer(null);
+            //
+            // FIXME: Implement ServerFactory.clear(), as suggested in
+            // http://tomcat.markmail.org/thread/ko7ip7obvyaftwe4
+            //
+            // The setServer(null) call does not work due to "if (server == null)" check.
+            // Thus I am implementing it via reflection.
+            //
+            Field f = ServerFactory.class.getDeclaredField("server");
+            f.setAccessible(true);
+            f.set(null, null);
+
             super.tearDown();
         }
     }
@@ -398,7 +427,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
 
         private static final long serialVersionUID = 1L;
 
-        @SuppressWarnings("deprecation")
+        @SuppressWarnings({ "deprecation", "unchecked" })
         @Override
         public void service(HttpServletRequest request,
                             HttpServletResponse response)
@@ -767,7 +796,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
         return rc;
     }
 
-    private static class TomcatWithFastSessionIDs extends Tomcat {
+    private static class TomcatWithFastSessionIDs extends Embedded {
 
         @Override
         public void start() throws LifecycleException {
@@ -783,7 +812,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
                             c.setManager(m);
                         }
                         if (m instanceof ManagerBase) {
-                            ((ManagerBase) m).setSecureRandomClass(
+                            ((ManagerBase) m).setRandomClass(
                                     "org.apache.catalina.startup.FastNonSecureRandom");
                         }
                     }

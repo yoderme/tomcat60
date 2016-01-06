@@ -125,150 +125,151 @@ import org.apache.catalina.realm.RealmBase;
  * @author Costin Manolache
  */
 public class Tomcat {
-    // Some logging implementations use weak references for loggers so there is
-    // the possibility that logging configuration could be lost if GC runs just
-    // after Loggers are configured but before they are used. The purpose of
-    // this Map is to retain strong references to explicitly configured loggers
-    // so that configuration is not lost.
-    private final Map<String, Logger> pinnedLoggers = new HashMap<String, Logger>();
-
-    // Single engine, service, server, connector - few cases need more,
-    // they can use server.xml
-    protected Server server;
-    protected Service service;
-    protected Engine engine;
-    protected Connector connector; // for more - customize the classes
-    
-    // To make it a bit easier to config for the common case
-    // ( one host, one context ). 
-    protected Host host;
-
-    // TODO: it's easy to add support for more hosts - but is it 
-    // really needed ?
-
-    // TODO: allow use of in-memory connector
-    
-    protected int port = 8080;
-    protected String hostname = "localhost";
-    protected String basedir;
-    
-    // Default in-memory realm, will be set by default on the Engine. Can be
-    // replaced at engine level or over-ridden at Host or Context level
-    @Deprecated // Will be removed in Tomcat 8.0.x.
-    protected Realm defaultRealm;
-    private final Map<String, String> userPass = new HashMap<String, String>();
-    private final Map<String, List<String>> userRoles =
-        new HashMap<String, List<String>>();
-    private final Map<String, Principal> userPrincipals =
-        new HashMap<String, Principal>();
-    
-    public Tomcat() {
-        // NOOP
-    }
-    
-    /**
-     * Tomcat needs a directory for temp files. This should be the 
-     * first method called. 
-     * 
-     * By default, if this method is not called, we use:
-     *  - system properties - catalina.base, catalina.home 
-     *  - $HOME/tomcat.$PORT
-     * ( /tmp doesn't seem a good choice for security ).
-     *   
-     *
-     * TODO: better default ? Maybe current dir ? 
-     * TODO: disable work dir if not needed ( no jsp, etc ).
-     */
-    public void setBaseDir(String basedir) {
-        this.basedir = basedir;
-    }
-
-    /** 
-     * Set the port for the default connector. Must 
-     * be called before start().
-     */
-    public void setPort(int port) {
-        this.port = port;
-    }
-    
-    /** 
-     * The the hostname of the default host, default is 
-     * 'localhost'.
-     */
-    public void setHostname(String s) {
-        hostname = s;
-    }
-
-    /**
-     * This is equivalent to adding a web application to Tomcat&apos;s webapps
-     * directory. The equivalent of the default web.xml will be applied  to the
-     * web application and any WEB-INF/web.xml and META-INF/context.xml packaged
-     * with the application will be processed normally. Normal web fragment and
-     * {@link javax.servlet.ServletContainerInitializer} processing will be
-     * applied.
-     *
-     * @throws ServletException
-     */
-    public Context addWebapp(String contextPath, String docBase) throws ServletException {
-        return addWebapp(getHost(), contextPath, docBase);
-    }
-    
-    
-    /** 
-     * Add a context - programmatic mode, no web.xml used.
-     *
-     * API calls equivalent with web.xml:
-     * 
-     * context-param
-     *  ctx.addParameter("name", "value");
-     *     
-     *
-     * error-page
-     *    ErrorPage ep = new ErrorPage();
-     *    ep.setErrorCode(500);
-     *    ep.setLocation("/error.html");
-     *    ctx.addErrorPage(ep);
-     *   
-     * ctx.addMimeMapping("ext", "type");
-     * 
-     * Note: If you reload the Context, all your configuration will be lost. If
-     * you need reload support, consider using a LifecycleListener to provide
-     * your configuration.
-     *  
-     * TODO: add the rest
-     *
-     *  @param contextPath "" for root context.
-     *  @param docBase base dir for the context, for static files. Must exist,
-     *  relative to the server home
-     */
-    public Context addContext(String contextPath, String docBase) {
-        return addContext(getHost(), contextPath, docBase);
-    }
-
-    /**
-     * Equivalent with 
-     *  <servlet><servlet-name><servlet-class>.
-     *  
-     * In general it is better/faster to use the method that takes a 
-     * Servlet as param - this one can be used if the servlet is not 
-     * commonly used, and want to avoid loading all deps.
-     * ( for example: jsp servlet )
-     * 
-     * You can customize the returned servlet, ex:
-     * 
-     *    wrapper.addInitParameter("name", "value");
-     *    
-     * @param contextPath   Context to add Servlet to
-     * @param servletName   Servlet name (used in mappings)
-     * @param servletClass  The class to be used for the Servlet
-     * @return The wrapper for the servlet
-     */
-    public Wrapper addServlet(String contextPath, 
-            String servletName, 
-            String servletClass) {
-        Container ctx = getHost().findChild(contextPath);
-        return addServlet((Context) ctx, servletName, servletClass);
-    }
+//FIXME
+//    // Some logging implementations use weak references for loggers so there is
+//    // the possibility that logging configuration could be lost if GC runs just
+//    // after Loggers are configured but before they are used. The purpose of
+//    // this Map is to retain strong references to explicitly configured loggers
+//    // so that configuration is not lost.
+//    private final Map<String, Logger> pinnedLoggers = new HashMap<String, Logger>();
+//
+//    // Single engine, service, server, connector - few cases need more,
+//    // they can use server.xml
+//    protected StandardServer server;
+//    protected StandardService service;
+//    protected StandardEngine engine;
+//    protected Connector connector; // for more - customize the classes
+//    
+//    // To make it a bit easier to config for the common case
+//    // ( one host, one context ). 
+//    protected Host host;
+//
+//    // TODO: it's easy to add support for more hosts - but is it 
+//    // really needed ?
+//
+//    // TODO: allow use of in-memory connector
+//    
+//    protected int port = 8080;
+//    protected String hostname = "localhost";
+//    protected String basedir;
+//    
+//    // Default in-memory realm, will be set by default on the Engine. Can be
+//    // replaced at engine level or over-ridden at Host or Context level
+//    @Deprecated // Will be removed in Tomcat 8.0.x.
+//    protected Realm defaultRealm;
+//    private final Map<String, String> userPass = new HashMap<String, String>();
+//    private final Map<String, List<String>> userRoles =
+//        new HashMap<String, List<String>>();
+//    private final Map<String, Principal> userPrincipals =
+//        new HashMap<String, Principal>();
+//    
+//    public Tomcat() {
+//        // NOOP
+//    }
+//    
+//    /**
+//     * Tomcat needs a directory for temp files. This should be the 
+//     * first method called. 
+//     * 
+//     * By default, if this method is not called, we use:
+//     *  - system properties - catalina.base, catalina.home 
+//     *  - $HOME/tomcat.$PORT
+//     * ( /tmp doesn't seem a good choice for security ).
+//     *   
+//     *
+//     * TODO: better default ? Maybe current dir ? 
+//     * TODO: disable work dir if not needed ( no jsp, etc ).
+//     */
+//    public void setBaseDir(String basedir) {
+//        this.basedir = basedir;
+//    }
+//
+//    /** 
+//     * Set the port for the default connector. Must 
+//     * be called before start().
+//     */
+//    public void setPort(int port) {
+//        this.port = port;
+//    }
+//    
+//    /** 
+//     * The the hostname of the default host, default is 
+//     * 'localhost'.
+//     */
+//    public void setHostname(String s) {
+//        hostname = s;
+//    }
+//
+//    /**
+//     * This is equivalent to adding a web application to Tomcat&apos;s webapps
+//     * directory. The equivalent of the default web.xml will be applied  to the
+//     * web application and any WEB-INF/web.xml and META-INF/context.xml packaged
+//     * with the application will be processed normally. Normal web fragment and
+//     * {@link javax.servlet.ServletContainerInitializer} processing will be
+//     * applied.
+//     *
+//     * @throws ServletException
+//     */
+//    public Context addWebapp(String contextPath, String docBase) throws ServletException {
+//        return addWebapp(getHost(), contextPath, docBase);
+//    }
+//    
+//    
+//    /** 
+//     * Add a context - programmatic mode, no web.xml used.
+//     *
+//     * API calls equivalent with web.xml:
+//     * 
+//     * context-param
+//     *  ctx.addParameter("name", "value");
+//     *     
+//     *
+//     * error-page
+//     *    ErrorPage ep = new ErrorPage();
+//     *    ep.setErrorCode(500);
+//     *    ep.setLocation("/error.html");
+//     *    ctx.addErrorPage(ep);
+//     *   
+//     * ctx.addMimeMapping("ext", "type");
+//     * 
+//     * Note: If you reload the Context, all your configuration will be lost. If
+//     * you need reload support, consider using a LifecycleListener to provide
+//     * your configuration.
+//     *  
+//     * TODO: add the rest
+//     *
+//     *  @param contextPath "" for root context.
+//     *  @param docBase base dir for the context, for static files. Must exist,
+//     *  relative to the server home
+//     */
+//    public Context addContext(String contextPath, String docBase) {
+//        return addContext(getHost(), contextPath, docBase);
+//    }
+//
+//    /**
+//     * Equivalent with 
+//     *  <servlet><servlet-name><servlet-class>.
+//     *  
+//     * In general it is better/faster to use the method that takes a 
+//     * Servlet as param - this one can be used if the servlet is not 
+//     * commonly used, and want to avoid loading all deps.
+//     * ( for example: jsp servlet )
+//     * 
+//     * You can customize the returned servlet, ex:
+//     * 
+//     *    wrapper.addInitParameter("name", "value");
+//     *    
+//     * @param contextPath   Context to add Servlet to
+//     * @param servletName   Servlet name (used in mappings)
+//     * @param servletClass  The class to be used for the Servlet
+//     * @return The wrapper for the servlet
+//     */
+//    public Wrapper addServlet(String contextPath, 
+//            String servletName, 
+//            String servletClass) {
+//        Container ctx = getHost().findChild(contextPath);
+//        return addServlet((Context) ctx, servletName, servletClass);
+//    }
 
     /**
      * Static version of {@link #addServlet(String, String, String)}
@@ -289,20 +290,20 @@ public class Tomcat {
         return sw;
     }
 
-    /**
-     * Add an existing Servlet to the context with no class.forName or
-     * initialisation.
-     * @param contextPath   Context to add Servlet to
-     * @param servletName   Servlet name (used in mappings)
-     * @param servlet       The Servlet to add
-     * @return The wrapper for the servlet
-     */
-    public Wrapper addServlet(String contextPath, 
-            String servletName, 
-            Servlet servlet) {
-        Container ctx = getHost().findChild(contextPath);
-        return addServlet((Context) ctx, servletName, servlet);
-    }
+//    /**
+//     * Add an existing Servlet to the context with no class.forName or
+//     * initialisation.
+//     * @param contextPath   Context to add Servlet to
+//     * @param servletName   Servlet name (used in mappings)
+//     * @param servlet       The Servlet to add
+//     * @return The wrapper for the servlet
+//     */
+//    public Wrapper addServlet(String contextPath, 
+//            String servletName, 
+//            Servlet servlet) {
+//        Container ctx = getHost().findChild(contextPath);
+//        return addServlet((Context) ctx, servletName, servlet);
+//    }
 
     /**
      * Static version of {@link #addServlet(String, String, Servlet)}.
@@ -323,188 +324,188 @@ public class Tomcat {
     }
     
 
-    /**
-     * Initialise the server.
-     * 
-     * @throws LifecycleException
-     */
-    public void init() throws LifecycleException {
-        getServer();
-        getConnector();
-        server.init();
-    }
-    
-    
-    /**
-     * Start the server.
-     * 
-     * @throws LifecycleException 
-     */
-    public void start() throws LifecycleException {
-        getServer();
-        getConnector();
-        server.start();
-    }
-
-    /** 
-     * Stop the server.
-     * 
-     * @throws LifecycleException 
-     */
-    public void stop() throws LifecycleException {
-        getServer();
-        server.stop();
-    }
-
-
-    /**
-     * Destroy the server. This object cannot be used once this method has been
-     * called.
-     */
-    public void destroy() throws LifecycleException {
-        getServer();
-        server.destroy();
-        // Could null out objects here
-    }
-    
-    /** 
-     * Add a user for the in-memory realm. All created apps use this 
-     * by default, can be replaced using setRealm().
-     *  
-     */
-    public void addUser(String user, String pass) {
-        userPass.put(user, pass);
-    }
-    
-    /**
-     * @see #addUser(String, String) 
-     */
-    public void addRole(String user, String role) {
-        List<String> roles = userRoles.get(user);
-        if (roles == null) {
-            roles = new ArrayList<String>();
-            userRoles.put(user, roles);
-        }
-        roles.add(role);
-    }
-
-    // ------- Extra customization -------
-    // You can tune individual tomcat objects, using internal APIs
-    
-    /** 
-     * Get the default http connector. You can set more 
-     * parameters - the port is already initialized.
-     * 
-     * Alternatively, you can construct a Connector and set any params,
-     * then call addConnector(Connector)
-     * 
-     * @return A connector object that can be customized
-     */
-    public Connector getConnector() {
-        getServer();
-        if (connector != null) {
-            return connector;
-        }
-        // This will load Apr connector if available,
-        // default to nio. I'm having strange problems with apr
-        // XXX: jfclere weird... Don't add the AprLifecycleListener then.
-        // and for the use case the speed benefit wouldn't matter.
-        
-        connector = new Connector("HTTP/1.1");
-        // connector = new Connector("org.apache.coyote.http11.Http11Protocol"); 
-        connector.setPort(port);
-        service.addConnector( connector );
-        return connector;
-    }
-    
-    public void setConnector(Connector connector) {
-        this.connector = connector;
-    }
-    
-    /** 
-     * Get the service object. Can be used to add more 
-     * connectors and few other global settings.
-     */
-    public Service getService() {
-        getServer();
-        return service;
-    }
-
-    /** 
-     * Sets the current host - all future webapps will
-     * be added to this host. When tomcat starts, the 
-     * host will be the default host.
-     * 
-     * @param host
-     */
-    public void setHost(Host host) {
-        this.host = host;
-    }
-    
-    public Host getHost() {
-        if (host == null) {
-            host = new StandardHost();
-            host.setName(hostname);
-
-            getEngine().addChild( host );
-        }
-        return host;
-    }
-    
-    /** 
-     * Set a custom realm for auth. If not called, a simple
-     * default will be used, using an internal map.
-     * 
-     * Must be called before adding a context.
-     * 
-     * @deprecated Will be removed in Tomcat 8.0.x.
-     */
-    @Deprecated
-    public void setDefaultRealm(Realm realm) {
-        defaultRealm = realm;
-    }
-    
-
-    /** 
-     * Access to the engine, for further customization.
-     */
-    public Engine getEngine() {
-        if(engine == null ) {
-            getServer();
-            engine = new StandardEngine();
-            engine.setName( "Tomcat" );
-            engine.setDefaultHost(hostname);
-            if (defaultRealm == null) {
-                initSimpleAuth();
-            }
-            engine.setRealm(defaultRealm);
-            service.setContainer(engine);
-        }
-        return engine;
-    }
-
-    /**
-     * Get the server object. You can add listeners and few more
-     * customizations. JNDI is disabled by default.  
-     */
-    public Server getServer() {
-        
-        if (server != null) {
-            return server;
-        }
-        
-        initBaseDir(); 
-        
-        System.setProperty("catalina.useNaming", "false");
-        
-        server = new StandardServer();
-        server.setPort( -1 );
-        
-        service = new StandardService();
-        service.setName("Tomcat");
-        server.addService( service );
-        return server;
-    }
+//    /**
+//     * Initialise the server.
+//     * 
+//     * @throws LifecycleException
+//     */
+//    public void init() throws Exception {
+//        getServer();
+//        getConnector();
+//        server.init();
+//    }
+//    
+//    
+//    /**
+//     * Start the server.
+//     * 
+//     * @throws LifecycleException 
+//     */
+//    public void start() throws LifecycleException {
+//        getServer();
+//        getConnector();
+//        server.start();
+//    }
+//
+//    /** 
+//     * Stop the server.
+//     * 
+//     * @throws LifecycleException 
+//     */
+//    public void stop() throws LifecycleException {
+//        getServer();
+//        server.stop();
+//    }
+//
+//
+//    /**
+//     * Destroy the server. This object cannot be used once this method has been
+//     * called.
+//     */
+//    public void destroy() throws LifecycleException {
+//        getServer();
+//        server.destroy();
+//        // Could null out objects here
+//    }
+//    
+//    /** 
+//     * Add a user for the in-memory realm. All created apps use this 
+//     * by default, can be replaced using setRealm().
+//     *  
+//     */
+//    public void addUser(String user, String pass) {
+//        userPass.put(user, pass);
+//    }
+//    
+//    /**
+//     * @see #addUser(String, String) 
+//     */
+//    public void addRole(String user, String role) {
+//        List<String> roles = userRoles.get(user);
+//        if (roles == null) {
+//            roles = new ArrayList<String>();
+//            userRoles.put(user, roles);
+//        }
+//        roles.add(role);
+//    }
+//
+//    // ------- Extra customization -------
+//    // You can tune individual tomcat objects, using internal APIs
+//    
+//    /** 
+//     * Get the default http connector. You can set more 
+//     * parameters - the port is already initialized.
+//     * 
+//     * Alternatively, you can construct a Connector and set any params,
+//     * then call addConnector(Connector)
+//     * 
+//     * @return A connector object that can be customized
+//     */
+//    public Connector getConnector() {
+//        getServer();
+//        if (connector != null) {
+//            return connector;
+//        }
+//        // This will load Apr connector if available,
+//        // default to nio. I'm having strange problems with apr
+//        // XXX: jfclere weird... Don't add the AprLifecycleListener then.
+//        // and for the use case the speed benefit wouldn't matter.
+//        
+//        connector = new Connector("HTTP/1.1");
+//        // connector = new Connector("org.apache.coyote.http11.Http11Protocol"); 
+//        connector.setPort(port);
+//        service.addConnector( connector );
+//        return connector;
+//    }
+//    
+//    public void setConnector(Connector connector) {
+//        this.connector = connector;
+//    }
+//    
+//    /** 
+//     * Get the service object. Can be used to add more 
+//     * connectors and few other global settings.
+//     */
+//    public Service getService() {
+//        getServer();
+//        return service;
+//    }
+//
+//    /** 
+//     * Sets the current host - all future webapps will
+//     * be added to this host. When tomcat starts, the 
+//     * host will be the default host.
+//     * 
+//     * @param host
+//     */
+//    public void setHost(Host host) {
+//        this.host = host;
+//    }
+//    
+//    public Host getHost() {
+//        if (host == null) {
+//            host = new StandardHost();
+//            host.setName(hostname);
+//
+//            getEngine().addChild( host );
+//        }
+//        return host;
+//    }
+//    
+//    /** 
+//     * Set a custom realm for auth. If not called, a simple
+//     * default will be used, using an internal map.
+//     * 
+//     * Must be called before adding a context.
+//     * 
+//     * @deprecated Will be removed in Tomcat 8.0.x.
+//     */
+//    @Deprecated
+//    public void setDefaultRealm(Realm realm) {
+//        defaultRealm = realm;
+//    }
+//    
+//
+//    /** 
+//     * Access to the engine, for further customization.
+//     */
+//    public Engine getEngine() {
+//        if(engine == null ) {
+//            getServer();
+//            engine = new StandardEngine();
+//            engine.setName( "Tomcat" );
+//            engine.setDefaultHost(hostname);
+//            if (defaultRealm == null) {
+//                initSimpleAuth();
+//            }
+//            engine.setRealm(defaultRealm);
+//            service.setContainer(engine);
+//        }
+//        return engine;
+//    }
+//
+//    /**
+//     * Get the server object. You can add listeners and few more
+//     * customizations. JNDI is disabled by default.  
+//     */
+//    public Server getServer() {
+//        
+//        if (server != null) {
+//            return server;
+//        }
+//        
+//        initBaseDir(); 
+//        
+//        System.setProperty("catalina.useNaming", "false");
+//        
+//        server = new StandardServer();
+//        server.setPort( -1 );
+//        
+//        service = new StandardService();
+//        service.setName("Tomcat");
+//        server.addService( service );
+//        return server;
+//    }
 
     public Context addContext(Host host, String contextPath, String dir) {
         return addContext(host, contextPath, contextPath, dir);
@@ -512,18 +513,18 @@ public class Tomcat {
 
     public Context addContext(Host host, String contextPath, String contextName,
             String dir) {
-        silence(host, contextPath);
+//        silence(host, contextPath);
         Context ctx = createContext(host, contextPath);
         ctx.setName(contextName);
         ctx.setPath(contextPath);
         ctx.setDocBase(dir);
-        ctx.addLifecycleListener(new FixContextListener());
-        
-        if (host == null) {
-            getHost().addChild(ctx);
-        } else {
+        ((Lifecycle) ctx).addLifecycleListener(new FixContextListener());
+
+//        if (host == null) {
+//            getHost().addChild(ctx);
+//        } else {
             host.addChild(ctx);
-        }
+//        }
         return ctx;
     }
     
@@ -540,181 +541,181 @@ public class Tomcat {
      */
     @Deprecated
     public Context addWebapp(Host host, String contextPath, String name, String docBase) {
-        silence(host, contextPath);
+//        silence(host, contextPath);
 
         Context ctx = createContext(host, contextPath);
         ctx.setPath(contextPath);
         ctx.setDocBase(docBase);
 
-        ctx.addLifecycleListener(new DefaultWebXmlListener());
-        ctx.setConfigFile(getWebappConfigFile(docBase, contextPath));
+        ((Lifecycle) ctx).addLifecycleListener(new DefaultWebXmlListener());
+//        ctx.setConfigFile(getWebappConfigFile(docBase, contextPath));
 
         ContextConfig ctxCfg = new ContextConfig();
-        ctx.addLifecycleListener(ctxCfg);
-        
-        // prevent it from looking ( if it finds one - it'll have dup error )
-        ctxCfg.setDefaultWebXml(noDefaultWebXmlPath());
+        ((Lifecycle) ctx).addLifecycleListener(ctxCfg);
 
-        if (host == null) {
-            getHost().addChild(ctx);
-        } else {
+//        // prevent it from looking ( if it finds one - it'll have dup error )
+//        ctxCfg.setDefaultWebXml(noDefaultWebXmlPath());
+
+//        if (host == null) {
+//            getHost().addChild(ctx);
+//        } else {
             host.addChild(ctx);
-        }
+//        }
 
         return ctx;
     }
     
-    /**
-     * Return a listener that provides the required configuration items for JSP
-     * processing. From the standard Tomcat global web.xml. Pass this to
-     * {@link Context#addLifecycleListener(LifecycleListener)} and then pass the
-     * result of {@link #noDefaultWebXmlPath()} to 
-     * {@link ContextConfig#setDefaultWebXml(String)}. 
-     * @return a listener object that configures default JSP processing.
-     */
-    public LifecycleListener getDefaultWebXmlListener() {
-        return new DefaultWebXmlListener();
-    }
-    
-    /**
-     * @return a pathname to pass to
-     * {@link ContextConfig#setDefaultWebXml(String)} when using
-     * {@link #getDefaultWebXmlListener()}.
-     */
-    public String noDefaultWebXmlPath() {
-        return Constants.NoDefaultWebXml;
-    }
-    
-    /**
-     * For complex configurations, this accessor allows callers of this class
-     * to obtain the simple realm created by default.
-     * @return the simple in-memory realm created by default.
-     * @deprecated Will be removed in Tomcat 8.0.x
-     */
-    @Deprecated
-    public Realm getDefaultRealm() {
-        if (defaultRealm == null) {
-            initSimpleAuth();
-        }
-        return defaultRealm;
-    }
-
-
-    // ---------- Helper methods and classes -------------------
-    
-    /** 
-     * Create an in-memory realm. You can replace it for contexts with a real
-     * one. The Realm created here will be added to the Engine by default and
-     * may be replaced at the Engine level or over-ridden (as per normal Tomcat
-     * behaviour) at the Host or Context level.
-     * @deprecated Will be removed in Tomcat 8.0.x
-     */
-    @Deprecated
-    protected void initSimpleAuth() {
-        defaultRealm = new RealmBase() {
-            @Override
-            protected String getName() {
-                return "Simple";
-            }
-
-            @Override
-            protected String getPassword(String username) {
-                return userPass.get(username);
-            }
-
-            @Override
-            protected Principal getPrincipal(String username) {
-                Principal p = userPrincipals.get(username);
-                if (p == null) {
-                    String pass = userPass.get(username);
-                    if (pass != null) {
-                        p = new GenericPrincipal(username, pass,
-                                userRoles.get(username));
-                        userPrincipals.put(username, p);
-                    }
-                }
-                return p;
-            }
-            
-        };        
-    }
-    
-    protected void initBaseDir() {
-        String catalinaHome = System.getProperty(Globals.CATALINA_HOME_PROP);
-        if (basedir == null) {
-            basedir = System.getProperty(Globals.CATALINA_BASE_PROP);
-        }
-        if (basedir == null) {
-            basedir = catalinaHome;
-        }
-        if (basedir == null) {
-            // Create a temp dir.
-            basedir = System.getProperty("user.dir") + 
-                "/tomcat." + port;
-            File home = new File(basedir);
-            home.mkdir();
-            if (!home.isAbsolute()) {
-                try {
-                    basedir = home.getCanonicalPath();
-                } catch (IOException e) {
-                    basedir = home.getAbsolutePath();
-                }
-            }
-        }
-        if (catalinaHome == null) {
-            System.setProperty(Globals.CATALINA_HOME_PROP, basedir);
-        }
-        System.setProperty(Globals.CATALINA_BASE_PROP, basedir);
-    }
-
-    static final String[] silences = new String[] {
-        "org.apache.coyote.http11.Http11Protocol",
-        "org.apache.catalina.core.StandardService",
-        "org.apache.catalina.core.StandardEngine",
-        "org.apache.catalina.startup.ContextConfig",
-        "org.apache.catalina.core.ApplicationContext",
-        "org.apache.catalina.core.AprLifecycleListener"
-    };
-    
-    /**
-     * Controls if the loggers will be silenced or not.
-     * @param silent    <code>true</code> sets the log level to WARN for the
-     *                  loggers that log information on Tomcat start up. This
-     *                  prevents the usual startup information being logged.
-     *                  <code>false</code> sets the log level to the default
-     *                  level of INFO.
-     */
-    public void setSilent(boolean silent) {
-        for (String s : silences) {
-            Logger logger = Logger.getLogger(s);
-            pinnedLoggers.put(s, logger);
-            if (silent) {
-                logger.setLevel(Level.WARNING);
-            } else {
-                logger.setLevel(Level.INFO);
-            }
-        }
-    }
-    
-    private void silence(Host host, String ctx) {
-        String loggerName = getLoggerName(host, ctx);
-        Logger logger = Logger.getLogger(loggerName);
-        pinnedLoggers.put(loggerName, logger);
-        logger.setLevel(Level.WARNING);
-    }
-
-    private String getLoggerName(Host host, String ctx) {
-        String loggerName = "org.apache.catalina.core.ContainerBase.[default].[";
-        if (host == null) {
-            loggerName += getHost().getName();
-        } else {
-            loggerName += host.getName();
-        }
-        loggerName += "].[";
-        loggerName += ctx;
-        loggerName += "]";
-        return loggerName;
-    }
+//    /**
+//     * Return a listener that provides the required configuration items for JSP
+//     * processing. From the standard Tomcat global web.xml. Pass this to
+//     * {@link Context#addLifecycleListener(LifecycleListener)} and then pass the
+//     * result of {@link #noDefaultWebXmlPath()} to 
+//     * {@link ContextConfig#setDefaultWebXml(String)}. 
+//     * @return a listener object that configures default JSP processing.
+//     */
+//    public LifecycleListener getDefaultWebXmlListener() {
+//        return new DefaultWebXmlListener();
+//    }
+//    
+//    /**
+//     * @return a pathname to pass to
+//     * {@link ContextConfig#setDefaultWebXml(String)} when using
+//     * {@link #getDefaultWebXmlListener()}.
+//     */
+//    public String noDefaultWebXmlPath() {
+//        return Constants.NoDefaultWebXml;
+//    }
+//    
+//    /**
+//     * For complex configurations, this accessor allows callers of this class
+//     * to obtain the simple realm created by default.
+//     * @return the simple in-memory realm created by default.
+//     * @deprecated Will be removed in Tomcat 8.0.x
+//     */
+//    @Deprecated
+//    public Realm getDefaultRealm() {
+//        if (defaultRealm == null) {
+//            initSimpleAuth();
+//        }
+//        return defaultRealm;
+//    }
+//
+//
+//    // ---------- Helper methods and classes -------------------
+//    
+//    /** 
+//     * Create an in-memory realm. You can replace it for contexts with a real
+//     * one. The Realm created here will be added to the Engine by default and
+//     * may be replaced at the Engine level or over-ridden (as per normal Tomcat
+//     * behaviour) at the Host or Context level.
+//     * @deprecated Will be removed in Tomcat 8.0.x
+//     */
+//    @Deprecated
+//    protected void initSimpleAuth() {
+//        defaultRealm = new RealmBase() {
+//            @Override
+//            protected String getName() {
+//                return "Simple";
+//            }
+//
+//            @Override
+//            protected String getPassword(String username) {
+//                return userPass.get(username);
+//            }
+//
+//            @Override
+//            protected Principal getPrincipal(String username) {
+//                Principal p = userPrincipals.get(username);
+//                if (p == null) {
+//                    String pass = userPass.get(username);
+//                    if (pass != null) {
+//                        p = new GenericPrincipal(username, pass,
+//                                userRoles.get(username));
+//                        userPrincipals.put(username, p);
+//                    }
+//                }
+//                return p;
+//            }
+//            
+//        };        
+//    }
+//    
+//    protected void initBaseDir() {
+//        String catalinaHome = System.getProperty(Globals.CATALINA_HOME_PROP);
+//        if (basedir == null) {
+//            basedir = System.getProperty(Globals.CATALINA_BASE_PROP);
+//        }
+//        if (basedir == null) {
+//            basedir = catalinaHome;
+//        }
+//        if (basedir == null) {
+//            // Create a temp dir.
+//            basedir = System.getProperty("user.dir") + 
+//                "/tomcat." + port;
+//            File home = new File(basedir);
+//            home.mkdir();
+//            if (!home.isAbsolute()) {
+//                try {
+//                    basedir = home.getCanonicalPath();
+//                } catch (IOException e) {
+//                    basedir = home.getAbsolutePath();
+//                }
+//            }
+//        }
+//        if (catalinaHome == null) {
+//            System.setProperty(Globals.CATALINA_HOME_PROP, basedir);
+//        }
+//        System.setProperty(Globals.CATALINA_BASE_PROP, basedir);
+//    }
+//
+//    static final String[] silences = new String[] {
+//        "org.apache.coyote.http11.Http11Protocol",
+//        "org.apache.catalina.core.StandardService",
+//        "org.apache.catalina.core.StandardEngine",
+//        "org.apache.catalina.startup.ContextConfig",
+//        "org.apache.catalina.core.ApplicationContext",
+//        "org.apache.catalina.core.AprLifecycleListener"
+//    };
+//    
+//    /**
+//     * Controls if the loggers will be silenced or not.
+//     * @param silent    <code>true</code> sets the log level to WARN for the
+//     *                  loggers that log information on Tomcat start up. This
+//     *                  prevents the usual startup information being logged.
+//     *                  <code>false</code> sets the log level to the default
+//     *                  level of INFO.
+//     */
+//    public void setSilent(boolean silent) {
+//        for (String s : silences) {
+//            Logger logger = Logger.getLogger(s);
+//            pinnedLoggers.put(s, logger);
+//            if (silent) {
+//                logger.setLevel(Level.WARNING);
+//            } else {
+//                logger.setLevel(Level.INFO);
+//            }
+//        }
+//    }
+//    
+//    private void silence(Host host, String ctx) {
+//        String loggerName = getLoggerName(host, ctx);
+//        Logger logger = Logger.getLogger(loggerName);
+//        pinnedLoggers.put(loggerName, logger);
+//        logger.setLevel(Level.WARNING);
+//    }
+//
+//    private String getLoggerName(Host host, String ctx) {
+//        String loggerName = "org.apache.catalina.core.ContainerBase.[default].[";
+//        if (host == null) {
+//            loggerName += getHost().getName();
+//        } else {
+//            loggerName += host.getName();
+//        }
+//        loggerName += "].[";
+//        loggerName += ctx;
+//        loggerName += "]";
+//        return loggerName;
+//    }
     
     /**
      * Create the configured {@link Context} for the given <code>host</code>.
@@ -730,9 +731,9 @@ public class Tomcat {
      */
     private Context createContext(Host host, String url) {
         String contextClass = StandardContext.class.getName();
-        if (host == null) {
-            host = this.getHost();
-        }
+//        if (host == null) {
+//            host = this.getHost();
+//        }
         if (host instanceof StandardHost) {
             contextClass = ((StandardHost) host).getContextClass();
         }
@@ -777,54 +778,54 @@ public class Tomcat {
         }
     }
 
-    /**
-     * Enables JNDI naming which is disabled by default. Server must implement
-     * {@link Lifecycle} in order for the {@link NamingContextListener} to be
-     * used.
-     * 
-     */
-    public void enableNaming() {
-        // Make sure getServer() has been called as that is where naming is
-        // disabled
-        getServer();
-        server.addLifecycleListener(new NamingContextListener());
-        
-        System.setProperty("catalina.useNaming", "true");
-
-        String value = "org.apache.naming";
-        String oldValue =
-            System.getProperty(javax.naming.Context.URL_PKG_PREFIXES);
-        if (oldValue != null) {
-            if (oldValue.contains(value)) {
-                value = oldValue;
-            } else {
-                value = value + ":" + oldValue;
-            }
-        }
-        System.setProperty(javax.naming.Context.URL_PKG_PREFIXES, value);
-
-        value = System.getProperty
-            (javax.naming.Context.INITIAL_CONTEXT_FACTORY);
-        if (value == null) {
-            System.setProperty
-                (javax.naming.Context.INITIAL_CONTEXT_FACTORY,
-                 "org.apache.naming.java.javaURLContextFactory");
-        }
-    }
-
-    /**
-     * Provide default configuration for a context. This is the programmatic
-     * equivalent of the default web.xml. 
-     * 
-     *  TODO: in normal Tomcat, if default-web.xml is not found, use this 
-     *  method
-     *  
-     * @param contextPath   The context to set the defaults for
-     */
-    public void initWebappDefaults(String contextPath) {
-        Container ctx = getHost().findChild(contextPath);
-        initWebappDefaults((Context) ctx);
-    }
+//    /**
+//     * Enables JNDI naming which is disabled by default. Server must implement
+//     * {@link Lifecycle} in order for the {@link NamingContextListener} to be
+//     * used.
+//     * 
+//     */
+//    public void enableNaming() {
+//        // Make sure getServer() has been called as that is where naming is
+//        // disabled
+//        getServer();
+//        server.addLifecycleListener(new NamingContextListener());
+//        
+//        System.setProperty("catalina.useNaming", "true");
+//
+//        String value = "org.apache.naming";
+//        String oldValue =
+//            System.getProperty(javax.naming.Context.URL_PKG_PREFIXES);
+//        if (oldValue != null) {
+//            if (oldValue.contains(value)) {
+//                value = oldValue;
+//            } else {
+//                value = value + ":" + oldValue;
+//            }
+//        }
+//        System.setProperty(javax.naming.Context.URL_PKG_PREFIXES, value);
+//
+//        value = System.getProperty
+//            (javax.naming.Context.INITIAL_CONTEXT_FACTORY);
+//        if (value == null) {
+//            System.setProperty
+//                (javax.naming.Context.INITIAL_CONTEXT_FACTORY,
+//                 "org.apache.naming.java.javaURLContextFactory");
+//        }
+//    }
+//
+//    /**
+//     * Provide default configuration for a context. This is the programmatic
+//     * equivalent of the default web.xml. 
+//     * 
+//     *  TODO: in normal Tomcat, if default-web.xml is not found, use this 
+//     *  method
+//     *  
+//     * @param contextPath   The context to set the defaults for
+//     */
+//    public void initWebappDefaults(String contextPath) {
+//        Container ctx = getHost().findChild(contextPath);
+//        initWebappDefaults((Context) ctx);
+//    }
     
     /**
      * Static version of {@link #initWebappDefaults(String)}
@@ -835,14 +836,14 @@ public class Tomcat {
         Wrapper servlet = addServlet(
                 ctx, "default", "org.apache.catalina.servlets.DefaultServlet");
         servlet.setLoadOnStartup(1);
-        servlet.setOverridable(true);
+        //servlet.setOverridable(true);
 
         // JSP servlet (by class name - to avoid loading all deps)
         servlet = addServlet(
                 ctx, "jsp", "org.apache.jasper.servlet.JspServlet");
         servlet.addInitParameter("fork", "false");
         servlet.setLoadOnStartup(3);
-        servlet.setOverridable(true);
+        //servlet.setOverridable(true);
 
         // Servlet mappings
         ctx.addServletMapping("/", "default");
@@ -873,20 +874,21 @@ public class Tomcat {
      */
     public static class FixContextListener implements LifecycleListener {
 
-        @Override
         public void lifecycleEvent(LifecycleEvent event) {
             try {
                 Context context = (Context) event.getLifecycle();
-                if (event.getType().equals(Lifecycle.CONFIGURE_START_EVENT)) {
+                // Using START_EVENT, Tomcat 7+ uses CONFIGURE_START_EVENT here.
+                if (event.getType().equals(Lifecycle.START_EVENT)) {
                     context.setConfigured(true);
                 }
-                // LoginConfig is required to process @ServletSecurity
-                // annotations
-                if (context.getLoginConfig() == null) {
-                    context.setLoginConfig(
-                            new LoginConfig("NONE", null, null, null));
-                    context.getPipeline().addValve(new NonLoginAuthenticator());
-                }
+// Not needed. Tomcat 6 does not support @ServletSecurity annotations.
+//                // LoginConfig is required to process @ServletSecurity
+//                // annotations
+//                if (context.getLoginConfig() == null) {
+//                    context.setLoginConfig(
+//                            new LoginConfig("NONE", null, null, null));
+//                    context.getPipeline().addValve(new NonLoginAuthenticator());
+//                }
             } catch (ClassCastException e) {
                 return;
             }
@@ -901,7 +903,6 @@ public class Tomcat {
      * listener sets the equivalent of conf/web.xml when the context starts.
      */
     public static class DefaultWebXmlListener implements LifecycleListener {
-        @Override
         public void lifecycleEvent(LifecycleEvent event) {
             if (Lifecycle.BEFORE_START_EVENT.equals(event.getType())) {
                 initWebappDefaults((Context) event.getLifecycle());
@@ -917,6 +918,8 @@ public class Tomcat {
      */
     public static class ExistingStandardWrapper extends StandardWrapper {
         private final Servlet existing;
+        private boolean instanceInitialized = false;
+        private static final long serialVersionUID = 1L;
 
         @SuppressWarnings("deprecation")
         public ExistingStandardWrapper( Servlet existing ) {
@@ -1144,51 +1147,51 @@ public class Tomcat {
         "zip", "application/zip"
     };
 
-    protected URL getWebappConfigFile(String path, String url) {
-        File docBase = new File(path);
-        if (docBase.isDirectory()) {
-            return getWebappConfigFileFromDirectory(docBase, url);
-        } else {
-            return getWebappConfigFileFromJar(docBase, url);
-        }
-    }
-
-    private URL getWebappConfigFileFromDirectory(File docBase, String url) {
-        URL result = null;
-        File webAppContextXml = new File(docBase, Constants.ApplicationContextXml);
-        if (webAppContextXml.exists()) {
-            try {
-                result = webAppContextXml.toURI().toURL();
-            } catch (MalformedURLException e) {
-                Logger.getLogger(getLoggerName(getHost(), url)).log(Level.WARNING,
-                        "Unable to determine web application context.xml " + docBase, e);
-            }
-        }
-        return result;
-    }
-
-    private URL getWebappConfigFileFromJar(File docBase, String url) {
-        URL result = null;
-        JarFile jar = null;
-        try {
-            jar = new JarFile(docBase);
-            JarEntry entry = jar.getJarEntry(Constants.ApplicationContextXml);
-            if (entry != null) {
-                result = new URL("jar:" + docBase.toURI().toString() + "!/"
-                        + Constants.ApplicationContextXml);
-            }
-        } catch (IOException e) {
-            Logger.getLogger(getLoggerName(getHost(), url)).log(Level.WARNING,
-                    "Unable to determine web application context.xml " + docBase, e);
-        } finally {
-            if (jar != null) {
-                try {
-                    jar.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
-        }
-        return result;
-    }
+//    protected URL getWebappConfigFile(String path, String url) {
+//        File docBase = new File(path);
+//        if (docBase.isDirectory()) {
+//            return getWebappConfigFileFromDirectory(docBase, url);
+//        } else {
+//            return getWebappConfigFileFromJar(docBase, url);
+//        }
+//    }
+//
+//    private URL getWebappConfigFileFromDirectory(File docBase, String url) {
+//        URL result = null;
+//        File webAppContextXml = new File(docBase, Constants.ApplicationContextXml);
+//        if (webAppContextXml.exists()) {
+//            try {
+//                result = webAppContextXml.toURI().toURL();
+//            } catch (MalformedURLException e) {
+//                Logger.getLogger(getLoggerName(getHost(), url)).log(Level.WARNING,
+//                        "Unable to determine web application context.xml " + docBase, e);
+//            }
+//        }
+//        return result;
+//    }
+//
+//    private URL getWebappConfigFileFromJar(File docBase, String url) {
+//        URL result = null;
+//        JarFile jar = null;
+//        try {
+//            jar = new JarFile(docBase);
+//            JarEntry entry = jar.getJarEntry(Constants.ApplicationContextXml);
+//            if (entry != null) {
+//                result = new URL("jar:" + docBase.toURI().toString() + "!/"
+//                        + Constants.ApplicationContextXml);
+//            }
+//        } catch (IOException e) {
+//            Logger.getLogger(getLoggerName(getHost(), url)).log(Level.WARNING,
+//                    "Unable to determine web application context.xml " + docBase, e);
+//        } finally {
+//            if (jar != null) {
+//                try {
+//                    jar.close();
+//                } catch (IOException e) {
+//                    // ignore
+//                }
+//            }
+//        }
+//        return result;
+//    }
 }

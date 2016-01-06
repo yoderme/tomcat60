@@ -115,18 +115,15 @@ public class CaseInsensitiveKeyMap<V> extends AbstractMap<String,V> {
             this.iterator = iterator;
         }
 
-        @Override
         public boolean hasNext() {
             return iterator.hasNext();
         }
 
-        @Override
         public Entry<String,V> next() {
             Entry<Key,V> entry = iterator.next();
             return new EntryImpl<V>(entry.getKey().getKey(), entry.getValue());
         }
 
-        @Override
         public void remove() {
             iterator.remove();
         }
@@ -143,17 +140,14 @@ public class CaseInsensitiveKeyMap<V> extends AbstractMap<String,V> {
             this.value = value;
         }
 
-        @Override
         public String getKey() {
             return key;
         }
 
-        @Override
         public V getValue() {
             return value;
         }
 
-        @Override
         public V setValue(V value) {
             throw new UnsupportedOperationException();
         }
