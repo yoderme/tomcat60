@@ -41,15 +41,17 @@ Known issues / FIXME:
     instance.                                                               [Started]
 
 
- 2. Tomcat 6 has no support for starting the server with port number 0
+ 2. Tomcat 6 has no support for starting the server with port number 0      [Not Started]
     (auto-selecting a free port number).
 
     Current workaround in TomcatBaseTest.setUp() is to use a counter and a
     hardcoded port number of 8080 + counter. See "portIncrement" field in
     TomcatBaseTest class.
 
-    I expect to backport support for port number 0 from Tomcat 7.           [Not Started]
+    I expect to backport support for port number 0 from Tomcat 7.
 
+    In Tomcat 7 this is implemented by
+      r1207695 (2011-11-28, BZ 52028), +r1208115, +r1208148.
 
  3. Tomcat 6 has class org.apache.catalina.ServerFactory that contains a
     singleton reference to a Server instance. This field has to be cleared
@@ -93,7 +95,8 @@ Further work / TODO:
 
  6. Backport support for running with a null docBase (without docBase).     [Not Started]
 
-    For reference: r1681953 in Tomcat 7.
+    In Tomcat 7 this is implemented by
+      r1681953 (2015-05-27, BZ 57154)
 
  7. Backport other tests from Tomcat 7.                                     [In progress]
 
