@@ -16,6 +16,9 @@
  */
 package org.apache.coyote;
 
+import java.net.InetAddress;
+import java.net.URLEncoder;
+
 import org.apache.tomcat.util.net.AbstractEndpoint;
 
 public abstract class AbstractProtocol implements ProtocolHandler {
@@ -27,5 +30,22 @@ public abstract class AbstractProtocol implements ProtocolHandler {
     }
     public void setMaxHeaderCount(int maxHeaderCount) {
         getEndpoint().setMaxHeaderCount(maxHeaderCount);
+    }
+
+    /**
+     * An utility method, used to implement getName() in subclasses.
+     */
+    protected String createName(String prefix, InetAddress address, int port) {
+        StringBuilder name = new StringBuilder(prefix);
+        name.append('-');
+        if (address != null) {
+            String strAddr = address.toString();
+            if (strAddr.startsWith("/")) {
+                strAddr = strAddr.substring(1);
+            }
+            name.append(URLEncoder.encode(strAddr)).append('-');
+        }
+        name.append(port);
+        return name.toString();
     }
 }

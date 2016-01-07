@@ -346,14 +346,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     }
 
     public String getName() {
-        String encodedAddr = "";
-        if (getAddress() != null) {
-            encodedAddr = "" + getAddress();
-            if (encodedAddr.startsWith("/"))
-                encodedAddr = encodedAddr.substring(1);
-            encodedAddr = URLEncoder.encode(encodedAddr) + "-";
-        }
-        return ("http-" + encodedAddr + ep.getPort());
+        return createName("http", getAddress(), ep.getPort());
     }
 
     public boolean getTcpNoDelay() {
