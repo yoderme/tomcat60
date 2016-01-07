@@ -19,12 +19,18 @@ Current status / Completed:
  consider this class as non-public API at this moment.
 
 
- 2. TestTomcat class has several tests that run successfully and prove the concept.
+ 2. There are several test classes that run successfully and prove the concept.
+
+ TestTomcat, TestConnector.
 
  Caveat: The testSingleWebapp() test assumes that examples web application
  has been built and copied into output\build\webapps\examples\
 
  Make sure to run Ant build before running the test from within an IDE.
+
+
+ 3. Support for starting Tomcat with a random port number (port number 0)
+ has been implemented. (r1723545 + r1723551, BZ 52028).
 
 
 Known issues / FIXME:
@@ -41,19 +47,7 @@ Known issues / FIXME:
     instance.                                                               [Started]
 
 
- 2. Tomcat 6 has no support for starting the server with port number 0      [Not Started]
-    (auto-selecting a free port number).
-
-    Current workaround in TomcatBaseTest.setUp() is to use a counter and a
-    hardcoded port number of 8080 + counter. See "portIncrement" field in
-    TomcatBaseTest class.
-
-    I expect to backport support for port number 0 from Tomcat 7.
-
-    In Tomcat 7 this is implemented by
-      r1207695 (2011-11-28, BZ 52028), +r1208115, +r1208148.
-
- 3. Tomcat 6 has class org.apache.catalina.ServerFactory that contains a
+ 2. Tomcat 6 has class org.apache.catalina.ServerFactory that contains a
     singleton reference to a Server instance. This field has to be cleared
     after a test run.
 
@@ -67,7 +61,7 @@ Known issues / FIXME:
     Discussed in http://tomcat.markmail.org/thread/ko7ip7obvyaftwe4         [Not Started]
 
 
- 4. The Engine has no assigned name. Logs print [null] as the name.
+ 3. The Engine has no assigned name. Logs print [null] as the name.
 
     The defaultHost attribute on Engine has not been set. A warning is
     printed in the logs:
@@ -81,7 +75,7 @@ Known issues / FIXME:
 
 Further work / TODO:
 
- 5. Add support for running the tests with Ant.
+ 4. Add support for running the tests with Ant.
 
   *  Add <target name="test"> to the main build.xml file.                   [Not Started]
 
@@ -93,12 +87,12 @@ Further work / TODO:
 
   *  Update BUILDING.txt.                                                   [Not Started]
 
- 6. Backport support for running with a null docBase (without docBase).     [Not Started]
+ 5. Backport support for running with a null docBase (without docBase).     [Not Started]
 
     In Tomcat 7 this is implemented by
       r1681953 (2015-05-27, BZ 57154)
 
- 7. Backport other tests from Tomcat 7.                                     [In progress]
+ 6. Backport other tests from Tomcat 7.                                     [In progress]
 
 
 
