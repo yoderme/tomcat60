@@ -23,15 +23,19 @@ import java.util.Iterator;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
+import org.apache.coyote.AbstractProtocol;
 import org.apache.coyote.Adapter;
 import org.apache.coyote.ProtocolHandler;
 import org.apache.coyote.Request;
 import org.apache.coyote.Response;
 import org.apache.coyote.RequestInfo;
 import org.apache.coyote.Constants;
+import org.apache.jk.common.ChannelNioSocket;
+import org.apache.jk.common.ChannelSocket;
 import org.apache.jk.core.JkHandler;
 import org.apache.jk.core.Msg;
 import org.apache.jk.core.MsgContext;
+import org.apache.jk.core.WorkerEnv;
 import org.apache.tomcat.util.modeler.Registry;
 
 /** Plugs Jk into Coyote. Must be named "type=JkHandler,name=container"
@@ -43,6 +47,35 @@ public class JkCoyoteHandler extends JkHandler implements ProtocolHandler {
     protected static org.apache.juli.logging.Log log 
         = org.apache.juli.logging.LogFactory.getLog(JkCoyoteHandler.class);
     // Set debug on this logger to see the container request time
+
+    /**
+     * Unique ID for this connector. Only used if the connector is configured
+     * to use a random port as the port will change if stop(), start() is
+     * called.
+     */
+    private int nameIndex = 0;
+
+    public synchronized int getNameIndex() {
+        if (nameIndex == 0) {
+            nameIndex = AbstractProtocol.nextNameIndex();
+        }
+
+        return nameIndex;
+    }
+
+    public int getLocalPort() {
+        WorkerEnv wEnv = getJkMain().getWorkerEnv();
+        for( int i=0; i<wEnv.getHandlerCount(); i++ ) {
+            JkHandler w = wEnv.getHandler(i);
+            if( w instanceof ChannelSocket ) {
+                return ((ChannelSocket) w).getPort();
+            }
+            if( w instanceof ChannelNioSocket ) {
+                return ((ChannelNioSocket) w).getPort();
+            }
+        }
+        return -1;
+    }
 
     // ----------------------------------------------------------- DoPrivileged
     private boolean paused = false;

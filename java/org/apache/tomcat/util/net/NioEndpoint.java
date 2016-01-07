@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
@@ -690,6 +691,26 @@ public class NioEndpoint extends AbstractEndpoint {
     public SSLContext getSSLContext() { return sslContext;}
     public void setSSLContext(SSLContext c) { sslContext = c;}
 
+
+    /**
+     * Port in use.
+     */
+    @Override
+    public int getLocalPort() {
+        ServerSocketChannel ssc = serverSock;
+        if (ssc == null) {
+            return -1;
+        } else {
+            ServerSocket s = ssc.socket();
+            if (s == null) {
+                return -1;
+            } else {
+                return s.getLocalPort();
+            }
+        }
+    }
+
+
     // --------------------------------------------------------- OOM Parachute Methods
 
     protected void checkParachute() {
@@ -982,7 +1003,7 @@ public class NioEndpoint extends AbstractEndpoint {
      */
     public void destroy() throws Exception {
         if (log.isDebugEnabled()) {
-            log.debug("Destroy initiated for "+new InetSocketAddress(address,port));
+            log.debug("Destroy initiated for "+new InetSocketAddress(address,getLocalPort()));
         }
         if (running) {
             stop();
@@ -996,7 +1017,7 @@ public class NioEndpoint extends AbstractEndpoint {
         releaseCaches();
         selectorPool.close();
         if (log.isDebugEnabled()) {
-            log.debug("Destroy completed for "+new InetSocketAddress(address,port));
+            log.debug("Destroy completed for "+new InetSocketAddress(address,getLocalPort()));
         }
     }
 
@@ -1049,9 +1070,9 @@ public class NioEndpoint extends AbstractEndpoint {
         try {
             // Need to create a connection to unlock the accept();
             if (address == null) {
-                 saddr = new InetSocketAddress("localhost", port);
+                 saddr = new InetSocketAddress("localhost", getLocalPort());
             } else {
-                 saddr = new InetSocketAddress(address,port);
+                 saddr = new InetSocketAddress(address, getLocalPort());
             }
             s = new java.net.Socket();
             s.setSoTimeout(getSocketProperties().getSoTimeout());
@@ -1065,7 +1086,8 @@ public class NioEndpoint extends AbstractEndpoint {
             }
         } catch(Exception e) {
             if (log.isDebugEnabled()) {
-                log.debug(sm.getString("endpoint.debug.unlock", "" + port), e);
+                log.debug(sm.getString("endpoint.debug.unlock",
+                        Integer.toString(getLocalPort())), e);
             }
         } finally {
             if (s != null) {
@@ -1192,7 +1214,7 @@ public class NioEndpoint extends AbstractEndpoint {
                 if (curThreadsBusy == maxThreads) {
                     log.info(sm.getString("endpoint.info.maxThreads",
                             Integer.toString(maxThreads), address,
-                            Integer.toString(port)));
+                            Integer.toString(getLocalPort())));
                 }
                 return (newWorkerThread());
             } else {

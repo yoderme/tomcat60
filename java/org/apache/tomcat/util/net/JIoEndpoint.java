@@ -271,7 +271,21 @@ public class JIoEndpoint extends AbstractEndpoint {
         this.unlockTimeout = unlockTimeout;
     }
 
-    
+
+    /**
+     * Port in use.
+     */
+    @Override
+    public int getLocalPort() {
+        ServerSocket s = serverSocket;
+        if (s == null) {
+            return -1;
+        } else {
+            return s.getLocalPort();
+        }
+    }
+
+
     public boolean isRunning() {
         return running;
     }
@@ -632,9 +646,9 @@ public class JIoEndpoint extends AbstractEndpoint {
         try {
             // Need to create a connection to unlock the accept();
             if (address == null) {
-                saddr = new InetSocketAddress("localhost", port);
+                saddr = new InetSocketAddress("localhost", getLocalPort());
             } else {
-                saddr = new InetSocketAddress(address,port);
+                saddr = new InetSocketAddress(address, getLocalPort());
             }
             s = new java.net.Socket();
             s.setSoTimeout(soTimeout);
@@ -648,7 +662,8 @@ public class JIoEndpoint extends AbstractEndpoint {
             } 
         } catch (Exception e) {
             if (log.isDebugEnabled()) {
-                log.debug(sm.getString("endpoint.debug.unlock", "" + port), e);
+                log.debug(sm.getString("endpoint.debug.unlock",
+                        Integer.toString(getLocalPort())), e);
             }
         } finally {
             if (s != null) {
@@ -718,7 +733,7 @@ public class JIoEndpoint extends AbstractEndpoint {
                 if (curThreadsBusy == maxThreads) {
                     log.info(sm.getString("endpoint.info.maxThreads",
                             Integer.toString(maxThreads), address,
-                            Integer.toString(port)));
+                            Integer.toString(getLocalPort())));
                 }
                 return (newWorkerThread());
             } else {
