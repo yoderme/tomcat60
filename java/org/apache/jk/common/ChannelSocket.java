@@ -55,7 +55,7 @@ import org.apache.tomcat.util.threads.ThreadPoolRunnable;
  *
  * @author Costin Manolache
  * @author Bill Barker
- * jmx:mbean name="jk:service=ChannelNioSocket"
+ * jmx:mbean name="jk:service=ChannelSocket"
  *            description="Accept socket connections"
  * jmx:notification name="org.apache.coyote.INVOKE
  * jmx:notification-handler name="org.apache.jk.JK_SEND_PACKET
