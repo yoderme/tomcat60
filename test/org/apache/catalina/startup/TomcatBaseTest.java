@@ -82,9 +82,8 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
      * Sub-classes need to know port so they can connect
      */
     public int getPort() {
-//FIXME: Implement support for port number "0" and getLocalPort() method.
         // return tomcat.getConnector().getLocalPort();
-        return tomcat.findConnectors()[0].getPort();
+        return tomcat.findConnectors()[0].getLocalPort();
     }
 
     /**
@@ -93,9 +92,6 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
     public boolean isAccessLogEnabled() {
         return accessLogEnabled;
     }
-
-  //FIXME: implement support for post number 0.
-    private static volatile int portIncrement = 0;
 
     @Before
     @Override
@@ -127,10 +123,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
         connector.setAttribute("address",
                 InetAddress.getByName("localhost").getHostAddress());
         // Use random free port
-//FIXME
-//      connector.setPort(0);
-        connector.setPort(8080 + portIncrement);
-        portIncrement++;
+        connector.setPort(0);
         // Mainly set to reduce timeouts during async tests
         connector.setAttribute("connectionTimeout", "3000");
         tomcat.addConnector(connector);
