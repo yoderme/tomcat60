@@ -19,14 +19,15 @@ package org.apache.coyote.memory;
 
 import java.io.IOException;
 import java.util.Iterator;
-import org.apache.tomcat.util.buf.ByteChunk;
 
+import org.apache.coyote.AbstractProtocol;
 import org.apache.coyote.Adapter;
 import org.apache.coyote.InputBuffer;
 import org.apache.coyote.OutputBuffer;
 import org.apache.coyote.ProtocolHandler;
 import org.apache.coyote.Request;
 import org.apache.coyote.Response;
+import org.apache.tomcat.util.buf.ByteChunk;
 
 
 /**
@@ -70,6 +71,20 @@ public class MemoryProtocolHandler
         return (adapter);
     }
 
+    /**
+     * Unique ID for this connector.
+     */
+    private int nameIndex = 0;
+
+    public synchronized int getNameIndex() {
+        if (nameIndex == 0) {
+            nameIndex = AbstractProtocol.nextNameIndex();
+        }
+
+        return nameIndex;
+    }
+
+    public int getLocalPort() { return -1; }
 
     // ------------------------------------------------ ProtocolHandler Methods
 

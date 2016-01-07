@@ -110,6 +110,11 @@
           description="Alias name of this connector's keypair and supporting certificate chain"
                  type="java.lang.String"/>
 
+    <attribute   name="localPort"
+          description="The port number on which this connector is listening to requests. If the special value for port of zero is used then this method will report the actual port bound."
+                 type="int"
+            writeable="false"/>
+
     <attribute   name="maxHeaderCount"
           description="The maximum number of headers that are allowed by the container. 100 by default. A value of less than 0 means no limit."
                  type="int"/>
@@ -143,7 +148,7 @@
                  type="int"/>
 
     <attribute   name="port"
-          description="The port number on which we listen for ajp13 requests"
+          description="The port number on which this connector is configured to listen for requests. The special value of 0 means select a random free port when the socket is bound."
                 type="int"/>
 
     <attribute   name="protocol"

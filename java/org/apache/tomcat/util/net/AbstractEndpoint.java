@@ -16,7 +16,7 @@
  */
 package org.apache.tomcat.util.net;
 
-public class AbstractEndpoint {
+public abstract class AbstractEndpoint {
 
     /**
      * The maximum number of headers in a request that are allowed.
@@ -29,5 +29,7 @@ public class AbstractEndpoint {
     public void setMaxHeaderCount(int maxHeaderCount) {
         this.maxHeaderCount = maxHeaderCount;
     }
+
+    public abstract int getLocalPort();
 
 }

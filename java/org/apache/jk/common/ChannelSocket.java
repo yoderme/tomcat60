@@ -55,7 +55,7 @@ import org.apache.tomcat.util.threads.ThreadPoolRunnable;
  *
  * @author Costin Manolache
  * @author Bill Barker
- * jmx:mbean name="jk:service=ChannelNioSocket"
+ * jmx:mbean name="jk:service=ChannelSocket"
  *            description="Accept socket connections"
  * jmx:notification name="org.apache.coyote.INVOKE
  * jmx:notification-handler name="org.apache.jk.JK_SEND_PACKET
@@ -359,35 +359,52 @@ public class ChannelSocket extends JkHandler
      */
     public void init() throws IOException {
         // Find a port.
-        if (startPort == 0) {
+        if (startPort < 0) {
             port = 0;
             if(log.isInfoEnabled())
                 log.info("JK: ajp13 disabling channelSocket");
             running = true;
             return;
         }
-        int endPort = maxPort;
-        if (endPort < startPort)
-            endPort = startPort;
-        for( int i=startPort; i<=endPort; i++ ) {
+        if (startPort == 0) {
+            // Let operating system to choose a random free port
             try {
                 if( inet == null ) {
-                    sSocket = new ServerSocket( i, backlog );
+                    sSocket = new ServerSocket( 0, backlog );
                 } else {
-                    sSocket=new ServerSocket( i, backlog, inet );
+                    sSocket=new ServerSocket( 0, backlog, inet );
                 }
-                port=i;
-                break;
             } catch( IOException ex ) {
-                if(log.isInfoEnabled())
-                    log.info("Port busy " + i + " " + ex.toString());
-                continue;
+                log.error("Can't find free port", ex);
+                sSocket = null;
+                return;
             }
-        }
 
-        if( sSocket==null ) {
-            log.error("Can't find free port " + startPort + " " + endPort );
-            return;
+            port = sSocket.getLocalPort();
+        } else {
+            int endPort = maxPort;
+            if (endPort < startPort)
+                endPort = startPort;
+            for( int i=startPort; i<=endPort; i++ ) {
+                try {
+                    if( inet == null ) {
+                        sSocket = new ServerSocket( i, backlog );
+                    } else {
+                        sSocket=new ServerSocket( i, backlog, inet );
+                    }
+                    port=i;
+                    break;
+                } catch( IOException ex ) {
+                    if(log.isInfoEnabled())
+                        log.info("Port busy " + i + " " + ex.toString());
+                    continue;
+                }
+            }
+
+            if( sSocket==null ) {
+                log.error("Can't find free port " + startPort + " " + endPort );
+                return;
+            }
         }
         if(log.isInfoEnabled())
             log.info("JK: ajp13 listening on " + getAddress() + ":" + port );

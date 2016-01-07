@@ -19,7 +19,6 @@ package org.apache.coyote.http11;
 
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -248,14 +247,7 @@ public class Http11Protocol extends AbstractProtocol
     }
 
     public String getName() {
-        String encodedAddr = "";
-        if (getAddress() != null) {
-            encodedAddr = "" + getAddress();
-            if (encodedAddr.startsWith("/"))
-                encodedAddr = encodedAddr.substring(1);
-            encodedAddr = URLEncoder.encode(encodedAddr) + "-";
-        }
-        return ("http-" + encodedAddr + endpoint.getPort());
+        return createName("http", getAddress(), endpoint.getPort());
     }
 
     // ------------------------------------------------------------- Properties

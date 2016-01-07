@@ -378,40 +378,61 @@ public class ChannelNioSocket extends JkHandler
      */
     public void init() throws IOException {
         // Find a port.
-        if (startPort == 0) {
+        if (startPort < 0) {
             port = 0;
             if(log.isInfoEnabled())
                 log.info("JK: ajp13 disabling channelNioSocket");
             running = true;
             return;
         }
-        int endPort = maxPort;
-        if (endPort < startPort)
-            endPort = startPort;
         ServerSocketChannel ssc = ServerSocketChannel.open();
         ssc.configureBlocking(false);
-        for( int i=startPort; i<=endPort; i++ ) {
+
+        if (startPort == 0) {
+            // Let operating system to choose a random free port
             try {
                 InetSocketAddress iddr = null;
                 if( inet == null ) {
-                    iddr = new InetSocketAddress( i);
+                    iddr = new InetSocketAddress(0);
                 } else {
-                    iddr=new InetSocketAddress( inet, i);
+                    iddr=new InetSocketAddress(inet, 0);
                 }
                 sSocket = ssc.socket();
                 sSocket.bind(iddr);
-                port=i;
-                break;
             } catch( IOException ex ) {
-                if(log.isInfoEnabled())
-                    log.info("Port busy " + i + " " + ex.toString());
+                log.error("Can't find free port", ex);
                 sSocket = null;
+                return;
             }
-        }
 
-        if( sSocket==null ) {
-            log.error("Can't find free port " + startPort + " " + endPort );
-            return;
+            port = sSocket.getLocalPort();
+        } else {
+            int endPort = maxPort;
+            if (endPort < startPort)
+                endPort = startPort;
+            for( int i=startPort; i<=endPort; i++ ) {
+                try {
+                    InetSocketAddress iddr = null;
+                    if( inet == null ) {
+                        iddr = new InetSocketAddress( i);
+                    } else {
+                        iddr=new InetSocketAddress( inet, i);
+                    }
+                    sSocket = ssc.socket();
+                    sSocket.bind(iddr);
+                    port=i;
+                    break;
+                } catch( IOException ex ) {
+                    if(log.isInfoEnabled())
+                        log.info("Port busy " + i + " " + ex.toString());
+                    sSocket = null;
+                }
+            }
+    
+            if( sSocket==null ) {
+                log.error("Can't find free port " + startPort + " " + endPort );
+                return;
+            }
         }
         if(log.isInfoEnabled())
             log.info("JK: ajp13 listening on " + getAddress() + ":" + port );

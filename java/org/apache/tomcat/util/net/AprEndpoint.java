@@ -36,6 +36,7 @@ import org.apache.tomcat.jni.Pool;
 import org.apache.tomcat.jni.SSL;
 import org.apache.tomcat.jni.SSLContext;
 import org.apache.tomcat.jni.SSLSocket;
+import org.apache.tomcat.jni.Sockaddr;
 import org.apache.tomcat.jni.Socket;
 import org.apache.tomcat.jni.Status;
 import org.apache.tomcat.util.res.StringManager;
@@ -517,8 +518,6 @@ public class AprEndpoint extends AbstractEndpoint {
     public void setSSLVerifyDepth(int SSLVerifyDepth) { this.SSLVerifyDepth = SSLVerifyDepth; }
 
 
-    // --------------------------------------------------------- Public Methods
-
     protected boolean SSLHonorCipherOrder = false;
     /**
      * Set to <code>true</code> to enforce the <i>server's</i> cipher order
@@ -541,6 +540,30 @@ public class AprEndpoint extends AbstractEndpoint {
      */
     public void setSSLDisableCompression(boolean SSLDisableCompression) { this.SSLDisableCompression = SSLDisableCompression; }
     public boolean getSSLDisableCompression() { return SSLDisableCompression; }
+
+
+    /**
+     * Port in use.
+     */
+    @Override
+    public int getLocalPort() {
+        long s = serverSock;
+        if (s == 0) {
+            return -1;
+        } else {
+            long sa;
+            try {
+                sa = Address.get(Socket.APR_LOCAL, s);
+                Sockaddr addr = Address.getInfo(sa);
+                return addr.port;
+            } catch (Exception e) {
+                return -1;
+            }
+        }
+    }
+
+
+    // --------------------------------------------------------- Public Methods
 
     /**
      * Number of keepalive sockets.
@@ -1036,9 +1059,9 @@ public class AprEndpoint extends AbstractEndpoint {
         try {
             // Need to create a connection to unlock the accept();
             if (address == null) {
-                saddr = new InetSocketAddress("localhost", port);
+                saddr = new InetSocketAddress("localhost", getLocalPort());
             } else {
-                saddr = new InetSocketAddress(address,port);
+                saddr = new InetSocketAddress(address, getLocalPort());
             }
             s = new java.net.Socket();
             s.setSoTimeout(soTimeout > 0 ? soTimeout : 60000);
@@ -1062,7 +1085,7 @@ public class AprEndpoint extends AbstractEndpoint {
             }
         } catch(Exception e) {
             if (log.isDebugEnabled()) {
-                log.debug(sm.getString("endpoint.debug.unlock", "" + port), e);
+                log.debug(sm.getString("endpoint.debug.unlock", "" + getLocalPort()), e);
             }
         } finally {
             if (s != null) {
@@ -1137,7 +1160,7 @@ public class AprEndpoint extends AbstractEndpoint {
                 if (curThreadsBusy == maxThreads) {
                     log.info(sm.getString("endpoint.info.maxThreads",
                             Integer.toString(maxThreads), address,
-                            Integer.toString(port)));
+                            Integer.toString(getLocalPort())));
                 }
                 return (newWorkerThread());
             } else {

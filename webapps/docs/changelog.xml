@@ -112,6 +112,15 @@
         implementation to ease future maintenance. (markt)
       </add>
       <fix>
+        <bug>51503</bug>: Add additional validation that prevents a connector
+        from starting if it does not have a valid port number. (kkolinko)
+      </fix>
+      <add>
+        <bug>52028</bug>: Add support for automatic binding to a free port by a
+        connector if the special value of zero is used for the port. This is
+        mainly useful in embedded and testing scenarios. (kkolinko)
+      </add>
+      <fix>
         <bug>52926</bug>: Avoid NPE when an NIO Comet connection times out on
         one thread at the same time as it is closed on another thread.
         (markt/kkolinko)
