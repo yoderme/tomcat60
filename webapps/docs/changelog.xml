@@ -112,6 +112,10 @@
         implementation to ease future maintenance. (markt)
       </add>
       <fix>
+        <bug>51503</bug>: Add additional validation that prevents a connector
+        from starting if it does not have a valid port number. (kkolinko)
+      </fix>
+      <fix>
         <bug>52926</bug>: Avoid NPE when an NIO Comet connection times out on
         one thread at the same time as it is closed on another thread.
         (markt/kkolinko)

@@ -146,7 +146,7 @@ public class Connector
     /**
      * The port number on which we listen for requests.
      */
-    protected int port = 0;
+    protected int port = -1;
 
 
     /**
@@ -1190,6 +1190,12 @@ public class Connector
             if(log.isInfoEnabled())
                 log.info(sm.getString
                      ("coyoteConnector.cannotRegisterProtocol"));
+        }
+
+        // Validate settings before starting
+        if (getPort() < 0) {
+            throw new LifecycleException(sm.getString(
+                    "coyoteConnector.invalidPort", String.valueOf(getPort())));
         }
 
         try {
