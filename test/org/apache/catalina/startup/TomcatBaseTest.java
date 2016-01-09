@@ -48,6 +48,8 @@ import org.junit.Before;
 import org.apache.catalina.Container;
 import org.apache.catalina.Engine;
 import org.apache.catalina.Host;
+import org.apache.catalina.Lifecycle;
+import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Server;
@@ -135,6 +137,8 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
             listener.setSSLRandomSeed("/dev/urandom");
             server.addLifecycleListener(listener);
             connector.setAttribute("pollerThreadCount", Integer.valueOf(1));
+            // FIXME: In Tomcat 6 Embedded.start() does not fire INIT_EVENT on Server
+            listener.lifecycleEvent(new LifecycleEvent(server, Lifecycle.INIT_EVENT));
         }
 
         File catalinaBase = getTemporaryDirectory();
@@ -143,21 +147,21 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
         Host host = tomcat.createHost("localhost", appBase.getAbsolutePath());
         engine.addChild(host);
 
-//FIXME
-//        accessLogEnabled = Boolean.parseBoolean(
-//            System.getProperty("tomcat.test.accesslog", "false"));
-//        if (accessLogEnabled) {
-//            String accessLogDirectory = System
-//                    .getProperty("tomcat.test.reports");
-//            if (accessLogDirectory == null) {
-//                accessLogDirectory = new File(getBuildDirectory(), "logs")
-//                        .toString();
-//            }
-//            AccessLogValve alv = new AccessLogValve();
-//            alv.setDirectory(accessLogDirectory);
-//            alv.setPattern("%h %l %u %t \"%r\" %s %b %I %D");
-//            tomcat.getHost().getPipeline().addValve(alv);
-//        }
+        accessLogEnabled = Boolean.parseBoolean(
+            System.getProperty("tomcat.test.accesslog", "false"));
+        if (accessLogEnabled) {
+            String accessLogDirectory = System
+                    .getProperty("tomcat.test.reports");
+            if (accessLogDirectory == null) {
+                accessLogDirectory = new File(getBuildDirectory(), "logs")
+                        .toString();
+            }
+            AccessLogValve alv = new AccessLogValve();
+            alv.setDirectory(accessLogDirectory);
+            alv.setPattern("%h %l %u %t \"%r\" %s %b %I %D");
+            // tomcat.getHost().getPipeline().addValve(alv);
+            host.getPipeline().addValve(alv);
+        }
 
         // Cannot delete the whole tempDir, because logs are there,
         // but delete known subdirectories of it.

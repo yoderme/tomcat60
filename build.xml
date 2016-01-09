@@ -58,6 +58,10 @@
   <property name="tomcat.classes"        value="${tomcat.output}/classes"/>
   <property name="tomcat.dist"           value="${tomcat.output}/dist"/>
   <property name="tomcat.manifests"      value="${tomcat.output}/manifests"/>
+  <property name="test.classes"          value="${tomcat.output}/testclasses"/>
+  <property name="test.temp"             value="${tomcat.output}/test-tmp"/>
+  <property name="test.reports"          value="${tomcat.build}/logs"/>
+  <property name="test.apr.loc"          value="${tomcat.build}/bin/native"/>
 
   <!-- Can't be lower - jsp uses templates -->
   <property name="compile.source" value="1.5"/>
@@ -91,10 +95,21 @@
   <available property="tomcat-dbcp.present" file="${tomcat-dbcp.jar}" />
   <available property="jdk16.present" classname="javax.sql.StatementEvent" />
 
+  <!-- Tests To Run -->
+  <property name="test.name" value="**/Test*.java"/>
+  <property name="test.formatter" value="-Dorg.apache.juli.formatter=java.util.logging.SimpleFormatter"/>
+
   <!-- Classpath -->
   <path id="tomcat.classpath">
     <pathelement location="${ant.jar}"/>
     <pathelement location="${jdt.jar}"/>
+  </path>
+  <path id="tomcat.test.classpath">
+    <pathelement location="${tomcat.classes}"/>
+    <pathelement location="${test.classes}"/>
+    <pathelement location="${junit.jar}"/>
+    <pathelement location="${hamcrest.jar}"/>
+    <path refid="tomcat.classpath" />
   </path>
 
   <!-- Version info filter set -->
@@ -672,9 +687,160 @@
     <delete dir="${tomcat.classes}" />
     <delete dir="${tomcat.build}" />
     <delete dir="${tomcat.manifests}" />
+    <delete dir="${test.classes}" />
+    <delete dir="${test.temp}" />
     <!-- Remove the copied catalina.properties -->
     <delete file="java/org/apache/catalina/startup/catalina.properties" />
   </target>
+
+  <!-- ========================= Testing ========================== -->
+
+  <target name="test-compile" depends="compile" >
+    <mkdir dir="${test.classes}"/>
+    <!-- Compile -->
+    <javac srcdir="test" destdir="${test.classes}"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           source="${compile.source}"
+           target="${compile.target}"
+           encoding="ISO-8859-1"
+           includeantruntime="true">
+      <classpath refid="tomcat.test.classpath" />
+      <include name="org/apache/**" />
+      <include name="javax/**" />
+    </javac>
+    <copy todir="${test.classes}">
+        <fileset dir="test">
+          <include name="META-INF/**"/>
+        </fileset>
+    </copy>
+  </target>
+
+  <!-- Default JUnit log output formatter -->
+  <property name="junit.formatter.type" value="plain" />
+  <property name="junit.formatter.usefile" value="true" />
+  <property name="junit.formatter.extension" value=".txt" />
+
+  <!-- Workaround against http://bugs.sun.com/view_bug.do?bug_id=6202721 -->
+  <available file="/dev/urandom" property="test.jvmarg.egd" value="-Djava.security.egd=file:/dev/./urandom"/>
+  <property name="test.jvmarg.egd" value="" />
+
+  <target name="test" description="Runs the JUnit test cases"
+          depends="test-bio,test-nio,test-apr" >
+    <fileset id="test.result.skippedtests" dir="${test.reports}" includes="*.txt">
+      <not>
+        <contains text="Skipped: 0" />
+      </not>
+    </fileset>
+    <fileset id="test.result.failedtests" dir="${test.reports}" includes="*.txt">
+      <not>
+        <contains text="Failures: 0, Errors: 0" />
+      </not>
+    </fileset>
+    <concat>
+      <header>Testsuites with skipped tests:${line.separator}</header>
+      <string>${toString:test.result.skippedtests}</string>
+      <filterchain>
+        <tokenfilter delimOutput="${line.separator}">
+          <stringtokenizer delims=";"/>
+        </tokenfilter>
+      </filterchain>
+    </concat>
+    <concat>
+      <header>Testsuites with failed tests:${line.separator}</header>
+      <string>${toString:test.result.failedtests}</string>
+      <filterchain>
+        <tokenfilter delimOutput="${line.separator}">
+          <stringtokenizer delims=";"/>
+        </tokenfilter>
+      </filterchain>
+    </concat>
+
+    <fail if="test.result.error" message='Some tests completed with an Error. See ${tomcat.build}/logs for details, search for "ERROR".' />
+    <fail if="test.result.failure" message='Some tests completed with a Failure. See ${tomcat.build}/logs for details, search for "FAILED".' />
+  </target>
+
+  <target name="test-bio" description="Runs the JUnit test cases for BIO. Does not stop on errors."
+          depends="test-compile,deploy" if="${execute.test.bio}">
+    <runtests protocol="org.apache.coyote.http11.Http11Protocol"
+              extension=".BIO" />
+  </target>
+
+  <target name="test-nio" description="Runs the JUnit test cases for NIO. Does not stop on errors."
+          depends="test-compile,deploy" if="${execute.test.nio}">
+    <runtests protocol="org.apache.coyote.http11.Http11NioProtocol"
+              extension=".NIO" />
+  </target>
+
+  <target name="test-apr" description="Runs the JUnit test cases for APR. Does not stop on errors."
+          depends="test-compile,deploy,test-apr-exists"
+          if="${apr.exists}">
+    <runtests protocol="org.apache.coyote.http11.Http11AprProtocol"
+              extension=".APR" />
+  </target>
+
+  <target name="test-apr-exists" description="Checks for APR lib"
+          if="${execute.test.apr}">
+    <available file="${test.apr.loc}" property="apr.exists" />
+  </target>
+
+  <macrodef name="runtests"
+            description="Runs the unit tests using the specified connector.
+              Does not stop on errors, but sets 'test.result.error' and 'test.result.failure' properties.">
+    <attribute name="protocol"
+               description="The class name for the connector protocol"/>
+    <attribute name="extension"
+               description="The extension to use to distinguish the output"/>
+
+    <sequential>
+      <mkdir dir="${test.reports}" />
+      <junit printsummary="yes" fork="yes" dir="." showoutput="yes"
+        errorproperty="test.result.error"
+        failureproperty="test.result.failure"
+        haltonfailure="${test.haltonfailure}">
+
+        <jvmarg value="${test.jvmarg.egd}"/>
+        <jvmarg value="-Djava.library.path=${test.apr.loc}"/>
+        <jvmarg value="${test.formatter}"/>
+        <jvmarg value="-Djava.net.preferIPv4Stack=${java.net.preferIPv4Stack}"/>
+
+        <classpath refid="tomcat.test.classpath" />
+
+        <sysproperty key="tomcat.test.temp" value="${test.temp}" />
+        <sysproperty key="tomcat.test.basedir" value="${test.basedir}" />
+        <sysproperty key="tomcat.test.tomcatbuild" value="${tomcat.build}" />
+        <sysproperty key="tomcat.test.protocol" value="@{protocol}" />
+        <sysproperty key="tomcat.test.accesslog" value="${test.accesslog}" />
+        <sysproperty key="tomcat.test.reports" value="${test.reports}" />
+        <sysproperty key="tomcat.test.openssl.path" value="${test.openssl.path}" />
+        <sysproperty key="tomcat.test.relaxTiming" value="${test.relaxTiming}" />
+
+        <formatter type="${junit.formatter.type}"
+                   usefile="${junit.formatter.usefile}"
+                   extension="@{extension}${junit.formatter.extension}" />
+
+        <!-- If test.entry is defined, run a single test, otherwise run all valid tests -->
+        <test todir="${test.reports}" name="${test.entry}"
+              if="test.entry" unless="test.entry.methods"
+           />
+        <test todir="${test.reports}" name="${test.entry}" methods="${test.entry.methods}"
+              if="test.entry.methods"
+           />
+        <batchtest todir="${test.reports}" unless="test.entry">
+          <fileset dir="test" >
+            <!-- Include all by default -->
+            <include name="${test.name}" />
+            <!-- Exclude helper classes -->
+            <exclude name="**/Tester*.java" />
+            <!-- Exclude the tests known to fail -->
+            <exclude name="org/apache/catalina/tribes/test/**" />
+            <!-- Exclude performance tests. E.g. on systems with slow/inconsistent timing -->
+            <exclude name="**/*Performance.java" if="${test.excludePerformance}" />
+          </fileset>
+        </batchtest>
+      </junit>
+    </sequential>
+  </macrodef>
 
   <!-- ================ Download and dependency building =================== -->
 
@@ -854,6 +1020,19 @@
       <param name="sourcefile" value="${nsis.loc}"/>
       <param name="destfile" value="${nsis.exe}"/>
       <param name="destdir" value="${nsis.home}/.."/>
+    </antcall>
+
+    <!-- Libraries used for testing. JUnit, Hamcrest -->
+    <antcall target="downloadfile">
+      <param name="sourcefile" value="${junit.loc}"/>
+      <param name="destfile" value="${junit.jar}"/>
+      <param name="destdir" value="${junit.home}"/>
+    </antcall>
+
+    <antcall target="downloadfile">
+      <param name="sourcefile" value="${hamcrest.loc}"/>
+      <param name="destfile" value="${hamcrest.jar}"/>
+      <param name="destdir" value="${hamcrest.home}"/>
     </antcall>
 
   </target>
