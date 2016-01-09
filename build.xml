@@ -131,7 +131,15 @@
 
   </target>
 
-  <target name="compile">
+  <target name="compile-prepare">
+    <!-- Add the builtin catalina.properties -->
+    <copy todir="java/org/apache/catalina/startup"
+          file="conf/catalina.properties" encoding="ISO-8859-1">
+      <filterset refid="version.filters"/>
+    </copy>
+  </target>
+
+  <target name="compile" depends="build-prepare,compile-prepare">
 
     <!-- Compile internal server components -->
     <javac srcdir="java" destdir="${tomcat.classes}"
@@ -168,7 +176,7 @@
 
   </target>
 
-  <target name="build-only" depends="build-prepare,compile,package" />
+  <target name="build-only" depends="compile,package" />
 
   <!-- Pattern sets for jar files -->
   <patternset id="files.annotations-api">
@@ -664,6 +672,8 @@
     <delete dir="${tomcat.classes}" />
     <delete dir="${tomcat.build}" />
     <delete dir="${tomcat.manifests}" />
+    <!-- Remove the copied catalina.properties -->
+    <delete file="java/org/apache/catalina/startup/catalina.properties" />
   </target>
 
   <!-- ================ Download and dependency building =================== -->

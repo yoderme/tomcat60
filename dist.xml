@@ -368,6 +368,7 @@
         <exclude name=".*/**"/>
         <exclude name="output/**"/>
         <exclude name="build.properties"/>
+        <exclude name="java/org/apache/catalina/startup/catalina.properties"/>
       </fileset>
     </copy>
 
