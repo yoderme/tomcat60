@@ -51,7 +51,7 @@
   <property name="final.name"            value="${project}-${version}" />
   <property name="final-src.name"        value="${project}-${version}-src" />
 
-  <!-- Build Defaults -->
+  <!-- Locations to create build artifacts -->
   <property name="tomcat.home"           value="${basedir}"/>
   <property name="tomcat.output"         value="${basedir}/output"/>
   <property name="tomcat.build"          value="${tomcat.output}/build"/>
@@ -666,7 +666,8 @@
     <delete dir="${tomcat.manifests}" />
   </target>
 
-  <!-- Download and dependency building -->
+  <!-- ================ Download and dependency building =================== -->
+
   <target name="proxyflags">
     <!-- check proxy parameters. -->
     <condition property="useproxy">
@@ -780,6 +781,7 @@
           description="Download (and build as necessary) dependent components"
           depends="build-manifests">
 
+    <!-- Download Apache Tomcat Native -->
     <antcall target="downloadfile-2">
       <param name="sourcefile.1" value="${tomcat-native.loc.1}"/>
       <param name="sourcefile.2" value="${tomcat-native.loc.2}"/>
@@ -794,7 +796,7 @@
       <param name="destdir" value="${tomcat-native.home}"/>
     </antcall>
 
-    <!-- Download Commons Daemon -->
+    <!-- Download Apache Commons Daemon -->
     <antcall target="downloadgz-2">
       <param name="sourcefile.1" value="${commons-daemon.bin.loc.1}"/>
       <param name="sourcefile.2" value="${commons-daemon.bin.loc.2}"/>
@@ -837,6 +839,7 @@
       <param name="destdir" value="${jdt.home}"/>
     </antcall>
 
+    <!-- Download NSIS (Nullsoft Scriptable Install System) -->
     <antcall target="downloadzip">
       <param name="sourcefile" value="${nsis.loc}"/>
       <param name="destfile" value="${nsis.exe}"/>
