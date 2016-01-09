@@ -29,8 +29,15 @@ Current status / Completed:
  Make sure to run Ant build before running the test from within an IDE.
 
 
- 3. Support for starting Tomcat with a random port number (port number 0)
- has been implemented. (r1723545 + r1723551, BZ 52028).
+ 3. Implemented support for starting Tomcat with a random port number (port
+ number 0).
+
+ Committed to tc6.0.x/trunk. (r1723545 + r1723551, BZ 52028).
+
+ 4. Implemented support for running the tests with Apache Ant.
+
+ Note: running the tests with APR connector is not usable.
+ The JVM crashes. See FIXME items below.
 
 
 Known issues / FIXME:
@@ -71,28 +78,57 @@ Known issues / FIXME:
 
     I expect to fix this along with API review (item 1. above)              [Not Started]
 
+ 4. Running tests with Ant using APR connector
+
+    It looks that Embedded.start() does not send INIT_EVENT to
+    AprLifecycleListener.
+
+    A quick fix added: an explicit call to
+      listener.lifecycleEvent(new LifecycleEvent(server, Lifecycle.INIT_EVENT));
+
+    I think this goes away with test class API review (item 1. above)
+
+ 5. Running tests with Ant using APR connector crashes
+
+    I have seen this stacktrace
+
+    [junit] jan 09, 2016 10:29:58 AM org.apache.coyote.http11.Http11AprProtocol destroy
+    [junit] INFO: Stopping Coyote HTTP/1.1 on http-127.0.0.1-auto-1-58371
+    [junit] Exception in thread "http-127.0.0.1-auto-1-1" java.lang.NullPointerException
+    [junit] 	at org.apache.tomcat.util.net.AprEndpoint.getPoller(AprEndpoint.java:367)
+    [junit] 	at org.apache.tomcat.util.net.AprEndpoint$Worker.run(AprEndpoint.java:1764)
+    [junit] 	at java.lang.Thread.run(Thread.java:745)
+
+    or a JVM crash
+
+    #  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x10006eb6, pid=4664, tid=2380
+
+    Stack: [0x05ad0000,0x05b20000],  sp=0x05b1f3f4,  free space=316k
+    Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+    C  [tcnative-1.dll+0x6eb6]
+    j  org.apache.tomcat.jni.Poll.poll(JJ[JZ)I+0
+    j  org.apache.tomcat.util.net.AprEndpoint$Poller.run()V+320
+    v  ~StubRoutines::call_stub
+    V  [jvm.dll+0x1429aa]
+    <system libraries...>
+    
+    Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+    j  org.apache.tomcat.jni.Poll.poll(JJ[JZ)I+0
+    j  org.apache.tomcat.util.net.AprEndpoint$Poller.run()V+320
+    v  ~StubRoutines::call_stub
+
+    The cause is unknown.
+    I suspect that the poller thread does not stop properly.
 
 
 Further work / TODO:
 
- 4. Add support for running the tests with Ant.
-
-  *  Add <target name="test"> to the main build.xml file.                   [Not Started]
-
-     tomcat6-testing branch has some incomplete attempt at implementing this.
-     See https://svn.apache.org/viewvc/tomcat/tc6.0.x/branches/tomcat6-testing/BRANCH-diff.diff?view=markup
-
-
-  *  Drop useless test/build.xml file.                                      [Not Started]
-
-  *  Update BUILDING.txt.                                                   [Not Started]
-
- 5. Backport support for running with a null docBase (without docBase).     [Not Started]
+ 6. Backport support for running with a null docBase (without docBase).     [Not Started]
 
     In Tomcat 7 this is implemented by
       r1681953 (2015-05-27, BZ 57154)
 
- 6. Backport other tests from Tomcat 7.                                     [In progress]
+ 7. Backport other tests from Tomcat 7.                                     [In progress]
 
 
 
