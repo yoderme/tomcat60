@@ -103,6 +103,10 @@
         Add the <code>StatusManagerServlet</code> to the list of Servlets that
         can only be loaded by privileged applications. (markt)
       </fix>
+      <fix>
+        Remove redundant copy of catalina.properties from o.a.c.startup.
+        Generate this copy during the ant "compile" task. (kkolinko)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
