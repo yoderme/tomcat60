@@ -107,6 +107,11 @@
         Remove redundant copy of catalina.properties from o.a.c.startup.
         Generate this copy during the ant "compile" task. (kkolinko)
       </fix>
+      <fix>
+        <bug>58836</bug>: Correctly merge query string parameters when
+        processing a forwarded request where the target includes a query string
+        that contains a parameter with no value. (mark)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
