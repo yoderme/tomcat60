@@ -21,6 +21,7 @@ import java.text.*;
 import java.util.*;
 import java.io.Serializable;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -44,14 +45,14 @@ public final class MessageBytes implements Cloneable, Serializable {
         was a String */
     public static final int T_STR  = 1;
     /** getType() is T_STR if the the object used to create the MessageBytes
-        was a byte[] */ 
+        was a byte[] */
     public static final int T_BYTES = 2;
     /** getType() is T_STR if the the object used to create the MessageBytes
-        was a char[] */ 
+        was a char[] */
     public static final int T_CHARS = 3;
 
     private int hashCode=0;
-    // did we computed the hashcode ? 
+    // did we computed the hashcode ?
     private boolean hasHashCode=false;
 
     // Is the represented object case sensitive ?
@@ -60,7 +61,7 @@ public final class MessageBytes implements Cloneable, Serializable {
     // Internal objects to represent array + offset, and specific methods
     private ByteChunk byteC=new ByteChunk();
     private CharChunk charC=new CharChunk();
-    
+
     // String
     private String strValue;
     // true if a String value was computed. Probably not needed,
@@ -100,7 +101,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 		return byteC.isNull() && charC.isNull() && ! hasStrValue;
 	// bytes==null && strValue==null;
     }
-    
+
     /**
      * Resets the message bytes to an uninitialized (NULL) state.
      */
@@ -116,7 +117,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 	hasHashCode=false;
 	hasIntValue=false;
     hasLongValue=false;
-	hasDateValue=false;	
+	hasDateValue=false;
     }
 
 
@@ -134,23 +135,10 @@ public final class MessageBytes implements Cloneable, Serializable {
         hasHashCode=false;
         hasIntValue=false;
         hasLongValue=false;
-        hasDateValue=false; 
+        hasDateValue=false;
     }
 
-    /** Set the encoding. If the object was constructed from bytes[]. any
-     *  previous conversion is reset.
-     *  If no encoding is set, we'll use 8859-1.
-     */
-    public void setCharset(Charset charset) {
-        if( !byteC.isNull() ) {
-            // if the encoding changes we need to reset the conversion results
-            charC.recycle();
-            hasStrValue=false;
-        }
-        byteC.setCharset(charset);
-    }
-
-    /** 
+    /**
      * Sets the content to be a char[]
      *
      * @param c the bytes
@@ -164,7 +152,7 @@ public final class MessageBytes implements Cloneable, Serializable {
         hasHashCode=false;
         hasIntValue=false;
         hasLongValue=false;
-        hasDateValue=false; 
+        hasDateValue=false;
     }
 
     /** Remove the cached string value. Use it after a conversion on the
@@ -180,7 +168,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 	}
     }
 
-    /** 
+    /**
      * Set the content to be a string
      */
     public void setString( String s ) {
@@ -188,7 +176,7 @@ public final class MessageBytes implements Cloneable, Serializable {
         hasHashCode=false;
         hasIntValue=false;
         hasLongValue=false;
-        hasDateValue=false; 
+        hasDateValue=false;
         if (s == null) {
             hasStrValue=false;
             type=T_NULL;
@@ -204,7 +192,7 @@ public final class MessageBytes implements Cloneable, Serializable {
      */
     public String toString() {
         if( hasStrValue ) return strValue;
-        
+
         switch (type) {
         case T_CHARS:
             strValue=charC.toString();
@@ -225,7 +213,7 @@ public final class MessageBytes implements Cloneable, Serializable {
     public int getType() {
 	return type;
     }
-    
+
     /**
      * Returns the byte chunk, representing the byte[] and offset/length.
      * Valid only if T_BYTES or after a conversion was made.
@@ -250,17 +238,32 @@ public final class MessageBytes implements Cloneable, Serializable {
 	return strValue;
     }
 
-    /** Unimplemented yet. Do a char->byte conversion.
+    /**
+     * Get the Charset used for string&lt;-&gt;byte conversions.
+     */
+    public Charset getCharset() {
+        return byteC.getCharset();
+    }
+
+    /**
+     * Set the Charset used for string&lt;-&gt;byte conversions.
+     */
+    public void setCharset(Charset charset) {
+        byteC.setCharset(charset);
+    }
+
+    /** Do a char-&gt;byte conversion.
      */
     public void toBytes() {
-        if( ! byteC.isNull() ) {
+        if (!byteC.isNull()) {
             type=T_BYTES;
             return;
         }
         toString();
         type=T_BYTES;
-        byte bb[] = strValue.getBytes();
-        byteC.setBytes(bb, 0, bb.length);
+        Charset charset = byteC.getCharset();
+        ByteBuffer result = charset.encode(strValue);
+        byteC.setBytes(result.array(), result.arrayOffset(), result.limit());
     }
 
     /** Convert to char[] and fill the CharChunk.
@@ -277,7 +280,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 	char cc[]=strValue.toCharArray();
 	charC.setChars(cc, 0, cc.length);
     }
-    
+
 
     /**
      * Returns the length of the original buffer.
@@ -354,10 +357,10 @@ public final class MessageBytes implements Cloneable, Serializable {
 	// mb is either CHARS or BYTES.
 	// this is either CHARS or BYTES
 	// Deal with the 4 cases ( in fact 3, one is simetric)
-	
+
 	if( mb.type == T_CHARS && type==T_CHARS ) {
 	    return charC.equals( mb.charC );
-	} 
+	}
 	if( mb.type==T_BYTES && type== T_BYTES ) {
 	    return byteC.equals( mb.byteC );
 	}
@@ -371,7 +374,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 	return true;
     }
 
-    
+
     /**
      * Returns true if the message bytes starts with the specified string.
      * @param s the string
@@ -399,7 +402,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 	case T_STR:
 	    if( strValue==null ) return false;
 	    if( strValue.length() < pos + s.length() ) return false;
-	    
+
 	    for( int i=0; i<s.length(); i++ ) {
 		if( Ascii.toLower( s.charAt( i ) ) !=
 		    Ascii.toLower( strValue.charAt( pos + i ))) {
@@ -416,15 +419,15 @@ public final class MessageBytes implements Cloneable, Serializable {
 	}
     }
 
-    
+
 
     // -------------------- Hash code  --------------------
     public  int hashCode() {
 	if( hasHashCode ) return hashCode;
 	int code = 0;
 
-	if( caseSensitive ) 
-	    code=hash(); 
+	if( caseSensitive )
+	    code=hash();
 	else
 	    code=hashIgnoreCase();
 	hashCode=code;
@@ -432,7 +435,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 	return code;
     }
 
-    // normal hash. 
+    // normal hash.
     private int hash() {
 	int code=0;
 	switch (type) {
@@ -479,20 +482,20 @@ public final class MessageBytes implements Cloneable, Serializable {
 	toString();
 	return strValue.indexOf( s, starting );
     }
-    
+
     // Inefficient initial implementation. Will be replaced on the next
     // round of tune-up
     public int indexOf(String s) {
 	return indexOf( s, 0 );
     }
-    
+
     public int indexOfIgnoreCase(String s, int starting) {
 	toString();
 	String upper=strValue.toUpperCase();
 	String sU=s.toUpperCase();
 	return upper.indexOf( sU, starting );
     }
-    
+
     /**
      * Returns true if the message bytes starts with the specified string.
      * @param c the character
@@ -547,7 +550,7 @@ public final class MessageBytes implements Cloneable, Serializable {
     private boolean hasLongValue=false;
     private Date dateValue;
     private boolean hasDateValue=false;
-    
+
     /**
      *  @deprecated The buffer are general purpose, caching for headers should
      *  be done in headers. The second parameter allows us to pass a date format
@@ -566,7 +569,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 	    strValue=DateTool.format1123(dateValue,df);
 	hasStrValue=true;
 	hasDateValue=true;
-	type=T_STR;   
+	type=T_STR;
     }
 
     /**
@@ -615,7 +618,7 @@ public final class MessageBytes implements Cloneable, Serializable {
         hasHashCode=false;
         hasIntValue=true;
         hasLongValue=false;
-        hasDateValue=false; 
+        hasDateValue=false;
         type=T_BYTES;
     }
 
@@ -658,7 +661,7 @@ public final class MessageBytes implements Cloneable, Serializable {
         hasHashCode=false;
         hasIntValue=false;
         hasLongValue=true;
-        hasDateValue=false; 
+        hasDateValue=false;
         type=T_BYTES;
     }
 
@@ -672,7 +675,7 @@ public final class MessageBytes implements Cloneable, Serializable {
 	    if( dateValue==null) return -1;
 	    return dateValue.getTime();
      	}
-	
+
      	long l=DateTool.parseDate( this );
      	if( dateValue==null)
      	    dateValue=new Date(l);
@@ -681,16 +684,16 @@ public final class MessageBytes implements Cloneable, Serializable {
      	hasDateValue=true;
      	return l;
     }
-    
+
 
     // Used for headers conversion
     /** Convert the buffer to an int, cache the value
-     */ 
-    public int getInt() 
+     */
+    public int getInt()
     {
 	if( hasIntValue )
 	    return intValue;
-	
+
 	switch (type) {
 	case T_BYTES:
 	    intValue=byteC.getInt();
@@ -704,11 +707,11 @@ public final class MessageBytes implements Cloneable, Serializable {
 
     // Used for headers conversion
     /** Convert the buffer to an long, cache the value
-     */ 
+     */
     public long getLong() {
         if( hasLongValue )
             return longValue;
-        
+
         switch (type) {
         case T_BYTES:
             longValue=byteC.getLong();
@@ -723,13 +726,13 @@ public final class MessageBytes implements Cloneable, Serializable {
      }
 
     // -------------------- Future may be different --------------------
-    
+
     private static MessageBytesFactory factory=new MessageBytesFactory();
 
     public static void setFactory( MessageBytesFactory mbf ) {
 	factory=mbf;
     }
-    
+
     public static class MessageBytesFactory {
 	protected MessageBytesFactory() {
 	}
