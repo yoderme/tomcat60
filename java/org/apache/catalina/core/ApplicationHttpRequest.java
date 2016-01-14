@@ -5,17 +5,15 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.apache.catalina.core;
 
 
@@ -37,8 +35,9 @@ import org.apache.catalina.Globals;
 import org.apache.catalina.Session;
 import org.apache.catalina.Manager;
 import org.apache.catalina.util.Enumerator;
-import org.apache.catalina.util.RequestUtil;
 import org.apache.catalina.util.StringManager;
+import org.apache.tomcat.util.buf.MessageBytes;
+import org.apache.tomcat.util.http.Parameters;
 
 
 /**
@@ -70,8 +69,8 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
     protected static final String specials[] =
     { Globals.INCLUDE_REQUEST_URI_ATTR, Globals.INCLUDE_CONTEXT_PATH_ATTR,
       Globals.INCLUDE_SERVLET_PATH_ATTR, Globals.INCLUDE_PATH_INFO_ATTR,
-      Globals.INCLUDE_QUERY_STRING_ATTR, Globals.FORWARD_REQUEST_URI_ATTR, 
-      Globals.FORWARD_CONTEXT_PATH_ATTR, Globals.FORWARD_SERVLET_PATH_ATTR, 
+      Globals.INCLUDE_QUERY_STRING_ATTR, Globals.FORWARD_REQUEST_URI_ATTR,
+      Globals.FORWARD_CONTEXT_PATH_ATTR, Globals.FORWARD_SERVLET_PATH_ATTR,
       Globals.FORWARD_PATH_INFO_ATTR, Globals.FORWARD_QUERY_STRING_ATTR };
 
 
@@ -213,7 +212,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
             if ( requestDispatcherPath != null ){
                 return requestDispatcherPath.toString();
             } else {
-                return null;   
+                return null;
             }
         }
 
@@ -221,10 +220,10 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
         if (pos == -1) {
             return getRequest().getAttribute(name);
         } else {
-            if ((specialAttributes[pos] == null) 
+            if ((specialAttributes[pos] == null)
                 && (specialAttributes[5] == null) && (pos >= 5)) {
                 // If it's a forward special attribute, and null, it means this
-                // is an include, so we check the wrapped request since 
+                // is an include, so we check the wrapped request since
                 // the request could have been forwarded before the include
                 return getRequest().getAttribute(name);
             } else {
@@ -300,7 +299,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
             return (context.getServletContext().getRequestDispatcher(path));
 
         // Convert a request-relative path to a context-relative one
-        String servletPath = 
+        String servletPath =
             (String) getAttribute(Globals.INCLUDE_SERVLET_PATH_ATTR);
         if (servletPath == null)
             servletPath = getServletPath();
@@ -503,7 +502,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
     public HttpSession getSession(boolean create) {
 
         if (crossContext) {
-            
+
             // There cannot be a session if no context has been assigned yet
             if (context == null)
                 return (null);
@@ -516,7 +515,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
             HttpSession other = super.getSession(false);
             if (create && (other == null)) {
                 // First create a session in the first context: the problem is
-                // that the top level request is the only one which can 
+                // that the top level request is the only one which can
                 // create the cookie safely
                 other = super.getSession(true);
             }
@@ -532,7 +531,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
                     // Ignore
                 }
                 if (localSession == null && create) {
-                    localSession = 
+                    localSession =
                         context.getManager().createSession(other.getId());
                 }
                 if (localSession != null) {
@@ -677,7 +676,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
 
         // Initialize the attributes for this request
         dispatcherType = request.getAttribute(Globals.DISPATCHER_TYPE_ATTR);
-        requestDispatcherPath = 
+        requestDispatcherPath =
             request.getAttribute(Globals.DISPATCHER_REQUEST_PATH_ATTR);
 
         // Initialize the path elements for this request
@@ -767,7 +766,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
     /**
      * Get a special attribute.
      *
-     * @return the special attribute pos, or -1 if it is not a special 
+     * @return the special attribute pos, or -1 if it is not a special
      *         attribute
      */
     protected int getSpecial(String name) {
@@ -782,7 +781,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
 
     /**
      * Set a special attribute.
-     * 
+     *
      * @return true if the attribute was a special attribute, false otherwise
      */
     protected boolean setSpecial(String name, Object value) {
@@ -798,7 +797,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
 
     /**
      * Remove a special attribute.
-     * 
+     *
      * @return true if the attribute was a special attribute, false otherwise
      */
     protected boolean removeSpecial(String name) {
@@ -864,29 +863,33 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
         if ((queryParamString == null) || (queryParamString.length() < 1))
             return;
 
-        HashMap queryParameters = new HashMap();
-        String encoding = getCharacterEncoding();
-        if (encoding == null)
-            encoding = "ISO-8859-1";
-        try {
-            RequestUtil.parseParameters
-                (queryParameters, queryParamString, encoding);
-        } catch (Exception e) {
-            ;
-        }
-        Iterator keys = parameters.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
-            Object value = queryParameters.get(key);
-            if (value == null) {
-                queryParameters.put(key, parameters.get(key));
+        HashMap<String,String[]> queryParameters = new HashMap<String,String[]>();
+
+        // Parse the query string from the dispatch target
+        Parameters paramParser = new Parameters();
+        MessageBytes queryMB = MessageBytes.newInstance();
+        queryMB.setString(queryParamString);
+        paramParser.setQuery(queryMB);
+        paramParser.setQueryStringEncoding(getCharacterEncoding());
+        paramParser.handleQueryParameters();
+
+        // Copy the original parameters
+        queryParameters.putAll(parameters);
+
+        // Insert the additional parameters from the dispatch target
+        Enumeration<String> dispParamNames = paramParser.getParameterNames();
+        while (dispParamNames.hasMoreElements()) {
+            String dispParamName = dispParamNames.nextElement();
+            String[] dispParamValues = paramParser.getParameterValues(dispParamName);
+            String[] originalValues = queryParameters.get(dispParamName);
+            if (originalValues == null) {
+                queryParameters.put(dispParamName, dispParamValues);
                 continue;
             }
-            queryParameters.put
-                (key, mergeValues(value, parameters.get(key)));
+            queryParameters.put(dispParamName, mergeValues(dispParamValues, originalValues));
         }
-        parameters = queryParameters;
 
+        parameters = queryParameters;
     }
 
 
@@ -914,7 +917,7 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
         }
 
         public boolean hasMoreElements() {
-            return ((pos != last) || (next != null) 
+            return ((pos != last) || (next != null)
                     || ((next = findNext()) != null));
         }
 
