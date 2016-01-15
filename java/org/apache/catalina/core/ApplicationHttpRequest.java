@@ -823,32 +823,32 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
      */
     protected String[] mergeValues(Object values1, Object values2) {
 
-        ArrayList results = new ArrayList();
+        ArrayList<String> results = new ArrayList<String>();
 
-        if (values1 == null)
-            ;
-        else if (values1 instanceof String)
-            results.add(values1);
-        else if (values1 instanceof String[]) {
+        if (values1 == null) {
+            // Skip - nothing to merge
+        } else if (values1 instanceof String[]) {
             String values[] = (String[]) values1;
-            for (int i = 0; i < values.length; i++)
+            for (int i = 0; i < values.length; i++) {
                 results.add(values[i]);
-        } else
+            }
+        } else { // String
             results.add(values1.toString());
+        }
 
-        if (values2 == null)
-            ;
-        else if (values2 instanceof String)
-            results.add(values2);
-        else if (values2 instanceof String[]) {
+        if (values2 == null) {
+            // Skip - nothing to merge
+        } else if (values2 instanceof String[]) {
             String values[] = (String[]) values2;
-            for (int i = 0; i < values.length; i++)
+            for (int i = 0; i < values.length; i++) {
                 results.add(values[i]);
-        } else
+            }
+        } else { // String
             results.add(values2.toString());
+        }
 
         String values[] = new String[results.size()];
-        return ((String[]) results.toArray(values));
+        return results.toArray(values);
 
     }
 
