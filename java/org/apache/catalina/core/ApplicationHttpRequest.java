@@ -18,6 +18,7 @@ package org.apache.catalina.core;
 
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import org.apache.catalina.Session;
 import org.apache.catalina.Manager;
 import org.apache.catalina.util.Enumerator;
 import org.apache.catalina.util.StringManager;
+import org.apache.tomcat.util.buf.B2CConverter;
 import org.apache.tomcat.util.buf.MessageBytes;
 import org.apache.tomcat.util.http.Parameters;
 
@@ -138,6 +140,8 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
     /**
      * The request parameters for this request.  This is initialized from the
      * wrapped request, but updates are allowed.
+     * It is a {@code Map<String,String[]>}, as documented in
+     * ServletRequest.getParameterMap().
      */
     protected Map parameters = null;
 
@@ -819,32 +823,32 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
      */
     protected String[] mergeValues(Object values1, Object values2) {
 
-        ArrayList results = new ArrayList();
+        ArrayList<String> results = new ArrayList<String>();
 
-        if (values1 == null)
-            ;
-        else if (values1 instanceof String)
-            results.add(values1);
-        else if (values1 instanceof String[]) {
+        if (values1 == null) {
+            // Skip - nothing to merge
+        } else if (values1 instanceof String[]) {
             String values[] = (String[]) values1;
-            for (int i = 0; i < values.length; i++)
+            for (int i = 0; i < values.length; i++) {
                 results.add(values[i]);
-        } else
+            }
+        } else { // String
             results.add(values1.toString());
+        }
 
-        if (values2 == null)
-            ;
-        else if (values2 instanceof String)
-            results.add(values2);
-        else if (values2 instanceof String[]) {
+        if (values2 == null) {
+            // Skip - nothing to merge
+        } else if (values2 instanceof String[]) {
             String values[] = (String[]) values2;
-            for (int i = 0; i < values.length; i++)
+            for (int i = 0; i < values.length; i++) {
                 results.add(values[i]);
-        } else
+            }
+        } else { // String
             results.add(values2.toString());
+        }
 
         String values[] = new String[results.size()];
-        return ((String[]) results.toArray(values));
+        return results.toArray(values);
 
     }
 
@@ -869,8 +873,20 @@ class ApplicationHttpRequest extends HttpServletRequestWrapper {
         Parameters paramParser = new Parameters();
         MessageBytes queryMB = MessageBytes.newInstance();
         queryMB.setString(queryParamString);
+
+        String encoding = getCharacterEncoding();
+        // No need to process null value, as ISO-8859-1 is the default encoding
+        // in MessageBytes.toBytes().
+        if (encoding != null) {
+            try {
+                queryMB.setCharset(B2CConverter.getCharset(encoding));
+            } catch (UnsupportedEncodingException ignored) {
+                // Fall-back to ISO-8859-1
+            }
+        }
+
         paramParser.setQuery(queryMB);
-        paramParser.setQueryStringEncoding(getCharacterEncoding());
+        paramParser.setQueryStringEncoding(encoding);
         paramParser.handleQueryParameters();
 
         // Copy the original parameters
