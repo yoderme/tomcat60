@@ -46,10 +46,6 @@ import org.junit.Assert;
 import org.junit.Before;
 
 import org.apache.catalina.Container;
-import org.apache.catalina.Engine;
-import org.apache.catalina.Host;
-import org.apache.catalina.Lifecycle;
-import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Server;
@@ -68,7 +64,7 @@ import org.apache.tomcat.util.buf.ByteChunk;
  * don't have to keep writing the cleanup code.
  */
 public abstract class TomcatBaseTest extends LoggingBaseTest {
-    private Embedded tomcat;
+    private Tomcat tomcat;
     private boolean accessLogEnabled = false;
 
     public static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
@@ -76,7 +72,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
     /**
      * Make Tomcat instance accessible to sub-classes.
      */
-    public Embedded getTomcatInstance() {
+    public Tomcat getTomcatInstance() {
         return tomcat;
     }
 
@@ -84,8 +80,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
      * Sub-classes need to know port so they can connect
      */
     public int getPort() {
-        // return tomcat.getConnector().getLocalPort();
-        return tomcat.findConnectors()[0].getLocalPort();
+        return tomcat.getConnector().getLocalPort();
     }
 
     /**
@@ -114,10 +109,6 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
         assertNull("ServerFactory.server field is not null", f.get(null));
 
         tomcat = new TomcatWithFastSessionIDs();
-        tomcat.setServer(ServerFactory.getServer());
-
-        Engine engine = tomcat.createEngine();
-        tomcat.addEngine(engine);
 
         String protocol = getProtocol();
         Connector connector = new Connector(protocol);
@@ -128,7 +119,8 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
         connector.setPort(0);
         // Mainly set to reduce timeouts during async tests
         connector.setAttribute("connectionTimeout", "3000");
-        tomcat.addConnector(connector);
+        tomcat.getService().addConnector(connector);
+        tomcat.setConnector(connector);
 
         // Add AprLifecycleListener if we are using the Apr connector
         if (protocol.contains("Apr")) {
@@ -137,15 +129,11 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
             listener.setSSLRandomSeed("/dev/urandom");
             server.addLifecycleListener(listener);
             connector.setAttribute("pollerThreadCount", Integer.valueOf(1));
-            // FIXME: In Tomcat 6 Embedded.start() does not fire INIT_EVENT on Server
-            listener.lifecycleEvent(new LifecycleEvent(server, Lifecycle.INIT_EVENT));
         }
 
         File catalinaBase = getTemporaryDirectory();
-        tomcat.setCatalinaBase(catalinaBase.getAbsolutePath());
-
-        Host host = tomcat.createHost("localhost", appBase.getAbsolutePath());
-        engine.addChild(host);
+        tomcat.setBaseDir(catalinaBase.getAbsolutePath());
+        tomcat.getHost().setAppBase(appBase.getAbsolutePath());
 
         accessLogEnabled = Boolean.parseBoolean(
             System.getProperty("tomcat.test.accesslog", "false"));
@@ -159,8 +147,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
             AccessLogValve alv = new AccessLogValve();
             alv.setDirectory(accessLogDirectory);
             alv.setPattern("%h %l %u %t \"%r\" %s %b %I %D");
-            // tomcat.getHost().getPipeline().addValve(alv);
-            host.getPipeline().addValve(alv);
+            tomcat.getHost().getPipeline().addValve(alv);
         }
 
         // Cannot delete the whole tempDir, because logs are there,
@@ -185,7 +172,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
     @Override
     public void tearDown() throws Exception {
         try {
-            if (tomcat.started) {
+            if (tomcat.server != null) {
                 tomcat.stop();
                 tomcat.destroy();
             }
@@ -793,7 +780,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
         return rc;
     }
 
-    private static class TomcatWithFastSessionIDs extends Embedded {
+    private static class TomcatWithFastSessionIDs extends Tomcat {
 
         @Override
         public void start() throws LifecycleException {

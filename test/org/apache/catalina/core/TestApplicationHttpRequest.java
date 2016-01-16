@@ -31,8 +31,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import org.apache.catalina.Context;
-import org.apache.catalina.Host;
-import org.apache.catalina.startup.Embedded;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.startup.TomcatBaseTest;
 import org.apache.tomcat.util.buf.ByteChunk;
@@ -180,17 +178,14 @@ public class TestApplicationHttpRequest extends TomcatBaseTest {
 
     private void doQueryStringTest(String originalQueryString, String forwardQueryString,
             Map<String,String[]> expected) throws Exception {
-        Embedded tomcat = getTomcatInstance();
+        Tomcat tomcat = getTomcatInstance();
 
         // // No file system docBase required
         // Context ctx = tomcat.addContext("", null);
 
         // Must have a real docBase - just use temp
-        // FIXME: Implement getHost() method. 
         // FIXME: Implement support for null docBase (r1681953)
-        Host host = (Host) tomcat.getContainer().findChildren()[0];
-        Tomcat helper = new Tomcat();
-        Context ctx = helper.addContext(host, "",
+        Context ctx = tomcat.addContext("",
                 System.getProperty("java.io.tmpdir"));
 
         if (forwardQueryString == null) {

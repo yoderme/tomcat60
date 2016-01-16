@@ -125,34 +125,37 @@ import org.apache.catalina.realm.RealmBase;
  * @author Costin Manolache
  */
 public class Tomcat {
-//FIXME
+
 //    // Some logging implementations use weak references for loggers so there is
 //    // the possibility that logging configuration could be lost if GC runs just
 //    // after Loggers are configured but before they are used. The purpose of
 //    // this Map is to retain strong references to explicitly configured loggers
 //    // so that configuration is not lost.
 //    private final Map<String, Logger> pinnedLoggers = new HashMap<String, Logger>();
-//
-//    // Single engine, service, server, connector - few cases need more,
-//    // they can use server.xml
-//    protected StandardServer server;
-//    protected StandardService service;
-//    protected StandardEngine engine;
-//    protected Connector connector; // for more - customize the classes
-//    
-//    // To make it a bit easier to config for the common case
-//    // ( one host, one context ). 
-//    protected Host host;
-//
-//    // TODO: it's easy to add support for more hosts - but is it 
-//    // really needed ?
-//
-//    // TODO: allow use of in-memory connector
-//    
-//    protected int port = 8080;
-//    protected String hostname = "localhost";
-//    protected String basedir;
-//    
+
+    // Single engine, service, server, connector - few cases need more,
+    // they can use server.xml
+    protected StandardServer server;
+    protected StandardService service;
+    protected StandardEngine engine;
+    protected Connector connector; // for more - customize the classes
+
+    // To make it a bit easier to config for the common case
+    // ( one host, one context ). 
+    protected Host host;
+
+    // TODO: it's easy to add support for more hosts - but is it 
+    // really needed ?
+
+    // TODO: allow use of in-memory connector
+
+    protected int port = 8080;
+    protected String hostname = "localhost";
+    protected String basedir;
+
+    private volatile boolean initialized;
+    private volatile boolean started;
+
 //    // Default in-memory realm, will be set by default on the Engine. Can be
 //    // replaced at engine level or over-ridden at Host or Context level
 //    @Deprecated // Will be removed in Tomcat 8.0.x.
@@ -162,44 +165,44 @@ public class Tomcat {
 //        new HashMap<String, List<String>>();
 //    private final Map<String, Principal> userPrincipals =
 //        new HashMap<String, Principal>();
-//    
-//    public Tomcat() {
-//        // NOOP
-//    }
-//    
-//    /**
-//     * Tomcat needs a directory for temp files. This should be the 
-//     * first method called. 
-//     * 
-//     * By default, if this method is not called, we use:
-//     *  - system properties - catalina.base, catalina.home 
-//     *  - $HOME/tomcat.$PORT
-//     * ( /tmp doesn't seem a good choice for security ).
-//     *   
-//     *
-//     * TODO: better default ? Maybe current dir ? 
-//     * TODO: disable work dir if not needed ( no jsp, etc ).
-//     */
-//    public void setBaseDir(String basedir) {
-//        this.basedir = basedir;
-//    }
-//
-//    /** 
-//     * Set the port for the default connector. Must 
-//     * be called before start().
-//     */
-//    public void setPort(int port) {
-//        this.port = port;
-//    }
-//    
-//    /** 
-//     * The the hostname of the default host, default is 
-//     * 'localhost'.
-//     */
-//    public void setHostname(String s) {
-//        hostname = s;
-//    }
-//
+
+    public Tomcat() {
+        // NOOP
+    }
+
+    /**
+     * Tomcat needs a directory for temp files. This should be the 
+     * first method called. 
+     * 
+     * By default, if this method is not called, we use:
+     *  - system properties - catalina.base, catalina.home 
+     *  - $HOME/tomcat.$PORT
+     * ( /tmp doesn't seem a good choice for security ).
+     *   
+     *
+     * TODO: better default ? Maybe current dir ? 
+     * TODO: disable work dir if not needed ( no jsp, etc ).
+     */
+    public void setBaseDir(String basedir) {
+        this.basedir = basedir;
+    }
+
+    /** 
+     * Set the port for the default connector. Must 
+     * be called before start().
+     */
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    /** 
+     * The the hostname of the default host, default is 
+     * 'localhost'.
+     */
+    public void setHostname(String s) {
+        hostname = s;
+    }
+
 //    /**
 //     * This is equivalent to adding a web application to Tomcat&apos;s webapps
 //     * directory. The equivalent of the default web.xml will be applied  to the
@@ -213,39 +216,39 @@ public class Tomcat {
 //    public Context addWebapp(String contextPath, String docBase) throws ServletException {
 //        return addWebapp(getHost(), contextPath, docBase);
 //    }
-//    
-//    
-//    /** 
-//     * Add a context - programmatic mode, no web.xml used.
-//     *
-//     * API calls equivalent with web.xml:
-//     * 
-//     * context-param
-//     *  ctx.addParameter("name", "value");
-//     *     
-//     *
-//     * error-page
-//     *    ErrorPage ep = new ErrorPage();
-//     *    ep.setErrorCode(500);
-//     *    ep.setLocation("/error.html");
-//     *    ctx.addErrorPage(ep);
-//     *   
-//     * ctx.addMimeMapping("ext", "type");
-//     * 
-//     * Note: If you reload the Context, all your configuration will be lost. If
-//     * you need reload support, consider using a LifecycleListener to provide
-//     * your configuration.
-//     *  
-//     * TODO: add the rest
-//     *
-//     *  @param contextPath "" for root context.
-//     *  @param docBase base dir for the context, for static files. Must exist,
-//     *  relative to the server home
-//     */
-//    public Context addContext(String contextPath, String docBase) {
-//        return addContext(getHost(), contextPath, docBase);
-//    }
-//
+
+
+    /** 
+     * Add a context - programmatic mode, no web.xml used.
+     *
+     * API calls equivalent with web.xml:
+     * 
+     * context-param
+     *  ctx.addParameter("name", "value");
+     *     
+     *
+     * error-page
+     *    ErrorPage ep = new ErrorPage();
+     *    ep.setErrorCode(500);
+     *    ep.setLocation("/error.html");
+     *    ctx.addErrorPage(ep);
+     *   
+     * ctx.addMimeMapping("ext", "type");
+     * 
+     * Note: If you reload the Context, all your configuration will be lost. If
+     * you need reload support, consider using a LifecycleListener to provide
+     * your configuration.
+     *  
+     * TODO: add the rest
+     *
+     *  @param contextPath "" for root context.
+     *  @param docBase base dir for the context, for static files. Must exist,
+     *  relative to the server home
+     */
+    public Context addContext(String contextPath, String docBase) {
+        return addContext(getHost(), contextPath, docBase);
+    }
+
 //    /**
 //     * Equivalent with 
 //     *  <servlet><servlet-name><servlet-class>.
@@ -324,50 +327,66 @@ public class Tomcat {
     }
     
 
-//    /**
-//     * Initialise the server.
-//     * 
-//     * @throws LifecycleException
-//     */
-//    public void init() throws Exception {
-//        getServer();
-//        getConnector();
-//        server.init();
-//    }
-//    
-//    
-//    /**
-//     * Start the server.
-//     * 
-//     * @throws LifecycleException 
-//     */
-//    public void start() throws LifecycleException {
-//        getServer();
-//        getConnector();
-//        server.start();
-//    }
-//
-//    /** 
-//     * Stop the server.
-//     * 
-//     * @throws LifecycleException 
-//     */
-//    public void stop() throws LifecycleException {
-//        getServer();
-//        server.stop();
-//    }
-//
-//
-//    /**
-//     * Destroy the server. This object cannot be used once this method has been
-//     * called.
-//     */
-//    public void destroy() throws LifecycleException {
-//        getServer();
-//        server.destroy();
-//        // Could null out objects here
-//    }
-//    
+    /**
+     * Initialise the server.
+     * 
+     * @throws LifecycleException
+     */
+    public void init() throws LifecycleException {
+        getServer();
+        getConnector();
+        if (!initialized) {
+            initialized = true;
+            try {
+                server.init();
+            } catch (LifecycleException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new LifecycleException(e);
+            }
+        }
+    }
+
+
+    /**
+     * Start the server.
+     * 
+     * @throws LifecycleException 
+     */
+    public void start() throws LifecycleException {
+        if (!started) {
+            init();
+            started = true;
+            server.start();
+        }
+    }
+
+    /** 
+     * Stop the server.
+     * 
+     * @throws LifecycleException 
+     */
+    public void stop() throws LifecycleException {
+        if (started) {
+            started = false;
+            server.stop();
+        }
+    }
+
+
+    /**
+     * Destroy the server. This object cannot be used once this method has been
+     * called.
+     */
+    public void destroy() throws LifecycleException {
+        if (initialized) {
+            stop();
+            initialized = false;
+            // server.destroy();
+            // Could null out objects here
+        }
+    }
+
 //    /** 
 //     * Add a user for the in-memory realm. All created apps use this 
 //     * by default, can be replaced using setRealm().
@@ -388,69 +407,77 @@ public class Tomcat {
 //        }
 //        roles.add(role);
 //    }
-//
-//    // ------- Extra customization -------
-//    // You can tune individual tomcat objects, using internal APIs
-//    
-//    /** 
-//     * Get the default http connector. You can set more 
-//     * parameters - the port is already initialized.
-//     * 
-//     * Alternatively, you can construct a Connector and set any params,
-//     * then call addConnector(Connector)
-//     * 
-//     * @return A connector object that can be customized
-//     */
-//    public Connector getConnector() {
-//        getServer();
-//        if (connector != null) {
-//            return connector;
-//        }
-//
-//        // The same as in standard Tomcat configuration.
-//        // This creates an APR HTTP connector if AprLifecycleListener has been
-//        // configured (created) and Tomcat Native library is available.
-//        // Otherwise it creates a BIO HTTP connector (Http11Protocol).
-//        connector = new Connector("HTTP/1.1");
-//        connector.setPort(port);
-//        service.addConnector( connector );
-//        return connector;
-//    }
-//    
-//    public void setConnector(Connector connector) {
-//        this.connector = connector;
-//    }
-//    
-//    /** 
-//     * Get the service object. Can be used to add more 
-//     * connectors and few other global settings.
-//     */
-//    public Service getService() {
-//        getServer();
-//        return service;
-//    }
-//
-//    /** 
-//     * Sets the current host - all future webapps will
-//     * be added to this host. When tomcat starts, the 
-//     * host will be the default host.
-//     * 
-//     * @param host
-//     */
-//    public void setHost(Host host) {
-//        this.host = host;
-//    }
-//    
-//    public Host getHost() {
-//        if (host == null) {
-//            host = new StandardHost();
-//            host.setName(hostname);
-//
-//            getEngine().addChild( host );
-//        }
-//        return host;
-//    }
-//    
+
+    // ------- Extra customization -------
+    // You can tune individual tomcat objects, using internal APIs
+
+    /** 
+     * Get the default http connector. You can set more 
+     * parameters - the port is already initialized.
+     * 
+     * Alternatively, you can construct a Connector and set any params,
+     * then call addConnector(Connector)
+     * 
+     * @return A connector object that can be customized
+     */
+    public Connector getConnector() {
+        getServer();
+        if (connector != null) {
+            return connector;
+        }
+
+        // The same as in standard Tomcat configuration.
+        // This creates an APR HTTP connector if AprLifecycleListener has been
+        // configured (created) and Tomcat Native library is available.
+        // Otherwise it creates a BIO HTTP connector (Http11Protocol).
+        try {
+            connector = new Connector("HTTP/1.1");
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            // Never happens. Connector() declares that it can throw
+            // an Exception, but never throws one.
+            throw new RuntimeException(e);
+        }
+        connector.setPort(port);
+        service.addConnector( connector );
+        return connector;
+    }
+
+    public void setConnector(Connector connector) {
+        this.connector = connector;
+    }
+
+    /** 
+     * Get the service object. Can be used to add more 
+     * connectors and few other global settings.
+     */
+    public Service getService() {
+        getServer();
+        return service;
+    }
+
+    /** 
+     * Sets the current host - all future webapps will
+     * be added to this host. When tomcat starts, the 
+     * host will be the default host.
+     * 
+     * @param host
+     */
+    public void setHost(Host host) {
+        this.host = host;
+    }
+
+    public Host getHost() {
+        if (host == null) {
+            host = new StandardHost();
+            host.setName(hostname);
+
+            getEngine().addChild( host );
+        }
+        return host;
+    }
+
 //    /** 
 //     * Set a custom realm for auth. If not called, a simple
 //     * default will be used, using an internal map.
@@ -464,47 +491,48 @@ public class Tomcat {
 //        defaultRealm = realm;
 //    }
 //    
-//
-//    /** 
-//     * Access to the engine, for further customization.
-//     */
-//    public Engine getEngine() {
-//        if(engine == null ) {
-//            getServer();
-//            engine = new StandardEngine();
-//            engine.setName( "Tomcat" );
-//            engine.setDefaultHost(hostname);
-//            if (defaultRealm == null) {
-//                initSimpleAuth();
-//            }
-//            engine.setRealm(defaultRealm);
-//            service.setContainer(engine);
-//        }
-//        return engine;
-//    }
-//
-//    /**
-//     * Get the server object. You can add listeners and few more
-//     * customizations. JNDI is disabled by default.  
-//     */
-//    public Server getServer() {
-//        
-//        if (server != null) {
-//            return server;
-//        }
-//        
-//        initBaseDir(); 
-//        
-//        System.setProperty("catalina.useNaming", "false");
-//        
-//        server = new StandardServer();
-//        server.setPort( -1 );
-//        
-//        service = new StandardService();
-//        service.setName("Tomcat");
-//        server.addService( service );
-//        return server;
-//    }
+
+    /** 
+     * Access to the engine, for further customization.
+     */
+    public Engine getEngine() {
+        if(engine == null ) {
+            getServer();
+            engine = new StandardEngine();
+            engine.setName( "Tomcat" );
+            engine.setDefaultHost(hostname);
+            // @Deprecated
+            // if (defaultRealm == null) {
+            //    initSimpleAuth();
+            // }
+            // engine.setRealm(defaultRealm);
+            service.setContainer(engine);
+        }
+        return engine;
+    }
+
+    /**
+     * Get the server object. You can add listeners and few more
+     * customizations. JNDI is disabled by default.  
+     */
+    public Server getServer() {
+
+        if (server != null) {
+            return server;
+        }
+
+        initBaseDir();
+
+        System.setProperty("catalina.useNaming", "false");
+
+        server = new StandardServer();
+        server.setPort(-1);
+
+        service = new StandardService();
+        service.setName("Tomcat");
+        server.addService(service);
+        return server;
+    }
 
     public Context addContext(Host host, String contextPath, String dir) {
         return addContext(host, contextPath, contextPath, dir);
@@ -519,11 +547,11 @@ public class Tomcat {
         ctx.setDocBase(dir);
         ((Lifecycle) ctx).addLifecycleListener(new FixContextListener());
 
-//        if (host == null) {
-//            getHost().addChild(ctx);
-//        } else {
+        if (host == null) {
+            getHost().addChild(ctx);
+        } else {
             host.addChild(ctx);
-//        }
+        }
         return ctx;
     }
     
@@ -555,11 +583,11 @@ public class Tomcat {
 //        // prevent it from looking ( if it finds one - it'll have dup error )
 //        ctxCfg.setDefaultWebXml(noDefaultWebXmlPath());
 
-//        if (host == null) {
-//            getHost().addChild(ctx);
-//        } else {
+        if (host == null) {
+            getHost().addChild(ctx);
+        } else {
             host.addChild(ctx);
-//        }
+        }
 
         return ctx;
     }
@@ -638,36 +666,35 @@ public class Tomcat {
 //            
 //        };        
 //    }
-//    
-//    protected void initBaseDir() {
-//        String catalinaHome = System.getProperty(Globals.CATALINA_HOME_PROP);
-//        if (basedir == null) {
-//            basedir = System.getProperty(Globals.CATALINA_BASE_PROP);
-//        }
-//        if (basedir == null) {
-//            basedir = catalinaHome;
-//        }
-//        if (basedir == null) {
-//            // Create a temp dir.
-//            basedir = System.getProperty("user.dir") + 
-//                "/tomcat." + port;
-//            File home = new File(basedir);
-//            home.mkdir();
-//            if (!home.isAbsolute()) {
-//                try {
-//                    basedir = home.getCanonicalPath();
-//                } catch (IOException e) {
-//                    basedir = home.getAbsolutePath();
-//                }
-//            }
-//        }
-//        if (catalinaHome == null) {
-//            System.setProperty(Globals.CATALINA_HOME_PROP, basedir);
-//        }
-//        System.setProperty(Globals.CATALINA_BASE_PROP, basedir);
-//    }
-//
-//    static final String[] silences = new String[] {
+
+    protected void initBaseDir() {
+        String catalinaHome = System.getProperty(Globals.CATALINA_HOME_PROP);
+        if (basedir == null) {
+            basedir = System.getProperty(Globals.CATALINA_BASE_PROP);
+        }
+        if (basedir == null) {
+            basedir = catalinaHome;
+        }
+        if (basedir == null) {
+            // Create a temp dir.
+            basedir = System.getProperty("user.dir") + "/tomcat." + port;
+            File home = new File(basedir);
+            home.mkdir();
+            if (!home.isAbsolute()) {
+                try {
+                    basedir = home.getCanonicalPath();
+                } catch (IOException e) {
+                    basedir = home.getAbsolutePath();
+                }
+            }
+        }
+        if (catalinaHome == null) {
+            System.setProperty(Globals.CATALINA_HOME_PROP, basedir);
+        }
+        System.setProperty(Globals.CATALINA_BASE_PROP, basedir);
+    }
+
+    //    static final String[] silences = new String[] {
 //        "org.apache.coyote.http11.Http11Protocol",
 //        "org.apache.catalina.core.StandardService",
 //        "org.apache.catalina.core.StandardEngine",
@@ -730,9 +757,9 @@ public class Tomcat {
      */
     private Context createContext(Host host, String url) {
         String contextClass = StandardContext.class.getName();
-//        if (host == null) {
-//            host = this.getHost();
-//        }
+        if (host == null) {
+            host = this.getHost();
+        }
         if (host instanceof StandardHost) {
             contextClass = ((StandardHost) host).getContextClass();
         }

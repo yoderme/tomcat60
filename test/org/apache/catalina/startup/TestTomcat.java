@@ -248,18 +248,15 @@ public class TestTomcat extends TomcatBaseTest {
      */
     @Test
     public void testProgrammatic() throws Exception {
-        Embedded tomcat = getTomcatInstance();
+        Tomcat tomcat = getTomcatInstance();
 
         // // No file system docBase required
         // org.apache.catalina.Context ctx = tomcat.addContext("", null);
 
         // Must have a real docBase - just use temp
-        // FIXME: Implement getHost() method. 
         // FIXME: Implement support for null docBase (r1681953)
-        Host host = (Host) tomcat.getContainer().findChildren()[0];
-        Tomcat helper = new Tomcat();
-        org.apache.catalina.Context ctx =
-                helper.addContext(host, "", System.getProperty("java.io.tmpdir"));
+        org.apache.catalina.Context ctx = tomcat.addContext("",
+                System.getProperty("java.io.tmpdir"));
 
         // You can customize the context by calling
         // its API
@@ -275,21 +272,16 @@ public class TestTomcat extends TomcatBaseTest {
 
     @Test
     public void testSingleWebapp() throws Exception {
-        Embedded tomcat = getTomcatInstance();
+        Tomcat tomcat = getTomcatInstance();
 
         File appDir = new File(getBuildDirectory(), "webapps/examples");
 
-        // tomcat.addWebapp(null, "/examples", appDir.getAbsolutePath());
-
-        // FIXME: Implement getHost() method. 
-        Host host = (Host) tomcat.getContainer().findChildren()[0];
-        Tomcat helper = new Tomcat();
-        helper.addWebapp(host, "/examples", appDir.getAbsolutePath());
+        tomcat.addWebapp(null, "/examples", appDir.getAbsolutePath());
 
         tomcat.start();
 
-        ByteChunk res = getUrl("http://localhost:" + getPort()
-                + "/examples/servlets/servlet/HelloWorldExample");
+        ByteChunk res = getUrl("http://localhost:" + getPort() +
+                "/examples/servlets/servlet/HelloWorldExample");
         String text = res.toString();
         assertTrue(text, text.indexOf("<h1>Hello World!</h1>") > 0);
     }

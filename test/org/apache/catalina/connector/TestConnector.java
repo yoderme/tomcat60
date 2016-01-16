@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.catalina.startup.Embedded;
+import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.startup.TomcatBaseTest;
 
 /**
@@ -30,10 +30,9 @@ public class TestConnector extends TomcatBaseTest {
 
     @Test
     public void testPort() throws Exception {
-        Embedded tomcat = getTomcatInstance();
+        Tomcat tomcat = getTomcatInstance();
 
-        // Connector connector1 = tomcat.getConnector();
-        Connector connector1 = tomcat.findConnectors()[0];
+        Connector connector1 = tomcat.getConnector();
         connector1.setPort(0);
 
         tomcat.start();
