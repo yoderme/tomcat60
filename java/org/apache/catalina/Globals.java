@@ -360,6 +360,20 @@ public final class Globals {
 
 
     /**
+     * Name of the system property containing
+     * the Tomcat product installation path
+     */
+    public static final String CATALINA_HOME_PROP = "catalina.home";
+
+
+    /**
+     * Name of the system property containing
+     * the Tomcat instance installation path
+     */
+    public static final String CATALINA_BASE_PROP = "catalina.base";
+
+
+    /**
      * Name of the ServletContext init-param that determines if the JSP engine
      * should validate *.tld files when parsing them.
      * <p>
