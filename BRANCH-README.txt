@@ -25,12 +25,17 @@ Current status / Completed:
  Committed to tc6.0.x/trunk. (r1723545 + r1723551, BZ 52028).
 
 
- 3. Implemented support for running the tests with Apache Ant.
+ 3. Implemented support for configuring a Context with a null docBase.
+
+ Committed to tc6.0.x/trunk. (r1725061, BZ 57154).
+
+
+ 4. Implemented support for running the tests with Apache Ant.
 
  It can be used to test BIO, NIO and APR connectors.
 
 
- 4. There are several test classes that run successfully and prove the concept.
+ 5. There are several test classes that run successfully and prove the concept.
 
  TestTomcat, TestConnector, TestApplicationHttpRequest.
 
@@ -56,15 +61,10 @@ Known issues / FIXME:
 
 Further work / TODO:
 
- 1. Backport support for running with a null docBase (without docBase).     [Not Started]
-
-    In Tomcat 7 this is implemented by
-      r1681953 (2015-05-27, BZ 57154)
-
- 2. Backport other tests from Tomcat 7.                                     [In progress]
+ 1. Backport other tests from Tomcat 7.                                     [In progress]
 
 
- 3. All calls to method Tomcat.silence(host, contextPath) are               [Not Started]
+ 2. All calls to method Tomcat.silence(host, contextPath) are               [Not Started]
     commented-out. It is likely that the log output is more verbose
     than it is in the same tests in Tomcat 7.
 
