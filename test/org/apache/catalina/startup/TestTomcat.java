@@ -250,13 +250,8 @@ public class TestTomcat extends TomcatBaseTest {
     public void testProgrammatic() throws Exception {
         Tomcat tomcat = getTomcatInstance();
 
-        // // No file system docBase required
-        // org.apache.catalina.Context ctx = tomcat.addContext("", null);
-
-        // Must have a real docBase - just use temp
-        // FIXME: Implement support for null docBase (r1681953)
-        org.apache.catalina.Context ctx = tomcat.addContext("",
-                System.getProperty("java.io.tmpdir"));
+        // No file system docBase required
+        org.apache.catalina.Context ctx = tomcat.addContext("", null);
 
         // You can customize the context by calling
         // its API

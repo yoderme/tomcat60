@@ -180,13 +180,8 @@ public class TestApplicationHttpRequest extends TomcatBaseTest {
             Map<String,String[]> expected) throws Exception {
         Tomcat tomcat = getTomcatInstance();
 
-        // // No file system docBase required
-        // Context ctx = tomcat.addContext("", null);
-
-        // Must have a real docBase - just use temp
-        // FIXME: Implement support for null docBase (r1681953)
-        Context ctx = tomcat.addContext("",
-                System.getProperty("java.io.tmpdir"));
+        // No file system docBase required
+        Context ctx = tomcat.addContext("", null);
 
         if (forwardQueryString == null) {
             Tomcat.addServlet(ctx, "forward", new ForwardServlet("/display"));
