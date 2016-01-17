@@ -5,7 +5,7 @@ Currently this serves as a proof a concept.
 I expect to cherry-pick some or all of the features back to tc6.0.x/trunk.
 
 Created: 2016-01-06 from r1723242.
-Last catch-up merge: 2016-01-16, merged up to r1724907.
+Last catch-up merge: 2016-01-17, merged up to r1725064.
 
 
 Current status / Completed:
