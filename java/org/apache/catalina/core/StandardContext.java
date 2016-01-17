@@ -98,6 +98,7 @@ import org.apache.juli.logging.LogFactory;
 import org.apache.naming.ContextBindings;
 import org.apache.naming.resources.BaseDirContext;
 import org.apache.naming.resources.DirContextURLStreamHandler;
+import org.apache.naming.resources.EmptyDirContext;
 import org.apache.naming.resources.FileDirContext;
 import org.apache.naming.resources.ProxyDirContext;
 import org.apache.naming.resources.WARDirContext;
@@ -4364,7 +4365,7 @@ public class StandardContext
                 ((BaseDirContext) webappResources).allocate();
             }
             // Register the cache in JMX
-            if (isCachingAllowed()) {
+            if (isCachingAllowed() && proxyDirContext.getCache() != null) {
                 ObjectName resourcesName =
                     new ObjectName(this.getDomain() + ":type=Cache,host="
                                    + getHostname() + ",path="
@@ -4514,10 +4515,14 @@ public class StandardContext
             if (log.isDebugEnabled())
                 log.debug("Configuring default Resources");
             try {
-                if ((docBase != null) && (docBase.endsWith(".war")) && (!(new File(getBasePath())).isDirectory()))
+                if (docBase == null) {
+                    setResources(new EmptyDirContext());
+                } else if (docBase.endsWith(".war")
+                        && !(new File(getBasePath())).isDirectory()) {
                     setResources(new WARDirContext());
-                else
+                } else {
                     setResources(new FileDirContext());
+                }
             } catch (IllegalArgumentException e) {
                 log.error("Error initializing resources: " + e.getMessage());
                 ok = false;
@@ -5169,6 +5174,10 @@ public class StandardContext
      * Get base path.
      */
     protected String getBasePath() {
+        if (getDocBase() == null) {
+            return null;
+        }
+
         String docBase = null;
         Container container = this;
         while (container != null) {

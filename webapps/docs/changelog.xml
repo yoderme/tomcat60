@@ -52,6 +52,13 @@
         Tomcat-Native DLL fails to load. (markt)
       </fix>
       <add>
+        <bug>57154</bug>: Add support for web applications (Context elements)
+        that do not have a docBase. This is intended for use when embedding,
+        such as Tomcat unit tests, when a web application is configured
+        programmatically and does not serve any files. Based on a patch
+        provided by Huxing Zhang. (kkolinko)
+      </add>
+      <add>
         <bug>57741</bug>: Enable the CGI servlet to use the standard error page
         mechanism. Note that if the CGI servlet&apos;s debug init parameter is
         set to 10 or higher then the standard error page mechanism will be
