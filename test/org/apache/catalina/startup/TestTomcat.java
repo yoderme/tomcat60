@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -47,6 +46,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import org.apache.catalina.Context;
 import org.apache.catalina.Host;
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleEvent;
@@ -110,8 +110,9 @@ public class TestTomcat extends TomcatBaseTest {
 //            String name = null;
 //
 //            try {
-//                Context initCtx = new InitialContext();
-//                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+//                javax.naming.Context initCtx = new InitialContext();
+//                javax.naming.Context envCtx =
+//                        (javax.naming.Context) initCtx.lookup("java:comp/env");
 //                name = (String) envCtx.lookup(JNDI_ENV_NAME);
 //            } catch (NamingException e) {
 //                throw new IOException(e);
@@ -251,7 +252,7 @@ public class TestTomcat extends TomcatBaseTest {
         Tomcat tomcat = getTomcatInstance();
 
         // No file system docBase required
-        org.apache.catalina.Context ctx = tomcat.addContext("", null);
+        Context ctx = tomcat.addContext("", null);
 
         // You can customize the context by calling
         // its API
