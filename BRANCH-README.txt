@@ -7,6 +7,9 @@ I expect to cherry-pick some or all of the features back to tc6.0.x/trunk.
 Created: 2016-01-06 from r1723242.
 Last catch-up merge: 2016-01-21, merged up to r1726051.
 
+Diff file @r1726111 (2016-01-22):
+svn diff "^/tomcat/tc6.0.x/trunk@1726111" "^/tomcat/tc6.0.x/branches/tomcat6-testing_20160106@1726111" >BRANCH-diff.diff
+
 
 Current status / Completed:
 
