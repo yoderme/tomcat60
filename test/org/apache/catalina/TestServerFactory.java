@@ -34,13 +34,19 @@ public class TestServerFactory {
 
     @Test
     public void test1() {
+        // Assert initial state of the test
         assertNull(ServerFactory.getServer(false));
+
+        // Assert that ServerFactory.getServer() creates a server
         assertTrue(ServerFactory.getServer() instanceof StandardServer);
 
         ServerFactory.clear();
         assertNull(ServerFactory.getServer(false));
 
+        // Assert that StandardServer() constructor called setServer()
         Server s = new StandardServer();
+        assertEquals(s, ServerFactory.getServer(false));
+
         assertEquals(s, ServerFactory.getServer());
         assertEquals(s, ServerFactory.getServer(true));
     }
