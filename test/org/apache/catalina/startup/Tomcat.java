@@ -19,18 +19,7 @@ package org.apache.catalina.startup;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Stack;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -44,11 +33,9 @@ import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleListener;
-import org.apache.catalina.Realm;
 import org.apache.catalina.Server;
 import org.apache.catalina.Service;
 import org.apache.catalina.Wrapper;
-import org.apache.catalina.authenticator.NonLoginAuthenticator;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.NamingContextListener;
 import org.apache.catalina.core.StandardContext;
@@ -57,9 +44,6 @@ import org.apache.catalina.core.StandardHost;
 import org.apache.catalina.core.StandardServer;
 import org.apache.catalina.core.StandardService;
 import org.apache.catalina.core.StandardWrapper;
-import org.apache.catalina.deploy.LoginConfig;
-import org.apache.catalina.realm.GenericPrincipal;
-import org.apache.catalina.realm.RealmBase;
 
 // TODO: lazy init for the temp dir - only when a JSP is compiled or 
 // get temp dir is called we need to create it. This will avoid the 
@@ -203,19 +187,19 @@ public class Tomcat {
         hostname = s;
     }
 
-//    /**
-//     * This is equivalent to adding a web application to Tomcat&apos;s webapps
-//     * directory. The equivalent of the default web.xml will be applied  to the
-//     * web application and any WEB-INF/web.xml and META-INF/context.xml packaged
-//     * with the application will be processed normally. Normal web fragment and
-//     * {@link javax.servlet.ServletContainerInitializer} processing will be
-//     * applied.
-//     *
-//     * @throws ServletException
-//     */
-//    public Context addWebapp(String contextPath, String docBase) throws ServletException {
-//        return addWebapp(getHost(), contextPath, docBase);
-//    }
+    /**
+     * This is equivalent to adding a web application to Tomcat&apos;s webapps
+     * directory. The equivalent of the default web.xml will be applied  to the
+     * web application and any WEB-INF/web.xml and META-INF/context.xml packaged
+     * with the application will be processed normally. Normal web fragment and
+     * {@link javax.servlet.ServletContainerInitializer} processing will be
+     * applied.
+     *
+     * @throws ServletException
+     */
+    public Context addWebapp(String contextPath, String docBase) throws ServletException {
+        return addWebapp(getHost(), contextPath, docBase);
+    }
 
 
     /** 
@@ -575,7 +559,7 @@ public class Tomcat {
         ctx.setDocBase(docBase);
 
         ((Lifecycle) ctx).addLifecycleListener(new DefaultWebXmlListener());
-//        ctx.setConfigFile(getWebappConfigFile(docBase, contextPath));
+        ctx.setConfigFile(getWebappConfigFile(docBase, contextPath));
 
         ContextConfig ctxCfg = new ContextConfig();
         ((Lifecycle) ctx).addLifecycleListener(ctxCfg);
@@ -1173,29 +1157,27 @@ public class Tomcat {
         "zip", "application/zip"
     };
 
-//    protected URL getWebappConfigFile(String path, String url) {
-//        File docBase = new File(path);
-//        if (docBase.isDirectory()) {
-//            return getWebappConfigFileFromDirectory(docBase, url);
-//        } else {
-//            return getWebappConfigFileFromJar(docBase, url);
-//        }
-//    }
-//
-//    private URL getWebappConfigFileFromDirectory(File docBase, String url) {
-//        URL result = null;
-//        File webAppContextXml = new File(docBase, Constants.ApplicationContextXml);
-//        if (webAppContextXml.exists()) {
-//            try {
-//                result = webAppContextXml.toURI().toURL();
-//            } catch (MalformedURLException e) {
-//                Logger.getLogger(getLoggerName(getHost(), url)).log(Level.WARNING,
-//                        "Unable to determine web application context.xml " + docBase, e);
-//            }
-//        }
-//        return result;
-//    }
-//
+    protected String getWebappConfigFile(String path, @SuppressWarnings("unused") String contextPath) {
+        File docBase = new File(path);
+        if (docBase.isDirectory()) {
+            return getWebappConfigFileFromDirectory(docBase);
+        } else {
+            // Reading context.xml from a war file without copying it
+            // is not implemented in Tomcat 6. (BZ 48662, r928380)
+            // return getWebappConfigFileFromJar(docBase, contextPath);
+            return null;
+        }
+    }
+
+    private String getWebappConfigFileFromDirectory(File docBase) {
+        String result = null;
+        File webAppContextXml = new File(docBase, Constants.ApplicationContextXml);
+        if (webAppContextXml.exists()) {
+            result = webAppContextXml.getAbsolutePath();
+        }
+        return result;
+    }
+
 //    private URL getWebappConfigFileFromJar(File docBase, String url) {
 //        URL result = null;
 //        JarFile jar = null;

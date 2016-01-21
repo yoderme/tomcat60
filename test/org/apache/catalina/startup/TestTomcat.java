@@ -23,11 +23,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.naming.InitialContext;
@@ -48,17 +43,11 @@ import org.junit.Test;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.Host;
-import org.apache.catalina.Lifecycle;
-import org.apache.catalina.LifecycleEvent;
-import org.apache.catalina.LifecycleListener;
-import org.apache.catalina.Wrapper;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardHost;
 import org.apache.catalina.deploy.ContextEnvironment;
 import org.apache.catalina.deploy.ContextResourceLink;
 import org.apache.catalina.ha.context.ReplicatedContext;
-import org.apache.catalina.realm.GenericPrincipal;
-import org.apache.catalina.realm.RealmBase;
 import org.apache.tomcat.util.buf.ByteChunk;
 
 public class TestTomcat extends TomcatBaseTest {
@@ -458,4 +447,148 @@ public class TestTomcat extends TomcatBaseTest {
 
         assertEquals(1, initCount.getCallCount());
     }
+
+    @Test
+    public void testGetWebappConfigFileFromDirectory() {
+        Tomcat tomcat = new Tomcat();
+        assertNotNull(tomcat.getWebappConfigFile("test/deployment/dirContext", ""));
+    }
+
+    @Test
+    public void testGetWebappConfigFileFromDirectoryNegative() {
+        Tomcat tomcat = new Tomcat();
+        assertNull(tomcat.getWebappConfigFile("test/deployment/dirNoContext", ""));
+    }
+
+// Reading context.xml from a war file without copying it
+// is not implemented in Tomcat 6. (BZ 48662, r928380)
+//    @Test
+//    public void testGetWebappConfigFileFromJar() {
+//        Tomcat tomcat = new Tomcat();
+//        assertNotNull(tomcat.getWebappConfigFile("test/deployment/context.war", ""));
+//    }
+//
+//    @Test
+//    public void testGetWebappConfigFileFromJarNegative() {
+//        Tomcat tomcat = new Tomcat();
+//        assertNull(tomcat.getWebappConfigFile("test/deployment/noContext.war", ""));
+//    }
+//
+//    @Test
+//    public void testBug51526() throws Exception {
+//        Tomcat tomcat = getTomcatInstance();
+//
+//        File appFile = new File("test/deployment/context.war");
+//        StandardContext context = (StandardContext) tomcat.addWebapp(null, "/test",
+//                appFile.getAbsolutePath());
+//
+//        tomcat.start();
+//
+//        assertEquals("WAR_CONTEXT", context.getSessionCookieName());
+//    }
+//
+//    @Test
+//    public void testGetDefaultContextPerAddWebapp() {
+//        Tomcat tomcat = getTomcatInstance();
+//
+//        File appFile = new File("test/deployment/context.war");
+//        Context context = tomcat.addWebapp(null,
+//                "/test", appFile.getAbsolutePath());
+//
+//        assertEquals(StandardContext.class.getName(), context.getClass()
+//                .getName());
+//    }
+//
+//    @Test
+//    public void testGetBrokenContextPerAddWepapp() {
+//        Tomcat tomcat = getTomcatInstance();
+//        Host host = tomcat.getHost();
+//        if (host instanceof StandardHost) {
+//            ((StandardHost) host).setContextClass("InvalidContextClassName");
+//        }
+//
+//        try {
+//            File appFile = new File("test/deployment/context.war");
+//            tomcat.addWebapp(null, "/test", appFile.getAbsolutePath());
+//            fail();
+//        } catch (IllegalArgumentException e) {
+//            // OK
+//        }
+//    }
+//
+//    @Test
+//    public void testGetCustomContextPerAddWebappWithNullHost() {
+//        Tomcat tomcat = getTomcatInstance();
+//        Host host = tomcat.getHost();
+//        if (host instanceof StandardHost) {
+//            ((StandardHost) host).setContextClass(ReplicatedContext.class
+//                    .getName());
+//        }
+//
+//        File appFile = new File("test/deployment/context.war");
+//        Context context = tomcat.addWebapp(null, "/test",
+//                appFile.getAbsolutePath());
+//
+//        assertEquals(ReplicatedContext.class.getName(), context.getClass()
+//                .getName());
+//    }
+//
+//    @Test
+//    public void testGetCustomContextPerAddWebappWithHost() {
+//        Tomcat tomcat = getTomcatInstance();
+//        Host host = tomcat.getHost();
+//        if (host instanceof StandardHost) {
+//            ((StandardHost) host).setContextClass(ReplicatedContext.class
+//                    .getName());
+//        }
+//
+//        File appFile = new File("test/deployment/context.war");
+//        Context context = tomcat.addWebapp(host, "/test",
+//                appFile.getAbsolutePath());
+//
+//        assertEquals(ReplicatedContext.class.getName(), context.getClass()
+//                .getName());
+//    }
+
+    @Test
+    public void testGetDefaultContextPerAddContext() {
+        Tomcat tomcat = getTomcatInstance();
+
+        // No file system docBase required
+        Context ctx = tomcat.addContext(null, "", null);
+        assertEquals(StandardContext.class.getName(), ctx.getClass().getName());
+    }
+
+    @Test
+    public void testGetBrokenContextPerAddContext() {
+        Tomcat tomcat = getTomcatInstance();
+        Host host = tomcat.getHost();
+        if (host instanceof StandardHost) {
+            ((StandardHost) host).setContextClass("InvalidContextClassName");
+        }
+
+        // No file system docBase required
+        try {
+            tomcat.addContext(null, "", null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // OK
+        }
+    }
+
+    @Test
+    public void testGetCustomContextPerAddContextWithHost() {
+        Tomcat tomcat = getTomcatInstance();
+        Host host = tomcat.getHost();
+        if (host instanceof StandardHost) {
+            ((StandardHost) host).setContextClass(ReplicatedContext.class
+                    .getName());
+        }
+
+        // No file system docBase required
+        Context ctx = tomcat.addContext(host, "", null);
+        assertEquals(ReplicatedContext.class.getName(), ctx.getClass()
+                .getName());
+    }
+
 }
