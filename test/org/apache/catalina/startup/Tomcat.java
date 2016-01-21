@@ -804,41 +804,41 @@ public class Tomcat {
         }
     }
 
-//    /**
-//     * Enables JNDI naming which is disabled by default. Server must implement
-//     * {@link Lifecycle} in order for the {@link NamingContextListener} to be
-//     * used.
-//     * 
-//     */
-//    public void enableNaming() {
-//        // Make sure getServer() has been called as that is where naming is
-//        // disabled
-//        getServer();
-//        server.addLifecycleListener(new NamingContextListener());
-//        
-//        System.setProperty("catalina.useNaming", "true");
-//
-//        String value = "org.apache.naming";
-//        String oldValue =
-//            System.getProperty(javax.naming.Context.URL_PKG_PREFIXES);
-//        if (oldValue != null) {
-//            if (oldValue.contains(value)) {
-//                value = oldValue;
-//            } else {
-//                value = value + ":" + oldValue;
-//            }
-//        }
-//        System.setProperty(javax.naming.Context.URL_PKG_PREFIXES, value);
-//
-//        value = System.getProperty
-//            (javax.naming.Context.INITIAL_CONTEXT_FACTORY);
-//        if (value == null) {
-//            System.setProperty
-//                (javax.naming.Context.INITIAL_CONTEXT_FACTORY,
-//                 "org.apache.naming.java.javaURLContextFactory");
-//        }
-//    }
-//
+    /**
+     * Enables JNDI naming which is disabled by default. Server must implement
+     * {@link Lifecycle} in order for the {@link NamingContextListener} to be
+     * used.
+     * 
+     */
+    public void enableNaming() {
+        // Make sure getServer() has been called as that is where naming is
+        // disabled
+        getServer();
+        server.addLifecycleListener(new NamingContextListener());
+
+        System.setProperty("catalina.useNaming", "true");
+
+        String value = "org.apache.naming";
+        String oldValue =
+            System.getProperty(javax.naming.Context.URL_PKG_PREFIXES);
+        if (oldValue != null) {
+            if (oldValue.contains(value)) {
+                value = oldValue;
+            } else {
+                value = value + ":" + oldValue;
+            }
+        }
+        System.setProperty(javax.naming.Context.URL_PKG_PREFIXES, value);
+
+        value = System.getProperty
+            (javax.naming.Context.INITIAL_CONTEXT_FACTORY);
+        if (value == null) {
+            System.setProperty
+                (javax.naming.Context.INITIAL_CONTEXT_FACTORY,
+                 "org.apache.naming.java.javaURLContextFactory");
+        }
+    }
+
 //    /**
 //     * Provide default configuration for a context. This is the programmatic
 //     * equivalent of the default web.xml. 
