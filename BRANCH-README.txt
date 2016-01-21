@@ -35,7 +35,14 @@ Current status / Completed:
  It can be used to test BIO, NIO and APR connectors.
 
 
- 5. There are several test classes that run successfully and prove the concept.
+ 5. Fixed several issues that prevented sequential running of several
+ instances of Tomcat in the same JVM.
+ (Parallel running is not implemented. There is no intent to implement it.)
+
+ Committed to tc6.0.x/trunk. (r1726003, r1726031, r1726035).
+
+
+ 6. There are several test classes that run successfully and prove the concept.
 
  TestTomcat, TestConnector, TestApplicationHttpRequest.
 
@@ -45,30 +52,12 @@ Current status / Completed:
 
 Known issues / FIXME:
 
- 1. Tomcat 6 has class org.apache.catalina.ServerFactory that contains a
-    singleton reference to a Server instance. This field has to be cleared
-    after a test run.
-
-    Current workaround in TomcatBaseTest.tearDown() is to use reflection to
-    clean up the ServerFactory.server field.
-
-    The TomcatBaseTest.setUp() method uses reflection to assert that the
-    ServerFactory.server field has been cleared before the test run.
-
-    I expect to add necessary access methods to ServerFactory class.
-    Discussed in http://tomcat.markmail.org/thread/ko7ip7obvyaftwe4         [Not Started]
+ None.
 
 
 Further work / TODO:
 
  1. Backport other tests from Tomcat 7.                                     [In progress]
-
-
- 2. All calls to method Tomcat.silence(host, contextPath) are               [Not Started]
-    commented-out. It is likely that the log output is more verbose
-    than it is in the same tests in Tomcat 7.
-
-    This is OK for now, can be adjusted later.
 
 
 (Regarding BRANCH-README files - see Apache Subversion Community Guide
