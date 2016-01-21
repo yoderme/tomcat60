@@ -123,84 +123,84 @@ public class TestTomcat extends TomcatBaseTest {
         }
     }
 
-//    /**
-//     * Servlet that tries to obtain a URL for WEB-INF/web.xml
-//     */
-//    public static class GetResource extends HttpServlet {
-//
-//        private static final long serialVersionUID = 1L;
-//
-//        @Override
-//        public void doGet(HttpServletRequest req, HttpServletResponse res)
-//        throws IOException {
-//            URL url = req.getServletContext().getResource("/WEB-INF/web.xml");
-//
-//            res.getWriter().write("The URL obtained for /WEB-INF/web.xml was ");
-//            if (url == null) {
-//                res.getWriter().write("null");
-//            } else {
-//                res.getWriter().write(url.toString() + "\n");
-//                res.getWriter().write("The first 20 characters of that resource are:\n");
-//
-//                // Read some content from the resource
-//                URLConnection conn = url.openConnection();
-//
-//                InputStream is = null;
-//                Reader reader = null;
-//                char cbuf[] = new char[20];
-//                int read = 0;
-//                try {
-//                    is = conn.getInputStream();
-//                    reader = new InputStreamReader(is);
-//                    while (read < 20) {
-//                        int len = reader.read(cbuf, read, cbuf.length - read);
-//                        res.getWriter().write(cbuf, read, len);
-//                        read = read + len;
-//                    }
-//                } finally {
-//                    if (reader != null) {
-//                        try { reader.close(); } catch(IOException ioe) {/*Ignore*/}
-//                    }
-//                    if (is != null) {
-//                        try { is.close(); } catch(IOException ioe) {/*Ignore*/}
-//                    }
-//                }
-//
-//
-//            }
-//
-//
-//        }
-//    }
-//
-//    /**
-//     * Simple servlet to test initialization of servlet instances.
-//     */
-//    private static class InitCount extends HttpServlet {
-//
-//        private static final long serialVersionUID = 1L;
-//
-//        private AtomicInteger callCount = new AtomicInteger(0);
-//
-//        @Override
-//        public void init() throws ServletException {
-//            super.init();
-//            callCount.incrementAndGet();
-//        }
-//
-//        @Override
-//        protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-//                throws ServletException, IOException {
-//            resp.setContentType("text/plain");
-//            resp.getWriter().print("OK");
-//        }
-//
-//        public int getCallCount() {
-//            return callCount.intValue();
-//        }
-//    }
-//
-//
+    /**
+     * Servlet that tries to obtain a URL for WEB-INF/web.xml
+     */
+    public static class GetResource extends HttpServlet {
+
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void doGet(HttpServletRequest req, HttpServletResponse res)
+        throws IOException {
+            URL url = getServletContext().getResource("/WEB-INF/web.xml");
+
+            res.getWriter().write("The URL obtained for /WEB-INF/web.xml was ");
+            if (url == null) {
+                res.getWriter().write("null");
+            } else {
+                res.getWriter().write(url.toString() + "\n");
+                res.getWriter().write("The first 20 characters of that resource are:\n");
+
+                // Read some content from the resource
+                URLConnection conn = url.openConnection();
+
+                InputStream is = null;
+                Reader reader = null;
+                char cbuf[] = new char[20];
+                int read = 0;
+                try {
+                    is = conn.getInputStream();
+                    reader = new InputStreamReader(is);
+                    while (read < 20) {
+                        int len = reader.read(cbuf, read, cbuf.length - read);
+                        res.getWriter().write(cbuf, read, len);
+                        read = read + len;
+                    }
+                } finally {
+                    if (reader != null) {
+                        try { reader.close(); } catch(IOException ioe) {/*Ignore*/}
+                    }
+                    if (is != null) {
+                        try { is.close(); } catch(IOException ioe) {/*Ignore*/}
+                    }
+                }
+
+
+            }
+
+
+        }
+    }
+
+    /**
+     * Simple servlet to test initialization of servlet instances.
+     */
+    private static class InitCount extends HttpServlet {
+
+        private static final long serialVersionUID = 1L;
+
+        private AtomicInteger callCount = new AtomicInteger(0);
+
+        @Override
+        public void init() throws ServletException {
+            super.init();
+            callCount.incrementAndGet();
+        }
+
+        @Override
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+                throws ServletException, IOException {
+            resp.setContentType("text/plain");
+            resp.getWriter().print("OK");
+        }
+
+        public int getCallCount() {
+            return callCount.intValue();
+        }
+    }
+
+
 //    /**
 //     * Simple Realm that uses a configurable {@link Map} to link user names and
 //     * passwords.
@@ -391,5 +391,71 @@ public class TestTomcat extends TomcatBaseTest {
 
         ByteChunk res = getUrl("http://localhost:" + getPort() + "/");
         assertEquals("Hello, Tomcat User", res.toString());
+    }
+
+
+    /**
+     * Test for https://bz.apache.org/bugzilla/show_bug.cgi?id=47866
+     */
+    @Test
+    public void testGetResource() throws Exception {
+        Tomcat tomcat = getTomcatInstance();
+
+        String contextPath = "/examples";
+
+        File appDir = new File(getBuildDirectory(), "webapps" + contextPath);
+        // app dir is relative to server home
+        Context ctx =
+            tomcat.addWebapp(null, "/examples", appDir.getAbsolutePath());
+
+        Tomcat.addServlet(ctx, "testGetResource", new GetResource());
+        ctx.addServletMapping("/testGetResource", "testGetResource");
+
+        tomcat.start();
+
+        ByteChunk res = new ByteChunk();
+
+        int rc =getUrl("http://localhost:" + getPort() + contextPath +
+                "/testGetResource", res, null);
+        assertEquals(HttpServletResponse.SC_OK, rc);
+        assertTrue(res.toString().contains("<?xml version=\"1.0\" "));
+    }
+
+    @Test
+    public void testBug50826() throws Exception {
+        Tomcat tomcat = getTomcatInstance();
+        String contextPath = "/examples";
+
+        File appDir = new File(getBuildDirectory(), "webapps" + contextPath);
+        // app dir is relative to server home
+        tomcat.addWebapp(null, "/examples", appDir.getAbsolutePath());
+
+        Exception e = null;
+        try {
+            tomcat.destroy();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            e = ex;
+        }
+        assertNull(e);
+    }
+
+    @Test
+    public void testBug53301() throws Exception {
+        Tomcat tomcat = getTomcatInstance();
+
+        // No file system docBase required
+        Context ctx = tomcat.addContext("", null);
+
+        InitCount initCount = new InitCount();
+        Tomcat.addServlet(ctx, "initCount", initCount);
+        ctx.addServletMapping("/", "initCount");
+
+        tomcat.start();
+
+        ByteChunk res = getUrl("http://localhost:" + getPort() + "/");
+        assertEquals("OK", res.toString());
+
+        assertEquals(1, initCount.getCallCount());
     }
 }
