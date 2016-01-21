@@ -678,7 +678,9 @@ public class Tomcat {
         System.setProperty(Globals.CATALINA_BASE_PROP, basedir);
     }
 
-    //    static final String[] silences = new String[] {
+// Not needed. See BZ 58905.
+//
+//    static final String[] silences = new String[] {
 //        "org.apache.coyote.http11.Http11Protocol",
 //        "org.apache.catalina.core.StandardService",
 //        "org.apache.catalina.core.StandardEngine",
