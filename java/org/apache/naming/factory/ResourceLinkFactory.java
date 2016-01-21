@@ -62,8 +62,11 @@ public class ResourceLinkFactory
      * @param newGlobalContext new global context value
      */
     public static void setGlobalContext(Context newGlobalContext) {
-        if (globalContext != null)
-            return;
+        SecurityManager sm = System.getSecurityManager();
+        if (sm != null) {
+            sm.checkPermission(new RuntimePermission(
+                   ResourceLinkFactory.class.getName() + ".setGlobalContext"));
+        }
         globalContext = newGlobalContext;
     }
 
