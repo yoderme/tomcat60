@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
@@ -103,10 +102,10 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
             fail("Unable to create appBase for test");
         }
 
-        // FIXME. This is an ugly sanity check that the Server reference has been cleared after the previous test run
-        Field f = ServerFactory.class.getDeclaredField("server");
-        f.setAccessible(true);
-        assertNull("ServerFactory.server field is not null", f.get(null));
+        // A sanity check that the Server reference has been cleared after
+        // the previous test run
+        assertNull("A Server has already been created.",
+                ServerFactory.getServer(false));
 
         tomcat = new TomcatWithFastSessionIDs();
 
@@ -177,18 +176,7 @@ public abstract class TomcatBaseTest extends LoggingBaseTest {
                 tomcat.destroy();
             }
         } finally {
-            // ServerFactory.setServer(null);
-            //
-            // FIXME: Implement ServerFactory.clear(), as suggested in
-            // http://tomcat.markmail.org/thread/ko7ip7obvyaftwe4
-            //
-            // The setServer(null) call does not work due to "if (server == null)" check.
-            // Thus I am implementing it via reflection.
-            //
-            Field f = ServerFactory.class.getDeclaredField("server");
-            f.setAccessible(true);
-            f.set(null, null);
-
+            ServerFactory.clear();
             super.tearDown();
         }
     }
