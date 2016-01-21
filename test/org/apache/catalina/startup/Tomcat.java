@@ -522,7 +522,7 @@ public class Tomcat {
         return addContext(host, contextPath, contextPath, dir);
     }
 
-    public Context addContext(Host host, String contextPath, String contextName,
+    private Context addContext(Host host, String contextPath, String contextName,
             String dir) {
 //        silence(host, contextPath);
         Context ctx = createContext(host, contextPath);
@@ -551,7 +551,7 @@ public class Tomcat {
      * @deprecated Use {@link #addWebapp(Host, String, String)}
      */
     @Deprecated
-    public Context addWebapp(Host host, String contextPath, String name, String docBase) {
+    private Context addWebapp(Host host, String contextPath, String name, String docBase) {
 //        silence(host, contextPath);
 
         Context ctx = createContext(host, contextPath);
