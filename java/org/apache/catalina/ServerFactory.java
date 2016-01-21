@@ -18,6 +18,8 @@
 
 package org.apache.catalina;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.apache.catalina.core.StandardServer;
 
 
@@ -41,7 +43,7 @@ public class ServerFactory {
     /**
      * The singleton <code>Server</code> instance for this JVM.
      */
-    private static Server server = null;
+    private static final AtomicReference<Server> server = new AtomicReference<Server>();
 
 
     // --------------------------------------------------------- Public Methods
@@ -51,10 +53,29 @@ public class ServerFactory {
      * Return the singleton <code>Server</code> instance for this JVM.
      */
     public static Server getServer() {
-        if( server==null )
-            server=new StandardServer();
-        return (server);
+        return getServer(true);
+    }
 
+
+    /**
+     * Return the singleton <code>Server</code> instance for this JVM.
+     *
+     * @param create
+     *            <code>true</code> to create a server if none is available and
+     *            always return a <code>Server</code> instance,
+     *            <code>false</code> to peek the current value and return
+     *            <code>null</code> if no server has been created
+     * @return Server instance or null
+     */
+    @SuppressWarnings("unused")
+    public static Server getServer(boolean create) {
+        Server s = server.get();
+        if (s == null && create) {
+            // Note that StandardServer() constructor calls setServer()
+            new StandardServer();
+            s = server.get();
+        }
+        return s;
     }
 
 
@@ -68,10 +89,17 @@ public class ServerFactory {
      */
     public static void setServer(Server theServer) {
 
-        if (server == null)
-            server = theServer;
+        server.compareAndSet(null, theServer);
 
     }
 
 
+    /**
+     * Clears the singleton <code>Server</code> instance for this JVM. Allows to
+     * run several instances of Tomcat sequentially in the same JVM. Unit tests
+     * use this feature.
+     */
+    public static void clear() {
+        server.set(null);
+    }
 }

@@ -119,12 +119,16 @@
         processing a forwarded request where the target includes a query string
         that contains a parameter with no value. (markt/kkolinko)
       </fix>
-      <fix>
-        Allow ResourceLinkFactory to be initialized more than once. This is
-        used by unit tests when running several copies of Tomcat sequentially
-        in the same JVM. When running with a SecurityManager the initialization
-        method is protected by requiring a RuntimePermission. (kkolinko)
-      </fix>
+      <add>
+        Allow singleton server instance stored by <code>ServerFactory</code>
+        to be cleared.
+        Allow <code>ResourceLinkFactory</code> to be initialized more than once.
+        This is used by unit tests when running several copies of Tomcat
+        sequentially in the same JVM.
+        When running with a SecurityManager the initialization method of
+        <code>ResourceLinkFactory</code> is protected by requiring a
+        <code>RuntimePermission</code>. (kkolinko)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Coyote">
