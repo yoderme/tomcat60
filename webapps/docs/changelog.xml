@@ -129,6 +129,16 @@
         <code>ResourceLinkFactory</code> is protected by requiring a
         <code>RuntimePermission</code>. (kkolinko)
       </add>
+      <add>
+        Extend the feature available in the cluster session manager
+        implementations that enables session attribute replication to be
+        filtered bases on attribute name to all session manager implementations.
+        Note that configuration attribute name has changed from
+        <code>sessionAttributeFilter</code> to
+        <code>sessionAttributeNameFilter</code>. Apply the filter on load as
+        well as unload to ensure that configuration changes made while the web
+        application is stopped are applied to any persisted data. (markt)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Coyote">

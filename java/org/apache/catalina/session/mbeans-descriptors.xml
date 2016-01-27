@@ -125,6 +125,10 @@
           description="Number of duplicated session ids generated"
                  type="int" />
 
+    <attribute   name="sessionAttributeNameFilter"
+          descritpion="The string pattern used for including session attributes in distribution. Null means all attributes are included."
+                 type="java.lang.String"/>
+
     <operation   name="listSessionIds"
           description="Return the list of active session ids"
                impact="ACTION"
@@ -308,6 +312,10 @@
     <attribute   name="duplicates"
           description="Number of duplicated session ids generated"
                  type="int" />
+
+    <attribute   name="sessionAttributeNameFilter"
+          descritpion="The string pattern used for including session attributes in distribution. Null means all attributes are included."
+                 type="java.lang.String"/>
 
     <operation   name="listSessionIds"
           description="Return the list of active session ids"

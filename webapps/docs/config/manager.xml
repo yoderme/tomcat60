@@ -171,6 +171,17 @@
         The default is 16.</p>
       </attribute>
 
+      <attribute name="sessionAttributeNameFilter" required="false">
+        A regular expression used to filter which session attributes will be
+        distributed. An attribute will only be distributed if its name matches
+        this pattern. If the pattern is zero length or <code>null</code>, all
+        attributes are eligible for distribution. The pattern is anchored so the
+        session attribute name must fully match the pattern. As an example, the
+        value <code>(userName|sessionHistory)</code> will only distribute the
+        two session attributes named <code>userName</code> and
+        <code>sessionHistory</code>. If not specified, the default value of
+        <code>null</code> will be used.
+      </attribute>
     </attributes>
 
     <h3>Persistent Manager Implementation</h3>
@@ -292,6 +303,18 @@
         The default is 16.</p>
       </attribute>
 
+
+      <attribute name="sessionAttributeNameFilter" required="false">
+        A regular expression used to filter which session attributes will be
+        distributed. An attribute will only be distributed if its name matches
+        this pattern. If the pattern is zero length or <code>null</code>, all
+        attributes are eligible for distribution. The pattern is anchored so the
+        session attribute name must fully match the pattern. As an example, the
+        value <code>(userName|sessionHistory)</code> will only distribute the
+        two session attributes named <code>userName</code> and
+        <code>sessionHistory</code>. If not specified, the default value of
+        <code>null</code> will be used.
+      </attribute>
     </attributes>
 
     <p>In order to successfully use a PersistentManager, you must nest inside

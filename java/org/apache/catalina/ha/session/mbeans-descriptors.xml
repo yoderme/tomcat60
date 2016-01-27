@@ -320,6 +320,10 @@ created by this Manager"
       name="sendAllSessionsWaitTime"
       description="wait time between send session block (default 2 sec)"
       type="int"/>
+    <attribute
+      name="sessionAttributeNameFilter"
+      descritpion="The string pattern used for including session attributes in replication. Null means all attributes are included."
+      type="java.lang.String"/>
     <operation
       name="listSessionIds"
       description="Return the list of active session ids"
@@ -571,6 +575,10 @@ created by this Manager"
       name="rpcTimeout"
       description="Timeout for RPC messages, how long we will wait for a reply"
       type="long"/>
+    <attribute
+      name="sessionAttributeNameFilter"
+      descritpion="The string pattern used for including session attributes in replication. Null means all attributes are included."
+      type="java.lang.String"/>
     <operation
       name="listSessionIds"
       description="Return the list of active primary session ids"

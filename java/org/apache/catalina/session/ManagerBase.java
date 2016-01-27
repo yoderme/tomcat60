@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 import javax.management.MBeanRegistration;
 import javax.management.MBeanServer;
@@ -244,9 +245,11 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
      * The property change support for this component.
      */
     protected PropertyChangeSupport support = new PropertyChangeSupport(this);
-    
-    // ------------------------------------------------------------- Security classes
 
+    private Pattern sessionAttributeNamePattern;
+
+
+    // ------------------------------------------------------------- Security classes
 
     private class PrivilegedSetRandomFile
             implements PrivilegedAction<Void>{
@@ -265,6 +268,28 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
 
 
     // ------------------------------------------------------------- Properties
+
+    public String getSessionAttributeNameFilter() {
+        if (sessionAttributeNamePattern == null) {
+            return null;
+        }
+        return sessionAttributeNamePattern.toString();
+    }
+
+
+    public void setSessionAttributeNameFilter(String sessionAttributeNameFilter) {
+        if (sessionAttributeNameFilter == null || sessionAttributeNameFilter.length() == 0) {
+            sessionAttributeNamePattern = null;
+        } else {
+            sessionAttributeNamePattern = Pattern.compile(sessionAttributeNameFilter);
+        }
+    }
+
+
+    protected Pattern getSessionAttributeNamePattern() {
+        return sessionAttributeNamePattern;
+    }
+
 
     /**
      * Return the message digest algorithm for this Manager.
@@ -294,17 +319,10 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
      * Return the Container with which this Manager is associated.
      */
     public Container getContainer() {
-
-        return (this.container);
-
+        return this.container;
     }
 
 
-    /**
-     * Set the Container with which this Manager is associated.
-     *
-     * @param container The newly associated Container
-     */
     public void setContainer(Container container) {
 
         Container oldContainer = this.container;
@@ -368,20 +386,18 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
 
 
     /**
-     * Set the distributable flag for the sessions supported by this
-     * Manager.  If this flag is set, all user data objects added to
-     * sessions associated with this manager must implement Serializable.
-     *
-     * @param distributable The new distributable flag
+     * {@inheritDoc}
+     * <p>
+     * Session attributes do not need to implement {@link java.io.Serializable}
+     * if they are excluded from distribution by
+     * {@link #willAttributeDistribute(String, Object)}.
      */
     public void setDistributable(boolean distributable) {
-
         boolean oldDistributable = this.distributable;
         this.distributable = distributable;
         support.firePropertyChange("distributable",
                                    new Boolean(oldDistributable),
                                    new Boolean(this.distributable));
-
     }
 
 
@@ -987,10 +1003,17 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
     /**
      * {@inheritDoc}
      * <p>
-     * This implementation always returns {@code true}
+     * This implementation excludes session attributes from distribution if the:
+     * <ul>
+     * <li>attribute name matches {@link #getSessionAttributeNameFilter()}</li>
+     * </ul>
      */
     public boolean willAttributeDistribute(String name, Object value) {
-        return true;
+        Pattern sessionAttributeNamePattern = getSessionAttributeNamePattern();
+        if (sessionAttributeNamePattern == null) {
+            return true;
+        }
+        return sessionAttributeNamePattern.matcher(name).matches();
     }
 
 

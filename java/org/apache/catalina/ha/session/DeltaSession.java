@@ -676,6 +676,11 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
             Object value = (Object) stream.readObject();
             if ( (value instanceof String) && (value.equals(NOT_SERIALIZED)))
                 continue;
+            // Handle the case where the filter configuration was changed while
+            // the web application was stopped.
+            if (exclude(name, value)) {
+                continue;
+            }
             attributes.put(name, value);
         }
         isValid = isValidSave;
