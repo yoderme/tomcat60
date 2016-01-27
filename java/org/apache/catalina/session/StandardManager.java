@@ -43,7 +43,7 @@ import org.apache.catalina.Loader;
 import org.apache.catalina.Session;
 import org.apache.catalina.util.CustomObjectInputStream;
 import org.apache.catalina.util.LifecycleSupport;
-
+import org.apache.juli.logging.Log;
 import org.apache.catalina.security.SecurityUtil;
 
 /**
@@ -349,17 +349,21 @@ public class StandardManager
         ObjectInputStream ois = null;
         Loader loader = null;
         ClassLoader classLoader = null;
+        Log logger = null;
         try {
             fis = new FileInputStream(file.getAbsolutePath());
             bis = new BufferedInputStream(fis);
             loader = container.getLoader();
+            logger = container.getLogger();
             if (loader != null) {
                 classLoader = loader.getClassLoader();
             }
             if (classLoader == null) {
                 classLoader = getClass().getClassLoader();
             }
-            ois = new CustomObjectInputStream(bis, classLoader);
+            ois = new CustomObjectInputStream(bis, classLoader, logger,
+                    getSessionAttributeValueClassNamePattern(),
+                    getWarnOnSessionAttributeFilterFailure());
         } catch (FileNotFoundException e) {
             if (log.isDebugEnabled()) {
                 log.debug("No persisted data file found");

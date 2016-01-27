@@ -141,7 +141,9 @@
         length or <code>null</code>, all attributes are eligible for
         replication. The pattern is anchored so the fully qualified class name
         must fully match the pattern. If not specified, the default value of
-        <code>null</code> will be used.</p>
+        <code>null</code> will be used unless a <code>SecurityManager</code> is
+        enabled in which case the default will be
+        <code>java\\.lang\\.(?:Boolean|Integer|Long|Number|String)</code>.</p>
       </attribute>
       <attribute name="warnOnSessionAttributeFilterFailure" required="false">
         <p>If <strong>sessionAttributeNameFilter</strong> or
@@ -149,7 +151,8 @@
         attribute, should this be logged at <code>WARN</code> level? If
         <code>WARN</code> level logging is disabled then it will be logged at
         <code>DEBUG</code>. The default value of this attribute is
-        <code>false</code>.</p>
+        <code>false</code> unless a <code>SecurityManager</code> is enabled in
+        which case the default will be <code>true</code>.</p>
       </attribute>
     </attributes>
   </subsection>
@@ -192,7 +195,9 @@
         length or <code>null</code>, all attributes are eligible for
         replication. The pattern is anchored so the fully qualified class name
         must fully match the pattern. If not specified, the default value of
-        <code>null</code> will be used.</p>
+        <code>null</code> will be used unless a <code>SecurityManager</code> is
+        enabled in which case the default will be
+        <code>java\\.lang\\.(?:Boolean|Integer|Long|Number|String)</code>.</p>
       </attribute>
       <attribute name="warnOnSessionAttributeFilterFailure" required="false">
         <p>If <strong>sessionAttributeNameFilter</strong> or
@@ -200,7 +205,8 @@
         attribute, should this be logged at <code>WARN</code> level? If
         <code>WARN</code> level logging is disabled then it will be logged at
         <code>DEBUG</code>. The default value of this attribute is
-        <code>false</code>.</p>
+        <code>false</code> unless a <code>SecurityManager</code> is enabled in
+        which case the default will be <code>true</code>.</p>
       </attribute>
     </attributes>
   </subsection>
