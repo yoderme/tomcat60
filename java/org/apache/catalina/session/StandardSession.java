@@ -1042,15 +1042,11 @@ public class StandardSession
      * Return the ServletContext to which this session belongs.
      */
     public ServletContext getServletContext() {
-
-        if (manager == null)
-            return (null);
+        if (manager == null) {
+            return null;
+        }
         Context context = (Context) manager.getContainer();
-        if (context == null)
-            return (null);
-        else
-            return (context.getServletContext());
-
+        return context.getServletContext();
     }
 
 

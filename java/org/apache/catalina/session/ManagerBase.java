@@ -324,9 +324,16 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
 
 
     public void setContainer(Container container) {
-
+        if (this.container == container) {
+            // NO-OP
+            return;
+        }
+        if (initialized) {
+            throw new IllegalStateException(sm.getString("managerBase.setContextNotNew"));
+        }
         Container oldContainer = this.container;
         this.container = container;
+        // TODO - delete the line below in Tomcat 9 onwards
         support.firePropertyChange("container", oldContainer, this.container);
     }
 
@@ -796,6 +803,14 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
         // Initialize random number generation
         getRandomBytes(new byte[16]);
         
+        if (!(container instanceof Context)) {
+            throw new IllegalStateException(sm.getString("managerBase.contextNull"));
+        }
+
+        // Copy current values from Context
+        setMaxInactiveInterval(((Context) this.container).getSessionTimeout() * 60);
+        setDistributable(((Context) this.container).getDistributable());
+
         // Ensure caches for timing stats are the right size by filling with
         // nulls.
         while (sessionCreationTiming.size() < TIMING_STATS_CACHE_SIZE) {

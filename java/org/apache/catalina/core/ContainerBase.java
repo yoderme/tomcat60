@@ -53,6 +53,7 @@ import org.apache.catalina.Realm;
 import org.apache.catalina.Valve;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
+import org.apache.catalina.session.ManagerBase;
 import org.apache.catalina.util.LifecycleSupport;
 import org.apache.catalina.util.StringManager;
 import org.apache.juli.logging.Log;
@@ -428,20 +429,21 @@ public abstract class ContainerBase
         this.manager = manager;
 
         // Stop the old component if necessary
-        if (started && (oldManager != null) &&
-            (oldManager instanceof Lifecycle)) {
+        if (oldManager instanceof Lifecycle) {
             try {
                 ((Lifecycle) oldManager).stop();
+                if (oldManager instanceof ManagerBase) {
+                    ((ManagerBase) oldManager).destroy();
+                }
             } catch (LifecycleException e) {
-                log.error("ContainerBase.setManager: stop: ", e);
+                log.error("ContainerBase.setManager: stop-destroy: ", e);
             }
         }
 
         // Start the new component if necessary
         if (manager != null)
             manager.setContainer(this);
-        if (started && (manager != null) &&
-            (manager instanceof Lifecycle)) {
+        if (started && manager instanceof Lifecycle) {
             try {
                 ((Lifecycle) manager).start();
             } catch (LifecycleException e) {
@@ -451,7 +453,6 @@ public abstract class ContainerBase
 
         // Report this property change to interested listeners
         support.firePropertyChange("manager", oldManager, this.manager);
-
     }
 
 
