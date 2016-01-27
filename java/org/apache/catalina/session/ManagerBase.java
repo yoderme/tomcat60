@@ -238,8 +238,7 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
     /**
      * The string manager for this package.
      */
-    protected static StringManager sm =
-        StringManager.getManager(Constants.Package);
+    protected static final StringManager sm = StringManager.getManager(Constants.Package);
 
     /**
      * The property change support for this component.
@@ -985,6 +984,16 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
     }
     
     
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This implementation always returns {@code true}
+     */
+    public boolean willAttributeDistribute(String name, Object value) {
+        return true;
+    }
+
+
     // ------------------------------------------------------ Protected Methods
 
     /**

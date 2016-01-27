@@ -153,7 +153,11 @@ public class StandardSession
 
     /**
      * Set of attribute names which are not allowed to be persisted.
+     *
+     * @deprecated Use {@link Constants#excludedAttributeNames} instead. Will be
+     *             removed in Tomcat 9.
      */
+    @Deprecated
     protected static final String[] excludedAttributes = {
         Globals.SUBJECT_ATTR
     };
@@ -243,8 +247,7 @@ public class StandardSession
     /**
      * The string manager for this package.
      */
-    protected static StringManager sm =
-        StringManager.getManager(Constants.Package);
+    protected static final StringManager sm = StringManager.getManager(Constants.Package);
 
 
     /**
@@ -1344,13 +1347,15 @@ public class StandardSession
         }
 
         // Validate our current state
-        if (!isValidInternal())
+        if (!isValidInternal()) {
             throw new IllegalStateException
                 (sm.getString("standardSession.setAttribute.ise"));
+        }
         if ((manager != null) && manager.getDistributable() &&
-          !isAttributeDistributable(name, value))
-            throw new IllegalArgumentException
-                (sm.getString("standardSession.setAttribute.iae", name));
+                !isAttributeDistributable(name, value) && !exclude(name, value)) {
+            throw new IllegalArgumentException(sm.getString(
+                    "standardSession.setAttribute.iae", name));
+        }
         // Construct an event with the new value
         HttpSessionBindingEvent event = null;
 
@@ -1456,15 +1461,13 @@ public class StandardSession
     }
 
     /**
-     * Check whether the Object can be distributed. This implementation
-     * simply checks for serializability. Derived classes might use other
-     * distribution technology not based on serialization and can extend
-     * this check.
-     * @param name The name of the attribute to check
-     * @param value The value of the attribute to check
-     * @return true if the attribute is distributable, false otherwise
+     * {@inheritDoc}
+     * <p>
+     * This implementation simply checks the value for serializability.
+     * Sub-classes might use other distribution technology not based on
+     * serialization and can override this check.
      */
-    protected boolean isAttributeDistributable(String name, Object value) {
+    public boolean isAttributeDistributable(String name, Object value) {
         return value instanceof Serializable;
     }
 
@@ -1606,15 +1609,40 @@ public class StandardSession
     /**
      * Exclude standard attributes that cannot be serialized.
      * @param name the attribute's name
+     *
+     * @deprecated Use {@link #exclude(String, Object)}. Will be removed in
+     *             Tomcat 9.0.x.
      */
+    @Deprecated
     protected boolean exclude(String name){
+        return exclude(name, null);
+    }
 
-        for (int i = 0; i < excludedAttributes.length; i++) {
-            if (name.equalsIgnoreCase(excludedAttributes[i]))
-                return true;
+
+    /**
+     * Should the given session attribute be excluded? This implementation
+     * checks:</p>
+     * <ul>
+     * <li>{@link Constants#excludedAttributeNames}</li>
+     * <li>{@link Manager#willAttributeDistribute(String, Object)}</li>
+     * </ul>
+     * Note: This method deliberately does not check
+     *       {@link #isAttributeDistributable(String, Object)} which is
+     *       deliberately separate to support the checks required in
+     *       {@link #setAttribute(String, Object, boolean)}
+     *
+     * @param name  The attribute name
+     * @param value The attribute value
+     *
+     * @return {@code true} if the attribute should be excluded from
+     *         distribution, otherwise {@false}
+     */
+    protected boolean exclude(String name, Object value) {
+        if (Constants.excludedAttributeNames.contains(name)) {
+            return true;
         }
-
-        return false;
+        // Last check so use a short-cut
+        return !getManager().willAttributeDistribute(name, value);
     }
 
 
