@@ -35,6 +35,7 @@ import org.apache.catalina.Globals;
 import org.apache.catalina.Loader;
 import org.apache.catalina.Session;
 import org.apache.catalina.util.CustomObjectInputStream;
+import org.apache.juli.logging.Log;
 
 /**
  * Concrete implementation of the <b>Store</b> interface that utilizes
@@ -224,9 +225,12 @@ public final class FileStore extends StoreBase {
         if (!file.exists()) {
             return null;
         }
-        if (manager.getContainer().getLogger().isDebugEnabled()) {
-            manager.getContainer().getLogger().debug(sm.getString(getStoreName()+".loading",
-                             id, file.getAbsolutePath()));
+
+        Container container = getManager().getContainer();
+        Log containerLog = container.getLogger();
+
+        if (containerLog.isDebugEnabled()) {
+            containerLog.debug(sm.getString(getStoreName()+".loading", id, file.getAbsolutePath()));
         }
 
         FileInputStream fis = null;
@@ -236,10 +240,7 @@ public final class FileStore extends StoreBase {
         try {
             fis = new FileInputStream(file.getAbsolutePath());
             BufferedInputStream bis = new BufferedInputStream(fis);
-            Container container = manager.getContainer();
-            if (container != null) {
-                loader = container.getLoader();
-            }
+            loader = container.getLoader();
             if (loader != null) {
                 classLoader = loader.getClassLoader();
             }
@@ -253,8 +254,8 @@ public final class FileStore extends StoreBase {
             session.setManager(manager);
             return session;
         } catch (FileNotFoundException e) {
-            if (manager.getContainer().getLogger().isDebugEnabled()) {
-                manager.getContainer().getLogger().debug("No persisted data file found");
+            if (containerLog.isDebugEnabled()) {
+                containerLog.debug("No persisted data file found");
             }
             return null;
         } finally {
