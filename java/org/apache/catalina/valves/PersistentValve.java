@@ -20,11 +20,17 @@ package org.apache.catalina.valves;
 
 
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.Container;
 import org.apache.catalina.Context;
+import org.apache.catalina.Engine;
+import org.apache.catalina.Globals;
+import org.apache.catalina.Host;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
 import org.apache.catalina.Store;
@@ -32,6 +38,7 @@ import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
 import org.apache.catalina.session.PersistentManager;
 import org.apache.catalina.util.StringManager;
+import org.apache.tomcat.util.security.PrivilegedSetTccl;
 
 
 /**
@@ -47,11 +54,7 @@ import org.apache.catalina.util.StringManager;
  *
  */
 
-public class PersistentValve
-    extends ValveBase {
-
-
-    // ----------------------------------------------------- Instance Variables
+public class PersistentValve extends ValveBase {
 
 
     /**
@@ -68,21 +71,40 @@ public class PersistentValve
         StringManager.getManager(Constants.Package);
 
 
-    // ------------------------------------------------------------- Properties
+    // Saves a couple of calls to getClassLoader() on every request. Under high
+    // load these calls took just long enough to appear as a hot spot (although
+    // a very minor one) in a profiler.
+    private static final ClassLoader MY_CLASSLOADER = PersistentValve.class.getClassLoader();
 
+    
+    // ----------------------------------------------------- Instance Variables
+
+    private volatile boolean clBindRequired;
+
+    
+    // ------------------------------------------------------------- Properties
 
     /**
      * Return descriptive information about this Valve implementation.
      */
+    @Override
     public String getInfo() {
+        return info;
+    }
 
-        return (info);
-
+    
+    @Override
+    public void setContainer(Container container) {
+        super.setContainer(container);
+        if (container instanceof Engine || container instanceof Host) {
+            clBindRequired = true;
+        } else {
+            clBindRequired = false;
+        }
     }
 
 
     // --------------------------------------------------------- Public Methods
-
 
     /**
      * Select the appropriate child Context to process this request,
@@ -95,6 +117,7 @@ public class PersistentValve
      * @exception IOException if an input/output error occurred
      * @exception ServletException if a servlet error occurred
      */
+    @Override
     public void invoke(Request request, Response response)
         throws IOException, ServletException {
 
@@ -114,31 +137,29 @@ public class PersistentValve
         // Update the session last access time for our session (if any)
         String sessionId = request.getRequestedSessionId();
         Manager manager = context.getManager();
-        if (sessionId != null && manager != null) {
-            if (manager instanceof PersistentManager) {
-                Store store = ((PersistentManager) manager).getStore();
-                if (store != null) {
-                    Session session = null;
-                    try {
-                        session = store.load(sessionId);
-                    } catch (Exception e) {
-                        container.getLogger().error("deserializeError");
-                    }
-                    if (session != null) {
-                        if (!session.isValid() ||
-                            isSessionStale(session, System.currentTimeMillis())) {
-                            if (container.getLogger().isDebugEnabled())
-                                container.getLogger().debug("session swapped in is invalid or expired");
-                            session.expire();
-                            store.remove(sessionId);
-                        } else {
-                            session.setManager(manager);
-                            // session.setId(sessionId); Only if new ???
-                            manager.add(session);
-                            // ((StandardSession)session).activate();
-                            session.access();
-                            session.endAccess();
-                        }
+        if (sessionId != null && manager instanceof PersistentManager) {
+            Store store = ((PersistentManager) manager).getStore();
+            if (store != null) {
+                Session session = null;
+                try {
+                    session = store.load(sessionId);
+                } catch (Exception e) {
+                    container.getLogger().error("deserializeError");
+                }
+                if (session != null) {
+                    if (!session.isValid() ||
+                        isSessionStale(session, System.currentTimeMillis())) {
+                        if (container.getLogger().isDebugEnabled())
+                            container.getLogger().debug("session swapped in is invalid or expired");
+                        session.expire();
+                        store.remove(sessionId);
+                    } else {
+                        session.setManager(manager);
+                        // session.setId(sessionId); Only if new ???
+                        manager.add(session);
+                        // ((StandardSession)session).activate();
+                        session.access();
+                        session.endAccess();
                     }
                 }
             }
@@ -164,30 +185,35 @@ public class PersistentValve
         if (container.getLogger().isDebugEnabled())
             container.getLogger().debug("newsessionId: " + newsessionId);
         if (newsessionId!=null) {
-            /* store the session in the store and remove it from the manager */
-            if (manager instanceof PersistentManager) {
-                Session session = manager.findSession(newsessionId);
-                Store store = ((PersistentManager) manager).getStore();
-                if (store != null && session!=null &&
-                    session.isValid() &&
-                    !isSessionStale(session, System.currentTimeMillis())) {
-                    // ((StandardSession)session).passivate();
-                    store.save(session);
-                    ((PersistentManager) manager).removeSuper(session);
-                    session.recycle();
+            try {
+                bind(context);
+                /* store the session in the store and remove it from the manager */
+                if (manager instanceof PersistentManager) {
+                    Session session = manager.findSession(newsessionId);
+                    Store store = ((PersistentManager) manager).getStore();
+                    if (store != null && session!=null &&
+                        session.isValid() &&
+                        !isSessionStale(session, System.currentTimeMillis())) {
+                        // ((StandardSession)session).passivate();
+                        store.save(session);
+                        ((PersistentManager) manager).removeSuper(session);
+                        session.recycle();
+                    } else {
+                        if (container.getLogger().isDebugEnabled())
+                            container.getLogger().debug("newsessionId store: " + store + " session: " +
+                                    session + 
+                                    (session == null ? "" :
+                                        " valid: " + session.isValid() +
+                                        " stale: " +
+                                    isSessionStale(session, System.currentTimeMillis())));
+    
+                    }
                 } else {
                     if (container.getLogger().isDebugEnabled())
-                        container.getLogger().debug("newsessionId store: " + store + " session: " +
-                                session + 
-                                (session == null ? "" :
-                                    " valid: " + session.isValid() +
-                                    " stale: " +
-                                isSessionStale(session, System.currentTimeMillis())));
-
+                        container.getLogger().debug("newsessionId Manager: " + manager);
                 }
-            } else {
-                if (container.getLogger().isDebugEnabled())
-                    container.getLogger().debug("newsessionId Manager: " + manager);
+            } finally {
+                unbind();
             }
         }
     }
@@ -212,4 +238,29 @@ public class PersistentValve
  
     }
 
+    
+    private void bind(Context context) {
+        // Bind the context CL to the current thread
+        if (clBindRequired && context.getLoader() != null) {
+            if (Globals.IS_SECURITY_ENABLED) {
+                PrivilegedAction<Void> pa =
+                        new PrivilegedSetTccl(context.getLoader().getClassLoader());
+                AccessController.doPrivileged(pa);                
+            } else {
+                Thread.currentThread().setContextClassLoader(context.getLoader().getClassLoader());
+            }
+        }
+    }
+
+
+    private void unbind() {
+        if (clBindRequired) {
+            if (Globals.IS_SECURITY_ENABLED) {
+                PrivilegedAction<Void> pa = new PrivilegedSetTccl(MY_CLASSLOADER);
+                AccessController.doPrivileged(pa);                
+            } else {
+                Thread.currentThread().setContextClassLoader(MY_CLASSLOADER);
+            }
+        }
+    }
 }

@@ -16,7 +16,6 @@
  */
 package org.apache.catalina.session;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,12 +28,10 @@ import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
 
-import org.apache.catalina.Container;
 import org.apache.catalina.Context;
 import org.apache.catalina.Globals;
 import org.apache.catalina.Loader;
 import org.apache.catalina.Session;
-import org.apache.catalina.util.CustomObjectInputStream;
 import org.apache.juli.logging.Log;
 
 /**
@@ -226,8 +223,8 @@ public final class FileStore extends StoreBase {
             return null;
         }
 
-        Container container = getManager().getContainer();
-        Log containerLog = container.getLogger();
+        Context context = (Context) getManager().getContainer();
+        Log containerLog = context.getLogger();
 
         if (containerLog.isDebugEnabled()) {
             containerLog.debug(sm.getString(getStoreName()+".loading", id, file.getAbsolutePath()));
@@ -237,17 +234,17 @@ public final class FileStore extends StoreBase {
         ObjectInputStream ois = null;
         Loader loader = null;
         ClassLoader classLoader = null;
+        ClassLoader oldThreadContextCL = Thread.currentThread().getContextClassLoader();
         try {
             fis = new FileInputStream(file.getAbsolutePath());
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            loader = container.getLoader();
+            loader = context.getLoader();
             if (loader != null) {
                 classLoader = loader.getClassLoader();
             }
-            if (classLoader == null) {
-                classLoader = getClass().getClassLoader();
+            if (classLoader != null) {
+                Thread.currentThread().setContextClassLoader(classLoader);
             }
-            ois = new CustomObjectInputStream(bis, classLoader);
+            ois = getObjectInputStream(fis);
 
             StandardSession session = (StandardSession) manager.createEmptySession();
             session.readObjectData(ois);
@@ -259,15 +256,22 @@ public final class FileStore extends StoreBase {
             }
             return null;
         } finally {
-            // Close the input stream
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException f) {
+                    // Ignore
+                }
+            }
             if (ois != null) {
+                // Close the input stream
                 try {
                     ois.close();
                 } catch (IOException f) {
                     // Ignore
                 }
-                ois = null;
             }
+            Thread.currentThread().setContextClassLoader(oldThreadContextCL);
         }
     }
 
