@@ -220,6 +220,10 @@
         Update the NSIS Installer used to build the Windows Installers to
         version 2.50. (markt/kkolinko)
       </update>
+      <add>
+        Add framework for client-server unit tests, porting it from
+        Tomcat 7. Add support for running the tests with Apache Ant. (kkolinko)
+      </add>
     </changelog>
   </subsection>
 </section>
