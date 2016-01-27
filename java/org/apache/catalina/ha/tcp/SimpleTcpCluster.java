@@ -522,8 +522,7 @@ public class SimpleTcpCluster
             log.warn("Manager [ " + manager + "] does not implement ClusterManager, addition to cluster has been aborted.");
             return;
         }
-        ClusterManager cmanager = (ClusterManager) manager ;
-        cmanager.setDistributable(true);
+        ClusterManager cmanager = (ClusterManager) manager;
         // Notify our interested LifecycleListeners
         lifecycle.fireLifecycleEvent(BEFORE_MANAGERREGISTER_EVENT, manager);
         String clusterName = getManagerName(cmanager.getName(), manager);

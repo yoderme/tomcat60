@@ -71,8 +71,8 @@ import org.apache.tomcat.util.modeler.Registry;
  * @author Craig R. McClanahan
  *
  */
-
 public abstract class ManagerBase implements Manager, MBeanRegistration {
+
     protected Log log = LogFactory.getLog(ManagerBase.class);
 
     // ----------------------------------------------------- Instance Variables
@@ -124,7 +124,11 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
      * The distributable flag for Sessions created by this Manager.  If this
      * flag is set to <code>true</code>, any user attributes added to a
      * session controlled by this Manager must be Serializable.
+     *
+     * @deprecated Ignored. {@link Context#getDistributable()} always takes
+     *             precedence. Will be removed in Tomcat 9.0.x.
      */
+    @Deprecated
     protected boolean distributable;
 
 
@@ -144,8 +148,12 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
     /**
      * The default maximum inactive interval for Sessions created by
      * this Manager.
+     *
+     * @deprecated Ignored. {@link Context#getSessionTimeout()} always takes
+     *             precedence. Will be removed in Tomcat 9.0.x.
      */
-    protected int maxInactiveInterval = 60;
+    @Deprecated
+    protected int maxInactiveInterval = 30 * 60;
 
 
     /**
@@ -471,26 +479,19 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
      * Return the distributable flag for the sessions supported by
      * this Manager.
      */
+    @Deprecated
     public boolean getDistributable() {
-
-        return (this.distributable);
-
+        Container container = getContainer();
+        if (container instanceof Context) {
+            return ((Context) container).getDistributable();
+        }
+        return false;
     }
 
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Session attributes do not need to implement {@link java.io.Serializable}
-     * if they are excluded from distribution by
-     * {@link #willAttributeDistribute(String, Object)}.
-     */
+    @Deprecated
     public void setDistributable(boolean distributable) {
-        boolean oldDistributable = this.distributable;
-        this.distributable = distributable;
-        support.firePropertyChange("distributable",
-                                   new Boolean(oldDistributable),
-                                   new Boolean(this.distributable));
+        // NO-OP
     }
 
 
@@ -556,10 +557,9 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
      * the corresponding version number, in the format
      * <code>&lt;description&gt;/&lt;version&gt;</code>.
      */
+    @Deprecated
     public String getInfo() {
-
-        return (info);
-
+        return info;
     }
 
 
@@ -568,26 +568,17 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
      * for Sessions created by this Manager.
      */
     public int getMaxInactiveInterval() {
-
-        return (this.maxInactiveInterval);
-
+        Container container = getContainer();
+        if (container instanceof Context) {
+            return ((Context) container).getSessionTimeout();
+        }
+        return -1;
     }
 
 
-    /**
-     * Set the default maximum inactive interval (in seconds)
-     * for Sessions created by this Manager.
-     *
-     * @param interval The new default value
-     */
+    @Deprecated
     public void setMaxInactiveInterval(int interval) {
-
-        int oldMaxInactiveInterval = this.maxInactiveInterval;
-        this.maxInactiveInterval = interval;
-        support.firePropertyChange("maxInactiveInterval",
-                                   new Integer(oldMaxInactiveInterval),
-                                   new Integer(this.maxInactiveInterval));
-
+        // NO-OP
     }
 
 
@@ -893,10 +884,6 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
             throw new IllegalStateException(sm.getString("managerBase.contextNull"));
         }
 
-        // Copy current values from Context
-        setMaxInactiveInterval(((Context) this.container).getSessionTimeout() * 60);
-        setDistributable(((Context) this.container).getDistributable());
-
         // Ensure caches for timing stats are the right size by filling with
         // nulls.
         while (sessionCreationTiming.size() < TIMING_STATS_CACHE_SIZE) {
@@ -981,7 +968,7 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
         session.setNew(true);
         session.setValid(true);
         session.setCreationTime(System.currentTimeMillis());
-        session.setMaxInactiveInterval(this.maxInactiveInterval);
+        session.setMaxInactiveInterval(((Context) getContainer()).getSessionTimeout() * 60);
         if (sessionId == null) {
             sessionId = generateSessionId();
         // FIXME WHy we need no duplication check?

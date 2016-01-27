@@ -1343,7 +1343,7 @@ public class StandardSession
             throw new IllegalStateException
                 (sm.getString("standardSession.setAttribute.ise"));
         }
-        if ((manager != null) && manager.getDistributable() &&
+        if ((manager != null) && ((Context) manager.getContainer()).getDistributable() &&
                 !isAttributeDistributable(name, value) && !exclude(name, value)) {
             throw new IllegalArgumentException(sm.getString(
                     "standardSession.setAttribute.iae", name));

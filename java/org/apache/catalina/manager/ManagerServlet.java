@@ -1153,7 +1153,7 @@ public class ManagerServlet
                return;               
             }
             int maxCount = 60;
-            int maxInactiveInterval = manager.getMaxInactiveInterval()/60;
+            int maxInactiveInterval = context.getSessionTimeout();
             int histoInterval = maxInactiveInterval / maxCount;
             if ( histoInterval * maxCount < maxInactiveInterval ) 
                 histoInterval++;

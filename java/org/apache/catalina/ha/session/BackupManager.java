@@ -249,14 +249,6 @@ public class BackupManager extends StandardManager implements ClusterManager, Ma
 
     }
 
-    public void setDistributable(boolean dist) {
-        this.distributable = dist;
-    }
-
-    public boolean getDistributable() {
-        return distributable;
-    }
-
     public void setName(String name) {
         this.name = name;
     }

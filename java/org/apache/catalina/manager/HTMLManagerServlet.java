@@ -452,12 +452,11 @@ public final class HTMLManagerServlet extends ManagerServlet {
                      "/html/expire?path=" + URL_ENCODER.encode(displayPath));
                 args[9] = appsExpire;
                 args[10] = sm.getString("htmlManagerServlet.expire.explain");
-                Manager manager = context.getManager();
+                 Manager manager = context.getManager();
                 if (manager == null) {
                     args[11] = sm.getString("htmlManagerServlet.noManager");
                 } else {
-                    args[11] = new Integer(
-                            context.getManager().getMaxInactiveInterval()/60);
+                    args[11] = Integer.valueOf(context.getSessionTimeout());
                 }
                 args[12] = sm.getString("htmlManagerServlet.expire.unit");
                 
