@@ -14,14 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.catalina.session;
 
 import org.apache.catalina.Container;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Loader;
 import org.apache.catalina.Session;
-import org.apache.catalina.Store;
 import org.apache.catalina.util.CustomObjectInputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -45,11 +43,8 @@ import java.util.Properties;
  * saved are still subject to being expired based on inactivity.
  *
  * @author Bip Thelin
- *
  */
-
-public class JDBCStore
-        extends StoreBase implements Store {
+public class JDBCStore extends StoreBase {
 
     /**
      * The descriptive information about this implementation.
@@ -102,7 +97,8 @@ public class JDBCStore
      */
     protected String driverName = null;
 
-    // ------------------------------------------------------------- Table & cols
+
+    // ------------------------------------------------------------ Table & cols
 
     /**
      * Table to use.
@@ -139,7 +135,8 @@ public class JDBCStore
      */
     protected String sessionLastAccessedCol = "lastaccess";
 
-    // ------------------------------------------------------------- SQL Variables
+
+    // ----------------------------------------------------------- SQL Variables
 
     /**
      * Variable to hold the <code>getSize()</code> prepared statement.
@@ -171,15 +168,18 @@ public class JDBCStore
      */
     protected PreparedStatement preparedLoadSql = null;
 
-    // ------------------------------------------------------------- Properties
+
+    // -------------------------------------------------------------- Properties
 
     /**
      * Return the info for this Store.
      */
+    @Override
     public String getInfo() {
-        return (info);
+        return info;
     }
 
+    
     /**
      * Return the name for this instance (built from container name)
      */
@@ -202,20 +202,24 @@ public class JDBCStore
         return name;
     }
 
+    
     /**
      * Return the thread name for this Store.
      */
     public String getThreadName() {
-        return (threadName);
+        return threadName;
     }
 
+    
     /**
      * Return the name for this Store, used for logging.
      */
+    @Override
     public String getStoreName() {
-        return (storeName);
+        return storeName;
     }
 
+    
     /**
      * Set the driver for this Store.
      *
@@ -230,13 +234,15 @@ public class JDBCStore
         this.driverName = driverName;
     }
 
+    
     /**
      * Return the driver for this Store.
      */
     public String getDriverName() {
-        return (this.driverName);
+        return driverName;
     }
 
+    
     /**
      * Return the username to use to connect to the database.
      *
@@ -288,7 +294,7 @@ public class JDBCStore
      * Return the Connection URL for this Store.
      */
     public String getConnectionURL() {
-        return (this.connectionURL);
+        return connectionURL;
     }
 
     /**
@@ -308,7 +314,7 @@ public class JDBCStore
      * Return the table for this Store.
      */
     public String getSessionTable() {
-        return (this.sessionTable);
+        return sessionTable;
     }
 
     /**
@@ -431,6 +437,7 @@ public class JDBCStore
         return (this.sessionLastAccessedCol);
     }
 
+
     // --------------------------------------------------------- Public Methods
 
     /**
@@ -461,13 +468,13 @@ public class JDBCStore
 
                     preparedKeysSql.setString(1, getName());
                     rst = preparedKeysSql.executeQuery();
-                    ArrayList tmpkeys = new ArrayList();
+                    ArrayList<String> tmpkeys = new ArrayList<String>();
                     if (rst != null) {
                         while (rst.next()) {
                             tmpkeys.add(rst.getString(1));
                         }
                     }
-                    keys = (String[]) tmpkeys.toArray(new String[tmpkeys.size()]);
+                    keys = tmpkeys.toArray(new String[tmpkeys.size()]);
                     // Break out after the finally block
                     numberOfTries = 0;
                 } catch (SQLException e) {
@@ -482,7 +489,7 @@ public class JDBCStore
                             rst.close();
                         }
                     } catch (SQLException e) {
-                        ;
+                        // Ignore
                     }
 
                     release(_conn);
@@ -538,7 +545,7 @@ public class JDBCStore
                         if (rst != null)
                             rst.close();
                     } catch (SQLException e) {
-                        ;
+                        // Ignore
                     }
 
                     release(_conn);
@@ -627,13 +634,13 @@ public class JDBCStore
                             rst.close();
                         }
                     } catch (SQLException e) {
-                        ;
+                        // Ignore
                     }
                     if (ois != null) {
                         try {
                             ois.close();
                         } catch (IOException e) {
-                            ;
+                            // Ignore
                         }
                     }
                     release(_conn);
@@ -793,7 +800,7 @@ public class JDBCStore
                     if (dbConnection != null)
                         close(dbConnection);
                 } catch (IOException e) {
-                    ;
+                    // Ignore
                 } finally {
                     if (oos != null) {
                         oos.close();
@@ -816,6 +823,7 @@ public class JDBCStore
                     session.getIdInternal(), sessionTable));
         }
     }
+
 
     // --------------------------------------------------------- Protected Methods
 
@@ -858,7 +866,7 @@ public class JDBCStore
         // Instantiate our database driver if necessary
         if (driver == null) {
             try {
-                Class clazz = Class.forName(driverName);
+                Class<?> clazz = Class.forName(driverName);
                 driver = (Driver) clazz.newInstance();
             } catch (ClassNotFoundException ex) {
                 manager.getContainer().getLogger().error(sm.getString(getStoreName() + ".checkConnectionClassNotFoundException",
@@ -899,41 +907,41 @@ public class JDBCStore
         try {
             preparedSizeSql.close();
         } catch (Throwable f) {
-            ;
+            // Ignore
         }
         this.preparedSizeSql = null;
 
         try {
             preparedKeysSql.close();
         } catch (Throwable f) {
-            ;
+            // Ignore
         }
         this.preparedKeysSql = null;
 
         try {
             preparedSaveSql.close();
         } catch (Throwable f) {
-            ;
+            // Ignore
         }
         this.preparedSaveSql = null;
 
         try {
             preparedClearSql.close();
         } catch (Throwable f) {
-            ;
+            // Ignore
         }
          
 		try {
             preparedRemoveSql.close();
         } catch (Throwable f) {
-            ;
+            // Ignore
         }
         this.preparedRemoveSql = null;
 
         try {
             preparedLoadSql.close();
         } catch (Throwable f) {
-            ;
+            // Ignore
         }
         this.preparedLoadSql = null;
 
@@ -955,12 +963,13 @@ public class JDBCStore
      * @param conn The connection to be released
      */
     protected void release(Connection conn) {
-        ;
+        // NO-OP
     }
 
     /**
      * Called once when this Store is first started.
      */
+    @Override
     public void start() throws LifecycleException {
         super.start();
 
@@ -973,6 +982,7 @@ public class JDBCStore
      * Called once when this Store is stopping.
      *
      */
+    @Override
     public void stop() throws LifecycleException {
         super.stop();
 
@@ -981,7 +991,7 @@ public class JDBCStore
             try {
                 dbConnection.commit();
             } catch (SQLException e) {
-                ;
+                // Ignore
             }
             close(dbConnection);
         }

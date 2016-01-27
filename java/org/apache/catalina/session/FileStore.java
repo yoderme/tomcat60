@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.apache.catalina.session;
-
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -37,9 +34,7 @@ import org.apache.catalina.Context;
 import org.apache.catalina.Globals;
 import org.apache.catalina.Loader;
 import org.apache.catalina.Session;
-import org.apache.catalina.Store;
 import org.apache.catalina.util.CustomObjectInputStream;
-
 
 /**
  * Concrete implementation of the <b>Store</b> interface that utilizes
@@ -47,15 +42,10 @@ import org.apache.catalina.util.CustomObjectInputStream;
  * saved are still subject to being expired based on inactivity.
  *
  * @author Craig R. McClanahan
- *
  */
-
-public final class FileStore
-    extends StoreBase implements Store {
-
+public final class FileStore extends StoreBase {
 
     // ----------------------------------------------------- Constants
-
 
     /**
      * The extension to use for serialized session filenames.
@@ -64,7 +54,6 @@ public final class FileStore
 
 
     // ----------------------------------------------------- Instance Variables
-
 
     /**
      * The pathname of the directory in which Sessions are stored.
@@ -98,14 +87,11 @@ public final class FileStore
 
     // ------------------------------------------------------------- Properties
 
-
     /**
-     * Return the directory path for this Store.
+     * @return The directory path for this Store.
      */
     public String getDirectory() {
-
-        return (directory);
-
+        return directory;
     }
 
 
@@ -115,39 +101,32 @@ public final class FileStore
      * @param path The new directory path
      */
     public void setDirectory(String path) {
-
         String oldDirectory = this.directory;
         this.directory = path;
         this.directoryFile = null;
-        support.firePropertyChange("directory", oldDirectory,
-                                   this.directory);
-
+        support.firePropertyChange("directory", oldDirectory, this.directory);
     }
 
 
-    /**
-     * Return descriptive information about this Store implementation and
-     * the corresponding version number, in the format
-     * <code>&lt;description&gt;/&lt;version&gt;</code>.
-     */
+    @Override
     public String getInfo() {
-
-        return (info);
-
+        return info;
     }
 
+    
     /**
-     * Return the thread name for this Store.
+     * @return The thread name for this Store.
      */
     public String getThreadName() {
-        return(threadName);
+        return threadName;
     }
 
     /**
      * Return the name for this Store, used for logging.
      */
+    @Override
     public String getStoreName() {
-        return(storeName);
+        return storeName;
     }
 
 
@@ -157,7 +136,6 @@ public final class FileStore
      * @exception IOException if an input/output error occurs
      */
     public int getSize() throws IOException {
-
         // Acquire the list of files in our storage directory
         File file = directory();
         if (file == null) {
@@ -175,26 +153,21 @@ public final class FileStore
             }
         }
         return keycount;
-
     }
 
 
     // --------------------------------------------------------- Public Methods
-
 
     /**
      * Remove all of the Sessions in this Store.
      *
      * @exception IOException if an input/output error occurs
      */
-    public void clear()
-        throws IOException {
-
+    public void clear() throws IOException {
         String[] keys = keys();
         for (int i = 0; i < keys.length; i++) {
             remove(keys[i]);
         }
-
     }
 
 
@@ -206,30 +179,28 @@ public final class FileStore
      * @exception IOException if an input/output error occurred
      */
     public String[] keys() throws IOException {
-
         // Acquire the list of files in our storage directory
         File file = directory();
         if (file == null) {
-            return (new String[0]);
+            return new String[0];
         }
 
         String files[] = file.list();
         
         // Bugzilla 32130
-        if((files == null) || (files.length < 1)) {
-            return (new String[0]);
+        if ((files == null) || (files.length < 1)) {
+            return new String[0];
         }
 
         // Build and return the list of session identifiers
-        ArrayList list = new ArrayList();
+        ArrayList<String> list = new ArrayList<String>();
         int n = FILE_EXT.length();
         for (int i = 0; i < files.length; i++) {
             if (files[i].endsWith(FILE_EXT)) {
                 list.add(files[i].substring(0, files[i].length() - n));
             }
         }
-        return ((String[]) list.toArray(new String[list.size()]));
-
+        return list.toArray(new String[list.size()]);
     }
 
 
@@ -243,17 +214,15 @@ public final class FileStore
      * @exception ClassNotFoundException if a deserialization error occurs
      * @exception IOException if an input/output error occurs
      */
-    public Session load(String id)
-        throws ClassNotFoundException, IOException {
-
+    public Session load(String id) throws ClassNotFoundException, IOException {
         // Open an input stream to the specified pathname, if any
         File file = file(id);
         if (file == null) {
-            return (null);
+            return null;
         }
 
-        if (! file.exists()) {
-            return (null);
+        if (!file.exists()) {
+            return null;
         }
         if (manager.getContainer().getLogger().isDebugEnabled()) {
             manager.getContainer().getLogger().debug(sm.getString(getStoreName()+".loading",
@@ -268,24 +237,26 @@ public final class FileStore
             fis = new FileInputStream(file.getAbsolutePath());
             BufferedInputStream bis = new BufferedInputStream(fis);
             Container container = manager.getContainer();
-            if (container != null)
+            if (container != null) {
                 loader = container.getLoader();
-            if (loader != null)
+            }
+            if (loader != null) {
                 classLoader = loader.getClassLoader();
+            }
             if (classLoader != null)
                 ois = new CustomObjectInputStream(bis, classLoader);
             else
                 ois = new ObjectInputStream(bis);
             
-            StandardSession session =
-                    (StandardSession) manager.createEmptySession();
+            StandardSession session = (StandardSession) manager.createEmptySession();
             session.readObjectData(ois);
             session.setManager(manager);
-            return (session);
+            return session;
         } catch (FileNotFoundException e) {
-            if (manager.getContainer().getLogger().isDebugEnabled())
+            if (manager.getContainer().getLogger().isDebugEnabled()) {
                 manager.getContainer().getLogger().debug("No persisted data file found");
-            return (null);
+            }
+            return null;
         } finally {
             // Close the input stream
             if (ois != null) {
@@ -310,7 +281,6 @@ public final class FileStore
      * @exception IOException if an input/output error occurs
      */
     public void remove(String id) throws IOException {
-
         File file = file(id);
         if (file == null) {
             return;
@@ -320,7 +290,6 @@ public final class FileStore
                              id, file.getAbsolutePath()));
         }
         file.delete();
-
     }
 
 
@@ -333,7 +302,6 @@ public final class FileStore
      * @exception IOException if an input/output error occurs
      */
     public void save(Session session) throws IOException {
-
         // Open an output stream to the specified pathname, if any
         File file = file(session.getIdInternal());
         if (file == null) {
@@ -344,19 +312,27 @@ public final class FileStore
                              session.getIdInternal(), file.getAbsolutePath()));
         }
         FileOutputStream fos = null;
+        BufferedOutputStream bos = null;
         ObjectOutputStream oos = null;
         try {
             fos = new FileOutputStream(file.getAbsolutePath());
-            oos = new ObjectOutputStream(new BufferedOutputStream(fos));
-        } catch (IOException e) {
-            if (oos != null) {
+            bos = new BufferedOutputStream(fos);
+            oos = new ObjectOutputStream(bos);
+        } catch (IOException ioe) {
+            if (bos != null) {
                 try {
-                    oos.close();
-                } catch (IOException f) {
-                    ;
+                    bos.close();
+                } catch (IOException e) {
+                    // Ignore
+                }
+            } else if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    // Ignore
                 }
             }
-            throw e;
+            throw ioe;
         }
 
         try {
@@ -364,12 +340,10 @@ public final class FileStore
         } finally {
             oos.close();
         }
-
     }
 
 
     // -------------------------------------------------------- Private Methods
-
 
     /**
      * Return a File object representing the pathname to our
@@ -377,13 +351,12 @@ public final class FileStore
      * created if it does not already exist.
      */
     private File directory() {
-
         if (this.directory == null) {
-            return (null);
+            return null;
         }
         if (this.directoryFile != null) {
             // NOTE:  Race condition is harmless, so do not synchronize
-            return (this.directoryFile);
+            return this.directoryFile;
         }
         File file = new File(this.directory);
         if (!file.isAbsolute()) {
@@ -395,8 +368,7 @@ public final class FileStore
                     servletContext.getAttribute(Globals.WORK_DIR_ATTR);
                 file = new File(work, this.directory);
             } else {
-                throw new IllegalArgumentException
-                    ("Parent Container is not a Context");
+                throw new IllegalArgumentException("Parent Container is not a Context");
             }
         }
         if (!file.exists() || !file.isDirectory()) {
@@ -404,8 +376,7 @@ public final class FileStore
             file.mkdirs();
         }
         this.directoryFile = file;
-        return (file);
-
+        return file;
     }
 
 
@@ -417,15 +388,11 @@ public final class FileStore
      *    used in the file naming.
      */
     private File file(String id) {
-
         if (this.directory == null) {
-            return (null);
+            return null;
         }
         String filename = id + FILE_EXT;
         File file = new File(directory(), filename);
-        return (file);
-
+        return file;
     }
-
-
 }
