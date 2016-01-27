@@ -604,12 +604,11 @@ public class JDBCStore extends StoreBase {
                         if (loader != null) {
                             classLoader = loader.getClassLoader();
                         }
-                        if (classLoader != null) {
-                            ois = new CustomObjectInputStream(bis,
-                                    classLoader);
-                        } else {
-                            ois = new ObjectInputStream(bis);
+                        if (classLoader == null) {
+                            classLoader = getClass().getClassLoader();
                         }
+
+                        ois = new CustomObjectInputStream(bis, classLoader);
 
                         if (manager.getContainer().getLogger().isDebugEnabled()) {
                             manager.getContainer().getLogger().debug(sm.getString(getStoreName() + ".loading",
