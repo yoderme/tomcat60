@@ -276,36 +276,25 @@ public final class FileStore
                 ois = new CustomObjectInputStream(bis, classLoader);
             else
                 ois = new ObjectInputStream(bis);
+            
+            StandardSession session =
+                    (StandardSession) manager.createEmptySession();
+            session.readObjectData(ois);
+            session.setManager(manager);
+            return (session);
         } catch (FileNotFoundException e) {
             if (manager.getContainer().getLogger().isDebugEnabled())
                 manager.getContainer().getLogger().debug("No persisted data file found");
             return (null);
-        } catch (IOException e) {
-            if (ois != null) {
-                try {
-                    ois.close();
-                } catch (IOException f) {
-                    ;
-                }
-                ois = null;
-            }
-            throw e;
-        }
-
-        try {
-            StandardSession session =
-                (StandardSession) manager.createEmptySession();
-            session.readObjectData(ois);
-            session.setManager(manager);
-            return (session);
         } finally {
             // Close the input stream
             if (ois != null) {
                 try {
                     ois.close();
                 } catch (IOException f) {
-                    ;
+                    // Ignore
                 }
+                ois = null;
             }
         }
     }
