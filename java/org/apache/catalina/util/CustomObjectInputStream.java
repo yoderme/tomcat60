@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.catalina.util;
 
 import java.io.InputStream;
@@ -32,10 +31,7 @@ import java.lang.reflect.Proxy;
  * @author Bip Thelin
  *
  */
-
-public final class CustomObjectInputStream
-    extends ObjectInputStream {
-
+public final class CustomObjectInputStream extends ObjectInputStream {
 
     /**
      * The class loader we will use to resolve classes.
@@ -51,10 +47,7 @@ public final class CustomObjectInputStream
      *
      * @exception IOException if an input/output error occurs
      */
-    public CustomObjectInputStream(InputStream stream,
-                                   ClassLoader classLoader)
-        throws IOException {
-
+    public CustomObjectInputStream(InputStream stream, ClassLoader classLoader) throws IOException {
         super(stream);
         this.classLoader = classLoader;
     }
@@ -69,7 +62,8 @@ public final class CustomObjectInputStream
      * @exception ClassNotFoundException if this class cannot be found
      * @exception IOException if an input/output error occurs
      */
-    public Class resolveClass(ObjectStreamClass classDesc)
+    @Override
+    public Class<?> resolveClass(ObjectStreamClass classDesc)
         throws ClassNotFoundException, IOException {
         try {
             return Class.forName(classDesc.getName(), false, classLoader);
@@ -91,12 +85,14 @@ public final class CustomObjectInputStream
      * class descriptor. Do this using the class loader assigned to this
      * Context.
      */
-    protected Class resolveProxyClass(String[] interfaces)
-        throws IOException, ClassNotFoundException {
+    @Override
+    protected Class<?> resolveProxyClass(String[] interfaces)
+            throws IOException, ClassNotFoundException {
 
-        Class[] cinterfaces = new Class[interfaces.length];
-        for (int i = 0; i < interfaces.length; i++)
+        Class<?>[] cinterfaces = new Class[interfaces.length];
+        for (int i = 0; i < interfaces.length; i++) {
             cinterfaces[i] = classLoader.loadClass(interfaces[i]);
+        }
 
         try {
             return Proxy.getProxyClass(classLoader, cinterfaces);
@@ -104,5 +100,4 @@ public final class CustomObjectInputStream
             throw new ClassNotFoundException(null, e);
         }
     }
-
 }

@@ -747,8 +747,6 @@ public class StandardManager
                     file = new File(tempdir, pathname);
             }
         }
-//        if (!file.isAbsolute())
-//            return (null);
         return file;
     }
 }
