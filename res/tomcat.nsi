@@ -205,8 +205,6 @@ Section "Core" SecTomcatCore
     File /oname=$TomcatServiceFileName bin\tomcat@VERSION_MAJOR@.exe
   ${ElseIf} $Arch == "x64"
     File /oname=$TomcatServiceFileName bin\x64\tomcat@VERSION_MAJOR@.exe
-  ${ElseIf} $Arch == "i64"
-    File /oname=$TomcatServiceFileName bin\i64\tomcat@VERSION_MAJOR@.exe
   ${EndIf}
 
   FileOpen $ServiceInstallLog "$INSTDIR\logs\service-install.log" a
@@ -258,8 +256,6 @@ Section "Native" SecTomcatNative
     File bin\tcnative-1.dll
   ${ElseIf} $Arch == "x64"
     File /oname=tcnative-1.dll bin\x64\tcnative-1.dll
-  ${ElseIf} $Arch == "i64"
-    File /oname=tcnative-1.dll bin\i64\tcnative-1.dll
   ${EndIf}
 
   ClearErrors
@@ -707,7 +703,6 @@ Function checkJava
   ; 3. The next word gives the machine type.
   ; 0x014c: x86
   ; 0x8664: x64
-  ; 0x0200: i64
   ClearErrors
   FileOpen $R1 "$JvmDll" r
   IfErrors WrongPEHeader
@@ -739,10 +734,6 @@ Function checkJava
 
   IntCmp $R2 0x8664 +1 +3 +3
   StrCpy "$Arch" "x64"
-  Goto DonePEHeader
-
-  IntCmp $R2 0x0200 +1 +3 +3
-  StrCpy "$Arch" "i64"
   Goto DonePEHeader
 
 WrongPEHeader:
