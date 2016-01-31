@@ -475,10 +475,10 @@ public class MapperListener
         // Don't un-map a context that is paused
         MessageBytes hostMB = MessageBytes.newInstance();
         hostMB.setString(hostName);
-        MessageBytes contextMB = MessageBytes.newInstance();
-        contextMB.setString(contextName);
+        MessageBytes uriMB = MessageBytes.newInstance();
+        uriMB.setString(contextName.length() > 0 ? contextName : "/");
         MappingData mappingData = new MappingData();
-        mapper.map(hostMB, contextMB, mappingData);
+        mapper.map(hostMB, uriMB, mappingData);
         if (mappingData.context instanceof StandardContext &&
                 ((StandardContext)mappingData.context).getPaused()) {
             return;
