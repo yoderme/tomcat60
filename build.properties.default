@@ -25,10 +25,10 @@
 # ----- Version Control Flags -----
 version.major=6
 version.minor=0
-version.build=45
+version.build=46
 version.patch=0
 version.suffix=-dev
-version=6.0.45
+version=6.0.46
 
 # ----- Build control flags -----
 execute.test.bio=true
