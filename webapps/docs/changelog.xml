@@ -217,7 +217,7 @@
       </add>
       <fix>
         <bug>58631</bug>: Correct the continuation character use in the Windows
-        Service How-To page of the documenation web application. (markt)
+        Service How-To page of the documentation web application. (markt)
       </fix>
       <fix>
         Correct some typos in the JNDI resources How-To. (markt)
@@ -1086,7 +1086,7 @@
         Update to Eclipse JDT Compiler 4.3.1. (markt)
       </update>
       <update>
-        Update the Apache Jakarta JSTL implementation used by the exmaples web
+        Update the Apache Jakarta JSTL implementation used by the examples web
         application to 1.1.2. (markt)
       </update>
     </changelog>
