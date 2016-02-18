@@ -44,6 +44,15 @@
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
 <section name="Tomcat 6.0.46">
+  <subsection name="Coyote">
+    <changelog>
+      <fix>
+        <bug>58646</bug>: Correct a problem with sendfile that resulted in a
+        Processor being added to the cache twice leading to broken responses.
+        (markt)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Web applications">
     <changelog>
       <fix>
