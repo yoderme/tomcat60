@@ -601,7 +601,7 @@ public abstract class ManagerBase implements Manager, MBeanRegistration {
 
     @Deprecated
     public void setMaxInactiveInterval(int interval) {
-        // NO-OP
+        log.warn(sm.getString("managerBase.setMaxInactiveIntervalUnused"));
     }
 
 

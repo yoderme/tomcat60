@@ -44,6 +44,15 @@
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
 <section name="Tomcat 6.0.46">
+  <subsection name="Catalina">
+    <changelog>
+      <add>
+        Log a warning message if a user tries to configure the default session
+        timeout via the deprecated (and ignored)
+        <code>Manager.setMaxInactiveInterval()</code> method. (markt)
+      </add>
+    </changelog>
+  </subsection>
   <subsection name="Coyote">
     <changelog>
       <fix>
