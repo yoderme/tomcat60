@@ -56,6 +56,11 @@
         <code>Manager.getMaxInactiveInterval()</code> method returned the
         current default session timeout in minutes rather than seconds. (markt)
       </fix>
+      <fix>
+        <bug>59123</bug>: Close <code>NamingEnumeration</code> objects used by
+        the <code>JNDIRealm</code> once they are no longer required.
+        (fschumacher/markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
