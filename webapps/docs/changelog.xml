@@ -52,7 +52,7 @@
         <code>Manager.setMaxInactiveInterval()</code> method. (markt)
       </add>
       <fix>
-        Correct a regression introduced in 7.0.68 where the deprecated
+        Correct a regression introduced in 6.0.45 where the deprecated
         <code>Manager.getMaxInactiveInterval()</code> method returned the
         current default session timeout in minutes rather than seconds. (markt)
       </fix>
