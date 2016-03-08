@@ -42,6 +42,7 @@ import java.security.Policy;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -2419,7 +2420,7 @@ public class WebappClassLoader
      * points to the internal table to save re-calculating it on every
      * call to this method.
      */
-    private void checkThreadLocalMapForLeaks(Object map, Field internalTableField)
+    private void checkThreadLocalMapForLeaks(Object map,Field internalTableField)
             throws NoSuchMethodException, IllegalAccessException,
             NoSuchFieldException, InvocationTargetException {
         if (map != null) {
@@ -2431,24 +2432,24 @@ public class WebappClassLoader
             int staleEntriesCount = 0;
             if (table != null) {
                 for (int j =0; j < table.length; j++) {
-                    if (table[j] != null) {
-                        boolean remove = false;
+                    Object obj = table[j];
+                    if (obj != null) {
+                        boolean keyLoadedByWebapp = false;
+                        boolean valueLoadedByWebapp = false;
                         // Check the key
-                        Object key = ((Reference<?>) table[j]).get();
-                        if (this.equals(key) ||
-                                isLoadedByThisWebappClassLoader(key)) {
-                            remove = true;
+                        Object key = ((Reference<?>) obj).get();
+                        if (this.equals(key) || loadedByThisOrChild(key)) {
+                            keyLoadedByWebapp = true;
                         }
                         // Check the value
                         Field valueField =
-                            table[j].getClass().getDeclaredField("value");
+                                obj.getClass().getDeclaredField("value");
                         valueField.setAccessible(true);
-                        Object value = valueField.get(table[j]);
-                        if (this.equals(value) ||
-                                isLoadedByThisWebappClassLoader(value)) {
-                            remove = true;
+                        Object value = valueField.get(obj);
+                        if (this.equals(value) || loadedByThisOrChild(value)) {
+                            valueLoadedByWebapp = true;
                         }
-                        if (remove) {
+                        if (keyLoadedByWebapp || valueLoadedByWebapp) {
                             Object[] args = new Object[5];
                             args[0] = contextName;
                             if (key != null) {
@@ -2475,7 +2476,15 @@ public class WebappClassLoader
                                     "webappClassLoader.clearThreadLocal.unknown");
                                 }
                             }
-                            if (value == null) {
+                            if (valueLoadedByWebapp) {
+                                log.error(sm.getString(
+                                        "webappClassLoader.clearThreadLocal",
+                                        args));
+                                if (clearReferencesThreadLocals) {
+                                    log.info(sm.getString(
+                                            "webappClassLoader.clearThreadLocalClear"));
+                                }
+                            } else if (value == null) {
                                 if (log.isDebugEnabled()) {
                                     log.debug(sm.getString(
                                             "webappClassLoader.clearThreadLocalDebug",
@@ -2486,12 +2495,10 @@ public class WebappClassLoader
                                     }
                                 }
                             } else {
-                                log.error(sm.getString(
-                                        "webappClassLoader.clearThreadLocal",
-                                        args));
-                                if (clearReferencesThreadLocals) {
-                                    log.info(sm.getString(
-                                            "webappClassLoader.clearThreadLocalClear"));
+                                if (log.isDebugEnabled()) {
+                                    log.debug(sm.getString(
+                                            "webappClassLoader.clearThreadLocalNone",
+                                            args));
                                 }
                             }
                             if (clearReferencesThreadLocals) {
@@ -2523,20 +2530,48 @@ public class WebappClassLoader
     }
 
     /**
-     * @param o object to test
-     * @return true if o has been loaded by the current classloader or one of its descendants.
+     * @param o object to test, may be null
+     * @return <code>true</code> if o has been loaded by the current classloader
+     * or one of its descendants.
      */
-    private boolean isLoadedByThisWebappClassLoader(Object o) {
-       if(o == null) {
-           return false;
-       }
-       for(ClassLoader loader = o.getClass().getClassLoader(); loader != null; loader = loader.getParent()) {
-           if(loader == this) {
-               return true;
-           }
-       }
-       return false;
+    private boolean loadedByThisOrChild(Object o) {
+        if (o == null) {
+            return false;
+        }
+
+        Class<?> clazz;
+        if (o instanceof Class) {
+            clazz = (Class<?>) o;
+        } else {
+            clazz = o.getClass();
+        }
+
+        ClassLoader cl = clazz.getClassLoader();
+        while (cl != null) {
+            if (cl == this) {
+                return true;
+            }
+            cl = cl.getParent();
+        }
+
+        if (o instanceof Collection<?>) {
+            Iterator<?> iter = ((Collection<?>) o).iterator();
+            try {
+                while (iter.hasNext()) {
+                    Object entry = iter.next();
+                    if (loadedByThisOrChild(entry)) {
+                        return true;
+                    }
+                }
+            } catch (ConcurrentModificationException e) {
+                log.warn(sm.getString(
+                        "webappClassLoader", clazz.getName(), getContextName()),
+                        e);
+            }
+        }
+        return false;
     }
+
 
     /*
      * Get the set of current threads as an array.
