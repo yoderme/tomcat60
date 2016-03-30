@@ -111,6 +111,11 @@
         for users to configure the entries intended for use with the examples
         web application for the Manager application. (markt)
       </update>
+      <fix>
+        <bug>59247</bug>: Add loader package access permission to JULI.
+        Based on a patch submitted by Coty Sutherland.
+        (remm)
+      </fix>
     </changelog>
   </subsection>
 </section>
