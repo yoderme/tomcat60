@@ -62,6 +62,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509KeyManager;
 
+import org.apache.tomcat.util.compat.JreCompat;
 import org.apache.tomcat.util.res.StringManager;
 
 /**
@@ -168,7 +169,44 @@ public class JSSESocketFactory
             return;
         }
 
-        defaultServerCipherSuites = socket.getEnabledCipherSuites();
+        // Many of the default ciphers supported by older JRE versions are
+        // now considered insecure. This code attempts to filter them out
+        List<String> filteredCiphers = new ArrayList<String>();
+        for (String cipher : socket.getEnabledCipherSuites()) {
+            // Remove export ciphers - FREAK
+            if (cipher.toUpperCase(Locale.ENGLISH).contains("EXP")) {
+                log.debug(sm.getString("jsse.excludeDefaultCipher", cipher));
+                continue;
+            }
+            // Remove DES ciphers
+            if (cipher.toUpperCase(Locale.ENGLISH).contains("_DES_")) {
+                log.debug(sm.getString("jsse.excludeDefaultCipher", cipher));
+                continue;
+            }
+            // Remove RC4 ciphers
+            if (cipher.toUpperCase(Locale.ENGLISH).contains("_RC4_")) {
+                log.debug(sm.getString("jsse.excludeDefaultCipher", cipher));
+                continue;
+            }
+            // Remove DHE ciphers unless running on Java 8 or above 
+            if (!JreCompat.isJre8Available() &&
+                    cipher.toUpperCase(Locale.ENGLISH).contains("_DHE_")) {
+                log.debug(sm.getString("jsse.excludeDefaultCipher", cipher));
+                continue;
+            }
+            // Remove kRSA ciphers when running on Java 7 or above. Can't
+            // remove them for Java 6 since they are likely to be the only
+            // ones left
+            if (JreCompat.isJre7Available() &&
+                    (cipher.toUpperCase(Locale.ENGLISH).startsWith("TLS_RSA_") ||
+                     cipher.toUpperCase(Locale.ENGLISH).startsWith("SSL_RSA_"))) {
+                log.debug(sm.getString("jsse.excludeDefaultCipher", cipher));
+                continue;
+            }
+            filteredCiphers.add(cipher);
+        }
+
+        defaultServerCipherSuites = filteredCiphers.toArray(new String[filteredCiphers.size()]);
         if (defaultServerCipherSuites.length == 0) {
             log.warn(sm.getString("jsse.noDefaultCiphers"));
         }

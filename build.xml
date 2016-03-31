@@ -227,7 +227,6 @@
     <include name="org/apache/catalina/loader/Reloader.*" />
     <include name="org/apache/catalina/security/SecurityClassLoad.*" />
     <include name="org/apache/naming/JndiPermission.*" />
-    <include name="org/apache/tomcat/util/compat/*" />
   </patternset>
 
   <patternset id="files.tomcat-juli">
