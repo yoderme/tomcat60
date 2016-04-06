@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -64,68 +64,68 @@ public abstract class PersistentManagerBase
     private class PrivilegedStoreClear
         implements PrivilegedExceptionAction {
 
-        PrivilegedStoreClear() {            
+        PrivilegedStoreClear() {
         }
 
         public Object run() throws Exception{
            store.clear();
            return null;
-        }                       
-    }   
-     
+        }
+    }
+
     private class PrivilegedStoreRemove
         implements PrivilegedExceptionAction {
 
-        private String id;    
-            
-        PrivilegedStoreRemove(String id) {     
+        private String id;
+
+        PrivilegedStoreRemove(String id) {
             this.id = id;
         }
 
         public Object run() throws Exception{
            store.remove(id);
            return null;
-        }                       
-    }   
-     
+        }
+    }
+
     private class PrivilegedStoreLoad
         implements PrivilegedExceptionAction {
 
-        private String id;    
-            
-        PrivilegedStoreLoad(String id) {     
+        private String id;
+
+        PrivilegedStoreLoad(String id) {
             this.id = id;
         }
 
         public Object run() throws Exception{
            return store.load(id);
-        }                       
-    }   
-          
+        }
+    }
+
     private class PrivilegedStoreSave
         implements PrivilegedExceptionAction {
 
-        private Session session;    
-            
-        PrivilegedStoreSave(Session session) {     
+        private Session session;
+
+        PrivilegedStoreSave(Session session) {
             this.session = session;
         }
 
         public Object run() throws Exception{
            store.save(session);
            return null;
-        }                       
-    }   
-     
+        }
+    }
+
     private class PrivilegedStoreKeys
         implements PrivilegedExceptionAction {
 
-        PrivilegedStoreKeys() {     
+        PrivilegedStoreKeys() {
         }
 
         public Object run() throws Exception{
            return store.keys();
-        }                       
+        }
     }
 
     // ----------------------------------------------------- Instance Variables
@@ -182,16 +182,18 @@ public abstract class PersistentManagerBase
 
 
     /**
-     * Minimum time a session must be idle before it is swapped to disk.
-     * This overrides maxActiveSessions, to prevent thrashing if there are lots
-     * of active sessions. Setting to -1 means it's ignored.
+     * The minimum time in seconds a session must be idle before it is eligible
+     * to be swapped to disk to keep the active session count below
+     * maxActiveSessions. Setting to {@code -1} means sessions will not be
+     * swapped out to keep the active session count down.
      */
     protected int minIdleSwap = -1;
 
+
     /**
-     * The maximum time a session may be idle before it should be swapped
-     * to file just on general principle. Setting this to -1 means sessions
-     * should not be forced out.
+     * The maximum time in seconds a session may be idle before it is eligible
+     * to be swapped to disk due to inactivity. Setting this to {@code -1} means
+     * sessions should not be swapped out just because of inactivity.
      */
     protected int maxIdleSwap = -1;
 
@@ -217,8 +219,8 @@ public abstract class PersistentManagerBase
 
     // ------------------------------------------------------------- Properties
 
-    
-  
+
+
 
 
     /**
@@ -267,19 +269,20 @@ public abstract class PersistentManagerBase
 
 
     /**
-     * The time in seconds after which a session should be swapped out of
-     * memory to disk.
+     * @return The maximum time in seconds a session may be idle before it is
+     * eligible to be swapped to disk due to inactivity. A value of {@code -1}
+     * means sessions should not be swapped out just because of inactivity.
      */
     public int getMaxIdleSwap() {
-
         return maxIdleSwap;
-
     }
 
 
     /**
-     * Sets the time in seconds after which a session should be swapped out of
-     * memory to disk.
+     * Sets the maximum time in seconds a session may be idle before it is
+     * eligible to be swapped to disk due to inactivity. Setting this to
+     * {@code -1} means sessions should not be swapped out just because of
+     * inactivity.
      */
     public void setMaxIdleSwap(int max) {
 
@@ -290,26 +293,25 @@ public abstract class PersistentManagerBase
         support.firePropertyChange("maxIdleSwap",
                                    new Integer(oldMaxIdleSwap),
                                    new Integer(this.maxIdleSwap));
-
     }
 
 
     /**
-     * The minimum time in seconds that a session must be idle before
-     * it can be swapped out of memory, or -1 if it can be swapped out
-     * at any time.
+     * @return The minimum time in seconds a session must be idle before it is
+     * eligible to be swapped to disk to keep the active session count below
+     * maxActiveSessions. A value of {@code -1} means sessions will not be
+     * swapped out to keep the active session count down.
      */
     public int getMinIdleSwap() {
-
         return minIdleSwap;
-
     }
 
 
     /**
-     * Sets the minimum time in seconds that a session must be idle before
-     * it can be swapped out of memory due to maxActiveSession. Set it to -1
-     * if it can be swapped out at any time.
+     * Sets the minimum time in seconds a session must be idle before it is
+     * eligible to be swapped to disk to keep the active session count below
+     * maxActiveSessions. Setting to {@code -1} means sessions will not be
+     * swapped out to keep the active session count down.
      */
     public void setMinIdleSwap(int min) {
 
@@ -328,7 +330,7 @@ public abstract class PersistentManagerBase
 	 * Set the Container with which this Manager has been associated. If it is a
 	 * Context (the usual case), listen for changes to the session timeout
 	 * property.
-	 * 
+	 *
 	 * @param container
 	 *            The associated Container
 	 */
@@ -408,7 +410,7 @@ public abstract class PersistentManagerBase
     }
 
 
-    /** 
+    /**
      * Number of session creations that failed due to maxActiveSessions.
      *
      * @return The count
@@ -417,7 +419,7 @@ public abstract class PersistentManagerBase
         return rejectedSessions;
     }
 
-    
+
     public void setRejectedSessions(int rejectedSessions) {
         this.rejectedSessions = rejectedSessions;
     }
@@ -522,7 +524,7 @@ public abstract class PersistentManagerBase
         if (store == null)
             return;
 
-        try {     
+        try {
             if (SecurityUtil.isPackageProtectionEnabled()){
                 try{
                     AccessController.doPrivileged(new PrivilegedStoreClear());
@@ -545,7 +547,7 @@ public abstract class PersistentManagerBase
      * Implements the Manager interface, direct call to processExpires and processPersistenceChecks
      */
 	public void processExpires() {
-		
+
         long timeNow = System.currentTimeMillis();
         Session sessions[] = findSessions();
         int expireHere = 0 ;
@@ -561,12 +563,12 @@ public abstract class PersistentManagerBase
         if ((getStore() != null) && (getStore() instanceof StoreBase)) {
             ((StoreBase) getStore()).processExpires();
         }
-        
+
         long timeEnd = System.currentTimeMillis();
         if(log.isDebugEnabled())
              log.debug("End expire sessions " + getName() + " processingTime " + (timeEnd - timeNow) + " expired sessions: " + expireHere);
         processingTime += (timeEnd - timeNow);
- 		
+
 	}
 
 
@@ -705,13 +707,13 @@ public abstract class PersistentManagerBase
         }
     }
 
-    
+
     /**
      * Remove this Session from the active Sessions for this Manager,
      * and from the Store.
      *
      * @param id Session's id to be removed
-     */    
+     */
     protected void removeSession(String id){
         try {
             if (SecurityUtil.isPackageProtectionEnabled()){
@@ -724,10 +726,10 @@ public abstract class PersistentManagerBase
                 }
             } else {
                  store.remove(id);
-            }               
+            }
         } catch (IOException e) {
             log.error("Exception removing session  " + e.getMessage(), e);
-        }        
+        }
     }
 
     /**
@@ -913,7 +915,7 @@ public abstract class PersistentManagerBase
                 }
             } else {
                  store.save(session);
-            }   
+            }
         } catch (IOException e) {
             log.error(sm.getString
                 ("persistentManager.serializeError", session.getIdInternal(), e));
@@ -939,7 +941,7 @@ public abstract class PersistentManagerBase
 
 
     /**
-     * Get the lifecycle listeners associated with this lifecycle. If this 
+     * Get the lifecycle listeners associated with this lifecycle. If this
      * Lifecycle has no listeners registered, a zero-length array is returned.
      */
     public LifecycleListener[] findLifecycleListeners() {
@@ -978,7 +980,7 @@ public abstract class PersistentManagerBase
         }
         if( ! initialized )
             init();
-        
+
         lifecycle.fireLifecycleEvent(START_EVENT, null);
         started = true;
 
@@ -1015,7 +1017,7 @@ public abstract class PersistentManagerBase
             log.info(sm.getString("standardManager.notStarted"));
             return;
         }
-        
+
         lifecycle.fireLifecycleEvent(STOP_EVENT, null);
         setStarted(false);
 
@@ -1130,7 +1132,9 @@ public abstract class PersistentManagerBase
         Session sessions[] = findSessions();
 
         // FIXME: Smarter algorithm (LRU)
-        if (getMaxActiveSessions() >= sessions.length)
+        int limit = (int) (getMaxActiveSessions() * 0.9);
+
+        if (limit >= sessions.length)
             return;
 
         if(log.isDebugEnabled())
@@ -1138,7 +1142,7 @@ public abstract class PersistentManagerBase
                 ("persistentManager.tooManyActive",
                  new Integer(sessions.length)));
 
-        int toswap = sessions.length - getMaxActiveSessions();
+        int toswap = sessions.length - limit;
         long timeNow = System.currentTimeMillis();
 
         for (int i = 0; i < sessions.length && toswap > 0; i++) {
@@ -1194,7 +1198,7 @@ public abstract class PersistentManagerBase
                             log.debug(sm.getString
                                 ("persistentManager.backupMaxIdle",
                                 session.getIdInternal(), new Integer(timeIdle)));
-    
+
                         try {
                             writeSession(session);
                         } catch (IOException e) {

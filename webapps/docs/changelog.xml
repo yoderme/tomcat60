@@ -66,6 +66,12 @@
         related memory leaks when the key class but not the value class has been
         loaded by the web application class loader. (markt)
       </fix>
+      <fix>
+        <bug>59269</bug>: Correct the implementation of
+        <code>PersistentManagerBase</code> so that <code>minIdleSwap</code>
+        functions as designed and sessions are swapped out to keep the active
+        session count below <code>maxActiveSessions</code>. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
