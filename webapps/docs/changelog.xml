@@ -72,6 +72,10 @@
         functions as designed and sessions are swapped out to keep the active
         session count below <code>maxActiveSessions</code>. (markt)
       </fix>
+      <fix>
+        <bug>59247</bug>: Preload ResourceEntry as a workaround for security
+        manager issues on some JVMs. (kkolinko/remm)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
@@ -137,11 +141,6 @@
         for users to configure the entries intended for use with the examples
         web application for the Manager application. (markt)
       </update>
-      <fix>
-        <bug>59247</bug>: Add loader package access permission to JULI.
-        Based on a patch submitted by Coty Sutherland.
-        (remm)
-      </fix>
       <update>
         <bug>59280</bug>: Update the NSIS Installer used to build the
         Windows Installers to version 2.51. (kkolinko)

@@ -78,7 +78,10 @@ public final class SecurityClassLoad {
         String basePackage = "org.apache.catalina.";
         loader.loadClass
             (basePackage +
-             "loader.WebappClassLoader$PrivilegedFindResourceByName");
+             "ResourceEntry");
+        loader.loadClass
+            (basePackage +
+             "WebappClassLoaderBase$PrivilegedFindResourceByName");
     }
     
     
