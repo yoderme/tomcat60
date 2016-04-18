@@ -76,6 +76,11 @@
         <bug>59247</bug>: Preload ResourceEntry as a workaround for security
         manager issues on some JVMs. (kkolinko/remm)
       </fix>
+      <fix>
+        <bug>59310</bug>: Do not add a <code>Content-Length: 0</code> header for
+        custom responses to <code>HEAD</code> requests that do not set a
+        <code>Content-Length</code> value. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
