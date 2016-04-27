@@ -20,6 +20,7 @@ import java.net.InetAddress;
 import java.net.URLEncoder;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
@@ -613,8 +614,8 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
         protected static int count = 0;
         protected RequestGroupInfo global = new RequestGroupInfo();
 
-        protected ConcurrentHashMap<NioChannel, Http11NioProcessor> connections =
-            new ConcurrentHashMap<NioChannel, Http11NioProcessor>();
+        protected final Map<NioChannel, Http11NioProcessor> connections =
+                new ConcurrentHashMap<NioChannel, Http11NioProcessor>();
         protected ConcurrentLinkedQueue<Http11NioProcessor> recycledProcessors = new ConcurrentLinkedQueue<Http11NioProcessor>() {
             protected AtomicInteger size = new AtomicInteger(0);
             public boolean offer(Http11NioProcessor processor) {

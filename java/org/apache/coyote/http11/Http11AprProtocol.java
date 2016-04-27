@@ -21,6 +21,7 @@ import java.net.InetAddress;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
@@ -510,8 +511,8 @@ public class Http11AprProtocol extends AbstractProtocol
         protected AtomicLong registerCount = new AtomicLong(0);
         protected RequestGroupInfo global = new RequestGroupInfo();
         
-        protected ConcurrentHashMap<Long, Http11AprProcessor> connections =
-            new ConcurrentHashMap<Long, Http11AprProcessor>();
+        protected final Map<Long, Http11AprProcessor> connections =
+                new ConcurrentHashMap<Long, Http11AprProcessor>();
         protected ConcurrentLinkedQueue<Http11AprProcessor> recycledProcessors = 
             new ConcurrentLinkedQueue<Http11AprProcessor>() {
             protected AtomicInteger size = new AtomicInteger(0);
