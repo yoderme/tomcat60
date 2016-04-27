@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -89,15 +90,15 @@ public final class FastHttpDateFormat {
     /**
      * Formatter cache.
      */
-    private static final ConcurrentHashMap<Long, String> formatCache = 
-        new ConcurrentHashMap<Long, String>(CACHE_SIZE);
+    private static final Map<Long, String> formatCache =
+            new ConcurrentHashMap<Long, String>(CACHE_SIZE);
 
 
     /**
      * Parser cache.
      */
-    private static final ConcurrentHashMap<String, Long> parseCache = 
-        new ConcurrentHashMap<String, Long>(CACHE_SIZE);
+    private static final Map<String, Long> parseCache = 
+            new ConcurrentHashMap<String, Long>(CACHE_SIZE);
 
 
     // --------------------------------------------------------- Public Methods
