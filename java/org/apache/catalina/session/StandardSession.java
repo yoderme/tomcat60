@@ -35,6 +35,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletContext;
@@ -133,7 +134,7 @@ public class StandardSession
     /**
      * The collection of user data attributes associated with this Session.
      */
-    protected Map attributes = new ConcurrentHashMap();
+    protected ConcurrentMap<String, Object> attributes = new ConcurrentHashMap<String, Object>();
 
 
     /**
@@ -1496,7 +1497,7 @@ public class StandardSession
 
         // Deserialize the attribute count and attribute values
         if (attributes == null)
-            attributes = new Hashtable();
+            attributes = new ConcurrentHashMap<String,Object>();
         int n = ((Integer) stream.readObject()).intValue();
         boolean isValidSave = isValid;
         isValid = true;

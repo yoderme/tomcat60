@@ -48,6 +48,8 @@ import org.apache.catalina.util.Enumerator;
 import org.apache.catalina.util.StringManager;
 import org.apache.catalina.session.StandardManager;
 import org.apache.catalina.session.ManagerBase;
+
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -667,7 +669,7 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
         if (log.isDebugEnabled()) log.debug(sm.getString("deltaSession.readSession", id));
 
         // Deserialize the attribute count and attribute values
-        if (attributes == null) attributes = new Hashtable();
+        if (attributes == null) attributes = new ConcurrentHashMap<String,Object>();
         int n = ( (Integer) stream.readObject()).intValue();
         boolean isValidSave = isValid;
         isValid = true;
