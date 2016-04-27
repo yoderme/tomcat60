@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.naming.Binding;
 import javax.naming.NamingException;
@@ -66,9 +67,7 @@ import org.apache.catalina.Globals;
  * @author Remy Maucherat
  *
  */
-
-public class ApplicationContext
-    implements ServletContext {
+public class ApplicationContext implements ServletContext {
 
     // ----------------------------------------------------------- Constructors
 
@@ -98,9 +97,9 @@ public class ApplicationContext
     /**
      * List of read only attributes for this context.
      */
-    private Map readOnlyAttributes = new ConcurrentHashMap();
+    private final Map<String,String> readOnlyAttributes = new ConcurrentHashMap<String,String>();
 
-
+    
     /**
      * The Context instance with which we are associated.
      */
@@ -123,8 +122,7 @@ public class ApplicationContext
     /**
      * The merged context initialization parameters for this Context.
      */
-    private Map<String,String> parameters =
-        new ConcurrentHashMap<String,String>();
+    private final ConcurrentMap<String,String> parameters = new ConcurrentHashMap<String,String>();
 
 
     /**

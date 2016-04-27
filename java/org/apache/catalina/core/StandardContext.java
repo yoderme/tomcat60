@@ -34,6 +34,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.ListenerNotFoundException;
@@ -441,7 +443,7 @@ public class StandardContext
      * The context initialization parameters for this web application,
      * keyed by name.
      */
-    private HashMap parameters = new HashMap();
+    private final ConcurrentMap<String, String> parameters = new ConcurrentHashMap<String, String>();
 
 
     /**
