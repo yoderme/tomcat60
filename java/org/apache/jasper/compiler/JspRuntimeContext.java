@@ -163,7 +163,8 @@ public final class JspRuntimeContext {
     /**
      * Maps JSP pages to their JspServletWrapper's
      */
-    private Map<String, JspServletWrapper> jsps = new ConcurrentHashMap<String, JspServletWrapper>();
+    private final Map<String, JspServletWrapper> jsps =
+            new ConcurrentHashMap<String, JspServletWrapper>();
  
 
     // ------------------------------------------------------ Public Methods

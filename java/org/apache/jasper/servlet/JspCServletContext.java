@@ -23,12 +23,14 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -58,7 +60,8 @@ public class JspCServletContext implements ServletContext {
     /**
      * Servlet context initialization parameters.
      */
-    private final ConcurrentHashMap<String,String> myParameters;
+    private final ConcurrentMap<String,String> myParameters =
+            new ConcurrentHashMap<String,String>();
 
 
     /**
@@ -85,7 +88,6 @@ public class JspCServletContext implements ServletContext {
     public JspCServletContext(PrintWriter aLogWriter, URL aResourceBaseURL) {
 
         myAttributes = new Hashtable();
-        myParameters = new ConcurrentHashMap<String,String>();
         myLogWriter = aLogWriter;
         myResourceBaseURL = aResourceBaseURL;
 
@@ -154,7 +156,7 @@ public class JspCServletContext implements ServletContext {
      * parameters.
      */
     public Enumeration getInitParameterNames() {
-        return myParameters.keys();
+        return Collections.enumeration(myParameters.keySet());
     }
 
 
