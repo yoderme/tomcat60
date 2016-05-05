@@ -16,7 +16,7 @@
  */
 package org.apache.tomcat.util.compat;
 
-public class Jre6Compat extends JreCompat {
+class Jre6Compat extends JreCompat {
 
     protected static final Class<?> sslParametersClass;
     
