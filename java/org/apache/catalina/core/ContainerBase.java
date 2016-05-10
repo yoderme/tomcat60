@@ -927,12 +927,6 @@ public abstract class ContainerBase
             return;
         }
 
-        synchronized(children) {
-            if (children.get(child.getName()) == null)
-                return;
-            children.remove(child.getName());
-        }
-
         if (started && (child instanceof Lifecycle)) {
             try {
                 if( child instanceof ContainerBase ) {
@@ -945,6 +939,12 @@ public abstract class ContainerBase
             } catch (LifecycleException e) {
                 log.error("ContainerBase.removeChild: stop: ", e);
             }
+        }
+
+        synchronized(children) {
+            if (children.get(child.getName()) == null)
+                return;
+            children.remove(child.getName());
         }
 
         fireContainerEvent(REMOVE_CHILD_EVENT, child);

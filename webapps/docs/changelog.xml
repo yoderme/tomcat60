@@ -81,6 +81,11 @@
         custom responses to <code>HEAD</code> requests that do not set a
         <code>Content-Length</code> value. (markt)
       </fix>
+      <fix>
+        <bug>59449</bug>: In <code>ContainerBase</code>, ensure that the process
+        to remove a child container is the reverse of the process to add one.
+        Patch provided by Huxing Zhang. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
