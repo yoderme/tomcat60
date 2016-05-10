@@ -100,6 +100,10 @@
         The default value is <code>-Djdk.tls.ephemeralDHKeySize=2048</code>
         which protects against weak Diffie-Hellman keys. (markt)
       </add>
+      <fix>
+        <bug>59451</bug>: Correct Javadoc for <code>MessageBytes</code>. Patch
+        provided by Kyohei Nakamura. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
