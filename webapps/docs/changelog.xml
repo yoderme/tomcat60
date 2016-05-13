@@ -109,6 +109,10 @@
         <bug>59451</bug>: Correct Javadoc for <code>MessageBytes</code>. Patch
         provided by Kyohei Nakamura. (markt)
       </fix>
+      <fix>
+        Ensure that requests with HTTP method names that are not tokens (as
+        required by RFC 7231) are rejected with a 400 response. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
