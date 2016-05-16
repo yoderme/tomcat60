@@ -33,35 +33,47 @@ public class JreCompat {
     private static final JreCompat instance;
     private static StringManager sm =
             StringManager.getManager(JreCompat.class.getPackage().getName());
-    private static final boolean jre6Available;
-    private static final boolean jre7Available;
+    private static final boolean jre9Available;
     private static final boolean jre8Available;
+    private static final boolean jre7Available;
+    private static final boolean jre6Available;
     
     
     static {
         // This is Tomcat 6 with a minimum Java version of Java 5. The latest
-        // Java version the optional features require is Java 8.
+        // Java version the optional features require is Java 9.
         // Look for the highest supported JVM first
-        if (Jre8Compat.isSupported()) {
-            instance = new Jre8Compat();
-            jre6Available = true;
-            jre7Available = true;
+        if (Jre9Compat.isSupported()) {
+            instance = new Jre9Compat();
+            jre9Available = true;
             jre8Available = true;
+            jre7Available = true;
+            jre6Available = true;
+        }
+        else if (Jre8Compat.isSupported()) {
+            instance = new Jre8Compat();
+            jre9Available = false;
+            jre8Available = true;
+            jre7Available = true;
+            jre6Available = true;
         } else if (Jre7Compat.isSupported()) {
             instance = new Jre7Compat();
-            jre6Available = true;
-            jre7Available = true;
+            jre9Available = false;
             jre8Available = false;
+            jre7Available = true;
+            jre6Available = true;
         } else if (Jre6Compat.isSupported()) {
             instance = new Jre6Compat();
-            jre6Available = true;
-            jre7Available = false;
+            jre9Available = false;
             jre8Available = false;
+            jre7Available = false;
+            jre6Available = true;
         } else {
             instance = new JreCompat();
-            jre6Available = false;
-            jre7Available = false;
+            jre9Available = false;
             jre8Available = false;
+            jre7Available = false;
+            jre6Available = false;
         }
     }
     
@@ -146,4 +158,25 @@ public class JreCompat {
         throw new UnsupportedOperationException(sm.getString("jreCompat.noServerCipherSuiteOrder"));
     }
 
+
+    // Java 5 implementation of Java 9 methods
+
+    public static boolean isJre9Available() {
+        return jre9Available;
+    }
+
+
+    /**
+     * Test if the provided exception is an instance of
+     * java.lang.reflect.InaccessibleObjectException.
+     *
+     * @param e The exception to test
+     *
+     * @return {@code true} if the exception is an instance of
+     *         InaccessibleObjectException, otherwise {@code false}
+     */
+    public boolean isInstanceOfInaccessibleObjectException(Exception e) {
+        // Exception does not exist prior to Java 9
+        return false;
+    }
 }
