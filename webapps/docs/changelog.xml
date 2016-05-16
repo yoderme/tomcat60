@@ -57,6 +57,10 @@
         current default session timeout in minutes rather than seconds. (markt)
       </fix>
       <fix>
+        <bug>58486</bug>: Expand memory leak protection to include additional
+        issues identified related to XML parsing. (markt)
+      </fix>
+      <fix>
         <bug>59123</bug>: Close <code>NamingEnumeration</code> objects used by
         the <code>JNDIRealm</code> once they are no longer required.
         (fschumacher/markt)

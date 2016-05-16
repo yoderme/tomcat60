@@ -27,6 +27,7 @@ import java.sql.DriverManager;
 import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -36,6 +37,8 @@ import org.apache.catalina.LifecycleListener;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.res.StringManager;
+import org.w3c.dom.Document;
+import org.w3c.dom.ls.DOMImplementationLS;
 
 /**
  * Provide a workaround for known places where the Java Runtime environment can
@@ -151,11 +154,11 @@ public class JreMemoryLeakPreventionListener implements LifecycleListener {
     }
 
     /**
-     * XML parsing can pin a web application class loader in memory. This is
-     * particularly nasty as profilers (at least YourKit and Eclipse MAT) don't
-     * identify any GC roots related to this.
-     * <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6916498">
-     * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6916498</a>
+     * XML parsing can pin a web application class loader in memory. There are
+     * multiple root causes for this. Some of these are particularly nasty as
+     * profilers may not identify any GC roots related to the leak. For example,
+     * with YourKit you need to ensure that HPROF format memory snapshots are
+     * used to be able to trace some of the leaks.
      */
     private boolean xmlParsingProtection = true;
     public boolean isXmlParsingProtection() { return xmlParsingProtection; }
@@ -382,16 +385,31 @@ public class JreMemoryLeakPreventionListener implements LifecycleListener {
                     }
                 }
                 
-                /*
-                 * Haven't got to the root of what is going on with this leak
-                 * but if a web app is the first to make the calls below the web
-                 * application class loader will be pinned in memory.
-                 */
                 if (xmlParsingProtection) {
-                    DocumentBuilderFactory factory =
-                        DocumentBuilderFactory.newInstance();
+                    // There are three known issues with XML parsing
+                    // 1. DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                    // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6916498
+                    // This issue is fixed in Java 7 onwards
+                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                     try {
-                        factory.newDocumentBuilder();
+                        DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+
+                        // The 2nd and 3rd links both relate to cached Exception
+                        // instances that retain a link to the TCCL via the
+                        // backtrace field. Note that YourKit only shows this
+                        // field when using the HPROF format memory snapshots.
+                        // https://bz.apache.org/bugzilla/show_bug.cgi?id=58486
+                        // These issues are currently present in all current
+                        // versions of Java
+
+                        // 2. com.sun.org.apache.xml.internal.serialize.DOMSerializerImpl
+                        Document document = documentBuilder.newDocument();
+                        document.createElement("dummy");
+                        DOMImplementationLS implementation =
+                                (DOMImplementationLS)document.getImplementation();
+                        implementation.createLSSerializer().writeToString(document);
+                        // 3. com.sun.org.apache.xerces.internal.dom.DOMNormalizer
+                        document.normalize();
                     } catch (ParserConfigurationException e) {
                         log.error(sm.getString("jreLeakListener.xmlParseFail"),
                                 e);
