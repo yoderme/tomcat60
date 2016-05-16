@@ -2606,11 +2606,15 @@ public class WebappClassLoader
      */
     private void clearReferencesRmiTargets() {
         try {
-            // Need access to the ccl field of sun.rmi.transport.Target
+            // Need access to the ccl field of sun.rmi.transport.Target to find
+            // the leaks
             Class<?> objectTargetClass =
                 Class.forName("sun.rmi.transport.Target");
             Field cclField = objectTargetClass.getDeclaredField("ccl");
             cclField.setAccessible(true);
+            // Need access to the stub field to report the leaks
+            Field stubField = objectTargetClass.getDeclaredField("stub");
+            stubField.setAccessible(true);
 
             // Clear the objTable map
             Class<?> objectTableClass =
@@ -2630,6 +2634,9 @@ public class WebappClassLoader
                     Object cclObject = cclField.get(obj);
                     if (this == cclObject) {
                         iter.remove();
+                        Object stubObject = stubField.get(obj);
+                        log.error(sm.getString("webappClassLoader.clearRmi",
+                                stubObject.getClass().getName(), stubObject));
                     }
                 }
             }
