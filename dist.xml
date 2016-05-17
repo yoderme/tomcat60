@@ -233,7 +233,8 @@
       docencoding="ISO-8859-1"
       charset="ISO-8859-1"
       additionalparam="-breakiterator -notimestamp"
-      maxmemory="256m" >
+      maxmemory="256m"
+      failonerror="true">
     </javadoc>
     <patch-javadoc dir="${tomcat.dist}/webapps/docs/api"
       docencoding="ISO-8859-1"/>
