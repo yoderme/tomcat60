@@ -516,7 +516,7 @@
         disclosure, among other security problems.</b></p>
       </attribute>
 
-      <attribute name="clearReferencesHttpClientKeepAliveThread" required = "false">
+      <attribute name="clearReferencesHttpClientKeepAliveThread" required="false">
         <p>If <code>true</code> and an <code>sun.net.www.http.HttpClient</code>
         keep-alive timer thread has been started by this web application and is
         still running, Tomcat will change the context class loader for that
@@ -528,7 +528,17 @@
         <code>true</code> will be used.</p>
       </attribute>
 
-      <attribute name="clearReferencesStopThreads" required = "false">
+      <attribute name="clearReferencesRmiTargets" required="false">
+        <p>If <code>true</code>, Tomcat looks for memory leaks associated with
+        RMI Targets and clears any it finds. This feature uses reflection to
+        identify the leaks and therefore requires that the command line option
+        <code>-XaddExports:java.rmi/sun.rmi.transport=ALL-UNNAMED</code> is set
+        when running on Java 9 and above. Applications without memory leaks
+        should operate correctly with this attribute set to <code>false</code>.
+        If not specified, the default value of <code>true</code> will be used.</p>
+      </attribute>
+
+      <attribute name="clearReferencesStopThreads" required="false">
         <p>If <code>true</code>, Tomcat attempts to terminate threads that have
         been started by the web application. Stopping threads is performed via
         the deprecated (for good reason) <code>Thread.stop()</code> method and
@@ -538,7 +548,7 @@
         default value of <code>false</code> will be used.</p>
       </attribute>
 
-      <attribute name="clearReferencesStopTimerThreads" required = "false">
+      <attribute name="clearReferencesStopTimerThreads" required="false">
         <p>If <code>true</code>, Tomcat attempts to terminate
         <code>java.util.Timer</code> threads that have been started by the web
         application. Unlike standard threads, timer threads can be stopped

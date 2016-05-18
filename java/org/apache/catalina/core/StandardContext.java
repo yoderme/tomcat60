@@ -744,6 +744,13 @@ public class StandardContext
 
 
     /**
+     * Enables the RMI Target memory leak detection to be controlled. This is
+     * necessary since the detection can only work on Java 9 if some of the
+     * modularity checks are disabled.
+     */
+    private boolean clearReferencesRmiTargets = true;
+
+    /**
      * Should Tomcat attempt to terminate threads that have been started by the
      * web application? Stopping threads is performed via the deprecated (for
      * good reason) <code>Thread.stop()</code> method and is likely to result in
@@ -2193,6 +2200,19 @@ public class StandardContext
         if (started) {
             postWorkDirectory();
         }
+    }
+
+
+    public boolean getClearReferencesRmiTargets() {
+        return this.clearReferencesRmiTargets;
+    }
+
+
+    public void setClearReferencesRmiTargets(boolean clearReferencesRmiTargets) {
+        boolean oldClearReferencesRmiTargets = this.clearReferencesRmiTargets;
+        this.clearReferencesRmiTargets = clearReferencesRmiTargets;
+        support.firePropertyChange("clearReferencesRmiTargets",
+                oldClearReferencesRmiTargets, this.clearReferencesRmiTargets);
     }
 
 

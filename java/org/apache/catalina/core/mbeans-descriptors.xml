@@ -102,6 +102,18 @@
                description="Object names of all children"
                type="[Ljavax.management.ObjectName;"/>
                
+    <attribute name="clearReferencesRmiTargets"
+               description="Should Tomcat look for memory leaks in RMI Targets and clear them if found as a work around for application coding errors?"
+               type="boolean"/>
+
+    <attribute name="clearReferencesStopThreads"
+               description="Should Tomcat attempt to terminate threads that have been started by the web application? Advisable to be used only in a development environment."
+               type="boolean"/>
+               
+    <attribute name="clearReferencesStopTimerThreads"
+               description="Should Tomcat attempt to terminate TimerThreads that have been started by the web application? Advisable to be used only in a development environment."
+               type="boolean"/>
+               
     <attribute name="configFile"
                description="Location of the context.xml resource or file"
                type="java.lang.String"/>

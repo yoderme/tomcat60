@@ -665,6 +665,8 @@ public class WebappLoader
             if (container instanceof StandardContext) {
                 classLoader.setAntiJARLocking(
                         ((StandardContext) container).getAntiJARLocking());
+                classLoader.setClearReferencesRmiTargets(
+                        ((StandardContext) container).getClearReferencesRmiTargets());
                 classLoader.setClearReferencesStopThreads(
                         ((StandardContext) container).getClearReferencesStopThreads());
                 classLoader.setClearReferencesStopTimerThreads(
