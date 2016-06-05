@@ -192,6 +192,13 @@
         <bug>59280</bug>: Update the NSIS Installer used to build the
         Windows Installers to version 2.51. (kkolinko)
       </update>
+      <fix>
+        <bug>58626</bug>: Add support for a new environment variable
+        (<code>USE_NOHUP</code>) that causes <code>nohup</code> to be used when
+        starting Tomcat. It is disabled by default except on HP-UX where it is
+        enabled by default since it is required when starting Tomcat at boot on
+        HP-UX. (markt)
+      </fix>
     </changelog>
   </subsection>
 </section>
