@@ -348,6 +348,11 @@ class TagLibraryInfoImpl extends TagLibraryInfo implements TagConstants {
             }
             location[0] = url.toString();
             location[1] = "META-INF/taglib.tld";
+        } else if (uri.startsWith("/WEB-INF/lib/")
+                || uri.startsWith("/WEB-INF/classes/") ||
+                (uri.startsWith("/WEB-INF/tags/") && uri.endsWith(".tld")
+                        && !uri.endsWith("implicit.tld"))) {
+            err.jspError("jsp.error.tld.invalid_tld_file", uri);
         }
 
         return location;
