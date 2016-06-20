@@ -156,23 +156,9 @@ public class LockOutRealm extends CombinedRealm {
             String once, String nc, String cnonce, String qop,
             String realmName, String md5a2) {
 
-        if (isLocked(username)) {
-            // Trying to authenticate a locked user is an automatic failure
-            registerAuthFailure(username);
-            
-            log.warn(sm.getString("lockOutRealm.authLockedUser", username));
-            return null;
-        }
-
-        Principal authenticatedUser = super.authenticate(username, clientDigest,
-                once, nc, cnonce, qop, realmName, md5a2);
-        
-        if (authenticatedUser == null) {
-            registerAuthFailure(username);
-        } else {
-            registerAuthSuccess(username);
-        }
-        return authenticatedUser;
+        Principal authenticatedUser = super.authenticate(username, clientDigest, once, nc, cnonce,
+                qop, realmName, md5a2);
+        return filterLockedAccounts(username, authenticatedUser);
     }
 
 
@@ -185,22 +171,8 @@ public class LockOutRealm extends CombinedRealm {
      *  authenticating this username
      */
     public Principal authenticate(String username, String credentials) {
-        if (isLocked(username)) {
-            // Trying to authenticate a locked user is an automatic failure
-            registerAuthFailure(username);
-            
-            log.warn(sm.getString("lockOutRealm.authLockedUser", username));
-            return null;
-        }
-
         Principal authenticatedUser = super.authenticate(username, credentials);
-        
-        if (authenticatedUser == null) {
-            registerAuthFailure(username);
-        } else {
-            registerAuthSuccess(username);
-        }
-        return authenticatedUser;
+        return filterLockedAccounts(username, authenticatedUser);
     }
 
 
@@ -217,21 +189,31 @@ public class LockOutRealm extends CombinedRealm {
             username = certs[0].getSubjectDN().getName();
         }
 
-        if (isLocked(username)) {
-            // Trying to authenticate a locked user is an automatic failure
+        Principal authenticatedUser = super.authenticate(certs);
+        return filterLockedAccounts(username, authenticatedUser);
+    }
+
+
+    /**
+     * Filters authenticated principals to ensure that <code>null</code> is
+     * returned for any user that is currently locked out.
+     */
+    private Principal filterLockedAccounts(String username, Principal authenticatedUser) {
+        // Register all failed authentications
+        if (authenticatedUser == null) {
             registerAuthFailure(username);
-            
+        }
+
+        if (isLocked(username)) {
+            // If the user is currently locked, authentication will always fail
             log.warn(sm.getString("lockOutRealm.authLockedUser", username));
             return null;
         }
 
-        Principal authenticatedUser = super.authenticate(certs);
-        
-        if (authenticatedUser == null) {
-            registerAuthFailure(username);
-        } else {
+        if (authenticatedUser != null) {
             registerAuthSuccess(username);
         }
+
         return authenticatedUser;
     }
 

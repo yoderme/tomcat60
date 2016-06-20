@@ -98,6 +98,11 @@
         leaks is made. Log a warning if running on Java 9 with this check
         enabled but without the command line option it requires. (markt)
       </fix>
+      <fix>
+        <bug>59708</bug>: Modify the LockOutRealm logic. Valid authentication
+        attempts during the lock out period will no longer reset the lock out
+        timer to zero. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
