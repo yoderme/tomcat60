@@ -179,6 +179,10 @@
         <bug>58891</bug>: Update the SSL how-to. Based on a suggestion by
         Alexander Kjäll. (markt)
       </fix>
+      <fix>
+        <bug>59642</bug>: Mention the <code>localDataSource</code> in the
+        <code>DataSourceRealm</code> section of the Realm How-To. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
