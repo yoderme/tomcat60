@@ -144,6 +144,11 @@
         specification regarding the permitted locations for TLD files. Patch
         provided by Huxing Zhang. (markt)
       </fix>
+      <fix>
+        Catch and log any <code>Exception</code>s during calls to
+        <code>Servlet.destroy()</code> when destroying the Servlet associated
+        with a JSP page. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
