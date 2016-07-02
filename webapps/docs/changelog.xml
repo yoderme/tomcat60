@@ -218,6 +218,10 @@
         enabled by default since it is required when starting Tomcat at boot on
         HP-UX. (markt)
       </fix>
+      <add>
+        Use the mirror network rather than the ASF master site to download the
+        current ASF dependencies. (markt)
+      </add>
     </changelog>
   </subsection>
 </section>
