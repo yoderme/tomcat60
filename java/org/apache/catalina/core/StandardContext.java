@@ -843,7 +843,7 @@ public class StandardContext
 
     public void setName( String name ) {
         super.setName( name );
-        encodedPath = urlEncoder.encode(name);
+        encodedPath = urlEncoder.encode(name, "UTF-8");
     }
 
 

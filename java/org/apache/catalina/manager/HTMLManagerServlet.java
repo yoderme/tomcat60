@@ -406,7 +406,7 @@ public final class HTMLManagerServlet extends ManagerServlet {
                 }
                 
                 args = new Object[7];
-                args[0] = URL_ENCODER.encode(contextPath + "/");
+                args[0] = URL_ENCODER.encode(contextPath + "/", "UTF-8");
                 args[1] = RequestUtil.filter(displayPath);
                 if (context.getDisplayName() == null) {
                     args[2] = "&nbsp;";
@@ -416,7 +416,7 @@ public final class HTMLManagerServlet extends ManagerServlet {
                 args[3] = new Boolean(context.getAvailable());
                 args[4] = response.encodeURL
                     (request.getContextPath() +
-                     "/html/sessions?path=" + URL_ENCODER.encode(displayPath));
+                     "/html/sessions?path=" + URL_ENCODER.encode(displayPath, "UTF-8"));
                 if (context.getManager() != null) {
                     args[5] = new Integer
                         (context.getManager().getActiveSessions());
@@ -432,24 +432,24 @@ public final class HTMLManagerServlet extends ManagerServlet {
                 args = new Object[14];
                 args[0] = response.encodeURL
                     (request.getContextPath() +
-                     "/html/start?path=" + URL_ENCODER.encode(displayPath));
+                     "/html/start?path=" + URL_ENCODER.encode(displayPath, "UTF-8"));
                 args[1] = appsStart;
                 args[2] = response.encodeURL
                     (request.getContextPath() +
-                     "/html/stop?path=" + URL_ENCODER.encode(displayPath));
+                     "/html/stop?path=" + URL_ENCODER.encode(displayPath, "UTF-8"));
                 args[3] = appsStop;
                 args[4] = response.encodeURL
                     (request.getContextPath() +
-                     "/html/reload?path=" + URL_ENCODER.encode(displayPath));
+                     "/html/reload?path=" + URL_ENCODER.encode(displayPath, "UTF-8"));
                 args[5] = appsReload;
                 args[6] = response.encodeURL
                     (request.getContextPath() +
-                     "/html/undeploy?path=" + URL_ENCODER.encode(displayPath));
+                     "/html/undeploy?path=" + URL_ENCODER.encode(displayPath, "UTF-8"));
                 args[7] = appsUndeploy;
                 
                 args[8] = response.encodeURL
                     (request.getContextPath() +
-                     "/html/expire?path=" + URL_ENCODER.encode(displayPath));
+                     "/html/expire?path=" + URL_ENCODER.encode(displayPath, "UTF-8"));
                 args[9] = appsExpire;
                 args[10] = sm.getString("htmlManagerServlet.expire.explain");
                  Manager manager = context.getManager();

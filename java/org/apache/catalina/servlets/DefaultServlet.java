@@ -714,7 +714,7 @@ public class DefaultServlet
      * @param path Path which has to be rewiten
      */
     protected String rewriteUrl(String path) {
-        return urlEncoder.encode( path );
+        return urlEncoder.encode(path, "UTF-8");
     }
 
 
