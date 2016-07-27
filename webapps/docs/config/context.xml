@@ -251,6 +251,14 @@
         used.</p>
       </attribute>
 
+      <attribute name="dispatchersUseEncodedPaths" required="false">
+        <p>Controls whether paths used in calls to obtain a request dispatcher
+        ares expected to be encoded. This affects both how Tomcat handles calls
+        to obtain a request dispatcher as well as how Tomcat generates paths
+        used to obtain request dispatchers internally. If not specified, the
+        default value of <code>true</code> is used.</p>
+      </attribute>
+
       <attribute name="docBase" required="true">
         <p>The <em>Document Base</em> (also known as the <em>Context
         Root</em>) directory for this web application, or the pathname

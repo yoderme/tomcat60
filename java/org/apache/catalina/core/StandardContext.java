@@ -794,8 +794,26 @@ public class StandardContext
     boolean mapperDirectoryRedirectEnabled = false;
 
 
+    private boolean dispatchersUseEncodedPaths = true;
+
+
     // ----------------------------------------------------- Context Properties
     
+    public void setDispatchersUseEncodedPaths(boolean dispatchersUseEncodedPaths) {
+        this.dispatchersUseEncodedPaths = dispatchersUseEncodedPaths;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * The default value for this implementation is {@code true}.
+     */
+    public boolean getDispatchersUseEncodedPaths() {
+        return dispatchersUseEncodedPaths;
+    }
+
+
     public void setMapperContextRootRedirectEnabled(boolean mapperContextRootRedirectEnabled) {
         this.mapperContextRootRedirectEnabled = mapperContextRootRedirectEnabled;
     }

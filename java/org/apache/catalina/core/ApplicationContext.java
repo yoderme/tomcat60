@@ -21,8 +21,10 @@ package org.apache.catalina.core;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -50,6 +52,7 @@ import org.apache.catalina.util.RequestUtil;
 import org.apache.catalina.util.ResourceSet;
 import org.apache.catalina.util.ServerInfo;
 import org.apache.catalina.util.StringManager;
+import org.apache.catalina.util.URLEncoder;
 import org.apache.naming.resources.DirContextURLStreamHandler;
 import org.apache.naming.resources.Resource;
 import org.apache.tomcat.util.buf.CharChunk;
@@ -406,17 +409,38 @@ public class ApplicationContext implements ServletContext {
 
         // Get query string
         String queryString = null;
-        int pos = path.indexOf('?');
+        String normalizedPath = path;
+        int pos = normalizedPath.indexOf('?');
         if (pos >= 0) {
-            queryString = path.substring(pos + 1);
-            path = path.substring(0, pos);
+            queryString = normalizedPath.substring(pos + 1);
+            normalizedPath = normalizedPath.substring(0, pos);
         }
 
-        path = RequestUtil.normalize(path);
-        if (path == null)
+        normalizedPath = RequestUtil.normalize(normalizedPath);
+        if (normalizedPath == null)
             return (null);
 
-        pos = path.length();
+        if (getContext().getDispatchersUseEncodedPaths()) {
+            // Decode
+            String decodedPath;
+            try {
+                decodedPath = URLDecoder.decode(normalizedPath, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // Impossible
+                return null;
+            }
+
+            // Security check to catch attempts to encode /../ sequences
+            normalizedPath = RequestUtil.normalize(decodedPath);
+            if (!decodedPath.equals(normalizedPath)) {
+                getContext().getLogger().warn(
+                        sm.getString("applicationContext.illegalDispatchPath", path),
+                        new IllegalArgumentException());
+                return null;
+            }
+        }
+
+        pos = normalizedPath.length();
 
         // Use the thread local URI and mapping data
         DispatchData dd = dispatchData.get();
@@ -439,11 +463,11 @@ public class ApplicationContext implements ServletContext {
              * Ignore any trailing path params (separated by ';') for mapping
              * purposes
              */
-            int semicolon = path.indexOf(';');
+            int semicolon = normalizedPath.indexOf(';');
             if (pos >= 0 && semicolon > pos) {
                 semicolon = -1;
             }
-            uriCC.append(path, 0, semicolon > 0 ? semicolon : pos);
+            uriCC.append(normalizedPath, 0, semicolon > 0 ? semicolon : pos);
             context.getMapper().map(uriMB, mappingData);
             if (mappingData.wrapper == null) {
                 return (null);
@@ -454,7 +478,7 @@ public class ApplicationContext implements ServletContext {
              * RequestDispatcher's requestURI
              */
             if (semicolon > 0) {
-                uriCC.append(path, semicolon, pos - semicolon);
+                uriCC.append(normalizedPath, semicolon, pos - semicolon);
             }
         } catch (Exception e) {
             // Should never happen
@@ -468,11 +492,11 @@ public class ApplicationContext implements ServletContext {
 
         mappingData.recycle();
 
-        // Construct a RequestDispatcher to process this request
-        return new ApplicationDispatcher
-            (wrapper, uriCC.toString(), wrapperPath, pathInfo,
-             queryString, null);
+        String encodedUri = URLEncoder.DEFAULT.encode(uriCC.toString(), "UTF-8");
 
+        // Construct a RequestDispatcher to process this request
+        return new ApplicationDispatcher(wrapper, encodedUri, wrapperPath, pathInfo,
+             queryString, null);
     }
 
 
