@@ -148,6 +148,10 @@
         Ensure that requests with HTTP method names that are not tokens (as
         required by RFC 7231) are rejected with a 400 response. (markt)
       </fix>
+      <fix>
+        <bug>59904</bug>: Add a limit (default 200) for the number of cookies
+        allowed per request. Based on a patch by gehui. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">

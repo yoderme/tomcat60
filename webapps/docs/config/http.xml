@@ -363,6 +363,12 @@
       this attribute is set to "true".</p>
     </attribute>
 
+    <attribute name="maxCookieCount" required="false">
+      <p>The maximum number of cookies that are permitted for a request. A value
+      of less than zero means no limit. If not specified, a default value of 200
+      will be used.</p>
+    </attribute>
+
     <attribute name="maxHttpHeaderSize" required="false">
       <p>The maximum size of the request and response HTTP header, specified
       in bytes.

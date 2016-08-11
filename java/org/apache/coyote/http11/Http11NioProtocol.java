@@ -813,6 +813,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
             processor.setSocketBuffer(proto.socketBuffer);
             processor.setMaxSavePostSize(proto.maxSavePostSize);
             processor.setServer(proto.server);
+            processor.setMaxCookieCount(proto.getMaxCookieCount());
             register(processor);
             return processor;
         }

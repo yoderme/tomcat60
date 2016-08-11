@@ -662,6 +662,7 @@ public class Http11AprProtocol extends AbstractProtocol
             processor.setMaxSavePostSize(proto.maxSavePostSize);
             processor.setServer(proto.server);
             processor.setClientCertProvider(proto.getClientCertProvider());
+            processor.setMaxCookieCount(proto.getMaxCookieCount());
             register(processor);
             return processor;
         }

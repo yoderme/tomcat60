@@ -434,6 +434,7 @@ public class AjpAprProtocol extends AbstractProtocol
             processor.setTomcatAuthentication(proto.tomcatAuthentication);
             processor.setRequiredSecret(proto.requiredSecret);
             processor.setClientCertProvider(proto.getClientCertProvider());
+            processor.setMaxCookieCount(proto.getMaxCookieCount());
             register(processor);
             return processor;
         }

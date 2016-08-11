@@ -81,6 +81,8 @@ public class Http11NioProcessor implements ActionHook {
      */
     protected SSLSupport sslSupport;
 
+    private int maxCookieCount = 200;
+    
     /*
      * Tracks how many internal filters are in the filter library so they
      * are skipped when looking for pluggable filters.
@@ -819,6 +821,7 @@ public class Http11NioProcessor implements ActionHook {
                 keptAlive = true;
                 // Set this every time in case limit has been changed via JMX
                 request.getMimeHeaders().setLimit(endpoint.getMaxHeaderCount());
+                request.getCookies().setLimit(getMaxCookieCount());
                 if ( !inputBuffer.parseHeaders() ) {
                     //we've read part of the request, don't recycle it
                     //instead associate it with the socket
@@ -1258,6 +1261,17 @@ public class Http11NioProcessor implements ActionHook {
         this.sslSupport = sslSupport;
     }
 
+    
+    public int getMaxCookieCount() {
+        return maxCookieCount;
+    }
+
+
+    public void setMaxCookieCount(int maxCookieCount) {
+        this.maxCookieCount = maxCookieCount;
+    }
+
+        
     /**
      * Get the associated adapter.
      *

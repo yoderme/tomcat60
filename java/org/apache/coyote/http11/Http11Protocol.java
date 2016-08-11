@@ -653,6 +653,7 @@ public class Http11Protocol extends AbstractProtocol
             processor.setSocketBuffer(proto.socketBuffer);
             processor.setMaxSavePostSize(proto.maxSavePostSize);
             processor.setServer(proto.server);
+            processor.setMaxCookieCount(proto.getMaxCookieCount());
             register(processor);
             return processor;
         }

@@ -361,6 +361,11 @@ public class AjpProcessor implements ActionHook {
     public void setClientCertProvider(String s) { this.clientCertProvider = s; }
 
 
+    private int maxCookieCount = 200;
+    public int getMaxCookieCount() { return maxCookieCount; }
+    public void setMaxCookieCount(int maxCookieCount) { this.maxCookieCount = maxCookieCount; }
+
+    
     // --------------------------------------------------------- Public Methods
 
 
@@ -704,7 +709,8 @@ public class AjpProcessor implements ActionHook {
 
         // Set this every time in case limit has been changed via JMX
         headers.setLimit(endpoint.getMaxHeaderCount());
-
+        request.getCookies().setLimit(getMaxCookieCount());
+        
         boolean contentLengthSet = false;
         int hCount = requestHeaderMessage.getInt();
         for(int i = 0 ; i < hCount ; i++) {

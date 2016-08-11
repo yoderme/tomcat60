@@ -205,7 +205,10 @@ public class Http11Processor implements ActionHook {
      */
     protected SSLSupport sslSupport;
 
-
+    
+    private int maxCookieCount = 200;
+    
+    
     /**
      * Socket associated with the current connection.
      */
@@ -659,6 +662,16 @@ public class Http11Processor implements ActionHook {
     }
 
 
+    public int getMaxCookieCount() {
+        return maxCookieCount;
+    }
+
+
+    public void setMaxCookieCount(int maxCookieCount) {
+        this.maxCookieCount = maxCookieCount;
+    }
+
+        
     /**
      * Set the flag to control upload time-outs.
      */
@@ -805,6 +818,7 @@ public class Http11Processor implements ActionHook {
                 }
                 // Set this every time in case limit has been changed via JMX
                 request.getMimeHeaders().setLimit(endpoint.getMaxHeaderCount());
+                request.getCookies().setLimit(getMaxCookieCount());
                 inputBuffer.parseHeaders();
             } catch (IOException e) {
                 error = true;

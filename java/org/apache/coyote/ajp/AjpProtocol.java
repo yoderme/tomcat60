@@ -418,6 +418,7 @@ public class AjpProtocol extends AbstractProtocol
             processor.setRequiredSecret(proto.requiredSecret);
             processor.setKeepAliveTimeout(proto.keepAliveTimeout);
             processor.setClientCertProvider(proto.getClientCertProvider());
+            processor.setMaxCookieCount(proto.getMaxCookieCount());
             register(processor);
             return processor;
         }

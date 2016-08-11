@@ -331,6 +331,9 @@ public class Http11AprProcessor implements ActionHook {
      */
     protected String clientCertProvider = null;
 
+    private int maxCookieCount = 200;
+
+    
     // ------------------------------------------------------------- Properties
 
     public String getClientCertProvider() { return clientCertProvider; }
@@ -474,6 +477,15 @@ public class Http11AprProcessor implements ActionHook {
         return (compressableMimeTypes);
     }
 
+
+    public int getMaxCookieCount() {
+        return maxCookieCount;
+    }
+
+
+    public void setMaxCookieCount(int maxCookieCount) {
+        this.maxCookieCount = maxCookieCount;
+    }
 
 
     // --------------------------------------------------------- Public Methods
@@ -823,6 +835,7 @@ public class Http11AprProcessor implements ActionHook {
                 }
                 // Set this every time in case limit has been changed via JMX
                 request.getMimeHeaders().setLimit(endpoint.getMaxHeaderCount());
+                request.getCookies().setLimit(getMaxCookieCount());
                 inputBuffer.parseHeaders();
             } catch (IOException e) {
                 error = true;

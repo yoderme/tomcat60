@@ -23,6 +23,7 @@ import java.util.StringTokenizer;
 
 import org.apache.tomcat.util.buf.ByteChunk;
 import org.apache.tomcat.util.buf.MessageBytes;
+import org.apache.tomcat.util.res.StringManager;
 
 /**
  * A collection of cookies - reusable and tuned for server side performance.
@@ -37,11 +38,14 @@ public final class Cookies { // extends MultiMap {
 
     private static org.apache.juli.logging.Log log=
         org.apache.juli.logging.LogFactory.getLog(Cookies.class );
-
+    private static final StringManager sm =
+            StringManager.getManager("org.apache.tomcat.util.http.res");
+    
     // expected average number of cookies per request
     public static final int INITIAL_SIZE=4;
     ServerCookie scookies[]=new ServerCookie[INITIAL_SIZE];
     int cookieCount=0;
+    private int limit = 200;
     boolean unprocessed=true;
 
     MimeHeaders headers;
@@ -103,6 +107,18 @@ public final class Cookies { // extends MultiMap {
         this.headers=headers;
     }
 
+    
+    public void setLimit(int limit) {
+        this.limit = limit;
+        if (limit > -1 && scookies.length > limit && cookieCount <= limit) {
+            // shrink cookie list array
+            ServerCookie scookiesTmp[] = new ServerCookie[limit];
+            System.arraycopy(scookies, 0, scookiesTmp, 0, cookieCount);
+            scookies = scookiesTmp;
+        }
+    }
+
+    
     /**
      * Construct a new uninitialized cookie collection.
      * Use {@link #setHeaders} to initialize.
@@ -176,8 +192,14 @@ public final class Cookies { // extends MultiMap {
      *  The caller can set the name/value and attributes for the cookie
      */
     public ServerCookie addCookie() {
-        if( cookieCount >= scookies.length  ) {
-            ServerCookie scookiesTmp[]=new ServerCookie[2*cookieCount];
+        if (limit > -1 && cookieCount >= limit) {
+            throw new IllegalArgumentException(
+                    sm.getString("cookies.maxCountFail", Integer.valueOf(limit)));
+        }
+
+        if (cookieCount >= scookies.length) {
+            int newSize = Math.min(2*cookieCount, limit);
+            ServerCookie scookiesTmp[] = new ServerCookie[newSize];
             System.arraycopy( scookies, 0, scookiesTmp, 0, cookieCount);
             scookies=scookiesTmp;
         }

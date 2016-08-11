@@ -38,6 +38,13 @@ public abstract class AbstractProtocol implements ProtocolHandler {
     private int nameIndex = 0;
 
 
+    /**
+     * The maximum number of cookies permitted for a request. Use a value less
+     * than zero for no limit. Defaults to 200.
+     */
+    private int maxCookieCount = 200;
+
+
     protected abstract AbstractEndpoint getEndpoint();
 
     public int getMaxHeaderCount() {
@@ -61,6 +68,17 @@ public abstract class AbstractProtocol implements ProtocolHandler {
     public static int nextNameIndex() {
         return nameCounter.incrementAndGet();
     }
+
+    
+    public int getMaxCookieCount() {
+        return maxCookieCount;
+    }
+
+
+    public void setMaxCookieCount(int maxCookieCount) {
+        this.maxCookieCount = maxCookieCount;
+    }
+
 
     /**
      * An utility method, used to implement getName() in subclasses.
