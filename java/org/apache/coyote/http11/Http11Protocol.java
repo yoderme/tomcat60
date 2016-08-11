@@ -32,7 +32,6 @@ import javax.management.ObjectName;
 
 import org.apache.coyote.AbstractProtocol;
 import org.apache.coyote.ActionCode;
-import org.apache.coyote.ActionHook;
 import org.apache.coyote.Adapter;
 import org.apache.coyote.RequestGroupInfo;
 import org.apache.coyote.RequestInfo;
@@ -120,7 +119,7 @@ public class Http11Protocol extends AbstractProtocol
         return attributes.get(key);
     }
 
-    public Iterator getAttributeNames() {
+    public Iterator<String> getAttributeNames() {
         return attributes.keySet().iterator();
     }
 
@@ -548,7 +547,8 @@ public class Http11Protocol extends AbstractProtocol
         protected RequestGroupInfo global = new RequestGroupInfo();
 
         protected ConcurrentLinkedQueue<Http11Processor> recycledProcessors =
-            new ConcurrentLinkedQueue<Http11Processor>() {
+                new ConcurrentLinkedQueue<Http11Processor>() {
+            private static final long serialVersionUID = 1L;
             protected AtomicInteger size = new AtomicInteger(0);
             @Override
             public boolean offer(Http11Processor processor) {
@@ -598,9 +598,7 @@ public class Http11Protocol extends AbstractProtocol
                     processor = createProcessor();
                 }
 
-                if (processor instanceof ActionHook) {
-                    ((ActionHook) processor).action(ActionCode.ACTION_START, null);
-                }
+                processor.action(ActionCode.ACTION_START, null);
 
                 if (proto.isSSLEnabled() && (proto.sslImplementation != null)) {
                     processor.setSSLSupport
@@ -633,12 +631,7 @@ public class Http11Protocol extends AbstractProtocol
                 Http11Protocol.log.error
                     (sm.getString("http11protocol.proto.error"), e);
             } finally {
-                //       if(proto.adapter != null) proto.adapter.recycle();
-                //                processor.recycle();
-
-                if (processor instanceof ActionHook) {
-                    ((ActionHook) processor).action(ActionCode.ACTION_STOP, null);
-                }
+                processor.action(ActionCode.ACTION_STOP, null);
                 recycledProcessors.offer(processor);
             }
             return false;

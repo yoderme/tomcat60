@@ -18,7 +18,6 @@
 package org.apache.coyote.http11;
 
 import java.net.InetAddress;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,7 +33,6 @@ import javax.management.ObjectName;
 
 import org.apache.coyote.AbstractProtocol;
 import org.apache.coyote.ActionCode;
-import org.apache.coyote.ActionHook;
 import org.apache.coyote.Adapter;
 import org.apache.coyote.RequestGroupInfo;
 import org.apache.coyote.RequestInfo;
@@ -57,7 +55,7 @@ import org.apache.tomcat.util.res.StringManager;
 public class Http11AprProtocol extends AbstractProtocol
     implements MBeanRegistration {
 
-    protected static org.apache.juli.logging.Log log = 
+    protected static org.apache.juli.logging.Log log =
         org.apache.juli.logging.LogFactory.getLog(Http11AprProtocol.class);
 
     /**
@@ -88,7 +86,7 @@ public class Http11AprProtocol extends AbstractProtocol
         return attributes.get(key);
     }
 
-    public Iterator getAttributeNames() {
+    public Iterator<String> getAttributeNames() {
         return attributes.keySet().iterator();
     }
 
@@ -184,6 +182,7 @@ public class Http11AprProtocol extends AbstractProtocol
 
     protected AprEndpoint endpoint=new AprEndpoint();
 
+    @Override
     protected final AbstractEndpoint getEndpoint() {
         return endpoint;
     }
@@ -201,7 +200,7 @@ public class Http11AprProtocol extends AbstractProtocol
 
     public Executor getExecutor() { return endpoint.getExecutor(); }
     public void setExecutor(Executor executor) { endpoint.setExecutor(executor); }
-    
+
     public int getMaxThreads() { return endpoint.getMaxThreads(); }
     public void setMaxThreads(int maxThreads) { endpoint.setMaxThreads(maxThreads); }
 
@@ -249,10 +248,10 @@ public class Http11AprProtocol extends AbstractProtocol
 
     public void setPollerThreadCount(int pollerThreadCount) { endpoint.setPollerThreadCount(pollerThreadCount); }
     public int getPollerThreadCount() { return endpoint.getPollerThreadCount(); }
-    
+
     public int getSendfileSize() { return endpoint.getSendfileSize(); }
     public void setSendfileSize(int sendfileSize) { endpoint.setSendfileSize(sendfileSize); }
-    
+
     public void setSendfileThreadCount(int sendfileThreadCount) { endpoint.setSendfileThreadCount(sendfileThreadCount); }
     public int getSendfileThreadCount() { return endpoint.getSendfileThreadCount(); }
 
@@ -296,20 +295,20 @@ public class Http11AprProtocol extends AbstractProtocol
     protected String compression = "off";
     public String getCompression() { return compression; }
     public void setCompression(String valueS) { compression = valueS; }
-    
-    
+
+
     // HTTP
     protected String noCompressionUserAgents = null;
     public String getNoCompressionUserAgents() { return noCompressionUserAgents; }
     public void setNoCompressionUserAgents(String valueS) { noCompressionUserAgents = valueS; }
 
-    
+
     // HTTP
     protected String compressableMimeTypes = "text/html,text/xml,text/plain";
     public String getCompressableMimeType() { return compressableMimeTypes; }
     public void setCompressableMimeType(String valueS) { compressableMimeTypes = valueS; }
-    
-    
+
+
     // HTTP
     protected int compressionMinSize = 2048;
     public int getCompressionMinSize() { return compressionMinSize; }
@@ -323,14 +322,14 @@ public class Http11AprProtocol extends AbstractProtocol
     protected String restrictedUserAgents = null;
     public String getRestrictedUserAgents() { return restrictedUserAgents; }
     public void setRestrictedUserAgents(String valueS) { restrictedUserAgents = valueS; }
-    
-    
+
+
     protected String protocol = null;
     public String getProtocol() { return protocol; }
     public void setProtocol(String protocol) { setSecure(true); this.protocol = protocol; }
 
     /**
-     * Maximum number of requests which can be performed over a keepalive 
+     * Maximum number of requests which can be performed over a keepalive
      * connection. The default is the same as for Apache HTTP Server.
      */
     protected int maxKeepAliveRequests = 100;
@@ -416,8 +415,8 @@ public class Http11AprProtocol extends AbstractProtocol
      * instead of the default which is to allow the client to choose a
      * preferred cipher.
      */
-    public boolean getSSLHonorCipherOrder() { return ((AprEndpoint)endpoint).getSSLHonorCipherOrder(); }
-    public void setSSLHonorCipherOrder(boolean SSLHonorCipherOrder) { ((AprEndpoint)endpoint).setSSLHonorCipherOrder(SSLHonorCipherOrder); }
+    public boolean getSSLHonorCipherOrder() { return endpoint.getSSLHonorCipherOrder(); }
+    public void setSSLHonorCipherOrder(boolean SSLHonorCipherOrder) { endpoint.setSSLHonorCipherOrder(SSLHonorCipherOrder); }
 
 
     /**
@@ -485,10 +484,10 @@ public class Http11AprProtocol extends AbstractProtocol
     /**
      * Disable SSL compression.
      */
-    public boolean getSSLDisableCompression() { return ((AprEndpoint)endpoint).getSSLDisableCompression(); }
-    public void setSSLDisableCompression(boolean disable) { ((AprEndpoint)endpoint).setSSLDisableCompression(disable); }
+    public boolean getSSLDisableCompression() { return endpoint.getSSLDisableCompression(); }
+    public void setSSLDisableCompression(boolean disable) { endpoint.setSSLDisableCompression(disable); }
 
-    
+
     /**
      * When client certificate information is presented in a form other than
      * instances of {@link java.security.cert.X509Certificate} it needs to be
@@ -496,7 +495,7 @@ public class Http11AprProtocol extends AbstractProtocol
      * provider is used to perform the conversion. For example it is used with
      * the AJP connectors, the HTTP APR connector and with the
      * {@link org.apache.catalina.valves.SSLValve}. If not specified, the
-     * default provider will be used. 
+     * default provider will be used.
      */
     protected String clientCertProvider = null;
     public String getClientCertProvider() { return clientCertProvider; }
@@ -506,16 +505,18 @@ public class Http11AprProtocol extends AbstractProtocol
     // --------------------  Connection handler --------------------
 
     static class Http11ConnectionHandler implements Handler {
-        
+
         protected Http11AprProtocol proto;
         protected AtomicLong registerCount = new AtomicLong(0);
         protected RequestGroupInfo global = new RequestGroupInfo();
-        
+
         protected final Map<Long, Http11AprProcessor> connections =
                 new ConcurrentHashMap<Long, Http11AprProcessor>();
-        protected ConcurrentLinkedQueue<Http11AprProcessor> recycledProcessors = 
+        protected ConcurrentLinkedQueue<Http11AprProcessor> recycledProcessors =
             new ConcurrentLinkedQueue<Http11AprProcessor>() {
+            private static final long serialVersionUID = 1L;
             protected AtomicInteger size = new AtomicInteger(0);
+            @Override
             public boolean offer(Http11AprProcessor processor) {
                 boolean offer = (proto.processorCache == -1) ? true : (size.get() < proto.processorCache);
                 //avoid over growing our cache or add after we have stopped
@@ -529,7 +530,8 @@ public class Http11AprProtocol extends AbstractProtocol
                 if (!result) unregister(processor);
                 return result;
             }
-            
+
+            @Override
             public Http11AprProcessor poll() {
                 Http11AprProcessor result = super.poll();
                 if ( result != null ) {
@@ -537,7 +539,8 @@ public class Http11AprProtocol extends AbstractProtocol
                 }
                 return result;
             }
-            
+
+            @Override
             public void clear() {
                 Http11AprProcessor next = poll();
                 while ( next != null ) {
@@ -555,9 +558,9 @@ public class Http11AprProtocol extends AbstractProtocol
         }
 
         public SocketState event(long socket, SocketStatus status) {
-            Http11AprProcessor result = connections.get(socket);
-            
-            SocketState state = SocketState.CLOSED; 
+            Http11AprProcessor result = connections.get(Long.valueOf(socket));
+
+            SocketState state = SocketState.CLOSED;
             if (result != null) {
                 // Call the appropriate event
                 try {
@@ -584,7 +587,7 @@ public class Http11AprProtocol extends AbstractProtocol
                         (sm.getString("http11protocol.proto.error"), e);
                 } finally {
                     if (state != SocketState.LONG) {
-                        connections.remove(socket);
+                        connections.remove(Long.valueOf(socket));
                         recycledProcessors.offer(result);
                         if (state == SocketState.OPEN) {
                             proto.endpoint.getPoller().add(socket);
@@ -596,7 +599,7 @@ public class Http11AprProtocol extends AbstractProtocol
             }
             return state;
         }
-        
+
         public SocketState process(long socket) {
             Http11AprProcessor processor = recycledProcessors.poll();
             try {
@@ -604,16 +607,14 @@ public class Http11AprProtocol extends AbstractProtocol
                     processor = createProcessor();
                 }
 
-                if (processor instanceof ActionHook) {
-                    ((ActionHook) processor).action(ActionCode.ACTION_START, null);
-                }
+                processor.action(ActionCode.ACTION_START, null);
 
                 SocketState state = processor.process(socket);
                 if (state == SocketState.LONG) {
-                    // Associate the connection with the processor. The next request 
+                    // Associate the connection with the processor. The next request
                     // processed by this thread will use either a new or a recycled
                     // processor.
-                    connections.put(socket, processor);
+                    connections.put(Long.valueOf(socket), processor);
                     proto.endpoint.getCometPoller().add(socket);
                 } else {
                     recycledProcessors.offer(processor);
@@ -664,7 +665,7 @@ public class Http11AprProtocol extends AbstractProtocol
             register(processor);
             return processor;
         }
-        
+
         protected void register(Http11AprProcessor processor) {
             if (proto.getDomain() != null) {
                 synchronized (this) {

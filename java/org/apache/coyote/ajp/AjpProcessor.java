@@ -102,7 +102,7 @@ public class AjpProcessor implements ActionHook {
         getBodyMessage.appendInt(Constants.MAX_READ_SIZE + packetSize - Constants.MAX_PACKET_SIZE);
         getBodyMessage.end();
         getBodyMessageArray = new byte[getBodyMessage.getLen()];
-        System.arraycopy(getBodyMessage.getBuffer(), 0, getBodyMessageArray, 
+        System.arraycopy(getBodyMessage.getBuffer(), 0, getBodyMessageArray,
                          0, getBodyMessage.getLen());
 
         // Cause loading of HexUtils
@@ -184,18 +184,18 @@ public class AjpProcessor implements ActionHook {
      */
     protected Socket socket;
 
-    
+
     /**
      * Input stream.
      */
     protected InputStream input;
-    
-    
+
+
     /**
      * Output stream.
      */
     protected OutputStream output;
-    
+
 
     /**
      * Host name (used to avoid useless B2C conversion on the host name).
@@ -292,7 +292,7 @@ public class AjpProcessor implements ActionHook {
         pongMessage.appendByte(Constants.JK_AJP13_CPONG_REPLY);
         pongMessage.end();
         pongMessageArray = new byte[pongMessage.getLen()];
-        System.arraycopy(pongMessage.getBuffer(), 0, pongMessageArray, 
+        System.arraycopy(pongMessage.getBuffer(), 0, pongMessageArray,
                 0, pongMessage.getLen());
 
         // Allocate the end message array
@@ -354,7 +354,7 @@ public class AjpProcessor implements ActionHook {
      * provider is used to perform the conversion. For example it is used with
      * the AJP connectors, the HTTP APR connector and with the
      * {@link org.apache.catalina.valves.SSLValve}. If not specified, the
-     * default provider will be used. 
+     * default provider will be used.
      */
     protected String clientCertProvider = null;
     public String getClientCertProvider() { return clientCertProvider; }
@@ -501,7 +501,7 @@ public class AjpProcessor implements ActionHook {
         recycle();
         input = null;
         output = null;
-        
+
     }
 
 
@@ -682,7 +682,7 @@ public class AjpProcessor implements ActionHook {
         // Translate the HTTP method code to a String.
         byte methodCode = requestHeaderMessage.getByte();
         if (methodCode != Constants.SC_M_JK_STORED) {
-            String methodName = Constants.methodTransArray[(int)methodCode - 1];
+            String methodName = Constants.methodTransArray[methodCode - 1];
             request.method().setString(methodName);
         }
 
@@ -924,7 +924,7 @@ public class AjpProcessor implements ActionHook {
      */
     public void parseHost(MessageBytes valueMB) {
 
-        if (valueMB == null || (valueMB != null && valueMB.isNull()) ) {
+        if (valueMB == null || valueMB.isNull()) {
             // HTTP/1.0
             request.setServerPort(request.getLocalPort());
             try {
@@ -1086,7 +1086,7 @@ public class AjpProcessor implements ActionHook {
         if (first && request.getContentLengthLong() > 0) {
             receive();
         }
-        
+
         // Add the end message
         output.write(endMessageArray);
 
@@ -1110,7 +1110,7 @@ public class AjpProcessor implements ActionHook {
                 throw new IOException(sm.getString("ajpprotocol.failedread"));
             }
         }
-        
+
         return true;
 
     }

@@ -18,7 +18,6 @@
 package org.apache.coyote.ajp;
 
 import java.net.InetAddress;
-import java.net.URLEncoder;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -32,7 +31,6 @@ import javax.management.ObjectName;
 
 import org.apache.coyote.AbstractProtocol;
 import org.apache.coyote.ActionCode;
-import org.apache.coyote.ActionHook;
 import org.apache.coyote.Adapter;
 import org.apache.coyote.RequestGroupInfo;
 import org.apache.coyote.RequestInfo;
@@ -54,8 +52,8 @@ import org.apache.tomcat.util.res.StringManager;
  */
 public class AjpAprProtocol extends AbstractProtocol
     implements MBeanRegistration {
-    
-    
+
+
     protected static org.apache.juli.logging.Log log =
         org.apache.juli.logging.LogFactory.getLog(AjpAprProtocol.class);
 
@@ -77,13 +75,13 @@ public class AjpAprProtocol extends AbstractProtocol
         setTcpNoDelay(Constants.DEFAULT_TCP_NO_DELAY);
     }
 
-    
+
     // ----------------------------------------------------- Instance Variables
 
 
     protected ObjectName tpOname;
-    
-    
+
+
     protected ObjectName rgOname;
 
 
@@ -92,6 +90,7 @@ public class AjpAprProtocol extends AbstractProtocol
      */
     protected AprEndpoint endpoint = new AprEndpoint();
 
+    @Override
     protected final AbstractEndpoint getEndpoint() {
         return endpoint;
     }
@@ -99,15 +98,15 @@ public class AjpAprProtocol extends AbstractProtocol
     /**
      * Configuration attributes.
      */
-    protected Hashtable attributes = new Hashtable();
+    protected Hashtable<String,Object> attributes = new Hashtable<String,Object>();
 
 
     /**
      * Adapter which will process the requests recieved by this endpoint.
      */
     private Adapter adapter;
-    
-    
+
+
     /**
      * Connection handler for AJP.
      */
@@ -117,7 +116,7 @@ public class AjpAprProtocol extends AbstractProtocol
     // --------------------------------------------------------- Public Methods
 
 
-    /** 
+    /**
      * Pass config info
      */
     public void setAttribute(String name, Object value) {
@@ -135,7 +134,7 @@ public class AjpAprProtocol extends AbstractProtocol
     }
 
 
-    public Iterator getAttributeNames() {
+    public Iterator<String> getAttributeNames() {
         return attributes.keySet().iterator();
     }
 
@@ -244,7 +243,7 @@ public class AjpAprProtocol extends AbstractProtocol
 
     public Executor getExecutor() { return endpoint.getExecutor(); }
     public void setExecutor(Executor executor) { endpoint.setExecutor(executor); }
-    
+
     public int getMaxThreads() { return endpoint.getMaxThreads(); }
     public void setMaxThreads(int maxThreads) { endpoint.setMaxThreads(maxThreads); }
 
@@ -270,7 +269,7 @@ public class AjpAprProtocol extends AbstractProtocol
     public void setSoTimeout(int soTimeout) { endpoint.setSoTimeout(soTimeout); }
 
     /**
-     * Should authentication be done in the native webserver layer, 
+     * Should authentication be done in the native webserver layer,
      * or in the Servlet container ?
      */
     protected boolean tomcatAuthentication = true;
@@ -282,7 +281,7 @@ public class AjpAprProtocol extends AbstractProtocol
      */
     protected String requiredSecret = null;
     public void setRequiredSecret(String requiredSecret) { this.requiredSecret = requiredSecret; }
-    
+
     /**
      * AJP packet size.
      */
@@ -304,6 +303,7 @@ public class AjpAprProtocol extends AbstractProtocol
     public void setKeepAliveTimeout(int timeout) { endpoint.setKeepAliveTimeout(timeout); }
 
     public boolean getUseSendfile() { return endpoint.getUseSendfile(); }
+    @SuppressWarnings("unused")
     public void setUseSendfile(boolean useSendfile) { /* No sendfile for AJP */ }
 
     public int getPollTime() { return endpoint.getPollTime(); }
@@ -312,7 +312,7 @@ public class AjpAprProtocol extends AbstractProtocol
     public void setPollerSize(int pollerSize) { endpoint.setPollerSize(pollerSize); }
     public int getPollerSize() { return endpoint.getPollerSize(); }
 
-    
+
     /**
      * When client certificate information is presented in a form other than
      * instances of {@link java.security.cert.X509Certificate} it needs to be
@@ -320,7 +320,7 @@ public class AjpAprProtocol extends AbstractProtocol
      * provider is used to perform the conversion. For example it is used with
      * the AJP connectors, the HTTP APR connector and with the
      * {@link org.apache.catalina.valves.SSLValve}. If not specified, the
-     * default provider will be used. 
+     * default provider will be used.
      */
     protected String clientCertProvider = null;
     public String getClientCertProvider() { return clientCertProvider; }
@@ -336,9 +336,11 @@ public class AjpAprProtocol extends AbstractProtocol
         protected AtomicLong registerCount = new AtomicLong(0);
         protected RequestGroupInfo global = new RequestGroupInfo();
 
-        protected ConcurrentLinkedQueue<AjpAprProcessor> recycledProcessors = 
+        protected ConcurrentLinkedQueue<AjpAprProcessor> recycledProcessors =
             new ConcurrentLinkedQueue<AjpAprProcessor>() {
+            private static final long serialVersionUID = 1L;
             protected AtomicInteger size = new AtomicInteger(0);
+            @Override
             public boolean offer(AjpAprProcessor processor) {
                 boolean offer = (proto.processorCache == -1) ? true : (size.get() < proto.processorCache);
                 //avoid over growing our cache or add after we have stopped
@@ -352,7 +354,8 @@ public class AjpAprProtocol extends AbstractProtocol
                 if (!result) unregister(processor);
                 return result;
             }
-            
+
+            @Override
             public AjpAprProcessor poll() {
                 AjpAprProcessor result = super.poll();
                 if ( result != null ) {
@@ -360,7 +363,8 @@ public class AjpAprProtocol extends AbstractProtocol
                 }
                 return result;
             }
-            
+
+            @Override
             public void clear() {
                 AjpAprProcessor next = poll();
                 while ( next != null ) {
@@ -380,7 +384,7 @@ public class AjpAprProtocol extends AbstractProtocol
         public SocketState event(long socket, SocketStatus status) {
             return SocketState.CLOSED;
         }
-        
+
         public SocketState process(long socket) {
             AjpAprProcessor processor = recycledProcessors.poll();
             try {
@@ -389,9 +393,7 @@ public class AjpAprProtocol extends AbstractProtocol
                     processor = createProcessor();
                 }
 
-                if (processor instanceof ActionHook) {
-                    ((ActionHook) processor).action(ActionCode.ACTION_START, null);
-                }
+                processor.action(ActionCode.ACTION_START, null);
 
                 if (processor.process(socket)) {
                     return SocketState.OPEN;
@@ -420,9 +422,7 @@ public class AjpAprProtocol extends AbstractProtocol
                 AjpAprProtocol.log.error
                     (sm.getString("ajpprotocol.proto.error"), e);
             } finally {
-                if (processor instanceof ActionHook) {
-                    ((ActionHook) processor).action(ActionCode.ACTION_STOP, null);
-                }
+                processor.action(ActionCode.ACTION_STOP, null);
                 recycledProcessors.offer(processor);
             }
             return SocketState.CLOSED;
@@ -437,7 +437,7 @@ public class AjpAprProtocol extends AbstractProtocol
             register(processor);
             return processor;
         }
-        
+
         protected void register(AjpAprProcessor processor) {
             if (proto.getDomain() != null) {
                 synchronized (this) {
@@ -513,6 +513,6 @@ public class AjpAprProtocol extends AbstractProtocol
 
     public void postDeregister() {
     }
-    
- 
+
+
 }

@@ -83,7 +83,7 @@ public class Http11NioProcessor implements ActionHook {
 
     /*
      * Tracks how many internal filters are in the filter library so they
-     * are skipped when looking for pluggable filters. 
+     * are skipped when looking for pluggable filters.
      */
     private int pluggableFilterIndex = Integer.MAX_VALUE;
 
@@ -96,7 +96,6 @@ public class Http11NioProcessor implements ActionHook {
         this.endpoint = endpoint;
 
         request = new Request();
-        int readTimeout = endpoint.getSoTimeout();
         inputBuffer = new InternalNioInputBuffer(request, maxHttpHeaderSize);
         request.setInputBuffer(inputBuffer);
 
@@ -180,9 +179,9 @@ public class Http11NioProcessor implements ActionHook {
      * Comet used.
      */
     protected boolean comet = false;
-    
+
     /**
-     * Closed flag, a Comet async thread can 
+     * Closed flag, a Comet async thread can
      * signal for this Nio processor to be closed and recycled instead
      * of waiting for a timeout.
      * Closed by HttpServletResponse.getWriter().close()
@@ -482,7 +481,7 @@ public class Http11NioProcessor implements ActionHook {
      */
     protected void addFilter(String className) {
         try {
-            Class clazz = Class.forName(className);
+            Class<?> clazz = Class.forName(className);
             Object obj = clazz.newInstance();
             if (obj instanceof InputFilter) {
                 inputBuffer.addFilter((InputFilter) obj);
@@ -538,22 +537,6 @@ public class Http11NioProcessor implements ActionHook {
             result[rArray.length] = value;
         }
         return result;
-    }
-
-
-    /**
-     * General use method
-     *
-     * @param sArray the StringArray
-     * @param value string
-     */
-    private boolean inStringArray(String sArray[], String value) {
-        for (int i = 0; i < sArray.length; i++) {
-            if (sArray[i].equals(value)) {
-                return true;
-            }
-        }
-        return false;
     }
 
 
@@ -811,12 +794,10 @@ public class Http11NioProcessor implements ActionHook {
         error = false;
         keepAlive = true;
         comet = false;
-        
+
 
         int keepAliveLeft = maxKeepAliveRequests;
         long soTimeout = endpoint.getSoTimeout();
-
-        int limit = 0;
 
         boolean keptAlive = false;
         boolean openSocket = false;
@@ -847,7 +828,7 @@ public class Http11NioProcessor implements ActionHook {
                 }
                 request.setStartTime(System.currentTimeMillis());
                 if (!disableUploadTimeout) { //only for body, not for request headers
-                    socket.getIOChannel().socket().setSoTimeout((int)timeout);
+                    socket.getIOChannel().socket().setSoTimeout(timeout);
                 }
             } catch (IOException e) {
                 if (log.isDebugEnabled()) {
@@ -924,7 +905,7 @@ public class Http11NioProcessor implements ActionHook {
             // Finish the handling of the request
             if (!comet) {
                 // If we know we are closing the connection, don't drain input.
-                // This way uploading a 100GB file doesn't tie up the thread 
+                // This way uploading a 100GB file doesn't tie up the thread
                 // if the servlet has rejected it.
                 if(error)
                     inputBuffer.setSwallowInput(false);
@@ -943,7 +924,7 @@ public class Http11NioProcessor implements ActionHook {
                 inputBuffer.nextRequest();
                 outputBuffer.nextRequest();
             }
-            
+
             // Do sendfile as needed: add socket to sendfile and end
             if (sendfileData != null && !error) {
                 KeyAttachment ka = (KeyAttachment)socket.getAttachment(false);
@@ -1038,7 +1019,7 @@ public class Http11NioProcessor implements ActionHook {
                 return;
 
             // Validate and write response headers
-            
+
             try {
                 prepareResponse();
                 outputBuffer.commit();
@@ -1466,7 +1447,7 @@ public class Http11NioProcessor implements ActionHook {
         parseHost(valueMB);
 
         if (!contentDelimitation) {
-            // If there's no content length 
+            // If there's no content length
             // (broken HTTP/1.0 or HTTP/1.1), assume
             // the client is not broken and didn't send a body
             inputBuffer.addActiveFilter
@@ -1475,7 +1456,7 @@ public class Http11NioProcessor implements ActionHook {
         }
 
         // Advertise sendfile support through a request attribute
-        if (endpoint.getUseSendfile()) 
+        if (endpoint.getUseSendfile())
             request.setAttribute("org.apache.tomcat.sendfile.support", Boolean.TRUE);
         // Advertise comet support through a request attribute
         request.setAttribute("org.apache.tomcat.comet.support", Boolean.TRUE);
@@ -1626,7 +1607,7 @@ public class Http11NioProcessor implements ActionHook {
         return true;
     }
 
-    
+
     /**
      * When committing the response, we have to validate the set of headers, as
      * well as setup the response filters.
@@ -1662,7 +1643,7 @@ public class Http11NioProcessor implements ActionHook {
                 (outputFilters[Constants.VOID_FILTER]);
             contentDelimitation = true;
         }
-        
+
         // Sendfile support
         if (this.endpoint.getUseSendfile()) {
             String fileName = (String) request.getAttribute("org.apache.tomcat.sendfile.filename");
@@ -1752,7 +1733,7 @@ public class Http11NioProcessor implements ActionHook {
             headers.setValue("Date").setString(
                     FastHttpDateFormat.getCurrentDate());
         }
-        
+
         // FIXME: Add transfer encoding header
 
         if ((entityBody) && (!contentDelimitation)) {

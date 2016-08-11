@@ -17,7 +17,6 @@
 package org.apache.coyote.http11;
 
 import java.net.InetAddress;
-import java.net.URLEncoder;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,7 +31,6 @@ import javax.management.ObjectName;
 
 import org.apache.coyote.AbstractProtocol;
 import org.apache.coyote.ActionCode;
-import org.apache.coyote.ActionHook;
 import org.apache.coyote.Adapter;
 import org.apache.coyote.RequestGroupInfo;
 import org.apache.coyote.RequestInfo;
@@ -89,7 +87,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
         return attributes.get(key);
     }
 
-    public Iterator getAttributeNames() {
+    public Iterator<String> getAttributeNames() {
         return attributes.keySet().iterator();
     }
 
@@ -210,13 +208,14 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
     // -------------------- Properties--------------------
     protected NioEndpoint ep=new NioEndpoint();
 
+    @Override
     protected final AbstractEndpoint getEndpoint() {
         return ep;
     }
 
     protected boolean secure = false;
 
-    protected Hashtable attributes = new Hashtable();
+    protected Hashtable<String,Object> attributes = new Hashtable<String,Object>();
 
     private int maxKeepAliveRequests=100; // as in Apache HTTPD server
     private int timeout = 300000;   // 5 minutes as in Apache HTTPD server
@@ -534,7 +533,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
 
     public void setOomParachute(int oomParachute) {
         ep.setOomParachute(oomParachute);
-        setAttribute("oomParachute",oomParachute);
+        setAttribute("oomParachute", Integer.valueOf(oomParachute));
     }
 
     // --------------------  SSL related properties --------------------
@@ -616,8 +615,11 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
 
         protected final Map<NioChannel, Http11NioProcessor> connections =
                 new ConcurrentHashMap<NioChannel, Http11NioProcessor>();
-        protected ConcurrentLinkedQueue<Http11NioProcessor> recycledProcessors = new ConcurrentLinkedQueue<Http11NioProcessor>() {
+        protected ConcurrentLinkedQueue<Http11NioProcessor> recycledProcessors =
+                new ConcurrentLinkedQueue<Http11NioProcessor>() {
+            private static final long serialVersionUID = 1L;
             protected AtomicInteger size = new AtomicInteger(0);
+            @Override
             public boolean offer(Http11NioProcessor processor) {
                 boolean offer = proto.processorCache==-1?true:size.get() < proto.processorCache;
                 //avoid over growing our cache or add after we have stopped
@@ -632,6 +634,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
                 return result;
             }
 
+            @Override
             public Http11NioProcessor poll() {
                 Http11NioProcessor result = super.poll();
                 if ( result != null ) {
@@ -640,6 +643,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
                 return result;
             }
 
+            @Override
             public void clear() {
                 Http11NioProcessor next = poll();
                 while ( next != null ) {
@@ -737,9 +741,7 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
                     processor = createProcessor();
                 }
 
-                if (processor instanceof ActionHook) {
-                    ((ActionHook) processor).action(ActionCode.ACTION_START, null);
-                }
+                processor.action(ActionCode.ACTION_START, null);
 
                 if (proto.ep.isSSLEnabled() && (proto.sslImplementation != null)) {
                     if (socket instanceof SecureNioChannel) {

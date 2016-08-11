@@ -344,13 +344,13 @@ public class AjpAprProcessor implements ActionHook {
      * provider is used to perform the conversion. For example it is used with
      * the AJP connectors, the HTTP APR connector and with the
      * {@link org.apache.catalina.valves.SSLValve}. If not specified, the
-     * default provider will be used. 
+     * default provider will be used.
      */
     protected String clientCertProvider = null;
     public String getClientCertProvider() { return clientCertProvider; }
     public void setClientCertProvider(String s) { this.clientCertProvider = s; }
 
-    
+
     // --------------------------------------------------------- Public Methods
 
 
@@ -537,7 +537,7 @@ public class AjpAprProcessor implements ActionHook {
                 // Send explicit flush message
                 if (Socket.sendb(socket, flushMessageBuffer, 0,
                                  flushMessageBuffer.position()) < 0) {
-                    error = true;                    
+                    error = true;
                 }
             } catch (IOException e) {
                 // Set error flag
@@ -677,7 +677,7 @@ public class AjpAprProcessor implements ActionHook {
         // Translate the HTTP method code to a String.
         byte methodCode = requestHeaderMessage.getByte();
         if (methodCode != Constants.SC_M_JK_STORED) {
-            String methodName = Constants.methodTransArray[(int)methodCode - 1];
+            String methodName = Constants.methodTransArray[methodCode - 1];
             request.method().setString(methodName);
         }
 
@@ -919,7 +919,7 @@ public class AjpAprProcessor implements ActionHook {
      */
     public void parseHost(MessageBytes valueMB) {
 
-        if (valueMB == null || (valueMB != null && valueMB.isNull()) ) {
+        if (valueMB == null || valueMB.isNull()) {
             // HTTP/1.0
             request.setServerPort(request.getLocalPort());
             try {
@@ -993,8 +993,7 @@ public class AjpAprProcessor implements ActionHook {
      * When committing the response, we have to validate the set of headers, as
      * well as setup the response filters.
      */
-    protected void prepareResponse()
-        throws IOException {
+    protected void prepareResponse() throws IOException {
 
         response.setCommitted(true);
 
@@ -1007,7 +1006,7 @@ public class AjpAprProcessor implements ActionHook {
         if (org.apache.coyote.Constants.USE_CUSTOM_STATUS_MSG_IN_HEADER &&
                 HttpMessages.isSafeInHttpHeader(response.getMessage())) {
             message = response.getMessage();
-        } 
+        }
         if (message == null){
             message = HttpMessages.getMessage(response.getStatus());
         }
@@ -1036,7 +1035,7 @@ public class AjpAprProcessor implements ActionHook {
         // Other headers
         int numHeaders = headers.size();
         responseHeaderMessage.appendInt(numHeaders);
-        for (int i = 0; i < numHeaders; i++) {            
+        for (int i = 0; i < numHeaders; i++) {
             MessageBytes hN = headers.getName(i);
             int hC = Constants.getResponseAjpIndex(hN.toString());
             if (hC > 0) {
@@ -1081,7 +1080,7 @@ public class AjpAprProcessor implements ActionHook {
         if (first && request.getContentLengthLong() > 0) {
             receive();
         }
-        
+
         // Add the end message
         if (outputBuffer.position() + endMessageArray.length > outputBuffer.capacity()) {
             flush();
@@ -1227,7 +1226,6 @@ public class AjpAprProcessor implements ActionHook {
             boolean useAvailableData)
         throws IOException {
 
-        byte[] buf = message.getBuffer();
         int headerLength = message.getHeaderLength();
 
         if (first) {
@@ -1243,7 +1241,6 @@ public class AjpAprProcessor implements ActionHook {
         inputBuffer.get(message.getBuffer(), headerLength, message.getLen());
 
         return true;
-
     }
 
 

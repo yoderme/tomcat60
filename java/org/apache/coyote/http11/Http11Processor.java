@@ -71,12 +71,12 @@ public class Http11Processor implements ActionHook {
     protected static StringManager sm =
         StringManager.getManager(Constants.Package);
 
-    protected static boolean isSecurityEnabled = 
+    protected static boolean isSecurityEnabled =
 	org.apache.coyote.Constants.IS_SECURITY_ENABLED;
 
     /*
      * Tracks how many internal filters are in the filter library so they
-     * are skipped when looking for pluggable filters. 
+     * are skipped when looking for pluggable filters.
      */
     private int pluggableFilterIndex = Integer.MAX_VALUE;
 
@@ -87,7 +87,7 @@ public class Http11Processor implements ActionHook {
     public Http11Processor(int headerBufferSize, JIoEndpoint endpoint) {
 
         this.endpoint = endpoint;
-        
+
         request = new Request();
         inputBuffer = new InternalInputBuffer(request, headerBufferSize);
         request.setInputBuffer(inputBuffer);
@@ -468,7 +468,7 @@ public class Http11Processor implements ActionHook {
      */
     protected void addFilter(String className) {
         try {
-            Class clazz = Class.forName(className);
+            Class<?> clazz = Class.forName(className);
             Object obj = clazz.newInstance();
             if (obj instanceof InputFilter) {
                 inputBuffer.addFilter((InputFilter) obj);
@@ -524,22 +524,6 @@ public class Http11Processor implements ActionHook {
             result[rArray.length] = value;
         }
         return result;
-    }
-
-
-    /**
-     * General use method
-     *
-     * @param sArray the StringArray
-     * @param value string
-     */
-    private boolean inStringArray(String sArray[], String value) {
-        for (int i = 0; i < sArray.length; i++) {
-            if (sArray[i].equals(value)) {
-                return true;
-            }
-        }
-        return false;
     }
 
 
@@ -751,7 +735,7 @@ public class Http11Processor implements ActionHook {
      *
      * @param theSocket Socket from which the HTTP requests will be read
      *               and the HTTP responses will be written.
-     *  
+     *
      * @throws IOException error during an I/O operation
      */
     public void process(Socket theSocket)
@@ -789,7 +773,7 @@ public class Http11Processor implements ActionHook {
                 keepAliveLeft = 1;
             }
         }
-        
+
         try {
             socket.setSoTimeout(soTimeout);
         } catch (Throwable t) {
@@ -884,7 +868,7 @@ public class Http11Processor implements ActionHook {
             try {
                 rp.setStage(org.apache.coyote.Constants.STAGE_ENDINPUT);
                 // If we know we are closing the connection, don't drain input.
-                // This way uploading a 100GB file doesn't tie up the thread 
+                // This way uploading a 100GB file doesn't tie up the thread
                 // if the servlet has rejected it.
                 if(error)
                     inputBuffer.setSwallowInput(false);
@@ -895,7 +879,7 @@ public class Http11Processor implements ActionHook {
                 log.error(sm.getString("http11processor.request.finish"), t);
                 // 500 - Internal Server Error
                 response.setStatus(500);
-                // No access logging since after service method 
+                // No access logging since after service method
                 error = true;
             }
             try {
@@ -1130,7 +1114,7 @@ public class Http11Processor implements ActionHook {
             }
         } else if (actionCode == ActionCode.ACTION_REQ_SET_BODY_REPLAY) {
             ByteChunk body = (ByteChunk) param;
-            
+
             InputFilter savedBody = new SavedRequestInputFilter(body);
             savedBody.setRequest(request);
 
@@ -1352,7 +1336,7 @@ public class Http11Processor implements ActionHook {
         parseHost(valueMB);
 
         if (!contentDelimitation) {
-            // If there's no content length 
+            // If there's no content length
             // (broken HTTP/1.0 or HTTP/1.1), assume
             // the client is not broken and didn't send a body
             inputBuffer.addActiveFilter
@@ -1508,7 +1492,7 @@ public class Http11Processor implements ActionHook {
         return true;
     }
 
-    
+
     /**
      * When committing the response, we have to validate the set of headers, as
      * well as setup the response filters.
@@ -1618,7 +1602,7 @@ public class Http11Processor implements ActionHook {
             headers.setValue("Date").setString(
                     FastHttpDateFormat.getCurrentDate());
         }
-        
+
         // FIXME: Add transfer encoding header
 
         if ((entityBody) && (!contentDelimitation)) {
