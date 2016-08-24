@@ -230,6 +230,10 @@
         <bug>59642</bug>: Mention the <code>localDataSource</code> in the
         <code>DataSourceRealm</code> section of the Realm How-To. (markt)
       </fix>
+      <fix>
+        <bug>60034</bug>: Correct a typo in the Manager How-To page of the
+        documentation web application. (markt) 
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Other">
