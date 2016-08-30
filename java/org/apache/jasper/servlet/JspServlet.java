@@ -81,6 +81,11 @@ public class JspServlet extends HttpServlet implements PeriodicEventListener {
         // Initialize the JSP Runtime Context
         // Check for a custom Options implementation
         String engineOptionsName = config.getInitParameter("engineOptionsClass");
+        if (Constants.IS_SECURITY_ENABLED && engineOptionsName != null) {
+            log.info(Localizer.getMessage(
+                    "jsp.info.ignoreSetting", "engineOptionsClass", engineOptionsName));
+            engineOptionsName = null;
+        }
         if (engineOptionsName != null) {
             // Instantiate the indicated Options implementation
             try {
