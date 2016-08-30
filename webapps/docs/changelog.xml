@@ -137,6 +137,10 @@
         that the global resource is only visible via the
         <code>ResourceLinkFactory</code> when it is meant to be. (markt)
       </add>
+      <fix>
+        Make timing attacks against the Realm implementations harder.
+        (schultz/markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">

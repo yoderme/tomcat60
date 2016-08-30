@@ -336,15 +336,19 @@ public abstract class RealmBase
      */
     public Principal authenticate(String username, String credentials) {
 
+        // No user or no credentials
+        // Can't possibly authenticate, don't bother the database then
+        if (username == null || credentials == null) {
+            return null;
+        }
+
         String serverCredentials = getPassword(username);
 
         boolean validated ;
-        if ( serverCredentials == null ) {
-            validated = false;
-        } else if(hasMessageDigest()) {
-            validated = serverCredentials.equalsIgnoreCase(digest(credentials));
+        if(hasMessageDigest()) {
+            validated = digest(credentials).equalsIgnoreCase(serverCredentials);
         } else {
-            validated = serverCredentials.equals(credentials);
+            validated = credentials.equals(serverCredentials);
         }
         if(! validated ) {
             if (containerLog.isTraceEnabled()) {

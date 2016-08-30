@@ -142,23 +142,29 @@ public class MemoryRealm  extends RealmBase {
      * @param credentials Password or other credentials to use in
      *  authenticating this username
      */
+    @Override
     public Principal authenticate(String username, String credentials) {
 
-        GenericPrincipal principal =
-            (GenericPrincipal) principals.get(username);
+        // No user or no credentials
+        // Can't possibly authenticate, don't bother the database then
+        if (username == null || credentials == null) {
+            return null;
+        }
+        
+        GenericPrincipal principal = principals.get(username);
 
         boolean validated = false;
-        if (principal != null && credentials != null) {
-            if (hasMessageDigest()) {
-                // Hex hashes should be compared case-insensitive
-                validated = (digest(credentials)
-                             .equalsIgnoreCase(principal.getPassword()));
-            } else {
-                validated =
-                    (digest(credentials).equals(principal.getPassword()));
-            }
+        String dbCredentials = null;
+        if (principal != null) {
+            dbCredentials = principal.getPassword();
         }
-
+        if (hasMessageDigest()) {
+            // Hex hashes should be compared case-insensitive
+            validated = (digest(credentials).equalsIgnoreCase(dbCredentials));
+        } else {
+            validated = (digest(credentials).equals(dbCredentials));
+        }
+    
         if (validated) {
             if (log.isDebugEnabled())
                 log.debug(sm.getString("memoryRealm.authenticateSuccess", username));
