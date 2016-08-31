@@ -280,6 +280,7 @@ public class DataSourceRealm
      * @param credentials Password or other credentials to use in
      *  authenticating this username
      */
+    @Override
     public Principal authenticate(String username, String credentials) {
     	
     	// No user or no credentials
@@ -302,13 +303,6 @@ public class DataSourceRealm
             // Acquire a Principal object for this user
             return authenticate(dbConnection, username, credentials);
             
-        } catch (SQLException e) {
-            // Log the problem for posterity
-            containerLog.error(sm.getString("dataSourceRealm.exception"), e);
-
-            // Return "not authenticated" for this request
-            return (null);
-
         } finally {
         	close(dbConnection);
         }
@@ -333,7 +327,7 @@ public class DataSourceRealm
      */
     protected Principal authenticate(Connection dbConnection,
                                                String username,
-                                               String credentials) throws SQLException{
+                                               String credentials) {
 
         String dbCredentials = getPassword(dbConnection, username);
 

@@ -340,6 +340,7 @@ public class JDBCRealm
      * @param credentials Password or other credentials to use in
      *  authenticating this username
      */
+    @Override
     public synchronized Principal authenticate(String username, String credentials) {
 
         // Number of tries is the numebr of attempts to connect to the database
