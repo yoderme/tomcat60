@@ -141,6 +141,10 @@
         Make timing attacks against the Realm implementations harder.
         (schultz/markt)
       </fix>
+      <fix>
+        Ensure <code>Digester.useContextClassLoader</code> is considered in
+        case the class loader is used. (violetagg)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
