@@ -252,6 +252,11 @@
         <bug>60034</bug>: Correct a typo in the Manager How-To page of the
         documentation web application. (markt) 
       </fix>
+      <add>
+        Add an example of using the <code>classesToInitialize</code> attribute
+        of the <code>JreMemoryLeakPreventionListener</code> to the documentation
+        web application. Based on a patch by Cris Berneburg. (markt)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Other">
