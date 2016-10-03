@@ -75,13 +75,13 @@ public final class SecurityClassLoad {
     
     private final static void loadLoaderPackage(ClassLoader loader)
         throws Exception {
-        String basePackage = "org.apache.catalina.";
+        String basePackage = "org.apache.catalina.loader.";
         loader.loadClass
             (basePackage +
              "ResourceEntry");
         loader.loadClass
             (basePackage +
-             "WebappClassLoaderBase$PrivilegedFindResourceByName");
+             "WebappClassLoader$PrivilegedFindResourceByName");
     }
     
     
