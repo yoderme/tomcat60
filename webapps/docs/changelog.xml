@@ -36,6 +36,7 @@
     <author email="timw@apache.org">Tim Whittington</author>
     <author email="slaurent@apache.org">Sylvain Laurent</author>
     <author email="schultz@apache.org">Christopher Schultz</author>
+    <author email="csutherl@apache.org">Coty Sutherland</author>
     <title>Changelog</title>
   </properties>
 
@@ -150,6 +151,11 @@
         <code>ResourceLink</code> fails to specify the type, specifies an
         unknown type or specifies the wrong type. (markt)
       </add>
+      <fix>
+        Correct <code>basePackage</code> and <code>PrivilegedFindResourceByName
+        </code> in <code>SecurityClassLoad</code> so that tomcat can
+        successfully start with the Security Manager enabled. (csutherl)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
