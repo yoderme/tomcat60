@@ -156,6 +156,11 @@
         </code> in <code>SecurityClassLoad</code> so that tomcat can
         successfully start with the Security Manager enabled. (csutherl)
       </fix>
+      <fix>
+        Improve the access checks for linked global resources to handle the case
+        where the current class loader is a child of the web application class
+        loader. (markt)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Coyote">
