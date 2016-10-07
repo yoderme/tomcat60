@@ -44,7 +44,7 @@
 <!-- Section names:
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
-<section name="Tomcat 6.0.46">
+<section name="Tomcat 6.0.46 (violetagg)">
   <subsection name="Catalina">
     <changelog>
       <add>
