@@ -27,7 +27,7 @@ version.major=6
 version.minor=0
 version.build=46
 version.patch=0
-version.suffix=-dev
+version.suffix=
 version=6.0.46
 
 # ----- Build control flags -----
