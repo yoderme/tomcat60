@@ -171,8 +171,6 @@ public class StandardManager
 
         // Register with the new Container (if any)
         if ((this.container != null) && (this.container instanceof Context)) {
-            setMaxInactiveInterval
-                ( ((Context) this.container).getSessionTimeout()*60 );
             ((Context) this.container).addPropertyChangeListener(this);
         }
     }
@@ -710,22 +708,7 @@ public class StandardManager
      * @param event The property change event that has occurred
      */
     public void propertyChange(PropertyChangeEvent event) {
-
-        // Validate the source of this event
-        if (!(event.getSource() instanceof Context))
-            return;
-
-        // Process a relevant property change
-        if (event.getPropertyName().equals("sessionTimeout")) {
-            try {
-                setMaxInactiveInterval
-                    ( ((Integer) event.getNewValue()).intValue()*60 );
-            } catch (NumberFormatException e) {
-                log.error(sm.getString("standardManager.sessionTimeout",
-                                 event.getNewValue().toString()));
-            }
-        }
-
+        // no-op
     }
 
 
