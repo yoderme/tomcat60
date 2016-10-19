@@ -45,6 +45,14 @@
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
 <section name="Tomcat 6.0.48">
+  <subsection name="Catalina">
+    <changelog>
+      <fix>
+        Correctly test for control characters when reading the provided shutdown
+        password. (markt)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Coyote">
     <changelog>
       <fix>
