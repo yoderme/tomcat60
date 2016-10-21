@@ -20,8 +20,11 @@ package org.apache.catalina.mbeans;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.RMIClientSocketFactory;
@@ -57,6 +60,7 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
     protected static final StringManager sm =
             StringManager.getManager(JmxRemoteLifecycleListener.class);
 
+    protected String rmiBindAddress = null;
     protected int rmiRegistryPortPlatform = -1;
     protected int rmiServerPortPlatform = -1;
     protected boolean rmiSSL = true;
@@ -70,6 +74,22 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
     protected boolean useLocalPorts = false;
 
     protected JMXConnectorServer csPlatform = null;
+
+    /**
+     * Get the inet address on which the Platform RMI server is exported.
+     * @return The textual representation of inet address
+     */
+    public String getRmiBindAddress() {
+        return rmiBindAddress;
+    }
+
+    /**
+     * Set the inet address on which the Platform RMI server is exported.
+     * @param theRmiBindAddress The textual representation of inet address
+     */
+    public void setRmiBindAddress(String theRmiBindAddress) {
+        rmiBindAddress = theRmiBindAddress;
+    }
 
     /**
      * Get the port on which the Platform RMI server is exported. This is the
@@ -184,9 +204,26 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
 
             // Configure SSL for RMI connection if required
             if (rmiSSL) {
+                if (rmiBindAddress != null) {
+                    throw new IllegalStateException(sm.getString(
+                            "jmxRemoteLifecycleListener.sslRmiBindAddress"));
+                }
+
                 csf = new SslRMIClientSocketFactory();
                 ssf = new SslRMIServerSocketFactory(ciphers, protocols,
                             clientAuth);
+            }
+
+            // Force server bind address if required
+            if (rmiBindAddress != null) {
+                try {
+                    ssf = new RmiServerBindSocketFactory(
+                            InetAddress.getByName(rmiBindAddress));
+                } catch (UnknownHostException e) {
+                    log.error(sm.getString(
+                            "jmxRemoteLifecycleListener.invalidRmiBindAddress",
+                            rmiBindAddress), e);
+                }
             }
 
             // Force the use of local ports if required
@@ -213,7 +250,7 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
 
             // Create the Platform server
             csPlatform = createServer("Platform", rmiRegistryPortPlatform,
-                    rmiServerPortPlatform, env,
+                    rmiServerPortPlatform, env, csf, ssf,
                     ManagementFactory.getPlatformMBeanServer());
 
         } else if (Lifecycle.STOP_EVENT.equals(event.getType())) {
@@ -224,11 +261,12 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
 
     private JMXConnectorServer createServer(String serverName,
             int theRmiRegistryPort, int theRmiServerPort,
-            HashMap<String,Object> theEnv, MBeanServer theMBeanServer) {
+            HashMap<String,Object> theEnv, RMIClientSocketFactory csf,
+            RMIServerSocketFactory ssf, MBeanServer theMBeanServer) {
 
         // Create the RMI registry
         try {
-            LocateRegistry.createRegistry(theRmiRegistryPort);
+            LocateRegistry.createRegistry(theRmiRegistryPort, csf, ssf);
         } catch (RemoteException e) {
             log.error(sm.getString(
                     "jmxRemoteLifecycleListener.createRegistryFailed",
@@ -305,7 +343,20 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
                 return factory.createSocket(FORCED_HOST, port);
             }
         }
+    }
 
 
+    public static class RmiServerBindSocketFactory
+            implements RMIServerSocketFactory {
+
+        private final InetAddress bindAddress;
+
+        public RmiServerBindSocketFactory(InetAddress address) {
+            bindAddress = address;
+        }
+
+        public ServerSocket createServerSocket(int port) throws IOException  {
+            return new ServerSocket(port, 0, bindAddress);
+        }
     }
 }

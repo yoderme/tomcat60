@@ -51,6 +51,10 @@
         Correctly test for control characters when reading the provided shutdown
         password. (markt)
       </fix>
+      <add>
+        <bug>55017</bug>: Add the ability to configure the RMI bind address when
+        using the JMX remote listener. Patch provided by Alexey Noskov. (markt)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Coyote">
