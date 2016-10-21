@@ -14,7 +14,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package org.apache.tomcat.util.res;
 
 import java.text.MessageFormat;
@@ -40,31 +39,29 @@ import java.util.ResourceBundle;
  * the package name given plus the suffix of "LocalStrings". In
  * practice, this means that the localized information will be contained
  * in a LocalStrings.properties file located in the package
- * directory of the classpath.
+ * directory of the class path.
  *
  * <p>Please see the documentation for java.util.ResourceBundle for
  * more information.
- *
- *
  *
  * @author James Duncan Davidson [duncan@eng.sun.com]
  * @author James Todd [gonzo@eng.sun.com]
  * @author Mel Martinez [mmartinez@g1440.com]
  * @see java.util.ResourceBundle
  */
-
 public class StringManager {
 
     // Locale.ROOT isn't available until Java 6
     private static final Locale LOCALE_ROOT = new Locale("", "", "");
-    
+
     private static int LOCALE_CACHE_SIZE = 10;
-    
+
     /**
      * The ResourceBundle for this StringManager.
      */
     private final ResourceBundle bundle;
     private final Locale locale;
+
 
     /**
      * Creates a new StringManager for a given package. This is a
@@ -79,19 +76,19 @@ public class StringManager {
         ResourceBundle bnd = null;
         try {
             bnd = ResourceBundle.getBundle(bundleName, locale);
-        } catch( MissingResourceException ex ) {
+        } catch (MissingResourceException ex) {
             // Try from the current loader (that's the case for trusted apps)
             // Should only be required if using a TC5 style classloader structure
             // where common != shared != server
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            if( cl != null ) {
+            if (cl != null) {
                 try {
                     bnd = ResourceBundle.getBundle(bundleName, locale, cl);
-                } catch(MissingResourceException ex2) {
+                } catch (MissingResourceException ex2) {
                     // Ignore
                 }
             }
-        }      
+        }
         bundle = bnd;
         // Get the actual locale, which may be different from the requested one
         if (bundle != null) {
@@ -106,19 +103,21 @@ public class StringManager {
         }
     }
 
+
     /**
-        Get a string from the underlying resource bundle or return
-        null if the String is not found.
-     
-        @param key to desired resource String
-        @return resource String matching <i>key</i> from underlying
-                bundle or null if not found.
-        @throws IllegalArgumentException if <i>key</i> is null.        
+     * Get a string from the underlying resource bundle or return null if the
+     * String is not found.
+     *
+     * @param key to desired resource String
+     *
+     * @return resource String matching <i>key</i> from underlying bundle or
+     *         null if not found.
+     *
+     * @throws IllegalArgumentException if <i>key</i> is null
      */
     public String getString(String key) {
-        if(key == null){
+        if (key == null){
             String msg = "key may not have a null value";
-
             throw new IllegalArgumentException(msg);
         }
 
@@ -133,26 +132,30 @@ public class StringManager {
             //bad: shouldn't mask an exception the following way:
             //   str = "[cannot find message associated with key '" + key +
             //         "' due to " + mre + "]";
-	        //     because it hides the fact that the String was missing
-	        //     from the calling code.
-	        //good: could just throw the exception (or wrap it in another)
-	        //      but that would probably cause much havoc on existing
-	        //      code.
-	        //better: consistent with container pattern to
-	        //      simply return null.  Calling code can then do
-	        //      a null check.
-	        str = null;
+            //     because it hides the fact that the String was missing
+            //     from the calling code.
+            //good: could just throw the exception (or wrap it in another)
+            //      but that would probably cause much havoc on existing
+            //      code.
+            //better: consistent with container pattern to
+            //      simply return null.  Calling code can then do
+            //      a null check.
+            str = null;
         }
 
         return str;
     }
 
+
     /**
      * Get a string from the underlying resource bundle and format
      * it with the given set of arguments.
      *
-     * @param key
-     * @param args
+     * @param key  The key for the required message
+     * @param args The values to insert into the message
+     *
+     * @return The request string formatted with the provided arguments or the
+     *         key if the key was not found.
      */
     public String getString(final String key, final Object... args) {
         String value = getString(key);
@@ -165,12 +168,16 @@ public class StringManager {
         return mf.format(args, new StringBuffer(), null).toString();
     }
 
+
     /**
-     * Identify the Locale this StringManager is associated with
+     * Identify the Locale this StringManager is associated with.
+     *
+     * @return The Locale associated with the StringManager
      */
     public Locale getLocale() {
         return locale;
     }
+
 
     // --------------------------------------------------------------
     // STATIC SUPPORT METHODS
@@ -179,18 +186,22 @@ public class StringManager {
     private static final Map<String,Map<Locale,StringManager>> managers =
             new Hashtable<String,Map<Locale,StringManager>>();
 
+
     /**
      * Get the StringManager for a particular package. If a manager for
      * a package already exists, it will be reused, else a new
      * StringManager will be created and returned.
      *
      * @param packageName The package name
+     *
+     * @return The instance associated with the given package and the default
+     *         Locale
      */
-    public static final synchronized StringManager getManager(
-            String packageName) {
+    public static final StringManager getManager(String packageName) {
         return getManager(packageName, Locale.getDefault());
     }
-    
+
+
     /**
      * Get the StringManager for a particular package and Locale. If a manager
      * for a package/Locale combination already exists, it will be reused, else
@@ -198,6 +209,8 @@ public class StringManager {
      *
      * @param packageName The package name
      * @param locale      The Locale
+     *
+     * @return The instance associated with the given package and Locale
      */
     public static final synchronized StringManager getManager(
             String packageName, Locale locale) {
@@ -234,10 +247,13 @@ public class StringManager {
         return mgr;
     }
 
+
     /**
      * Retrieve the StringManager for a list of Locales. The first StringManager
      * found will be returned.
      *
+     * @param packageName      The package for which the StringManager was
+     *                         requested
      * @param requestedLocales the list of Locales
      *
      * @return the found StringManager or the default StringManager
@@ -254,14 +270,15 @@ public class StringManager {
         // Return the default
         return getManager(packageName);
     }
-    
+
+
     /**
      * Always returns null.
      *
      * @param bundle The resource bundle
-     * 
+     *
      * @return Always <code>null</code>
-     * 
+     *
      * @deprecated  This is unused in Tomcat 6 and will be removed in Tomcat 7
      */
     @Deprecated
