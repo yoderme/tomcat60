@@ -51,10 +51,6 @@
         Correctly test for control characters when reading the provided shutdown
         password. (markt)
       </fix>
-      <add>
-        <bug>55017</bug>: Add the ability to configure the RMI bind address when
-        using the JMX remote listener. Patch provided by Alexey Noskov. (markt)
-      </add>
     </changelog>
   </subsection>
   <subsection name="Coyote">
@@ -62,6 +58,18 @@
       <fix>
         Correct the HTTP header parser so that DEL is not treated as a valid
         token character. (markt)
+      </fix>
+    </changelog>
+  </subsection>
+  <subsection name="Extras">
+    <changelog>
+      <add>
+        <bug>55017</bug>: Add the ability to configure the RMI bind address when
+        using the JMX remote listener. Patch provided by Alexey Noskov. (markt)
+      </add>
+      <fix>
+        <bug>56039</bug>: Enable the JmxRemoteLifecycleListener to work over
+        SSL. Patch by esengstrom. (markt)
       </fix>
     </changelog>
   </subsection>

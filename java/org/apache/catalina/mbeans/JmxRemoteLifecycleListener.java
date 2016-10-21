@@ -235,6 +235,7 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
             if (csf != null) {
                 env.put(RMIConnectorServer.RMI_CLIENT_SOCKET_FACTORY_ATTRIBUTE,
                         csf);
+                env.put("com.sun.jndi.rmi.factory.socket", csf);
             }
             if (ssf != null) {
                 env.put(RMIConnectorServer.RMI_SERVER_SOCKET_FACTORY_ATTRIBUTE,
@@ -346,8 +347,7 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
     }
 
 
-    public static class RmiServerBindSocketFactory
-            implements RMIServerSocketFactory {
+    public static class RmiServerBindSocketFactory implements RMIServerSocketFactory {
 
         private final InetAddress bindAddress;
 
