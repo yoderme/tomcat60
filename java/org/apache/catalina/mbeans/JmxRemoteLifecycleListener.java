@@ -250,7 +250,7 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
             }
 
             // Create the Platform server
-            csPlatform = createServer("Platform", rmiRegistryPortPlatform,
+            csPlatform = createServer("Platform", rmiBindAddress, rmiRegistryPortPlatform,
                     rmiServerPortPlatform, env, csf, ssf,
                     ManagementFactory.getPlatformMBeanServer());
 
@@ -261,7 +261,7 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
 
 
     private JMXConnectorServer createServer(String serverName,
-            int theRmiRegistryPort, int theRmiServerPort,
+            String bindAddress, int theRmiRegistryPort, int theRmiServerPort,
             HashMap<String,Object> theEnv, RMIClientSocketFactory csf,
             RMIServerSocketFactory ssf, MBeanServer theMBeanServer) {
 
@@ -275,11 +275,19 @@ public class JmxRemoteLifecycleListener implements LifecycleListener {
             return null;
         }
 
+        if (bindAddress == null) {
+            bindAddress = "localhost";
+        }
+
         // Build the connection string with fixed ports
         StringBuffer url = new StringBuffer();
-        url.append("service:jmx:rmi://localhost:");
+        url.append("service:jmx:rmi://");
+        url.append(bindAddress);
+        url.append(":");
         url.append(theRmiServerPort);
-        url.append("/jndi/rmi://localhost:");
+        url.append("/jndi/rmi://");
+        url.append(bindAddress);
+        url.append(":");
         url.append(theRmiRegistryPort);
         url.append("/jmxrmi");
         JMXServiceURL serviceUrl;

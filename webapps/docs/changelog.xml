@@ -71,6 +71,12 @@
         <bug>56039</bug>: Enable the JmxRemoteLifecycleListener to work over
         SSL. Patch by esengstrom. (markt)
       </fix>
+      <fix>
+        <bug>56096</bug>: When the attribute <code>rmiBindAddress</code> of the
+        JMX Remote Lifecycle Listener is specified it's value will be used when
+        constructing the address of a JMX API connector server. Patch is
+        provided by Jim Talbut. (markt)
+      </fix>
     </changelog>
   </subsection>
 </section>
