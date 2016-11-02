@@ -23,8 +23,7 @@ import java.io.EOFException;
 import org.apache.tomcat.util.buf.ByteChunk;
 import org.apache.tomcat.util.buf.MessageBytes;
 import org.apache.tomcat.util.http.MimeHeaders;
-import org.apache.tomcat.util.res.StringManager;
-
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.apache.coyote.InputBuffer;
 import org.apache.coyote.Request;
 import org.apache.juli.logging.Log;
@@ -39,7 +38,7 @@ import org.apache.juli.logging.LogFactory;
 public class InternalInputBuffer extends AbstractInputBuffer {
 
     private static final Log log = LogFactory.getLog(InternalInputBuffer.class);
-    
+
     // -------------------------------------------------------------- Constants
 
 
@@ -76,18 +75,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
     }
 
 
-    // -------------------------------------------------------------- Variables
-
-
-    /**
-     * The string manager for this package.
-     */
-    protected static StringManager sm =
-        StringManager.getManager(Constants.Package);
-
-
     // ----------------------------------------------------- Instance Variables
-
 
     /**
      * Associated Coyote request.
@@ -201,7 +189,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
 
         // FIXME: Check for null ?
 
-        InputFilter[] newFilterLibrary = 
+        InputFilter[] newFilterLibrary =
             new InputFilter[filterLibrary.length + 1];
         for (int i = 0; i < filterLibrary.length; i++) {
             newFilterLibrary[i] = filterLibrary[i];
@@ -269,7 +257,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
 
 
     /**
-     * Recycle the input buffer. This should be called when closing the 
+     * Recycle the input buffer. This should be called when closing the
      * connection.
      */
     public void recycle() {
@@ -294,7 +282,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
 
     /**
      * End processing of current HTTP request.
-     * Note: All bytes of the current request should have been already 
+     * Note: All bytes of the current request should have been already
      * consumed. This method only resets all the pointers so that we are ready
      * to parse the next HTTP request.
      */
@@ -325,7 +313,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
 
     /**
      * End request (consumes leftover bytes).
-     * 
+     *
      * @throws IOException an undelying I/O error occured
      */
     public void endRequest()
@@ -340,8 +328,8 @@ public class InternalInputBuffer extends AbstractInputBuffer {
 
 
     /**
-     * Read the request line. This function is meant to be used during the 
-     * HTTP request header parsing. Do NOT attempt to read the request body 
+     * Read the request line. This function is meant to be used during the
+     * HTTP request header parsing. Do NOT attempt to read the request body
      * using it.
      *
      * @throws IOException If an exception occurs during the underlying socket
@@ -395,7 +383,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
             if (buf[pos] == Constants.SP || buf[pos] == Constants.HT) {
                 space = true;
                 request.method().setBytes(buf, start, pos - start);
-            } else if (!HTTP_TOKEN_CHAR[buf[pos]]) {
+            } else if (!HttpParser.isToken(buf[pos])) {
                 throw new IllegalArgumentException(sm.getString("iib.invalidmethod"));
             }
 
@@ -440,15 +428,17 @@ public class InternalInputBuffer extends AbstractInputBuffer {
             if (buf[pos] == Constants.SP || buf[pos] == Constants.HT) {
                 space = true;
                 end = pos;
-            } else if ((buf[pos] == Constants.CR) 
+            } else if ((buf[pos] == Constants.CR)
                        || (buf[pos] == Constants.LF)) {
                 // HTTP/0.9 style request
                 eol = true;
                 space = true;
                 end = pos;
-            } else if ((buf[pos] == Constants.QUESTION) 
+            } else if ((buf[pos] == Constants.QUESTION)
                        && (questionPos == -1)) {
                 questionPos = pos;
+            } else if (HttpParser.isNotRequestTarget(buf[pos])) {
+                throw new IllegalArgumentException(sm.getString("iib.invalidRequestTarget"));
             }
 
             pos++;
@@ -457,7 +447,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
 
         request.unparsedURI().setBytes(buf, start, end - start);
         if (questionPos >= 0) {
-            request.queryString().setBytes(buf, questionPos + 1, 
+            request.queryString().setBytes(buf, questionPos + 1,
                                            end - questionPos - 1);
             request.requestURI().setBytes(buf, start, questionPos - start);
         } else {
@@ -484,7 +474,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
 
         //
         // Reading the protocol
-        // Protocol is always US-ASCII
+        // Protocol is always "HTTP/" DIGIT "." DIGIT
         //
 
         while (!eol) {
@@ -501,6 +491,8 @@ public class InternalInputBuffer extends AbstractInputBuffer {
                 if (end == 0)
                     end = pos;
                 eol = true;
+            } else if (!HttpParser.isHttpProtocol(buf[pos])) {
+                throw new IllegalArgumentException(sm.getString("iib.invalidHttpProtocol"));
             }
 
             pos++;
@@ -533,7 +525,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
 
     /**
      * Parse an HTTP header.
-     * 
+     *
      * @return false after reading a blank line (which indicates that the
      * HTTP header parsing is done
      */
@@ -591,7 +583,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
             if (buf[pos] == Constants.COLON) {
                 colon = true;
                 headerValue = headers.addValue(buf, start, pos - start);
-            } else if (!HTTP_TOKEN_CHAR[buf[pos]]) {
+            } else if (!HttpParser.isToken(buf[pos])) {
                 // If a non-token header is detected, skip the line and
                 // ignore the header
                 skipLine(start);
@@ -705,7 +697,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
     /**
      * Read some bytes.
      */
-    public int doRead(ByteChunk chunk, Request req) 
+    public int doRead(ByteChunk chunk, Request req)
         throws IOException {
 
         if (lastActiveFilter == -1)
@@ -724,7 +716,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
         if (pos - 1 > start) {
             lastRealByte = pos - 1;
         }
-        
+
         while (!eol) {
 
             // Read new bytes if needed
@@ -749,10 +741,10 @@ public class InternalInputBuffer extends AbstractInputBuffer {
         }
     }
 
-    
+
     /**
      * Fill the internal buffer using data from the undelying input stream.
-     * 
+     *
      * @return false if at end of stream
      */
     protected boolean fill()
@@ -775,7 +767,7 @@ public class InternalInputBuffer extends AbstractInputBuffer {
         } else {
 
             if (buf.length - end < 4500) {
-                // In this case, the request header was really large, so we allocate a 
+                // In this case, the request header was really large, so we allocate a
                 // brand new one; the old one will get GCed when subsequent requests
                 // clear all references
                 buf = new byte[buf.length];
@@ -802,14 +794,14 @@ public class InternalInputBuffer extends AbstractInputBuffer {
      * This class is an input buffer which will read its data from an input
      * stream.
      */
-    protected class InputStreamInputBuffer 
+    protected class InputStreamInputBuffer
         implements InputBuffer {
 
 
         /**
          * Read bytes into the specified chunk.
          */
-        public int doRead(ByteChunk chunk, Request req ) 
+        public int doRead(ByteChunk chunk, Request req )
             throws IOException {
 
             if (pos >= lastValid) {

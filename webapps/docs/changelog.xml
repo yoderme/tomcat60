@@ -59,6 +59,10 @@
         Correct the HTTP header parser so that DEL is not treated as a valid
         token character. (markt)
       </fix>
+      <add>
+        Add additional checks for valid characters to the HTTP request line
+        parsing so invalid request lines are rejected sooner. (markt)
+      </add>
     </changelog>
   </subsection>
   <subsection name="Web applications">
