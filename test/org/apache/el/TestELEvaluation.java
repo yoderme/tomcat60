@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import org.apache.el.lang.ELSupport;
@@ -198,6 +199,51 @@ public class TestELEvaluation {
             e = el;
         }
         assertNotNull(e);
+    }
+
+    @Test
+    public void testBug49081a() {
+        Assert.assertEquals("$2", evaluateExpression("$${1+1}"));
+    }
+
+    @Test
+    public void testBug49081b() {
+        Assert.assertEquals("#2", evaluateExpression("##{1+1}"));
+    }
+
+    @Test
+    public void testBug49081c() {
+        Assert.assertEquals("#2", evaluateExpression("#${1+1}"));
+    }
+
+    @Test
+    public void testBug49081d() {
+        Assert.assertEquals("$2", evaluateExpression("$#{1+1}"));
+    }
+
+    @Test
+    public void testBug60431a() {
+        Assert.assertEquals("OK", evaluateExpression("${fn:concat('O','K')}"));
+    }
+
+    @Test
+    public void testBug60431b() {
+        Assert.assertEquals("OK", evaluateExpression("${fn:concat(fn:toArray('O','K'))}"));
+    }
+
+    @Test
+    public void testBug60431c() {
+        Assert.assertEquals("", evaluateExpression("${fn:concat()}"));
+    }
+
+    @Test
+    public void testBug60431d() {
+        Assert.assertEquals("OK", evaluateExpression("${fn:concat2('OK')}"));
+    }
+
+    @Test
+    public void testBug60431e() {
+        Assert.assertEquals("RUOK", evaluateExpression("${fn:concat2('RU', fn:toArray('O','K'))}"));
     }
 
     // ************************************************************************
