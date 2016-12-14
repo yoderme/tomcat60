@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -103,13 +103,13 @@ public class Constants {
         "<table cellspacing=\"4\" width=\"100%\" border=\"0\">\n" +
         " <tr>\n" +
         "  <td colspan=\"2\">\n" +
-        "   <a href=\"http://www.apache.org/\">\n" +
-        "    <img border=\"0\" alt=\"The Apache Software Foundation\" align=\"left\"\n" +
-        "         src=\"{0}/images/asf-logo.gif\">\n" +
-        "   </a>\n" +
         "   <a href=\"http://tomcat.apache.org/\">\n" +
         "    <img border=\"0\" alt=\"The Tomcat Servlet/JSP Container\"\n" +
-        "         align=\"right\" src=\"{0}/images/tomcat.gif\">\n" +
+        "         align=\"left\" src=\"{0}/images/tomcat.gif\">\n" +
+        "   </a>\n" +
+        "   <a href=\"http://www.apache.org/\">\n" +
+        "    <img border=\"0\" alt=\"The Apache Software Foundation\" align=\"right\"\n" +
+        "         src=\"{0}/images/asf-logo.svg\" style=\"width: 266px; height: 83px;\">\n" +
         "   </a>\n" +
         "  </td>\n" +
         " </tr>\n" +
@@ -191,7 +191,7 @@ public class Constants {
 
     public static final String XML_DECLARATION =
         "<?xml version=\"1.0\" encoding=\""+CHARSET+"\"?>";
-		
+
     public static final String XML_STYLE =
         "<?xml-stylesheet type=\"text/xsl\" href=\"xform.xsl\" ?>";
 

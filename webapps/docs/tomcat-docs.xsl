@@ -28,21 +28,21 @@
 
 
   <!-- Defined parameters (overrideable) -->
-  <xsl:param    name="home-name"        select="'The Tomcat Project'"/>
-  <xsl:param    name="home-href"        select="'http://tomcat.apache.org/'"/>
-  <xsl:param    name="home-logo"        select="'/images/tomcat.gif'"/>
-  <xsl:param    name="printer-logo"     select="'/images/printer.gif'"/>
-  <xsl:param    name="apache-logo"      select="'/images/asf-logo.gif'"/>
-  <xsl:param    name="relative-path"    select="'.'"/>
-  <xsl:param    name="version"          select="'6.0.x'"/>
+  <xsl:param    name="home-name"           select="'The Tomcat Project'"/>
+  <xsl:param    name="home-href"           select="'http://tomcat.apache.org/'"/>
+  <xsl:param    name="home-logo"           select="'/images/tomcat.png'"/>
+  <xsl:param    name="printer-logo"        select="'/images/printer.gif'"/>
+  <xsl:param    name="apache-logo"         select="'/images/asf-logo.svg'"/>
+  <xsl:param    name="relative-path"       select="'.'"/>
+  <xsl:param    name="version"             select="'6.0.x'"/>
   <xsl:param    name="majorversion"        select="'6'"/>
   <xsl:param    name="majorminorversion"   select="'6.0'"/>
-  <xsl:param    name="build-date"       select="'MMM d yyyy'"/>
-  <xsl:param    name="year"             select="'yyyy'"/>
-  <xsl:param    name="void-image"       select="'/images/void.gif'"/>
-  <xsl:param    name="project-menu"     select="'menu'"/>
-  <xsl:param    name="buglink"          select="'http://bz.apache.org/bugzilla/show_bug.cgi?id='"/>
-  <xsl:param    name="revlink"          select="'http://svn.apache.org/viewvc?view=rev&amp;rev='"/>
+  <xsl:param    name="build-date"          select="'MMM d yyyy'"/>
+  <xsl:param    name="year"                select="'yyyy'"/>
+  <xsl:param    name="void-image"          select="'/images/void.gif'"/>
+  <xsl:param    name="project-menu"        select="'menu'"/>
+  <xsl:param    name="buglink"             select="'http://bz.apache.org/bugzilla/show_bug.cgi?id='"/>
+  <xsl:param    name="revlink"             select="'http://svn.apache.org/viewvc?view=rev&amp;rev='"/>
 
   <!-- Defined variables (non-overrideable) -->
   <xsl:variable name="body-bg"          select="'#ffffff'"/>
