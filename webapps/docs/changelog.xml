@@ -333,6 +333,14 @@
         Improve the error handling for custom tags to ensure that the tag is
         returned to the pool or released and destroyed once used. (markt)
       </fix>
+      <fix>
+        <bug>60497</bug>: Restore previous tag reuse behavior following the use
+        of try/finally. (remm)
+      </fix>
+      <fix>
+        Improve the error handling for simple tags to ensure that the tag is
+        released and destroyed once used. (remm)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Web applications">
