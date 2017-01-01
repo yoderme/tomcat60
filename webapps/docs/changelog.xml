@@ -47,17 +47,13 @@
 <section name="Tomcat 6.0.49">
   <subsection name="Jasper">
     <changelog>
+      <add>
+        <bug>44294</bug>: Add support for varargs in UEL expressions. (markt)
+      </add>
       <fix>
         <bug>60356</bug>: Fix pre-compilation of JSPs that depend on nested tag
         files packaged in a JAR. (markt)
       </fix>
-    </changelog>
-  </subsection>
-  <subsection name="Jasper">
-    <changelog>
-      <add>
-        <bug>44294</bug>: Add support for varargs in UEL expressions. (markt)
-      </add>
       <fix>
         <bug>60431</bug>: Improve handling of varargs in UEL expressions. Based
         on a patch by Ben Wolfe. (markt)
@@ -76,7 +72,7 @@
         (markt)
       </add>
       <update>
-        Update the ASF logos to the new versions.
+        Update the ASF logos to the new versions. (markt)
       </update>
     </changelog>
   </subsection>
@@ -84,7 +80,7 @@
     <changelog>
       <update>
         Update the ASF logos used in the Apache Tomcat installer for Windows to
-        use the new versions.
+        use the new versions. (markt)
       </update>
     </changelog>
   </subsection>
