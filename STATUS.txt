@@ -32,18 +32,4 @@ None. Tomcat 6 is CTR (Commit-Then-Review) since 2015-11-02.
   
 PATCHES/ISSUES THAT ARE STALLED:
 
-* Fix https://issues.apache.org/bugzilla/show_bug.cgi?id=44312
-  Log an error if there is a conflict between Host and Alias names.
-  Improve host management methods in Mapper to avoid occasionally removing
-  a wrong host. Check that host management operations are performed on
-  the host and not on an alias.
-  1) https://issues.apache.org/bugzilla/attachment.cgi?id=31744
-  2) http://svn.apache.org/r1608653
-  3) http://svn.apache.org/r1608833
-  4) TestMapper changes from http://svn.apache.org/r1608831
-  +1: kkolinko, remm, schultz
-  -1:
-   kkolinko: Good for occasional review, but as backporting r1608833 won't
-   be trivial I'd have to update the patch.
-   schultz: r1608833 is good, but it does not look like it is absolutely
-   required to fix BZ 44312.
+None
