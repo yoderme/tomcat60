@@ -48,8 +48,6 @@ public class NioChannel implements ByteChannel{
 
     protected Poller poller;
 
-    protected boolean sendFile = false;
-
     public NioChannel(SocketChannel channel, ApplicationBufferHandler bufHandler) throws IOException {
         this.sc = channel;
         this.bufHandler = bufHandler;
@@ -180,4 +178,4 @@ public class NioChannel implements ByteChannel{
     public boolean flushOutbound() throws IOException {
         return false;
     }
-    }
+}
