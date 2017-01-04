@@ -207,7 +207,10 @@ public class NioEndpoint extends AbstractEndpoint {
      * Cache for SocketProcessor objects
      */
     protected ConcurrentLinkedQueue<SocketProcessor> processorCache = new ConcurrentLinkedQueue<SocketProcessor>() {
+        private static final long serialVersionUID = 1L;
         protected AtomicInteger size = new AtomicInteger(0);
+
+        @Override
         public boolean offer(SocketProcessor sc) {
             sc.reset(null,null);
             boolean offer = socketProperties.getProcessorCache()==-1?true:size.get()<socketProperties.getProcessorCache();
@@ -222,6 +225,7 @@ public class NioEndpoint extends AbstractEndpoint {
             else return false;
         }
 
+        @Override
         public SocketProcessor poll() {
             SocketProcessor result = super.poll();
             if ( result != null ) {
@@ -230,6 +234,7 @@ public class NioEndpoint extends AbstractEndpoint {
             return result;
         }
 
+        @Override
         public void clear() {
             super.clear();
             size.set(0);
@@ -241,7 +246,10 @@ public class NioEndpoint extends AbstractEndpoint {
      * Cache for key attachment objects
      */
     protected ConcurrentLinkedQueue<KeyAttachment> keyCache = new ConcurrentLinkedQueue<KeyAttachment>() {
+        private static final long serialVersionUID = 1L;
         protected AtomicInteger size = new AtomicInteger(0);
+
+        @Override
         public boolean offer(KeyAttachment ka) {
             ka.reset();
             boolean offer = socketProperties.getKeyCache()==-1?true:size.get()<socketProperties.getKeyCache();
@@ -256,6 +264,7 @@ public class NioEndpoint extends AbstractEndpoint {
             else return false;
         }
 
+        @Override
         public KeyAttachment poll() {
             KeyAttachment result = super.poll();
             if ( result != null ) {
@@ -264,6 +273,7 @@ public class NioEndpoint extends AbstractEndpoint {
             return result;
         }
 
+        @Override
         public void clear() {
             super.clear();
             size.set(0);
@@ -275,7 +285,10 @@ public class NioEndpoint extends AbstractEndpoint {
      * Cache for poller events
      */
     protected ConcurrentLinkedQueue<PollerEvent> eventCache = new ConcurrentLinkedQueue<PollerEvent>() {
+        private static final long serialVersionUID = 1L;
         protected AtomicInteger size = new AtomicInteger(0);
+
+        @Override
         public boolean offer(PollerEvent pe) {
             pe.reset();
             boolean offer = socketProperties.getEventCache()==-1?true:size.get()<socketProperties.getEventCache();
@@ -290,6 +303,7 @@ public class NioEndpoint extends AbstractEndpoint {
             else return false;
         }
 
+        @Override
         public PollerEvent poll() {
             PollerEvent result = super.poll();
             if ( result != null ) {
@@ -298,6 +312,7 @@ public class NioEndpoint extends AbstractEndpoint {
             return result;
         }
 
+        @Override
         public void clear() {
             super.clear();
             size.set(0);
@@ -309,8 +324,11 @@ public class NioEndpoint extends AbstractEndpoint {
      * Bytebuffer cache, each channel holds a set of buffers (two, except for SSL holds four)
      */
     protected ConcurrentLinkedQueue<NioChannel> nioChannels = new ConcurrentLinkedQueue<NioChannel>() {
+        private static final long serialVersionUID = 1L;
         protected AtomicInteger size = new AtomicInteger(0);
         protected AtomicInteger bytes = new AtomicInteger(0);
+
+        @Override
         public boolean offer(NioChannel socket) {
             boolean offer = socketProperties.getBufferPool()==-1?true:size.get()<socketProperties.getBufferPool();
             offer = offer && (socketProperties.getBufferPoolSize()==-1?true:(bytes.get()+socket.getBufferSize())<socketProperties.getBufferPoolSize());
@@ -326,6 +344,7 @@ public class NioEndpoint extends AbstractEndpoint {
             else return false;
         }
 
+        @Override
         public NioChannel poll() {
             NioChannel result = super.poll();
             if ( result != null ) {
@@ -335,6 +354,7 @@ public class NioEndpoint extends AbstractEndpoint {
             return result;
         }
 
+        @Override
         public void clear() {
             super.clear();
             size.set(0);
@@ -1446,6 +1466,7 @@ public class NioEndpoint extends AbstractEndpoint {
             }//end if
         }//run
 
+        @Override
         public String toString() {
             return super.toString()+"[intOps="+this.interestOps+"]";
         }
@@ -1533,7 +1554,7 @@ public class NioEndpoint extends AbstractEndpoint {
             boolean result = false;
 
             Runnable r = null;
-            while ( (r = (Runnable)events.poll()) != null ) {
+            while ( (r = events.poll()) != null ) {
                 result = true;
                 try {
                     r.run();
@@ -1665,11 +1686,11 @@ public class NioEndpoint extends AbstractEndpoint {
                     //either we timed out or we woke up, process events first
                     if ( keyCount == 0 ) hasEvents = (hasEvents | events());
 
-                    Iterator iterator = keyCount > 0 ? selector.selectedKeys().iterator() : null;
+                    Iterator<SelectionKey> iterator = keyCount > 0 ? selector.selectedKeys().iterator() : null;
                     // Walk through the collection of ready keys and dispatch
                     // any active event.
                     while (iterator != null && iterator.hasNext()) {
-                        SelectionKey sk = (SelectionKey) iterator.next();
+                        SelectionKey sk = iterator.next();
                         KeyAttachment attachment = (KeyAttachment)sk.attachment();
                         // Attachment may be null if another thread has called
                         // cancelledKey()
@@ -1785,7 +1806,7 @@ public class NioEndpoint extends AbstractEndpoint {
                 sc = attachment.getChannel();
                 sc.setSendFile(true);
                 //ssl channel is slightly different
-                WritableByteChannel wc =(WritableByteChannel) ((sc instanceof SecureNioChannel)?sc:sc.getIOChannel());
+                WritableByteChannel wc = ((sc instanceof SecureNioChannel)?sc:sc.getIOChannel());
 
                 //we still have data in the buffer
                 if (sc.getOutboundRemaining()>0) {
@@ -1998,7 +2019,7 @@ public class NioEndpoint extends AbstractEndpoint {
         public void awaitReadLatch(long timeout, TimeUnit unit) throws InterruptedException { awaitLatch(readLatch,timeout,unit);}
         public void awaitWriteLatch(long timeout, TimeUnit unit) throws InterruptedException { awaitLatch(writeLatch,timeout,unit);}
 
-        public long getLastRegistered() { return lastRegistered; };
+        public long getLastRegistered() { return lastRegistered; }
         public void setLastRegistered(long reg) { lastRegistered = reg; }
 
         public void setSendfileData(SendfileData sf) { this.sendfileData = sf;}
@@ -2430,6 +2451,7 @@ public class NioEndpoint extends AbstractEndpoint {
             this.endpoint = ep;
         }
 
+        @Override
         public boolean offer(Runnable o) {
             //we can't do any checks
             if (parent==null) return super.offer(o);
