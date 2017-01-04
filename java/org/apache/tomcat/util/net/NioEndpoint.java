@@ -1833,7 +1833,7 @@ public class NioEndpoint extends AbstractEndpoint {
                 }
                 if ( sd.length <= 0 && sc.getOutboundRemaining()<=0) {
                     if (log.isDebugEnabled()) {
-                        log.debug("Send file complete for:"+sd.fileName);
+                        log.debug("Send file complete for: "+sd.fileName);
                     }
                     attachment.setSendfileData(null);
                     try {
@@ -1859,7 +1859,7 @@ public class NioEndpoint extends AbstractEndpoint {
                     }
                 } else {
                     if (log.isDebugEnabled()) {
-                        log.debug("OP_WRITE for sendfile:" + sd.fileName);
+                        log.debug("OP_WRITE for sendfile: " + sd.fileName);
                     }
                     if (event) {
                         add(attachment.getChannel(),SelectionKey.OP_WRITE);
