@@ -82,7 +82,7 @@ public class Http11NioProcessor implements ActionHook {
     protected SSLSupport sslSupport;
 
     private int maxCookieCount = 200;
-    
+
     /*
      * Tracks how many internal filters are in the filter library so they
      * are skipped when looking for pluggable filters.
@@ -159,6 +159,13 @@ public class Http11NioProcessor implements ActionHook {
      * Keep-alive.
      */
     protected boolean keepAlive = true;
+
+
+    /**
+     * Flag that indicates that send file processing is in progress and that the
+     * socket should not be returned to the poller (where a poller is used).
+     */
+    protected boolean sendfileInProgress = false;
 
 
     /**
@@ -796,7 +803,7 @@ public class Http11NioProcessor implements ActionHook {
         error = false;
         keepAlive = true;
         comet = false;
-
+        sendfileInProgress = false;
 
         int keepAliveLeft = maxKeepAliveRequests;
         long soTimeout = endpoint.getSoTimeout();
@@ -928,20 +935,11 @@ public class Http11NioProcessor implements ActionHook {
                 outputBuffer.nextRequest();
             }
 
-            // Do sendfile as needed: add socket to sendfile and end
-            if (sendfileData != null && !error) {
-                KeyAttachment ka = (KeyAttachment)socket.getAttachment(false);
-                ka.setSendfileData(sendfileData);
-                sendfileData.keepAlive = keepAlive;
-                SelectionKey key = socket.getIOChannel().keyFor(socket.getPoller().getSelector());
-                //do the first write on this thread, might as well
-                openSocket = socket.getPoller().processSendfile(key,ka,true,true);
-                break;
-            }
-
-
             rp.setStage(org.apache.coyote.Constants.STAGE_KEEPALIVE);
 
+            if (breakKeepAliveLoop(socket)) {
+                break;
+            }
         }
 
         rp.setStage(org.apache.coyote.Constants.STAGE_ENDED);
@@ -953,12 +951,44 @@ public class Http11NioProcessor implements ActionHook {
             } else {
                 return SocketState.LONG;
             }
+        } else if (sendfileInProgress) {
+            return SocketState.SENDFILE;
         } else {
-            if ( recycle ) recycle();
-            //return (openSocket) ? (SocketState.OPEN) : SocketState.CLOSED;
+            if (recycle) {
+                recycle();
+            }
             return (openSocket) ? (recycle?SocketState.OPEN:SocketState.LONG) : SocketState.CLOSED;
         }
 
+    }
+
+
+    private boolean breakKeepAliveLoop(NioChannel socket) {
+        // Do sendfile as needed: add socket to sendfile and end
+        if (sendfileData != null && !error) {
+            KeyAttachment ka = (KeyAttachment)socket.getAttachment(false);
+            ka.setSendfileData(sendfileData);
+            sendfileData.keepAlive = keepAlive;
+            SelectionKey key = socket.getIOChannel().keyFor(socket.getPoller().getSelector());
+            //do the first write on this thread, might as well
+            switch (socket.getPoller().processSendfile(key, ka, true)) {
+            case DONE:
+                // If sendfile is complete, no need to break keep-alive loop
+                sendfileData = null;
+                return false;
+            case PENDING:
+                sendfileInProgress = true;
+                return true;
+            case ERROR:
+                // Write failed
+                if (log.isDebugEnabled()) {
+                    log.debug(sm.getString("http11processor.sendfile.error"));
+                }
+                error = true;
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -1261,7 +1291,7 @@ public class Http11NioProcessor implements ActionHook {
         this.sslSupport = sslSupport;
     }
 
-    
+
     public int getMaxCookieCount() {
         return maxCookieCount;
     }
@@ -1271,7 +1301,7 @@ public class Http11NioProcessor implements ActionHook {
         this.maxCookieCount = maxCookieCount;
     }
 
-        
+
     /**
      * Get the associated adapter.
      *

@@ -764,6 +764,12 @@ public class Http11NioProtocol extends AbstractProtocol implements MBeanRegistra
                     // processor. Continue to poll for the next request.
                     release(socket, processor);
                     socket.getPoller().add(socket);
+                } else if (state == SocketState.SENDFILE) {
+                    // Sendfile in progress. If it fails, the socket will be
+                    // closed. If it works, the socket will be re-added to the
+                    // poller
+                    connections.remove(socket);
+                    release(socket, processor);
                 } else {
                     // Connection closed. OK to recycle the processor.
                     release(socket, processor);
