@@ -45,6 +45,13 @@
  General, Catalina, Coyote, Jasper, Cluster, Web applications, Other
 -->
 <section name="Tomcat 6.0.49">
+  <subsection name="Coyote">
+    <changelog>
+      <fix>
+        <bug>57799</bug>: Remove useless sendfile check for NIO SSL. (remm)
+      </fix>
+    </changelog>
+  </subsection>
   <subsection name="Jasper">
     <changelog>
       <add>
