@@ -1802,7 +1802,9 @@ public class NioEndpoint extends AbstractEndpoint {
                         cancelledKey(sk,SocketStatus.ERROR,false);
                         return false;
                     }
-                    sd.fchannel = new FileInputStream(f).getChannel();
+                    @SuppressWarnings("resource") // Closed when channel is closed
+                    FileInputStream fis = new FileInputStream(f);
+                    sd.fchannel = fis.getChannel();
                 }
 
                 //configure output channel
