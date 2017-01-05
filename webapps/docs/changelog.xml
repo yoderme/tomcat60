@@ -50,6 +50,10 @@
       <fix>
         <bug>57799</bug>: Remove useless sendfile check for NIO SSL. (remm)
       </fix>
+      <fix>
+        <bug>60409</bug>: When unable to complete sendfile request, ensure the
+        Processor will be added to the cache only once. (markt/violetagg)
+      </fix>
     </changelog>
   </subsection>
   <subsection name="Jasper">
