@@ -2491,9 +2491,6 @@ class Generator {
             out.print(tagHandlerVar);
             out.println(");");
 
-            out.printil("try {");
-            out.pushIndent();
-
             generateSetters(n, tagHandlerVar, handlerInfo, true);
 
             // JspIdConsumer (after context has been set)
@@ -2545,19 +2542,12 @@ class Generator {
             declareScriptingVars(n, VariableInfo.AT_END);
             syncScriptingVars(n, VariableInfo.AT_END);
 
-            out.popIndent();
-            out.printil("} finally {");
-            out.pushIndent();
-
             // Resource injection
             out.printin("org.apache.jasper.runtime.AnnotationHelper.preDestroy(");
             out.print(VAR_ANNOTATIONPROCESSOR);
             out.print(", ");
             out.print(tagHandlerVar);
             out.println(");");
-
-            out.popIndent();
-            out.printil("}");
 
             n.setEndJavaLine(out.getJavaLine());
         }
