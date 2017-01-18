@@ -98,7 +98,7 @@
       <td align="left" valign="top"><b><%= application.getServerInfo() %></b></td>
       <td align="right">
         <a href="http://www.apache.org/">
-          <img src="asf-logo-wide.gif" height="51" width="537" alt="The Apache Software Foundation"/>
+          <img src="asf-logo-wide.svg" height="51" width="537" alt="The Apache Software Foundation"/>
         </a>
        </td>
      </tr>
