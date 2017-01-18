@@ -54,7 +54,7 @@
     </changelog>
   </subsection>
 </section>
-<section name="Tomcat 6.0.49 (violetagg)">
+<section name="Tomcat 6.0.49 (violetagg)" rtext="not released">
   <subsection name="Coyote">
     <changelog>
       <fix>
