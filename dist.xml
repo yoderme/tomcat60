@@ -94,6 +94,27 @@
     <filter token="VERSION_MAJOR_MINOR" value="${version.major.minor}"/>
   </filterset>
 
+  <!-- Files that need to have their line endings changed for bin distros -->
+  <patternset id="bin.files" >
+    <include name="**/LICENSE"/>
+    <include name="**/NOTICE"/>
+    <include name="**/RELEASE-NOTES"/>
+    <include name="**/*.html"/>
+    <include name="**/*.java"/>
+    <include name="**/*.jsp"/>
+    <include name="**/*.jspf"/>
+    <include name="**/*.jspx"/>
+    <include name="**/*.mdl"/>
+    <include name="**/*.properties"/>
+    <include name="**/*.svg"/>
+    <include name="**/*.tag"/>
+    <include name="**/*.tld"/>
+    <include name="**/*.txt"/>
+    <include name="**/*.xml"/>
+    <include name="**/*.xsd"/>
+    <include name="**/*.xsl"/>
+  </patternset>
+
   <!-- Files that need to have their line endings changed for src distros -->
   <patternset id="src.files" >
     <include name="**/INSTALLLICENSE"/>
@@ -566,7 +587,9 @@
 
   <!-- Packages the core tar.gz distro -->
   <target name="package-tgz">
-    <fixcrlf srcdir="${tomcat.dist}" includes="*.txt,LICENSE,NOTICE" eol="lf" encoding="ISO-8859-1" fixlast="false" />
+    <fixcrlf srcdir="${tomcat.dist}" eol="lf" encoding="ISO-8859-1" fixlast="false" >
+      <patternset refid="bin.files"/>
+    </fixcrlf>
     <fixcrlf srcdir="${tomcat.dist}/conf" eol="lf" encoding="ISO-8859-1" fixlast="false" />
     <tar longfile="gnu" compression="gzip"
          tarfile="${tomcat.release}/v${version}/bin/${final.name}.tar.gz">
