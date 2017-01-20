@@ -1799,10 +1799,6 @@ public class NioEndpoint extends AbstractEndpoint {
                 //setup the file channel
                 if ( sd.fchannel == null ) {
                     File f = new File(sd.fileName);
-                    if ( !f.exists() ) {
-                        cancelledKey(sk,SocketStatus.ERROR,false);
-                        return SendfileState.ERROR;
-                    }
                     @SuppressWarnings("resource") // Closed when channel is closed
                     FileInputStream fis = new FileInputStream(f);
                     sd.fchannel = fis.getChannel();
