@@ -178,7 +178,7 @@ class Generator {
         return b.toString();
     }
 
-    private String createJspId() throws JasperException {
+    private String createJspId() {
         if (this.jspIdPrefix == null) {
             StringBuffer sb = new StringBuffer(32);
             String name = ctxt.getServletJavaFileName();
@@ -481,7 +481,7 @@ class Generator {
      * Generate preamble package name (shared by servlet and tag handler
      * preamble generation)
      */
-    private void genPreamblePackage(String packageName) throws JasperException {
+    private void genPreamblePackage(String packageName) {
         if (!"".equals(packageName) && packageName != null) {
             out.printil("package " + packageName + ";");
             out.println();
@@ -492,7 +492,7 @@ class Generator {
      * Generate preamble imports (shared by servlet and tag handler preamble
      * generation)
      */
-    private void genPreambleImports() throws JasperException {
+    private void genPreambleImports() {
         @SuppressWarnings("unchecked")
 		Iterator<String> iter = pageInfo.getImports().iterator();
         while (iter.hasNext()) {
@@ -509,7 +509,7 @@ class Generator {
      * list, el function map, prefix map. (shared by servlet and tag handler
      * preamble generation)
      */
-    private void genPreambleStaticInitializers() throws JasperException {
+    private void genPreambleStaticInitializers() {
         out.printil("private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();");
         out.println();
 
@@ -543,8 +543,7 @@ class Generator {
      * 
      * In JSP 2.1, we also scope an instance of ExpressionFactory
      */
-    private void genPreambleClassVariableDeclarations()
-            throws JasperException {
+    private void genPreambleClassVariableDeclarations() {
         if (isPoolingEnabled && !tagHandlerPoolNames.isEmpty()) {
             for (int i = 0; i < tagHandlerPoolNames.size(); i++) {
                 out.printil("private org.apache.jasper.runtime.TagHandlerPool "
@@ -565,7 +564,7 @@ class Generator {
      * Declare general-purpose methods (shared by servlet and tag handler
      * preamble generation)
      */
-    private void genPreambleMethods() throws JasperException {
+    private void genPreambleMethods() {
         // Method used to get compile time file dependencies
         out.printil("public Object getDependants() {");
         out.pushIndent();
@@ -1005,7 +1004,7 @@ class Generator {
          * Finds the <jsp:body> subelement of the given parent node. If not
          * found, null is returned.
          */
-        private Node.JspBody findJspBody(Node parent) throws JasperException {
+        private Node.JspBody findJspBody(Node parent) {
             Node.JspBody result = null;
 
             Node.Nodes subelements = parent.getBody();
@@ -2998,8 +2997,7 @@ class Generator {
          * 
          * @return the name of the map
          */
-        private String generateAliasMap(Node.CustomTag n, String tagHandlerVar)
-                throws JasperException {
+        private String generateAliasMap(Node.CustomTag n, String tagHandlerVar) {
 
             TagVariableInfo[] tagVars = n.getTagVariableInfos();
             String aliasMapVar = null;
@@ -3133,8 +3131,7 @@ class Generator {
          * jsp:attribute standard action), and false otherwise
          */
         private String convertString(Class<?> c, String s, String attrName,
-                Class<?> propEditorClass, boolean isNamedAttribute)
-                throws JasperException {
+                Class<?> propEditorClass, boolean isNamedAttribute) {
 
             String quoted = s;
             if (!isNamedAttribute) {
@@ -3660,8 +3657,7 @@ class Generator {
      * Generates declarations for tag handler attributes, and defines the getter
      * and setter methods for each.
      */
-    private void generateTagHandlerAttributes(TagInfo tagInfo)
-            throws JasperException {
+    private void generateTagHandlerAttributes(TagInfo tagInfo) {
 
         if (tagInfo.hasDynamicAttributes()) {
             out.printil("private java.util.HashMap _jspx_dynamic_attrs = new java.util.HashMap();");
