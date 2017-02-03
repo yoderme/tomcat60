@@ -91,7 +91,7 @@ class Generator {
 
     private ServletWriter out;
 
-    private ArrayList methodsBuffered;
+    private ArrayList<GenBuffer> methodsBuffered;
 
     private FragmentHelperClass fragmentHelperClass;
 
@@ -341,10 +341,10 @@ class Generator {
 
         class ScriptingVarVisitor extends Node.Visitor {
 
-            private Vector vars;
+            private Vector<String> vars;
 
             ScriptingVarVisitor() {
-                vars = new Vector();
+                vars = new Vector<String>();
             }
 
             @Override
@@ -752,9 +752,9 @@ class Generator {
          * handlers: <key>: tag short name <value>: introspection info of tag
          * handler for <prefix:shortName> tag
          */
-        private Hashtable handlerInfos;
+        private Hashtable<String, Hashtable<String, TagHandlerInfo>> handlerInfos;
 
-        private Hashtable tagVarNumbers;
+        private Hashtable<String, Integer> tagVarNumbers;
 
         private String parent;
 
@@ -772,7 +772,7 @@ class Generator {
 
         private ServletWriter out;
 
-        private ArrayList methodsBuffered;
+        private ArrayList<GenBuffer> methodsBuffered;
 
         private FragmentHelperClass fragmentHelperClass;
 
@@ -790,7 +790,7 @@ class Generator {
          * Constructor.
          */
         public GenerateVisitor(boolean isTagFile, ServletWriter out,
-                ArrayList methodsBuffered,
+                ArrayList<GenBuffer> methodsBuffered,
                 FragmentHelperClass fragmentHelperClass, ClassLoader loader,
                 TagInfo tagInfo) {
 
@@ -801,8 +801,8 @@ class Generator {
             this.loader = loader;
             this.tagInfo = tagInfo;
             methodNesting = 0;
-            handlerInfos = new Hashtable();
-            tagVarNumbers = new Hashtable();
+            handlerInfos = new Hashtable<String, Hashtable<String, TagHandlerInfo>>();
+            tagVarNumbers = new Hashtable<String, Integer>();
             textMap = new HashMap<String,String>();
         }
 
@@ -1888,7 +1888,7 @@ class Generator {
 
             // Compute attribute value string for XML-style and named
             // attributes
-            Hashtable map = new Hashtable();
+            Hashtable<String, String> map = new Hashtable<String, String>();
             Node.JspAttribute[] attrs = n.getJspAttributes();
             for (int i = 0; attrs != null && i < attrs.length; i++) {
                 String attrStr = null;
@@ -1912,10 +1912,10 @@ class Generator {
             out.print(" + " + elemName);
 
             // Write remaining attributes
-            Enumeration enumeration = map.keys();
+            Enumeration<String> enumeration = map.keys();
             while (enumeration.hasMoreElements()) {
-                String attrName = (String) enumeration.nextElement();
-                out.print((String) map.get(attrName));
+                String attrName = enumeration.nextElement();
+                out.print(map.get(attrName));
             }
 
             // Does the <jsp:element> have nested tags other than
@@ -2200,13 +2200,13 @@ class Generator {
 
         private TagHandlerInfo getTagHandlerInfo(Node.CustomTag n)
                 throws JasperException {
-            Hashtable handlerInfosByShortName = (Hashtable) handlerInfos.get(n
+            Hashtable<String, TagHandlerInfo> handlerInfosByShortName = handlerInfos.get(n
                     .getPrefix());
             if (handlerInfosByShortName == null) {
-                handlerInfosByShortName = new Hashtable();
+                handlerInfosByShortName = new Hashtable<String, TagHandlerInfo>();
                 handlerInfos.put(n.getPrefix(), handlerInfosByShortName);
             }
-            TagHandlerInfo handlerInfo = (TagHandlerInfo) handlerInfosByShortName
+            TagHandlerInfo handlerInfo = handlerInfosByShortName
                     .get(n.getLocalName());
             if (handlerInfo == null) {
                 handlerInfo = new TagHandlerInfo(n, n.getTagHandlerClass(), err);
@@ -2833,7 +2833,7 @@ class Generator {
             synchronized (tagVarNumbers) {
                 varName = prefix + "_" + shortName + "_";
                 if (tagVarNumbers.get(fullName) != null) {
-                    Integer i = (Integer) tagVarNumbers.get(fullName);
+                    Integer i = tagVarNumbers.get(fullName);
                     varName = varName + i.intValue();
                     tagVarNumbers.put(fullName, new Integer(i.intValue() + 1));
                 } else {
@@ -3375,7 +3375,7 @@ class Generator {
     private void genCommonPostamble() {
         // Append any methods that were generated in the buffer.
         for (int i = 0; i < methodsBuffered.size(); i++) {
-            GenBuffer methodBuffer = (GenBuffer) methodsBuffered.get(i);
+            GenBuffer methodBuffer = methodsBuffered.get(i);
             methodBuffer.adjustJavaLines(out.getJavaLine() - 1);
             out.printMultiLn(methodBuffer.toString());
         }
@@ -3441,7 +3441,7 @@ class Generator {
      */
     Generator(ServletWriter out, Compiler compiler) {
         this.out = out;
-        methodsBuffered = new ArrayList();
+        methodsBuffered = new ArrayList<GenBuffer>();
         charArrayBuffer = null;
         err = compiler.getErrorDispatcher();
         ctxt = compiler.getCompilationContext();
@@ -3932,9 +3932,9 @@ class Generator {
      */
     private static class TagHandlerInfo {
 
-        private Hashtable methodMaps;
+        private Hashtable<String, Method> methodMaps;
 
-        private Hashtable propertyEditorMaps;
+        private Hashtable<String, Class> propertyEditorMaps;
 
         private Class tagHandlerClass;
 
@@ -3952,8 +3952,8 @@ class Generator {
         TagHandlerInfo(Node n, Class tagHandlerClass, ErrorDispatcher err)
                 throws JasperException {
             this.tagHandlerClass = tagHandlerClass;
-            this.methodMaps = new Hashtable();
-            this.propertyEditorMaps = new Hashtable();
+            this.methodMaps = new Hashtable<String, Method>();
+            this.propertyEditorMaps = new Hashtable<String, Class>();
 
             try {
                 BeanInfo tagClassInfo = Introspector
@@ -3981,14 +3981,14 @@ class Generator {
          * XXX
          */
         public Method getSetterMethod(String attrName) {
-            return (Method) methodMaps.get(attrName);
+            return methodMaps.get(attrName);
         }
 
         /**
          * XXX
          */
         public Class getPropertyEditorClass(String attrName) {
-            return (Class) propertyEditorMaps.get(attrName);
+            return propertyEditorMaps.get(attrName);
         }
 
         /**
@@ -4114,7 +4114,7 @@ class Generator {
         // True if the helper class should be generated.
         private boolean used = false;
 
-        private ArrayList fragments = new ArrayList();
+        private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 
         private String className;
 
@@ -4210,7 +4210,7 @@ class Generator {
             ServletWriter out = this.classBuffer.getOut();
             // Generate all fragment methods:
             for (int i = 0; i < fragments.size(); i++) {
-                Fragment fragment = (Fragment) fragments.get(i);
+                Fragment fragment = fragments.get(i);
                 fragment.getGenBuffer().adjustJavaLines(out.getJavaLine() - 1);
                 out.printMultiLn(fragment.getGenBuffer().toString());
             }
@@ -4280,7 +4280,7 @@ class Generator {
 
         public void adjustJavaLines(int offset) {
             for (int i = 0; i < fragments.size(); i++) {
-                Fragment fragment = (Fragment) fragments.get(i);
+                Fragment fragment = fragments.get(i);
                 fragment.getGenBuffer().adjustJavaLines(offset);
             }
         }
