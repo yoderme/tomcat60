@@ -780,10 +780,6 @@ class Generator {
 
         private int methodNesting;
 
-        private TagInfo tagInfo;
-
-        private ClassLoader loader;
-
         private int charArrayCount;
 
         private HashMap<String,String> textMap;
@@ -793,15 +789,14 @@ class Generator {
          */
         public GenerateVisitor(boolean isTagFile, ServletWriter out,
                 ArrayList<GenBuffer> methodsBuffered,
-                FragmentHelperClass fragmentHelperClass, ClassLoader loader,
-                TagInfo tagInfo) {
+                FragmentHelperClass fragmentHelperClass,
+                @SuppressWarnings("unused") ClassLoader loader,
+                @SuppressWarnings("unused") TagInfo tagInfo) {
 
             this.isTagFile = isTagFile;
             this.out = out;
             this.methodsBuffered = methodsBuffered;
             this.fragmentHelperClass = fragmentHelperClass;
-            this.loader = loader;
-            this.tagInfo = tagInfo;
             methodNesting = 0;
             handlerInfos = new Hashtable<String, Hashtable<String, TagHandlerInfo>>();
             tagVarNumbers = new Hashtable<String, Integer>();
@@ -1818,8 +1813,6 @@ class Generator {
                 out = outSave;
             }
         }
-
-        private static final String SINGLE_QUOTE = "'";
 
         private static final String DOUBLE_QUOTE = "\\\"";
 
