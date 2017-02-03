@@ -1806,7 +1806,8 @@ class Generator {
 
         private static final String DOUBLE_QUOTE = "\\\"";
 
-        @Override
+        @SuppressWarnings("null") // NPEs identified by IDE are not possible
+		@Override
 		public void visit(Node.UninterpretedTag n) throws JasperException {
 
             n.setBeginJavaLine(out.getJavaLine());
@@ -2830,7 +2831,8 @@ class Generator {
             return JspUtil.makeJavaIdentifier(varName);
         }
 
-        private String evaluateAttribute(TagHandlerInfo handlerInfo,
+        @SuppressWarnings("null") // NPE identified by IDE is not possible
+		private String evaluateAttribute(TagHandlerInfo handlerInfo,
                 Node.JspAttribute attr, Node.CustomTag n, String tagHandlerVar)
                 throws JasperException {
 
@@ -2927,13 +2929,13 @@ class Generator {
                     // should the expression be evaluated before passing to
                     // the setter?
                     boolean evaluate = false;
-                    if (tai.canBeRequestTime()) {
+                    if (tai != null && tai.canBeRequestTime()) {
                         evaluate = true; // JSP.2.3.2
                     }
                     if (attr.isDeferredInput()) {
                         evaluate = false; // JSP.2.3.3
                     }
-                    if (attr.isDeferredInput() && tai.canBeRequestTime()) {
+                    if (attr.isDeferredInput() && tai != null && tai.canBeRequestTime()) {
                         evaluate = !attrValue.contains("#{"); // JSP.2.3.5
                     }
                     if (evaluate) {
