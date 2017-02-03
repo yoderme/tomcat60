@@ -467,7 +467,7 @@ class Generator {
         
         if (isPoolingEnabled) {
             for (int i = 0; i < tagHandlerPoolNames.size(); i++) {
-                                out.printin((String) tagHandlerPoolNames.elementAt(i));
+                                out.printin(tagHandlerPoolNames.elementAt(i));
                                 out.println(".release();");
             }
         }
@@ -543,7 +543,7 @@ class Generator {
      * 
      * In JSP 2.1, we also scope an instance of ExpressionFactory
      */
-    private void genPreambleClassVariableDeclarations(String className)
+    private void genPreambleClassVariableDeclarations()
             throws JasperException {
         if (isPoolingEnabled && !tagHandlerPoolNames.isEmpty()) {
             for (int i = 0; i < tagHandlerPoolNames.size(); i++) {
@@ -613,7 +613,7 @@ class Generator {
         genPreambleStaticInitializers();
 
         // Class variable declarations
-        genPreambleClassVariableDeclarations(servletClassName);
+        genPreambleClassVariableDeclarations();
 
         // Constructor
         // generateConstructor(className);
@@ -3403,7 +3403,7 @@ class Generator {
     /**
      * Generates the ending part of the static portion of the servlet.
      */
-    private void generatePostamble(Node.Nodes page) {
+    private void generatePostamble() {
         out.popIndent();
         out.printil("} catch (Throwable t) {");
         out.pushIndent();
@@ -3415,18 +3415,15 @@ class Generator {
         out.printil("try { out.clearBuffer(); } catch (java.io.IOException e) {}");
         out.popIndent();
 
-        out
-                .printil("if (_jspx_page_context != null) _jspx_page_context.handlePageException(t);");
-        out
-                .printil("else log(t.getMessage(), t);");
+        out.printil("if (_jspx_page_context != null) _jspx_page_context.handlePageException(t);");
+        out.printil("else log(t.getMessage(), t);");
         out.popIndent();
         out.printil("}");
         out.popIndent();
         out.printil("} finally {");
         out.pushIndent();
 
-        out
-                .printil("_jspxFactory.releasePageContext(_jspx_page_context);");
+        out.printil("_jspxFactory.releasePageContext(_jspx_page_context);");
 
         out.popIndent();
         out.printil("}");
@@ -3512,7 +3509,7 @@ class Generator {
             page.visit(gen.new GenerateVisitor(gen.ctxt.isTagFile(), out,
                     gen.methodsBuffered, gen.fragmentHelperClass, gen.ctxt
                             .getClassLoader(), null));
-            gen.generatePostamble(page);
+            gen.generatePostamble();
         }
     }
 
@@ -3562,7 +3559,7 @@ class Generator {
         out.printil("private java.io.Writer _jspx_sout;");
 
         // Class variable declarations
-        genPreambleClassVariableDeclarations(tagInfo.getTagName());
+        genPreambleClassVariableDeclarations();
 
         generateSetJspContext(tagInfo);
 
@@ -4163,7 +4160,7 @@ class Generator {
             out.printil("}");
         }
 
-        public Fragment openFragment(Node parent, String tagHandlerVar,
+        public Fragment openFragment(Node parent, @SuppressWarnings("unused") String tagHandlerVar,
                 int methodNesting) throws JasperException {
             Fragment result = new Fragment(fragments.size(), parent);
             fragments.add(result);
