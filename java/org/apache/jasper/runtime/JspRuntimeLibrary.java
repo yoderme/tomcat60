@@ -32,13 +32,19 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyContent;
+import javax.servlet.jsp.tagext.BodyTag;
+import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.AnnotationProcessor;
 import org.apache.jasper.Constants;
 import org.apache.jasper.JasperException;
 import org.apache.jasper.compiler.Localizer;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 
 /**
  * Bunch of util methods that are used by code generated for useBean,
@@ -54,6 +60,8 @@ import org.apache.jasper.compiler.Localizer;
  */
 public class JspRuntimeLibrary {
 
+	private static final Log log = LogFactory.getLog(JspRuntimeLibrary.class);
+	
     private static final String SERVLET_EXCEPTION
         = "javax.servlet.error.exception";
     private static final String JSP_EXCEPTION
@@ -992,4 +1000,39 @@ public class JspRuntimeLibrary {
         return false;
     }
 
+
+    public static JspWriter startBufferedBody(PageContext pageContext, BodyTag tag)
+            throws JspException {
+        BodyContent out = pageContext.pushBody();
+        tag.setBodyContent(out);
+        tag.doInitBody();
+        return out;
+    }
+
+
+    public static void releaseTag(Tag tag, AnnotationProcessor annotationProcessor, boolean reused) {
+        // Caller ensures pool is non-null if reuse is true
+        if (!reused) {
+            releaseTag(tag, annotationProcessor);
+        }
+    }
+
+
+    protected static void releaseTag(Tag tag, AnnotationProcessor annotationProcessor) {
+        try {
+            tag.release();
+        } catch (Throwable t) {
+            ExceptionUtils.handleThrowable(t);
+            log.warn("Error processing release on tag instance of " +
+                 tag.getClass().getName(), t);
+        }
+        try {
+        	AnnotationHelper.preDestroy(annotationProcessor, tag);
+        } catch (Exception e) {
+            Throwable t = ExceptionUtils.unwrapInvocationTargetException(e);
+            ExceptionUtils.handleThrowable(t);
+            log.warn("Error processing preDestroy on tag instance of " +
+                 tag.getClass().getName(), t);
+        }
+    }
 }

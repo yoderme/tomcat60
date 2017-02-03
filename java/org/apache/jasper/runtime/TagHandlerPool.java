@@ -38,8 +38,6 @@ public class TagHandlerPool {
     public static final String OPTION_TAGPOOL="tagpoolClassName";
     public static final String OPTION_MAXSIZE="tagpoolMaxSize";
 
-    private static Log log = LogFactory.getLog(TagHandlerPool.class);
-
     // index of next available tag handler
     private int current;
     protected AnnotationProcessor annotationProcessor = null;
@@ -146,15 +144,7 @@ public class TagHandlerPool {
             }
         }
         // There is no need for other threads to wait for us to release
-        handler.release();
-        if (annotationProcessor != null) {
-            try {
-                AnnotationHelper.preDestroy(annotationProcessor, handler);
-            } catch (Exception e) {
-                log.warn("Error processing preDestroy on tag instance of " 
-                        + handler.getClass().getName(), e);
-            }
-        }
+        JspRuntimeLibrary.releaseTag(handler, annotationProcessor);
     }
 
     /**
@@ -163,15 +153,7 @@ public class TagHandlerPool {
      */
     public synchronized void release() {
         for (int i = current; i >= 0; i--) {
-            handlers[i].release();
-            if (annotationProcessor != null) {
-                try {
-                    AnnotationHelper.preDestroy(annotationProcessor, handlers[i]);
-                } catch (Exception e) {
-                    log.warn("Error processing preDestroy on tag instance of " 
-                            + handlers[i].getClass().getName(), e);
-                }
-            }
+        	JspRuntimeLibrary.releaseTag(handlers[i], annotationProcessor);
         }
     }
 
