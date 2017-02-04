@@ -53,6 +53,16 @@
       </fix>
     </changelog>
   </subsection>
+  <subsection name="Other">
+    <changelog>
+      <update>
+        Change Realm configuration in the default <code>conf/server.xml</code>
+        file to use a <code>org.apache.catalina.realm.LockOutRealm</code>.
+        The <code>LockOutRealm</code> is available since 6.0.19, but has
+        not been configured by default. (kkolinko)
+      </update>
+    </changelog>
+  </subsection>
 </section>
 <section name="Tomcat 6.0.50 (violetagg)" rtext="not released">
   <subsection name="Web applications">
