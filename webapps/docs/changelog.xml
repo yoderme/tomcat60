@@ -61,6 +61,10 @@
         The <code>LockOutRealm</code> is available since 6.0.19, but has
         not been configured by default. (kkolinko)
       </update>
+      <update>
+        Update the packaged version of the Tomcat Native Library to 1.2.12 to
+        pick up the latest Windows binaries built with OpenSSL 1.0.2k. (violetagg)
+      </update>
     </changelog>
   </subsection>
 </section>
